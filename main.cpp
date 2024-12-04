@@ -774,6 +774,11 @@ int main(int argc, char* argv[]) {
                         z2 -= 2;
                         z3 -= 3;
                         break;
+                    case SDLK_q:
+                        z1 += 1;
+                        z2 += 2;
+                        z3 += 3;
+                        break;
                     case SDLK_ESCAPE:
                         isRunning = false; // Exit the loop
                         break;
@@ -789,7 +794,19 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
 
-        SDL_RenderDrawLine(renderer, 0, 580, 1920, 580);
+        std::vector<std::vector<double>> rect_points_horizon_1 = make_rectangle({0, 600, 2000}, 3000, 2, 1);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_horizon_triangle_points_1 = find_triangle_points_rectangle(rect_points_horizon_1);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_horizon_points_1 = compute_2D(rect_horizon_triangle_points_1);
+        draw_triangles_rectangle(renderer, rect_horizon_points_1);
+
+        std::vector<std::vector<double>> rect_points_horizon_2 = make_rectangle({2000, 600, 2000}, 3000, 2, 1);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_horizon_triangle_points_2 = find_triangle_points_rectangle(rect_points_horizon_2);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_horizon_points_2 = compute_2D(rect_horizon_triangle_points_2);
+        draw_triangles_rectangle(renderer, rect_horizon_points_2);
+
+
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
 
         std::vector<std::vector<double>> sphere_points_3D_1 = make_sphere(renderer, {960, 530, z1}, 5, 12);
@@ -803,12 +820,12 @@ int main(int argc, char* argv[]) {
         draw_triangles_rectangle(renderer, rect_triangle_points_2D_11);
 
 
-        std::vector<std::vector<double>> rect_points_3D_12 = make_rectangle({960 - 7, 550 - 5, z1}, 2, 10, 5);
+        std::vector<std::vector<double>> rect_points_3D_12 = make_rectangle({960 - 7, 550 - 5, z1}, 2, 2, 25);
         std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_12 = find_triangle_points_rectangle(rect_points_3D_12);
         std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_12 = compute_2D(rect_triangle_points_3D_12);
         draw_triangles_rectangle(renderer, rect_triangle_points_2D_12);
 
-        std::vector<std::vector<double>> rect_points_3D_13 = make_rectangle({960 + 7, 550 - 5, z1}, 2, 10, 5);
+        std::vector<std::vector<double>> rect_points_3D_13 = make_rectangle({960 + 7, 550 - 5, z1}, 2, 2, 25);
         std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_13 = find_triangle_points_rectangle(rect_points_3D_13);
         std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_13 = compute_2D(rect_triangle_points_3D_13);
         draw_triangles_rectangle(renderer, rect_triangle_points_2D_13);
@@ -827,6 +844,7 @@ int main(int argc, char* argv[]) {
 
 
 
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 
         std::vector<std::vector<double>> sphere_points_3D_2 = make_sphere(renderer, {960 - 25, 530, z2}, 5, 12);
         std::vector<std::vector<std::vector<std::vector<double>>>> sphere_triangle_points_3D_2 = find_triangle_points_sphere(sphere_points_3D_2);
@@ -862,6 +880,8 @@ int main(int argc, char* argv[]) {
 
 
 
+        SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+        
         std::vector<std::vector<double>> sphere_points_3D_3 = make_sphere(renderer, {960 + 25, 530, z3}, 5, 12);
         std::vector<std::vector<std::vector<std::vector<double>>>> sphere_triangle_points_3D_3 = find_triangle_points_sphere(sphere_points_3D_3);
         std::vector<std::vector<std::vector<std::vector<int>>>> sphere_triangle_points_2D_3 = compute_2D(sphere_triangle_points_3D_3);
@@ -893,6 +913,91 @@ int main(int argc, char* argv[]) {
         std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_35 = compute_2D(rect_triangle_points_3D_35);
         draw_triangles_rectangle(renderer, rect_triangle_points_2D_35);
 
+
+
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+
+        std::vector<std::vector<double>> rect_points_3D_box_1 = make_rectangle({910, 567, 100}, 15, 15, 15);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_box_1 = find_triangle_points_rectangle(rect_points_3D_box_1);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_box_1 = compute_2D(rect_triangle_points_3D_box_1);
+        draw_triangles_rectangle(renderer, rect_triangle_points_2D_box_1);
+
+
+        std::vector<std::vector<double>> rect_points_3D_box_2 = make_rectangle({1000, 567, 150}, 25, 25, 25);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_box_2 = find_triangle_points_rectangle(rect_points_3D_box_2);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_box_2 = compute_2D(rect_triangle_points_3D_box_2);
+        draw_triangles_rectangle(renderer, rect_triangle_points_2D_box_2);
+
+
+
+
+
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+
+
+        std::vector<std::vector<double>> rect_points_3D_box_3_1 = make_rectangle({800, 567, 100}, 25, 25, 25);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_box_3_1 = find_triangle_points_rectangle(rect_points_3D_box_3_1);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_box_3_1 = compute_2D(rect_triangle_points_3D_box_3_1);
+        draw_triangles_rectangle(renderer, rect_triangle_points_2D_box_3_1);
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+
+        std::vector<std::vector<double>> rect_points_3D_box_3_2 = make_rectangle({800 + 1, 567, 100}, 25, 25, 25);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_box_3_2 = find_triangle_points_rectangle(rect_points_3D_box_3_2);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_box_3_2 = compute_2D(rect_triangle_points_3D_box_3_2);
+        draw_triangles_rectangle(renderer, rect_triangle_points_2D_box_3_2);
+
+        std::vector<std::vector<double>> rect_points_3D_box_3_3 = make_rectangle({800 - 1, 567, 100}, 25, 25, 25);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_box_3_3 = find_triangle_points_rectangle(rect_points_3D_box_3_3);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_box_3_3 = compute_2D(rect_triangle_points_3D_box_3_3);
+        draw_triangles_rectangle(renderer, rect_triangle_points_2D_box_3_3);
+
+
+        std::vector<std::vector<double>> rect_points_3D_box_3_4 = make_rectangle({800, 567 + 1, 100}, 25, 25, 25);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_box_3_4 = find_triangle_points_rectangle(rect_points_3D_box_3_4);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_box_3_4 = compute_2D(rect_triangle_points_3D_box_3_4);
+        draw_triangles_rectangle(renderer, rect_triangle_points_2D_box_3_4);
+
+        std::vector<std::vector<double>> rect_points_3D_box_3_5 = make_rectangle({800, 567 - 1, 100}, 25, 25, 25);
+        std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_box_3_5 = find_triangle_points_rectangle(rect_points_3D_box_3_5);
+        std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_box_3_5 = compute_2D(rect_triangle_points_3D_box_3_5);
+        draw_triangles_rectangle(renderer, rect_triangle_points_2D_box_3_5);
+
+
+
+
+
+
+        
+        // draw_triangles_sphere(renderer, compute_2D(find_triangle_points_sphere(make_sphere(renderer, {960 + 25, 530, z3}, 5, 12))));
+
+        // std::vector<std::vector<double>> rect_points_3D_31 = make_rectangle({960 + 25, 550, z3}, 10, 20, 5);
+        // std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_3i = find_triangle_points_rectangle(rect_points_3D_31);
+        // std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_31 = compute_2D(rect_triangle_points_3D_31);
+        // draw_triangles_rectangle(renderer, rect_triangle_points_2D_31);
+
+
+        // std::vector<std::vector<double>> rect_points_3D_32 = make_rectangle({960 + 25 - 7, 550 - 5, z3}, 2, 10, 5);
+        // std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_32 = find_triangle_points_rectangle(rect_points_3D_32);
+        // std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_32 = compute_2D(rect_triangle_points_3D_32);
+        // draw_triangles_rectangle(renderer, rect_triangle_points_2D_32);
+
+        // std::vector<std::vector<double>> rect_points_3D_33 = make_rectangle({960 + 25 + 7, 550 - 5, z3}, 2, 10, 5);
+        // std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_33 = find_triangle_points_rectangle(rect_points_3D_33);
+        // std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_33 = compute_2D(rect_triangle_points_3D_33);
+        // draw_triangles_rectangle(renderer, rect_triangle_points_2D_33);
+
+        // std::vector<std::vector<double>> rect_points_3D_34 = make_rectangle({960 + 25 - 2, 550 + 12, z3}, 2, 5, 5);
+        // std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_34 = find_triangle_points_rectangle(rect_points_3D_34);
+        // std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_34 = compute_2D(rect_triangle_points_3D_34);
+        // draw_triangles_rectangle(renderer, rect_triangle_points_2D_34);
+
+        // std::vector<std::vector<double>> rect_points_3D_35 = make_rectangle({960 + 25 + 2, 550 + 12, z3}, 2, 5, 5);
+        // std::vector<std::vector<std::vector<std::vector<double>>>> rect_triangle_points_3D_35 = find_triangle_points_rectangle(rect_points_3D_35);
+        // std::vector<std::vector<std::vector<std::vector<int>>>> rect_triangle_points_2D_35 = compute_2D(rect_triangle_points_3D_35);
+        // draw_triangles_rectangle(renderer, rect_triangle_points_2D_35);
 
 
         // Present the rendered frame
