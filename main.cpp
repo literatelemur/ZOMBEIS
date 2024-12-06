@@ -165,7 +165,7 @@ std::vector<std::vector<double>> make_rectangle(std::vector<double> center, doub
 
     rect_points_3D[3][0] = center[0] + top_length / 2;
     rect_points_3D[3][1] = center[1] + side_length / 2;
-    rect_points_3D[3][2] = center[2] + depth;
+    rect_points_3D[3][2] = center[2] + depth / 2;
 
     rect_points_3D[4][0] = center[0] - top_length / 2;
     rect_points_3D[4][1] = center[1] - side_length / 2;
