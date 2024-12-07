@@ -42,6 +42,8 @@ class Graphics {
 
         void draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
 
+        void set_color(int r, int g, int b);
+
         void present_frame();
         
 };

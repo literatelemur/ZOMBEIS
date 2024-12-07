@@ -33,19 +33,26 @@ int main(int argc, char* argv[]) {
     std::mt19937 gen(rd());
 
     // Define a distribution range (e.g., between 1 and 100)
-    std::uniform_int_distribution<> distrib(1, 1920);
+    std::uniform_int_distribution<> distribx(700, 1400);
+    std::uniform_int_distribution<> distribz(500, 10000);
+    std::uniform_int_distribution<> distribs(1, 10);
 
+    int random_numx = distribx(gen);
+    int random_numz = distribz(gen);
+    int random_nums = distribs(gen);
 
-    int random_num = distrib(gen);
-
-    for (double i = 0; i < 50; i++){
-        random_num = distrib(gen);
-        zombie_vector.emplace_back(Zombie(&graphics, random_num, 1064, 150));
+    for (double i = 0; i < 25; i++){
+        random_numx = distribx(gen);
+        random_numz = distribz(gen);
+        zombie_vector.emplace_back(Zombie(&graphics, random_numx, 1064, random_numz));
         zombie_vector[i].render_zombie(&graphics);
     }
 
-    // Change distribution range
-    distrib = std::uniform_int_distribution<int>(1, 10);
+    // Randomly setting speed for zombies.
+    for (double i = 0; i < 25; i++){
+        random_nums = distribs(gen);
+        zombie_vector[i].speed = random_nums;
+    }
     
     // Main application loop
     while (isRunning) {
@@ -86,15 +93,13 @@ int main(int argc, char* argv[]) {
                         }
                         break;
                     case SDLK_e:
-                        for (int i = 0; i < 50; i++){
-                            random_num = distrib(gen);
-                            zombie_vector[i].move(random_num);
+                        for (int i = 0; i < 25; i++){
+                            zombie_vector[i].move(1);
                         }
                         break;
                     case SDLK_q:
-                        for (int j = 0; j < 50; j++){
-                            random_num = distrib(gen);
-                            zombie_vector[j].move(random_num * -1);
+                        for (int j = 0; j < 25; j++){
+                            zombie_vector[j].move(-1);
                         }
                         break;
                     case SDLK_ESCAPE:
@@ -105,9 +110,11 @@ int main(int argc, char* argv[]) {
         }
 
         graphics.clear_draw_screen();
+        graphics.set_color(255, 0, 0);
         graphics.draw_horizon();
 
-        for (double i = 0; i < 50; i++){
+        graphics.set_color(0, 0, 255);
+        for (double i = 0; i < 25; i++){
             zombie_vector[i].render_zombie(&graphics);
         }
 

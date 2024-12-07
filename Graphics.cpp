@@ -726,15 +726,14 @@
 
 
         void Graphics::draw_horizon(){
-            // Set the draw color.
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-            std::vector<std::vector<double>> rect_points_horizon_1 = make_rectangle({0, 1070, 2000}, 3000, 2, 1);
+            //std::vector<std::vector<double>> rect_points_horizon_1 = make_rectangle({0, 1080, 2000}, 3000, 2, 1);
+            std::vector<std::vector<double>> rect_points_horizon_1 = make_rectangle({0, 1080, 20000}, 300000, 2, 1);
             std::vector<std::vector<std::vector<std::vector<double>>>> rect_horizon_triangle_points_1 = find_triangle_points_rectangle(rect_points_horizon_1);
             std::vector<std::vector<std::vector<std::vector<int>>>> rect_horizon_points_1 = compute_2D(rect_horizon_triangle_points_1);
             draw_triangles_rectangle(rect_horizon_points_1);
 
-            std::vector<std::vector<double>> rect_points_horizon_2 = make_rectangle({2000, 1070, 2000}, 3000, 2, 1);
+            std::vector<std::vector<double>> rect_points_horizon_2 = make_rectangle({2000, 1080, 20000}, 300000, 2, 1);
             std::vector<std::vector<std::vector<std::vector<double>>>> rect_horizon_triangle_points_2 = find_triangle_points_rectangle(rect_points_horizon_2);
             std::vector<std::vector<std::vector<std::vector<int>>>> rect_horizon_points_2 = compute_2D(rect_horizon_triangle_points_2);
             draw_triangles_rectangle(rect_horizon_points_2);
@@ -743,31 +742,34 @@
 
         void Graphics::draw_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
 
-            // Set the draw color.
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-
             for (int i = 0; i < triangle_points.size(); i++){
-                for (int j = 0; j < triangle_points[0].size(); j++){
-                    SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
-                    SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
-                    SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
-                }
+                //if (triangle_points[i][0][0][2] > 5){
+                    for (int j = 0; j < triangle_points[0].size(); j++){
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
+                    }
+                //}
             }
         }
 
 
         void Graphics::draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
 
-            // Set the draw color.
-            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-
             for (int i = 0; i < triangle_points.size(); i++){
-                for (int j = 0; j < triangle_points[0].size(); j++){
-                    SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
-                    SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
-                    SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
-                }
+                //if (triangle_points[i][0][0][2] > 5){
+                    for (int j = 0; j < triangle_points[0].size(); j++){
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
+                    }
+                //}
             }
+        }
+
+        void Graphics::set_color(int r, int g, int b){
+            // Set the draw color.
+            SDL_SetRenderDrawColor(renderer, r, g, b, 255);
         }
 
         void Graphics::present_frame(){
