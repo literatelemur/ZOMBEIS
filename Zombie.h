@@ -17,14 +17,6 @@ class Zombie {
 
     public:
 
-        Zombie(Graphics graphics, int x, int y, int z); // Constructor
-
-        void render_zombie(Graphics graphics);
-
-
-        int x;
-        int y;
-        int z;
         int speed;
 
         std::vector<std::vector<double>> sphere_points_3D_head;
@@ -33,6 +25,13 @@ class Zombie {
         std::vector<std::vector<double>> rect_points_3D_arm2;
         std::vector<std::vector<double>> rect_points_3D_leg1;
         std::vector<std::vector<double>> rect_points_3D_leg2;
+
+
+        Zombie(Graphics* graphics, int given_x, int given_y, int given_z); // Constructor
+
+        void render_zombie(Graphics* graphics);
+
+        void move(int dir);
 };
 
 #endif // zombie_H

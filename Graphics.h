@@ -13,6 +13,15 @@
 class Graphics {
 
     public:
+
+        int zscreendiff;
+        int playerx;
+        int playery;
+        int playerz;
+
+        SDL_Window* window;
+        SDL_Renderer* renderer;
+
         Graphics(); // Constructor
 
         std::vector<std::vector<double>> make_sphere(std::vector<double> center, int radius, int num_points);
@@ -25,7 +34,7 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points);
 
-        void setup_draw_screen();
+        void clear_draw_screen();
 
         void draw_horizon();
 
@@ -34,18 +43,7 @@ class Graphics {
         void draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
 
         void present_frame();
-
-
-        int zscreendiff;
-        int playerx;
-        int playery;
-        int playerz;
-        double z1;
-        double z2;
-        double z3;
-
-        SDL_Window* window;
-        SDL_Renderer* renderer;
+        
 };
 
 #endif // graphics_H

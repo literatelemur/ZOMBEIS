@@ -6,21 +6,20 @@
 #include <string>
 #include <algorithm>
 
-class Graphics {
+#include "Graphics.h"
 
-    public:
+// class Graphics {
 
-        int zscreendiff = 1000;
-        int playerx = 960;
-        int playery = 540;
-        int playerz = 0;
-        double z1 = 175;
-        double z2 = 175;
-        double z3 = 175;
+//     public:
 
-        SDL_Renderer* renderer;
+        
+        Graphics::Graphics(){
 
-        Graphics(){
+            zscreendiff = 1000;
+            playerx = 960;
+            playery = 1060;
+            playerz = 0;
+            
             // Initialize SDL
             if (SDL_Init(SDL_INIT_VIDEO) != 0) {
                 std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
@@ -28,7 +27,7 @@ class Graphics {
             }
 
             // Create an SDL window
-            SDL_Window* window = SDL_CreateWindow("SDL2 Window",
+            window = SDL_CreateWindow("SDL2 Window",
                                                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                                 1920, 1080,
                                                 SDL_WINDOW_SHOWN);
@@ -39,7 +38,7 @@ class Graphics {
             }
 
             // Create a renderer for the window
-            SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
             if (renderer == nullptr) {
                 std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
@@ -50,7 +49,7 @@ class Graphics {
         }
 
 
-        std::vector<std::vector<double>> make_sphere(std::vector<double> center, int radius, int num_points){
+        std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> center, int radius, int num_points){
 
             //(x - 960)^2 + (y - 540)^2 + (z - 10)^2 = radius^2
 
@@ -183,7 +182,7 @@ class Graphics {
         }
 
 
-        std::vector<std::vector<double>> make_rectangle(std::vector<double> center, double top_length, double side_length, double depth){
+        std::vector<std::vector<double>> Graphics::make_rectangle(std::vector<double> center, double top_length, double side_length, double depth){
             std::vector<std::vector<double>> rect_points_3D(8, std::vector<double>(3, 0));
 
             rect_points_3D[0][0] = center[0] - top_length / 2;
@@ -222,7 +221,7 @@ class Graphics {
         }
 
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
+        std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
 
             std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points;
 
@@ -364,7 +363,7 @@ class Graphics {
         }
 
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_rectangle(std::vector<std::vector<double>> rect_points_3D){
+        std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triangle_points_rectangle(std::vector<std::vector<double>> rect_points_3D){
 
             std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points(
                 8, std::vector<std::vector<std::vector<double>>>(
@@ -691,7 +690,7 @@ class Graphics {
 
 
 
-        std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points){
+        std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points){
             std::vector<std::vector<std::vector<std::vector<int>>>> object_2D(
                 triangle_points.size(), std::vector<std::vector<std::vector<int>>>(
                         triangle_points[0].size(), std::vector<std::vector<int>>(
@@ -719,31 +718,33 @@ class Graphics {
         }
 
 
-        void setup_draw_screen(){
-            // Set the draw color.
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-
+        void Graphics::clear_draw_screen(){
             // Clear the screen with a color
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Blue color
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
         }
 
 
-        void draw_horizon(){
+        void Graphics::draw_horizon(){
+            // Set the draw color.
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-            std::vector<std::vector<double>> rect_points_horizon_1 = make_rectangle({0, 600, 2000}, 3000, 2, 1);
+            std::vector<std::vector<double>> rect_points_horizon_1 = make_rectangle({0, 1070, 2000}, 3000, 2, 1);
             std::vector<std::vector<std::vector<std::vector<double>>>> rect_horizon_triangle_points_1 = find_triangle_points_rectangle(rect_points_horizon_1);
             std::vector<std::vector<std::vector<std::vector<int>>>> rect_horizon_points_1 = compute_2D(rect_horizon_triangle_points_1);
             draw_triangles_rectangle(rect_horizon_points_1);
 
-            std::vector<std::vector<double>> rect_points_horizon_2 = make_rectangle({2000, 600, 2000}, 3000, 2, 1);
+            std::vector<std::vector<double>> rect_points_horizon_2 = make_rectangle({2000, 1070, 2000}, 3000, 2, 1);
             std::vector<std::vector<std::vector<std::vector<double>>>> rect_horizon_triangle_points_2 = find_triangle_points_rectangle(rect_points_horizon_2);
             std::vector<std::vector<std::vector<std::vector<int>>>> rect_horizon_points_2 = compute_2D(rect_horizon_triangle_points_2);
             draw_triangles_rectangle(rect_horizon_points_2);
         }
 
 
-        void draw_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
+        void Graphics::draw_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
+
+            // Set the draw color.
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
             for (int i = 0; i < triangle_points.size(); i++){
                 for (int j = 0; j < triangle_points[0].size(); j++){
@@ -755,7 +756,10 @@ class Graphics {
         }
 
 
-        void draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
+        void Graphics::draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
+
+            // Set the draw color.
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
             for (int i = 0; i < triangle_points.size(); i++){
                 for (int j = 0; j < triangle_points[0].size(); j++){
@@ -766,8 +770,8 @@ class Graphics {
             }
         }
 
-        void present_frame(){
+        void Graphics::present_frame(){
             // Present the rendered frame
             SDL_RenderPresent(renderer);
         }
-};
+//};

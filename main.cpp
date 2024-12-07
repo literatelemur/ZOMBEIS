@@ -6,6 +6,8 @@
 #include <string>
 #include <algorithm>
 
+#include <random>
+
 #include "Zombie.h"
 #include "Graphics.h"
 
@@ -13,8 +15,6 @@
 int main(int argc, char* argv[]) {
     
     Graphics graphics;
-
-    graphics.setup_draw_screen();
 
     // Main loop flag
     bool isRunning = true;
@@ -24,30 +24,29 @@ int main(int argc, char* argv[]) {
 
 
     std::vector<Zombie> zombie_vector;
-    for (double i = 0; i < 10; i++){
-        // zombie_vector.emplace_back();
 
-        // zombie_vector[i].emplace_back(make_sphere({850 + 25 * i, 530, z3}, 5, 12));
 
-        // zombie_vector[i].emplace_back(make_rectangle({850 + 25 * i, 550, z3}, 10, 20, 5));
+    // Create a random device (seed source)
+    std::random_device rd;
 
-        // zombie_vector[i].emplace_back(make_rectangle({850 + 25 * i - 7, 550 - 5, z3}, 2, 10, 5));
+    // Initialize a random number generator (Mersenne Twister)
+    std::mt19937 gen(rd());
 
-        // zombie_vector[i].emplace_back(make_rectangle({850 + 25 * i + 7, 550 - 5, z3}, 2, 10, 5));
+    // Define a distribution range (e.g., between 1 and 100)
+    std::uniform_int_distribution<> distrib(1, 1920);
 
-        // zombie_vector[i].emplace_back(make_rectangle({850 + 25 * i - 2, 550 + 12, z3}, 2, 5, 5));
 
-        // zombie_vector[i].emplace_back(make_rectangle({850 + 25 * i + 2, 550 + 12, z3}, 2, 5, 5));
+    int random_num = distrib(gen);
 
-        // zombie_vector.emplace_back(Zombie(graphics, 850, 530, 150));
-
-        //zombie_vector[zombie_vector.size() - 1].emplace_back();
+    for (double i = 0; i < 50; i++){
+        random_num = distrib(gen);
+        zombie_vector.emplace_back(Zombie(&graphics, random_num, 1064, 150));
+        zombie_vector[i].render_zombie(&graphics);
     }
 
-    zombie_vector.emplace_back(Zombie(graphics, 850, 530, 150));
-    zombie_vector[0].render_zombie(graphics);
-
-
+    // Change distribution range
+    distrib = std::uniform_int_distribution<int>(1, 10);
+    
     // Main application loop
     while (isRunning) {
         
@@ -59,30 +58,44 @@ int main(int argc, char* argv[]) {
                 // Handle key press
                 switch (event.key.keysym.sym) {
                     case SDLK_w:
-                        graphics.playerz++;
-                        break;
+                        if (graphics.playerz < 1000){
+                            graphics.playerz += 5;
+                        }
                     case SDLK_s:
-                        graphics.playerz--;
+                        if (graphics.playerz > 0){
+                            graphics.playerz -= 5;
+                        }
                         break;
                     case SDLK_d:
-                        graphics.playerx++;
-                        break;
+                        if (graphics.playerx < 1920){
+                            graphics.playerx += 5;
+                        }
                     case SDLK_a:
-                        graphics.playerx--;
+                        if (graphics.playerx > 0){
+                            graphics.playerx -= 5;
+                        }
                         break;
                     case SDLK_r:
-                        graphics.playery--;
+                        if (graphics.playery > 0){
+                            graphics.playery -= 5;
+                        }
                         break;
                     case SDLK_f:
                         if (graphics.playery < 1080){
-                            graphics.playery++;
+                            graphics.playery += 5;
                         }
                         break;
                     case SDLK_e:
-                        zombie_vector[0].z--;
+                        for (int i = 0; i < 50; i++){
+                            random_num = distrib(gen);
+                            zombie_vector[i].move(random_num);
+                        }
                         break;
                     case SDLK_q:
-                        zombie_vector[0].z++;
+                        for (int j = 0; j < 50; j++){
+                            random_num = distrib(gen);
+                            zombie_vector[j].move(random_num * -1);
+                        }
                         break;
                     case SDLK_ESCAPE:
                         isRunning = false; // Exit the loop
@@ -91,7 +104,16 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        graphics.clear_draw_screen();
+        graphics.draw_horizon();
 
+        for (double i = 0; i < 50; i++){
+            zombie_vector[i].render_zombie(&graphics);
+        }
+
+        graphics.present_frame();
+
+        
         // std::vector<std::vector<double>> sphere_points_3D_1 = make_sphere({960, 530, z1}, 5, 12);
         // std::vector<std::vector<std::vector<std::vector<double>>>> sphere_triangle_points_3D_1 = find_triangle_points_sphere(sphere_points_3D_1);
         // std::vector<std::vector<std::vector<std::vector<int>>>> sphere_triangle_points_2D_1 = compute_2D(sphere_triangle_points_3D_1);
@@ -265,9 +287,6 @@ int main(int argc, char* argv[]) {
         //         }
         //     }
         // }
-
-
-        graphics.present_frame();
     }
 
     // Clean up resources
