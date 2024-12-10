@@ -27,7 +27,7 @@
             }
 
             // Create an SDL window
-            window = SDL_CreateWindow("SDL2 Window",
+            window = SDL_CreateWindow("SDL2 Window with GPU",
                                                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                                 1920, 1080,
                                                 SDL_WINDOW_SHOWN);
@@ -38,13 +38,20 @@
             }
 
             // Create a renderer for the window
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
             if (renderer == nullptr) {
                 std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
                 SDL_DestroyWindow(window);
                 SDL_Quit();
                 //return 1;
+            }
+
+            SDL_RendererInfo info;
+            SDL_GetRendererInfo(renderer, &info);
+            std::cout << "Renderer Name: " << info.name << std::endl;
+            if (info.flags & SDL_RENDERER_ACCELERATED) {
+                std::cout << "Using hardware acceleration!" << std::endl;
             }
         }
 
@@ -741,6 +748,7 @@
             // for (double i = 0; i < 1980; i++){
             //     for (double j = 0; j < 1000; j++){
 
+
             std::vector<std::vector<double>> rect_points_floor;
             std::vector<std::vector<std::vector<std::vector<double>>>> rect_floor_triangle_points;
             std::vector<std::vector<std::vector<std::vector<int>>>> rect_floor_points;
@@ -773,6 +781,20 @@
 
         void Graphics::draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
 
+            // Create a surface with a single line
+            SDL_Surface* lineSurface = SDL_CreateRGBSurface(0, 2, 1, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+            SDL_FillRect(lineSurface, nullptr, SDL_MapRGB(lineSurface->format, 0, 255, 0));  // White line
+
+            // Convert the surface to a texture
+            SDL_Texture* lineTexture = SDL_CreateTextureFromSurface(renderer, lineSurface);
+            SDL_FreeSurface(lineSurface);
+
+            // Now you can render this line texture multiple times at different positions
+            // SDL_Rect destRect = {100, 100, 200, 1};  // 200px long line
+            // SDL_RenderCopy(renderer, lineTexture, nullptr, &destRect);
+
+
+
             for (int i = 0; i < triangle_points.size(); i++){
                 //if (triangle_points[i][0][0][2] > 5){
                     for (int j = 0; j < triangle_points[0].size(); j++){
@@ -782,6 +804,22 @@
                     }
                 //}
             }
+
+            // for (int i = 0; i < triangle_points.size(); i++){
+            //     //if (triangle_points[i][0][0][2] > 5){
+            //         for (int j = 0; j < triangle_points[0].size(); j++){
+            //             for (int k = 0; k < 3; k++){
+
+            //                 SDL_Rect destRect = {triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0] - triangle_points[i][j][0][0], triangle_points[i][j][1][1] - triangle_points[i][j][0][1]};
+            //                 SDL_RenderCopy(renderer, lineTexture, nullptr, &destRect);
+
+            //             }
+            //         }
+            //     //}
+            // }
+
+            // // Don't forget to clean up
+            // SDL_DestroyTexture(lineTexture);
         }
 
         void Graphics::set_color(int r, int g, int b){
