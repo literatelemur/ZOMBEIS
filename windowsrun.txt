@@ -1,1 +1,1 @@
-g++ main.cpp Zombie.cpp Graphics.cpp -Isdl2\include -Lsdl2\lib -lmingw32 -lSDL2main -lSDL2 -o main.exe
+g++ main.cpp Zombie.cpp Graphics.cpp -Ifreeglut-3.6.0\include -lopengl32 -Isdl2\include -Lsdl2\lib -lmingw32 -lSDL2main -lSDL2 -o main.exe

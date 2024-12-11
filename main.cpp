@@ -1,3 +1,35 @@
+// #include <GL/glut.h>
+
+// void display() {
+//     glClear(GL_COLOR_BUFFER_BIT); // Clear the screen
+
+//     // Set the line color
+//     glColor3f(1.0f, 0.0f, 0.0f); // Red
+
+//     // Draw a line
+//     glBegin(GL_LINES);
+//     glVertex2f(-0.5f, -0.5f); // Start point
+//     glVertex2f(0.5f, 0.5f);   // End point
+//     glEnd();
+
+//     glFlush(); // Render the line
+// }
+
+// int main(int argc, char** argv) {
+//     glutInit(&argc, argv);
+//     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+//     glutInitWindowSize(800, 600);
+//     glutCreateWindow("OpenGL Line Example");
+
+//     glutDisplayFunc(display); // Set the display callback
+//     glutMainLoop();           // Enter the GLUT event loop
+
+//     return 0;
+// }
+
+
+
+
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <array>
