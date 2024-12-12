@@ -19,6 +19,8 @@
             playerx = 960;
             playery = 1060;
             playerz = 0;
+
+            anglex_adj = 0;
             
             // Initialize SDL
             if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -708,7 +710,7 @@
                 for (int j = 0; j < triangle_points[0].size(); j++){
                     for (int k = 0; k < 3; k++){
 
-                        double anglex = atan2(triangle_points[i][j][k][0] - playerx, triangle_points[i][j][k][2] - playerz);
+                        double anglex = atan2(triangle_points[i][j][k][0] - playerx, triangle_points[i][j][k][2] - playerz) + anglex_adj;
                         int x = (int) (tan(anglex) * zscreendiff);
 
                         double angley = atan2(triangle_points[i][j][k][1] - playery, triangle_points[i][j][k][2] - playerz);

@@ -19,6 +19,8 @@ class Graphics {
         int playery;
         int playerz;
 
+        double anglex_adj;
+
         SDL_Window* window;
         SDL_Renderer* renderer;
 

@@ -65,15 +65,17 @@ int main(int argc, char* argv[]) {
     std::mt19937 gen(rd());
 
     // Define a distribution range (e.g., between 1 and 100)
-    std::uniform_int_distribution<> distribx(700, 1400);
-    std::uniform_int_distribution<> distribz(500, 10000);
+    std::uniform_int_distribution<> distribx(0, 1920);
+    std::uniform_int_distribution<> distribz(0, 10000);
     std::uniform_int_distribution<> distribs(1, 10);
 
     int random_numx = distribx(gen);
     int random_numz = distribz(gen);
     int random_nums = distribs(gen);
 
-    for (double i = 0; i < 25; i++){
+    int num_zombies = 50;
+
+    for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
         random_numz = distribz(gen);
         zombie_vector.emplace_back(Zombie(&graphics, random_numx, 1064, random_numz));
@@ -81,7 +83,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Randomly setting speed for zombies.
-    for (double i = 0; i < 25; i++){
+    for (double i = 0; i < num_zombies; i++){
         random_nums = distribs(gen);
         zombie_vector[i].speed = random_nums;
     }
@@ -125,14 +127,20 @@ int main(int argc, char* argv[]) {
                         }
                         break;
                     case SDLK_e:
-                        for (int i = 0; i < 25; i++){
+                        for (int i = 0; i < num_zombies; i++){
                             zombie_vector[i].move(1);
                         }
                         break;
                     case SDLK_q:
-                        for (int j = 0; j < 25; j++){
+                        for (int j = 0; j < num_zombies; j++){
                             zombie_vector[j].move(-1);
                         }
+                        break;
+                    case SDLK_z:
+                        graphics.anglex_adj += 0.01745329;
+                        break;
+                    case SDLK_x:
+                        graphics.anglex_adj -= 0.01745329;
                         break;
                     case SDLK_ESCAPE:
                         isRunning = false; // Exit the loop
@@ -146,7 +154,7 @@ int main(int argc, char* argv[]) {
         graphics.draw_horizon();
 
         graphics.set_color(0, 0, 255);
-        for (double i = 0; i < 25; i++){
+        for (double i = 0; i < num_zombies; i++){
             zombie_vector[i].render_zombie(&graphics);
         }
 
