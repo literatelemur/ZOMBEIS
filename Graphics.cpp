@@ -749,18 +749,20 @@
             //     for (double j = 0; j < 1000; j++){
 
 
-            std::vector<std::vector<double>> rect_points_floor;
-            std::vector<std::vector<std::vector<std::vector<double>>>> rect_floor_triangle_points;
-            std::vector<std::vector<std::vector<std::vector<int>>>> rect_floor_points;
 
-            for (double x = 0; x < 1920; x += 100){
-                for (double z = 100; z < 2000; z += 100){
-                    rect_points_floor = make_rectangle({x, 1079, z}, 100, 0, 100);
-                    rect_floor_triangle_points = find_triangle_points_rectangle(rect_points_floor);
-                    rect_floor_points = compute_2D(rect_floor_triangle_points);
-                    draw_triangles_rectangle(rect_floor_points);
-                }
-            }
+
+            // std::vector<std::vector<double>> rect_points_floor;
+            // std::vector<std::vector<std::vector<std::vector<double>>>> rect_floor_triangle_points;
+            // std::vector<std::vector<std::vector<std::vector<int>>>> rect_floor_points;
+
+            // for (double x = 0; x < 1920; x += 100){
+            //     for (double z = 100; z < 2000; z += 100){
+            //         rect_points_floor = make_rectangle({x, 1079, z}, 100, 0, 100);
+            //         rect_floor_triangle_points = find_triangle_points_rectangle(rect_points_floor);
+            //         rect_floor_points = compute_2D(rect_floor_triangle_points);
+            //         draw_triangles_rectangle(rect_floor_points);
+            //     }
+            // }
 
         }
 
@@ -799,7 +801,7 @@
                 //if (triangle_points[i][0][0][2] > 5){
                     for (int j = 0; j < triangle_points[0].size(); j++){
                         SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
-                        SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
+                        //SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
                         SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
                     }
                 //}
