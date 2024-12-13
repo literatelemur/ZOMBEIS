@@ -34,11 +34,9 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
-        //std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_rectangle(std::vector<std::vector<double>> rect_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_rectangle(std::vector<std::vector<double>> rect_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> line_points_3D);
-
-        std::vector<std::vector<int>> compute_2D_rectangle(std::vector<std::vector<double>> rect_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_triangles(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points);
 
@@ -50,13 +48,11 @@ class Graphics {
 
         void draw_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
 
-        void draw_rectangle(std::vector<std::vector<int>> rect_points);
+        void draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
 
         void set_color(int r, int g, int b);
 
         void present_frame();
-
-        void test();
         
 };
 

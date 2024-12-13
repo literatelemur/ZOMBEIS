@@ -30,7 +30,7 @@
 
 
 
-#include <GL/glut.h>
+#include <SDL2/SDL.h>
 #include <iostream>
 #include <array>
 #include <vector>
@@ -43,108 +43,20 @@
 #include "Zombie.h"
 #include "Graphics.h"
 
-Graphics graphics;
-int num_zombies;
-std::vector<Zombie> zombie_vector;
-
-
-// Keyboard input callback
-void keyboard(unsigned char key, int x, int y) {
-    switch (key) {
-        case 'w':
-            if (graphics.playerz < 1000){
-                graphics.playerz += 5;
-            }
-        case 's':
-            if (graphics.playerz > 0){
-                graphics.playerz -= 5;
-            }
-            break;
-        case 'd':
-            if (graphics.playerx < 1920){
-                graphics.playerx += 5;
-            }
-        case 'a':
-            if (graphics.playerx > 0){
-                graphics.playerx -= 5;
-            }
-            break;
-        case 'r':
-            if (graphics.playery > 0){
-                graphics.playery -= 5;
-            }
-            break;
-        case 'f':
-            if (graphics.playery < 1080){
-                graphics.playery += 5;
-            }
-            break;
-        case 'e':
-            for (int i = 0; i < num_zombies; i++){
-                zombie_vector[i].move(1);
-            }
-            break;
-        case 'q':
-            for (int j = 0; j < num_zombies; j++){
-                zombie_vector[j].move(-1);
-            }
-            break;
-        case 'z':
-            graphics.anglex_adj += 0.01745329;
-            break;
-        case 'x':
-            graphics.anglex_adj -= 0.01745329;
-            break;
-        case 27: //ESC key
-            exit(0);
-    }
-}
-
-
-void render_all(){
-        graphics.clear_draw_screen();
-        graphics.set_color(1.0f, 0.0f, 0.0f);
-        graphics.draw_horizon();
-
-        std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
-        graphics.draw_floor_lines(floor_points_2D);
-
-        graphics.set_color(0.0f, 0.0f, 1.0f);
-
-        for (double i = 0; i < num_zombies; i++){
-            zombie_vector[i].render_zombie(&graphics);
-        }
-
-        glutPostRedisplay();
-        graphics.present_frame();
-
-}
-
 
 int main(int argc, char* argv[]) {
     
     Graphics graphics;
-    
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    
-    // int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
-    // int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
-    int windowWidth = 1920;
-    int windowHeight = 1080;
-    glutInitWindowSize(windowWidth, windowHeight);
-    glutCreateWindow("ZOMBEIS");
-
-    // Set up orthographic projection
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, windowWidth, windowHeight, 0); // Map OpenGL coordinates to screen pixels
 
     // Main loop flag
     bool isRunning = true;
 
     // Event handler
-    //SDL_Event event;
+    SDL_Event event;
+
+
+    std::vector<Zombie> zombie_vector;
+
 
     // Create a random device (seed source)
     std::random_device rd;
@@ -161,7 +73,7 @@ int main(int argc, char* argv[]) {
     int random_numz = distribz(gen);
     int random_nums = distribs(gen);
 
-    num_zombies = 100;
+    int num_zombies = 50;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
@@ -176,78 +88,80 @@ int main(int argc, char* argv[]) {
         zombie_vector[i].speed = random_nums;
     }
     
-    // Register the keyboard input callback
-    glutKeyboardFunc(keyboard);
-
-    // Register the display function.
-    glutDisplayFunc(render_all);
-
-    glutMainLoop();
-
-    // glutDisplayFunc(Graphics::test);  // Register the display callback
-    // glutMainLoop();  //
-
     // Main application loop
-    // while (isRunning) {
+    while (isRunning) {
         
-        // // Handle events
-        // while (SDL_PollEvent(&event)) {
-        //     if (event.type == SDL_QUIT) {
-        //         isRunning = false; // Exit loop on close event
-        //     } else if (event.type == SDL_KEYDOWN){
-        //         // Handle key press
-        //         switch (event.key.keysym.sym) {
-        //             case SDLK_w:
-        //                 if (graphics.playerz < 1000){
-        //                     graphics.playerz += 5;
-        //                 }
-        //             case SDLK_s:
-        //                 if (graphics.playerz > 0){
-        //                     graphics.playerz -= 5;
-        //                 }
-        //                 break;
-        //             case SDLK_d:
-        //                 if (graphics.playerx < 1920){
-        //                     graphics.playerx += 5;
-        //                 }
-        //             case SDLK_a:
-        //                 if (graphics.playerx > 0){
-        //                     graphics.playerx -= 5;
-        //                 }
-        //                 break;
-        //             case SDLK_r:
-        //                 if (graphics.playery > 0){
-        //                     graphics.playery -= 5;
-        //                 }
-        //                 break;
-        //             case SDLK_f:
-        //                 if (graphics.playery < 1080){
-        //                     graphics.playery += 5;
-        //                 }
-        //                 break;
-        //             case SDLK_e:
-        //                 for (int i = 0; i < num_zombies; i++){
-        //                     zombie_vector[i].move(1);
-        //                 }
-        //                 break;
-        //             case SDLK_q:
-        //                 for (int j = 0; j < num_zombies; j++){
-        //                     zombie_vector[j].move(-1);
-        //                 }
-        //                 break;
-        //             case SDLK_z:
-        //                 graphics.anglex_adj += 0.01745329;
-        //                 break;
-        //             case SDLK_x:
-        //                 graphics.anglex_adj -= 0.01745329;
-        //                 break;
-        //             case SDLK_ESCAPE:
-        //                 isRunning = false; // Exit the loop
-        //                 break;
-        //         }
-        //     }
-        // }
+        // Handle events
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                isRunning = false; // Exit loop on close event
+            } else if (event.type == SDL_KEYDOWN){
+                // Handle key press
+                switch (event.key.keysym.sym) {
+                    case SDLK_w:
+                        if (graphics.playerz < 1000){
+                            graphics.playerz += 5;
+                        }
+                    case SDLK_s:
+                        if (graphics.playerz > 0){
+                            graphics.playerz -= 5;
+                        }
+                        break;
+                    case SDLK_d:
+                        if (graphics.playerx < 1920){
+                            graphics.playerx += 5;
+                        }
+                    case SDLK_a:
+                        if (graphics.playerx > 0){
+                            graphics.playerx -= 5;
+                        }
+                        break;
+                    case SDLK_r:
+                        if (graphics.playery > 0){
+                            graphics.playery -= 5;
+                        }
+                        break;
+                    case SDLK_f:
+                        if (graphics.playery < 1080){
+                            graphics.playery += 5;
+                        }
+                        break;
+                    case SDLK_e:
+                        for (int i = 0; i < num_zombies; i++){
+                            zombie_vector[i].move(1);
+                        }
+                        break;
+                    case SDLK_q:
+                        for (int j = 0; j < num_zombies; j++){
+                            zombie_vector[j].move(-1);
+                        }
+                        break;
+                    case SDLK_z:
+                        graphics.anglex_adj += 0.01745329;
+                        break;
+                    case SDLK_x:
+                        graphics.anglex_adj -= 0.01745329;
+                        break;
+                    case SDLK_ESCAPE:
+                        isRunning = false; // Exit the loop
+                        break;
+                }
+            }
+        }
 
+        graphics.clear_draw_screen();
+        graphics.set_color(255, 0, 0);
+        graphics.draw_horizon();
+
+        std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
+        graphics.draw_floor_lines(floor_points_2D);
+
+        graphics.set_color(0, 0, 255);
+        for (double i = 0; i < num_zombies; i++){
+            zombie_vector[i].render_zombie(&graphics);
+        }
+
+        graphics.present_frame();
 
         
         // std::vector<std::vector<double>> sphere_points_3D_1 = make_sphere({960, 530, z1}, 5, 12);
@@ -423,12 +337,12 @@ int main(int argc, char* argv[]) {
         //         }
         //     }
         // }
-    //}
+    }
 
     // Clean up resources
-    // SDL_DestroyRenderer(graphics.renderer);
-    // SDL_DestroyWindow(graphics.window);
-    // SDL_Quit();
+    SDL_DestroyRenderer(graphics.renderer);
+    SDL_DestroyWindow(graphics.window);
+    SDL_Quit();
 
     return 0;
 }

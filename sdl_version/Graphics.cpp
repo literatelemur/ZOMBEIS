@@ -1,4 +1,4 @@
-#include <GL/glut.h>
+#include <SDL2/SDL.h>
 #include <iostream>
 #include <array>
 #include <vector>
@@ -21,16 +21,50 @@
             playerz = 0;
 
             anglex_adj = 0;
+            
+            // Initialize SDL
+            if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+                std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
+                //return 1;
+            }
 
-            double x_start = -20000;
+            // Create an SDL window
+            window = SDL_CreateWindow("SDL2 Window with GPU",
+                                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                                1920, 1080,
+                                                SDL_WINDOW_SHOWN);
+            if (window == nullptr) {
+                std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+                SDL_Quit();
+                //return 1;
+            }
+
+            // Create a renderer for the window
+            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+            if (renderer == nullptr) {
+                std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
+                SDL_DestroyWindow(window);
+                SDL_Quit();
+                //return 1;
+            }
+
+            SDL_RendererInfo info;
+            SDL_GetRendererInfo(renderer, &info);
+            std::cout << "Renderer Name: " << info.name << std::endl;
+            if (info.flags & SDL_RENDERER_ACCELERATED) {
+                std::cout << "Using hardware acceleration!" << std::endl;
+            }
+
+
+
             double x_stop = 19200;
-            double z_start = 100;
-            double z_stop = 50000;
+            double z_stop = 20000;
 
             floor_points_3D.emplace_back();
 
             int i = 0;
-            for (double x = x_start; x < x_stop; x += 100){
+            for (double x = -10000; x < x_stop; x += 100){
                 floor_points_3D[0].emplace_back();
                 floor_points_3D[0][i].emplace_back();
                 floor_points_3D[0][i][0].emplace_back(0);
@@ -38,7 +72,7 @@
                 floor_points_3D[0][i][0].emplace_back(0);
                 floor_points_3D[0][i][0][0] = x;
                 floor_points_3D[0][i][0][1] = 1080;
-                floor_points_3D[0][i][0][2] = z_start;
+                floor_points_3D[0][i][0][2] = 100;
 
                 floor_points_3D[0][i].emplace_back();
                 floor_points_3D[0][i][1].emplace_back(0);
@@ -55,13 +89,13 @@
             floor_points_3D.emplace_back();
 
             i = 0;
-            for (double z = z_start; z < z_stop; z += 100){
+            for (double z = 100; z < z_stop; z += 100){
                 floor_points_3D[1].emplace_back();
                 floor_points_3D[1][i].emplace_back();
                 floor_points_3D[1][i][0].emplace_back(0);
                 floor_points_3D[1][i][0].emplace_back(0);
                 floor_points_3D[1][i][0].emplace_back(0);
-                floor_points_3D[1][i][0][0] = x_start;
+                floor_points_3D[1][i][0][0] = -10000;
                 floor_points_3D[1][i][0][1] = 1080;
                 floor_points_3D[1][i][0][2] = z;
 
@@ -410,330 +444,330 @@
         }
 
 
-        // std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triangle_points_rectangle(std::vector<std::vector<double>> rect_points_3D){
+        std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triangle_points_rectangle(std::vector<std::vector<double>> rect_points_3D){
 
-        //     std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points(
-        //         8, std::vector<std::vector<std::vector<double>>>(
-        //             3, std::vector<std::vector<double>>(
-        //                 3, std::vector<double>(3, 0))));
+            std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points(
+                8, std::vector<std::vector<std::vector<double>>>(
+                    3, std::vector<std::vector<double>>(
+                        3, std::vector<double>(3, 0))));
 
-        //     triangle_points[0][0][0][0] = rect_points_3D[0][0];
-        //     triangle_points[0][0][0][1] = rect_points_3D[0][1];
-        //     triangle_points[0][0][0][2] = rect_points_3D[0][2];
+            triangle_points[0][0][0][0] = rect_points_3D[0][0];
+            triangle_points[0][0][0][1] = rect_points_3D[0][1];
+            triangle_points[0][0][0][2] = rect_points_3D[0][2];
 
-        //     triangle_points[0][0][1][0] = rect_points_3D[1][0];
-        //     triangle_points[0][0][1][1] = rect_points_3D[1][1];
-        //     triangle_points[0][0][1][2] = rect_points_3D[1][2];
+            triangle_points[0][0][1][0] = rect_points_3D[1][0];
+            triangle_points[0][0][1][1] = rect_points_3D[1][1];
+            triangle_points[0][0][1][2] = rect_points_3D[1][2];
 
-        //     triangle_points[0][0][2][0] = rect_points_3D[2][0];
-        //     triangle_points[0][0][2][1] = rect_points_3D[2][1];
-        //     triangle_points[0][0][2][2] = rect_points_3D[2][2];
-
-
-        //     triangle_points[0][1][0][0] = rect_points_3D[0][0];
-        //     triangle_points[0][1][0][1] = rect_points_3D[0][1];
-        //     triangle_points[0][1][0][2] = rect_points_3D[0][2];
-
-        //     triangle_points[0][1][1][0] = rect_points_3D[1][0];
-        //     triangle_points[0][1][1][1] = rect_points_3D[1][1];
-        //     triangle_points[0][1][1][2] = rect_points_3D[1][2];
-
-        //     triangle_points[0][1][2][0] = rect_points_3D[4][0];
-        //     triangle_points[0][1][2][1] = rect_points_3D[4][1];
-        //     triangle_points[0][1][2][2] = rect_points_3D[4][2];
+            triangle_points[0][0][2][0] = rect_points_3D[2][0];
+            triangle_points[0][0][2][1] = rect_points_3D[2][1];
+            triangle_points[0][0][2][2] = rect_points_3D[2][2];
 
 
-        //     triangle_points[0][2][0][0] = rect_points_3D[0][0];
-        //     triangle_points[0][2][0][1] = rect_points_3D[0][1];
-        //     triangle_points[0][2][0][2] = rect_points_3D[0][2];
+            triangle_points[0][1][0][0] = rect_points_3D[0][0];
+            triangle_points[0][1][0][1] = rect_points_3D[0][1];
+            triangle_points[0][1][0][2] = rect_points_3D[0][2];
 
-        //     triangle_points[0][2][1][0] = rect_points_3D[2][0];
-        //     triangle_points[0][2][1][1] = rect_points_3D[2][1];
-        //     triangle_points[0][2][1][2] = rect_points_3D[2][2];
+            triangle_points[0][1][1][0] = rect_points_3D[1][0];
+            triangle_points[0][1][1][1] = rect_points_3D[1][1];
+            triangle_points[0][1][1][2] = rect_points_3D[1][2];
 
-        //     triangle_points[0][2][2][0] = rect_points_3D[4][0];
-        //     triangle_points[0][2][2][1] = rect_points_3D[4][1];
-        //     triangle_points[0][2][2][2] = rect_points_3D[4][2];
+            triangle_points[0][1][2][0] = rect_points_3D[4][0];
+            triangle_points[0][1][2][1] = rect_points_3D[4][1];
+            triangle_points[0][1][2][2] = rect_points_3D[4][2];
+
+
+            triangle_points[0][2][0][0] = rect_points_3D[0][0];
+            triangle_points[0][2][0][1] = rect_points_3D[0][1];
+            triangle_points[0][2][0][2] = rect_points_3D[0][2];
+
+            triangle_points[0][2][1][0] = rect_points_3D[2][0];
+            triangle_points[0][2][1][1] = rect_points_3D[2][1];
+            triangle_points[0][2][1][2] = rect_points_3D[2][2];
+
+            triangle_points[0][2][2][0] = rect_points_3D[4][0];
+            triangle_points[0][2][2][1] = rect_points_3D[4][1];
+            triangle_points[0][2][2][2] = rect_points_3D[4][2];
 
 
             
-        //     triangle_points[1][0][0][0] = rect_points_3D[1][0];
-        //     triangle_points[1][0][0][1] = rect_points_3D[1][1];
-        //     triangle_points[1][0][0][2] = rect_points_3D[1][2];
+            triangle_points[1][0][0][0] = rect_points_3D[1][0];
+            triangle_points[1][0][0][1] = rect_points_3D[1][1];
+            triangle_points[1][0][0][2] = rect_points_3D[1][2];
 
-        //     triangle_points[1][0][1][0] = rect_points_3D[3][0];
-        //     triangle_points[1][0][1][1] = rect_points_3D[3][1];
-        //     triangle_points[1][0][1][2] = rect_points_3D[3][2];
+            triangle_points[1][0][1][0] = rect_points_3D[3][0];
+            triangle_points[1][0][1][1] = rect_points_3D[3][1];
+            triangle_points[1][0][1][2] = rect_points_3D[3][2];
 
-        //     triangle_points[1][0][2][0] = rect_points_3D[0][0];
-        //     triangle_points[1][0][2][1] = rect_points_3D[0][1];
-        //     triangle_points[1][0][2][2] = rect_points_3D[0][2];
+            triangle_points[1][0][2][0] = rect_points_3D[0][0];
+            triangle_points[1][0][2][1] = rect_points_3D[0][1];
+            triangle_points[1][0][2][2] = rect_points_3D[0][2];
 
 
-        //     triangle_points[1][1][0][0] = rect_points_3D[1][0];
-        //     triangle_points[1][1][0][1] = rect_points_3D[1][1];
-        //     triangle_points[1][1][0][2] = rect_points_3D[1][2];
+            triangle_points[1][1][0][0] = rect_points_3D[1][0];
+            triangle_points[1][1][0][1] = rect_points_3D[1][1];
+            triangle_points[1][1][0][2] = rect_points_3D[1][2];
 
-        //     triangle_points[1][1][1][0] = rect_points_3D[0][0];
-        //     triangle_points[1][1][1][1] = rect_points_3D[0][1];
-        //     triangle_points[1][1][1][2] = rect_points_3D[0][2];
+            triangle_points[1][1][1][0] = rect_points_3D[0][0];
+            triangle_points[1][1][1][1] = rect_points_3D[0][1];
+            triangle_points[1][1][1][2] = rect_points_3D[0][2];
 
-        //     triangle_points[1][1][2][0] = rect_points_3D[5][0];
-        //     triangle_points[1][1][2][1] = rect_points_3D[5][1];
-        //     triangle_points[1][1][2][2] = rect_points_3D[5][2];
+            triangle_points[1][1][2][0] = rect_points_3D[5][0];
+            triangle_points[1][1][2][1] = rect_points_3D[5][1];
+            triangle_points[1][1][2][2] = rect_points_3D[5][2];
 
 
-        //     triangle_points[1][2][0][0] = rect_points_3D[1][0];
-        //     triangle_points[1][2][0][1] = rect_points_3D[1][1];
-        //     triangle_points[1][2][0][2] = rect_points_3D[1][2];
+            triangle_points[1][2][0][0] = rect_points_3D[1][0];
+            triangle_points[1][2][0][1] = rect_points_3D[1][1];
+            triangle_points[1][2][0][2] = rect_points_3D[1][2];
 
-        //     triangle_points[1][2][1][0] = rect_points_3D[3][0];
-        //     triangle_points[1][2][1][1] = rect_points_3D[3][1];
-        //     triangle_points[1][2][1][2] = rect_points_3D[3][2];
+            triangle_points[1][2][1][0] = rect_points_3D[3][0];
+            triangle_points[1][2][1][1] = rect_points_3D[3][1];
+            triangle_points[1][2][1][2] = rect_points_3D[3][2];
 
-        //     triangle_points[1][2][2][0] = rect_points_3D[5][0];
-        //     triangle_points[1][2][2][1] = rect_points_3D[5][1];
-        //     triangle_points[1][2][2][2] = rect_points_3D[5][2];
+            triangle_points[1][2][2][0] = rect_points_3D[5][0];
+            triangle_points[1][2][2][1] = rect_points_3D[5][1];
+            triangle_points[1][2][2][2] = rect_points_3D[5][2];
 
 
 
-        //     triangle_points[2][0][0][0] = rect_points_3D[2][0];
-        //     triangle_points[2][0][0][1] = rect_points_3D[2][1];
-        //     triangle_points[2][0][0][2] = rect_points_3D[2][2];
+            triangle_points[2][0][0][0] = rect_points_3D[2][0];
+            triangle_points[2][0][0][1] = rect_points_3D[2][1];
+            triangle_points[2][0][0][2] = rect_points_3D[2][2];
 
-        //     triangle_points[2][0][1][0] = rect_points_3D[0][0];
-        //     triangle_points[2][0][1][1] = rect_points_3D[0][1];
-        //     triangle_points[2][0][1][2] = rect_points_3D[0][2];
+            triangle_points[2][0][1][0] = rect_points_3D[0][0];
+            triangle_points[2][0][1][1] = rect_points_3D[0][1];
+            triangle_points[2][0][1][2] = rect_points_3D[0][2];
 
-        //     triangle_points[2][0][2][0] = rect_points_3D[3][0];
-        //     triangle_points[2][0][2][1] = rect_points_3D[3][1];
-        //     triangle_points[2][0][2][2] = rect_points_3D[3][2];
+            triangle_points[2][0][2][0] = rect_points_3D[3][0];
+            triangle_points[2][0][2][1] = rect_points_3D[3][1];
+            triangle_points[2][0][2][2] = rect_points_3D[3][2];
 
 
-        //     triangle_points[2][1][0][0] = rect_points_3D[2][0];
-        //     triangle_points[2][1][0][1] = rect_points_3D[2][1];
-        //     triangle_points[2][1][0][2] = rect_points_3D[2][2];
+            triangle_points[2][1][0][0] = rect_points_3D[2][0];
+            triangle_points[2][1][0][1] = rect_points_3D[2][1];
+            triangle_points[2][1][0][2] = rect_points_3D[2][2];
 
-        //     triangle_points[2][1][1][0] = rect_points_3D[3][0];
-        //     triangle_points[2][1][1][1] = rect_points_3D[3][1];
-        //     triangle_points[2][1][1][2] = rect_points_3D[3][2];
+            triangle_points[2][1][1][0] = rect_points_3D[3][0];
+            triangle_points[2][1][1][1] = rect_points_3D[3][1];
+            triangle_points[2][1][1][2] = rect_points_3D[3][2];
 
-        //     triangle_points[2][1][2][0] = rect_points_3D[6][0];
-        //     triangle_points[2][1][2][1] = rect_points_3D[6][1];
-        //     triangle_points[2][1][2][2] = rect_points_3D[6][2];
+            triangle_points[2][1][2][0] = rect_points_3D[6][0];
+            triangle_points[2][1][2][1] = rect_points_3D[6][1];
+            triangle_points[2][1][2][2] = rect_points_3D[6][2];
 
 
-        //     triangle_points[2][2][0][0] = rect_points_3D[2][0];
-        //     triangle_points[2][2][0][1] = rect_points_3D[2][1];
-        //     triangle_points[2][2][0][2] = rect_points_3D[2][2];
+            triangle_points[2][2][0][0] = rect_points_3D[2][0];
+            triangle_points[2][2][0][1] = rect_points_3D[2][1];
+            triangle_points[2][2][0][2] = rect_points_3D[2][2];
 
-        //     triangle_points[2][2][1][0] = rect_points_3D[0][0];
-        //     triangle_points[2][2][1][1] = rect_points_3D[0][1];
-        //     triangle_points[2][2][1][2] = rect_points_3D[0][2];
+            triangle_points[2][2][1][0] = rect_points_3D[0][0];
+            triangle_points[2][2][1][1] = rect_points_3D[0][1];
+            triangle_points[2][2][1][2] = rect_points_3D[0][2];
 
-        //     triangle_points[2][2][2][0] = rect_points_3D[6][0];
-        //     triangle_points[2][2][2][1] = rect_points_3D[6][1];
-        //     triangle_points[2][2][2][2] = rect_points_3D[6][2];
+            triangle_points[2][2][2][0] = rect_points_3D[6][0];
+            triangle_points[2][2][2][1] = rect_points_3D[6][1];
+            triangle_points[2][2][2][2] = rect_points_3D[6][2];
 
 
 
-        //     triangle_points[3][0][0][0] = rect_points_3D[3][0];
-        //     triangle_points[3][0][0][1] = rect_points_3D[3][1];
-        //     triangle_points[3][0][0][2] = rect_points_3D[3][2];
+            triangle_points[3][0][0][0] = rect_points_3D[3][0];
+            triangle_points[3][0][0][1] = rect_points_3D[3][1];
+            triangle_points[3][0][0][2] = rect_points_3D[3][2];
 
-        //     triangle_points[3][0][1][0] = rect_points_3D[1][0];
-        //     triangle_points[3][0][1][1] = rect_points_3D[1][1];
-        //     triangle_points[3][0][1][2] = rect_points_3D[1][2];
+            triangle_points[3][0][1][0] = rect_points_3D[1][0];
+            triangle_points[3][0][1][1] = rect_points_3D[1][1];
+            triangle_points[3][0][1][2] = rect_points_3D[1][2];
 
-        //     triangle_points[3][0][2][0] = rect_points_3D[2][0];
-        //     triangle_points[3][0][2][1] = rect_points_3D[2][1];
-        //     triangle_points[3][0][2][2] = rect_points_3D[2][2];
+            triangle_points[3][0][2][0] = rect_points_3D[2][0];
+            triangle_points[3][0][2][1] = rect_points_3D[2][1];
+            triangle_points[3][0][2][2] = rect_points_3D[2][2];
 
 
-        //     triangle_points[3][1][0][0] = rect_points_3D[3][0];
-        //     triangle_points[3][1][0][1] = rect_points_3D[3][1];
-        //     triangle_points[3][1][0][2] = rect_points_3D[3][2];
+            triangle_points[3][1][0][0] = rect_points_3D[3][0];
+            triangle_points[3][1][0][1] = rect_points_3D[3][1];
+            triangle_points[3][1][0][2] = rect_points_3D[3][2];
 
-        //     triangle_points[3][1][1][0] = rect_points_3D[1][0];
-        //     triangle_points[3][1][1][1] = rect_points_3D[1][1];
-        //     triangle_points[3][1][1][2] = rect_points_3D[1][2];
+            triangle_points[3][1][1][0] = rect_points_3D[1][0];
+            triangle_points[3][1][1][1] = rect_points_3D[1][1];
+            triangle_points[3][1][1][2] = rect_points_3D[1][2];
 
-        //     triangle_points[3][1][2][0] = rect_points_3D[7][0];
-        //     triangle_points[3][1][2][1] = rect_points_3D[7][1];
-        //     triangle_points[3][1][2][2] = rect_points_3D[7][2];
+            triangle_points[3][1][2][0] = rect_points_3D[7][0];
+            triangle_points[3][1][2][1] = rect_points_3D[7][1];
+            triangle_points[3][1][2][2] = rect_points_3D[7][2];
 
 
-        //     triangle_points[3][2][0][0] = rect_points_3D[3][0];
-        //     triangle_points[3][2][0][1] = rect_points_3D[3][1];
-        //     triangle_points[3][2][0][2] = rect_points_3D[3][2];
+            triangle_points[3][2][0][0] = rect_points_3D[3][0];
+            triangle_points[3][2][0][1] = rect_points_3D[3][1];
+            triangle_points[3][2][0][2] = rect_points_3D[3][2];
 
-        //     triangle_points[3][2][1][0] = rect_points_3D[2][0];
-        //     triangle_points[3][2][1][1] = rect_points_3D[2][1];
-        //     triangle_points[3][2][1][2] = rect_points_3D[2][2];
+            triangle_points[3][2][1][0] = rect_points_3D[2][0];
+            triangle_points[3][2][1][1] = rect_points_3D[2][1];
+            triangle_points[3][2][1][2] = rect_points_3D[2][2];
 
-        //     triangle_points[3][2][2][0] = rect_points_3D[7][0];
-        //     triangle_points[3][2][2][1] = rect_points_3D[7][1];
-        //     triangle_points[3][2][2][2] = rect_points_3D[7][2];
+            triangle_points[3][2][2][0] = rect_points_3D[7][0];
+            triangle_points[3][2][2][1] = rect_points_3D[7][1];
+            triangle_points[3][2][2][2] = rect_points_3D[7][2];
 
 
-        //     triangle_points[4][0][0][0] = rect_points_3D[4][0];
-        //     triangle_points[4][0][0][1] = rect_points_3D[4][1];
-        //     triangle_points[4][0][0][2] = rect_points_3D[4][2];
+            triangle_points[4][0][0][0] = rect_points_3D[4][0];
+            triangle_points[4][0][0][1] = rect_points_3D[4][1];
+            triangle_points[4][0][0][2] = rect_points_3D[4][2];
 
-        //     triangle_points[4][0][1][0] = rect_points_3D[5][0];
-        //     triangle_points[4][0][1][1] = rect_points_3D[5][1];
-        //     triangle_points[4][0][1][2] = rect_points_3D[5][2];
+            triangle_points[4][0][1][0] = rect_points_3D[5][0];
+            triangle_points[4][0][1][1] = rect_points_3D[5][1];
+            triangle_points[4][0][1][2] = rect_points_3D[5][2];
 
-        //     triangle_points[4][0][2][0] = rect_points_3D[6][0];
-        //     triangle_points[4][0][2][1] = rect_points_3D[6][1];
-        //     triangle_points[4][0][2][2] = rect_points_3D[6][2];
+            triangle_points[4][0][2][0] = rect_points_3D[6][0];
+            triangle_points[4][0][2][1] = rect_points_3D[6][1];
+            triangle_points[4][0][2][2] = rect_points_3D[6][2];
 
 
-        //     triangle_points[4][1][0][0] = rect_points_3D[4][0];
-        //     triangle_points[4][1][0][1] = rect_points_3D[4][1];
-        //     triangle_points[4][1][0][2] = rect_points_3D[4][2];
+            triangle_points[4][1][0][0] = rect_points_3D[4][0];
+            triangle_points[4][1][0][1] = rect_points_3D[4][1];
+            triangle_points[4][1][0][2] = rect_points_3D[4][2];
 
-        //     triangle_points[4][1][1][0] = rect_points_3D[5][0];
-        //     triangle_points[4][1][1][1] = rect_points_3D[5][1];
-        //     triangle_points[4][1][1][2] = rect_points_3D[5][2];
+            triangle_points[4][1][1][0] = rect_points_3D[5][0];
+            triangle_points[4][1][1][1] = rect_points_3D[5][1];
+            triangle_points[4][1][1][2] = rect_points_3D[5][2];
 
-        //     triangle_points[4][1][2][0] = rect_points_3D[0][0];
-        //     triangle_points[4][1][2][1] = rect_points_3D[0][1];
-        //     triangle_points[4][1][2][2] = rect_points_3D[0][2];
+            triangle_points[4][1][2][0] = rect_points_3D[0][0];
+            triangle_points[4][1][2][1] = rect_points_3D[0][1];
+            triangle_points[4][1][2][2] = rect_points_3D[0][2];
 
 
-        //     triangle_points[4][2][0][0] = rect_points_3D[4][0];
-        //     triangle_points[4][2][0][1] = rect_points_3D[4][1];
-        //     triangle_points[4][2][0][2] = rect_points_3D[4][2];
+            triangle_points[4][2][0][0] = rect_points_3D[4][0];
+            triangle_points[4][2][0][1] = rect_points_3D[4][1];
+            triangle_points[4][2][0][2] = rect_points_3D[4][2];
 
-        //     triangle_points[4][2][1][0] = rect_points_3D[0][0];
-        //     triangle_points[4][2][1][1] = rect_points_3D[0][1];
-        //     triangle_points[4][2][1][2] = rect_points_3D[0][2];
+            triangle_points[4][2][1][0] = rect_points_3D[0][0];
+            triangle_points[4][2][1][1] = rect_points_3D[0][1];
+            triangle_points[4][2][1][2] = rect_points_3D[0][2];
 
-        //     triangle_points[4][2][2][0] = rect_points_3D[6][0];
-        //     triangle_points[4][2][2][1] = rect_points_3D[6][1];
-        //     triangle_points[4][2][2][2] = rect_points_3D[6][2];
+            triangle_points[4][2][2][0] = rect_points_3D[6][0];
+            triangle_points[4][2][2][1] = rect_points_3D[6][1];
+            triangle_points[4][2][2][2] = rect_points_3D[6][2];
 
 
-        //     triangle_points[5][0][0][0] = rect_points_3D[5][0];
-        //     triangle_points[5][0][0][1] = rect_points_3D[5][1];
-        //     triangle_points[5][0][0][2] = rect_points_3D[5][2];
+            triangle_points[5][0][0][0] = rect_points_3D[5][0];
+            triangle_points[5][0][0][1] = rect_points_3D[5][1];
+            triangle_points[5][0][0][2] = rect_points_3D[5][2];
 
-        //     triangle_points[5][0][1][0] = rect_points_3D[4][0];
-        //     triangle_points[5][0][1][1] = rect_points_3D[4][1];
-        //     triangle_points[5][0][1][2] = rect_points_3D[4][2];
+            triangle_points[5][0][1][0] = rect_points_3D[4][0];
+            triangle_points[5][0][1][1] = rect_points_3D[4][1];
+            triangle_points[5][0][1][2] = rect_points_3D[4][2];
 
-        //     triangle_points[5][0][2][0] = rect_points_3D[7][0];
-        //     triangle_points[5][0][2][1] = rect_points_3D[7][1];
-        //     triangle_points[5][0][2][2] = rect_points_3D[7][2];
+            triangle_points[5][0][2][0] = rect_points_3D[7][0];
+            triangle_points[5][0][2][1] = rect_points_3D[7][1];
+            triangle_points[5][0][2][2] = rect_points_3D[7][2];
 
 
-        //     triangle_points[5][1][0][0] = rect_points_3D[5][0];
-        //     triangle_points[5][1][0][1] = rect_points_3D[5][1];
-        //     triangle_points[5][1][0][2] = rect_points_3D[5][2];
+            triangle_points[5][1][0][0] = rect_points_3D[5][0];
+            triangle_points[5][1][0][1] = rect_points_3D[5][1];
+            triangle_points[5][1][0][2] = rect_points_3D[5][2];
 
-        //     triangle_points[5][1][1][0] = rect_points_3D[4][0];
-        //     triangle_points[5][1][1][1] = rect_points_3D[4][1];
-        //     triangle_points[5][1][1][2] = rect_points_3D[4][2];
+            triangle_points[5][1][1][0] = rect_points_3D[4][0];
+            triangle_points[5][1][1][1] = rect_points_3D[4][1];
+            triangle_points[5][1][1][2] = rect_points_3D[4][2];
 
-        //     triangle_points[5][1][2][0] = rect_points_3D[1][0];
-        //     triangle_points[5][1][2][1] = rect_points_3D[1][1];
-        //     triangle_points[5][1][2][2] = rect_points_3D[1][2];
+            triangle_points[5][1][2][0] = rect_points_3D[1][0];
+            triangle_points[5][1][2][1] = rect_points_3D[1][1];
+            triangle_points[5][1][2][2] = rect_points_3D[1][2];
 
 
-        //     triangle_points[5][2][0][0] = rect_points_3D[5][0];
-        //     triangle_points[5][2][0][1] = rect_points_3D[5][1];
-        //     triangle_points[5][2][0][2] = rect_points_3D[5][2];
+            triangle_points[5][2][0][0] = rect_points_3D[5][0];
+            triangle_points[5][2][0][1] = rect_points_3D[5][1];
+            triangle_points[5][2][0][2] = rect_points_3D[5][2];
 
-        //     triangle_points[5][2][1][0] = rect_points_3D[1][0];
-        //     triangle_points[5][2][1][1] = rect_points_3D[1][1];
-        //     triangle_points[5][2][1][2] = rect_points_3D[1][2];
+            triangle_points[5][2][1][0] = rect_points_3D[1][0];
+            triangle_points[5][2][1][1] = rect_points_3D[1][1];
+            triangle_points[5][2][1][2] = rect_points_3D[1][2];
 
-        //     triangle_points[5][2][2][0] = rect_points_3D[7][0];
-        //     triangle_points[5][2][2][1] = rect_points_3D[7][1];
-        //     triangle_points[5][2][2][2] = rect_points_3D[7][2];
+            triangle_points[5][2][2][0] = rect_points_3D[7][0];
+            triangle_points[5][2][2][1] = rect_points_3D[7][1];
+            triangle_points[5][2][2][2] = rect_points_3D[7][2];
 
 
-        //     triangle_points[6][0][0][0] = rect_points_3D[6][0];
-        //     triangle_points[6][0][0][1] = rect_points_3D[6][1];
-        //     triangle_points[6][0][0][2] = rect_points_3D[6][2];
+            triangle_points[6][0][0][0] = rect_points_3D[6][0];
+            triangle_points[6][0][0][1] = rect_points_3D[6][1];
+            triangle_points[6][0][0][2] = rect_points_3D[6][2];
 
-        //     triangle_points[6][0][1][0] = rect_points_3D[4][0];
-        //     triangle_points[6][0][1][1] = rect_points_3D[4][1];
-        //     triangle_points[6][0][1][2] = rect_points_3D[4][2];
+            triangle_points[6][0][1][0] = rect_points_3D[4][0];
+            triangle_points[6][0][1][1] = rect_points_3D[4][1];
+            triangle_points[6][0][1][2] = rect_points_3D[4][2];
 
-        //     triangle_points[6][0][2][0] = rect_points_3D[7][0];
-        //     triangle_points[6][0][2][1] = rect_points_3D[7][1];
-        //     triangle_points[6][0][2][2] = rect_points_3D[7][2];
+            triangle_points[6][0][2][0] = rect_points_3D[7][0];
+            triangle_points[6][0][2][1] = rect_points_3D[7][1];
+            triangle_points[6][0][2][2] = rect_points_3D[7][2];
 
 
-        //     triangle_points[6][1][0][0] = rect_points_3D[6][0];
-        //     triangle_points[6][1][0][1] = rect_points_3D[6][1];
-        //     triangle_points[6][1][0][2] = rect_points_3D[6][2];
+            triangle_points[6][1][0][0] = rect_points_3D[6][0];
+            triangle_points[6][1][0][1] = rect_points_3D[6][1];
+            triangle_points[6][1][0][2] = rect_points_3D[6][2];
 
-        //     triangle_points[6][1][1][0] = rect_points_3D[4][0];
-        //     triangle_points[6][1][1][1] = rect_points_3D[4][1];
-        //     triangle_points[6][1][1][2] = rect_points_3D[4][2];
+            triangle_points[6][1][1][0] = rect_points_3D[4][0];
+            triangle_points[6][1][1][1] = rect_points_3D[4][1];
+            triangle_points[6][1][1][2] = rect_points_3D[4][2];
 
-        //     triangle_points[6][1][2][0] = rect_points_3D[2][0];
-        //     triangle_points[6][1][2][1] = rect_points_3D[2][1];
-        //     triangle_points[6][1][2][2] = rect_points_3D[2][2];
+            triangle_points[6][1][2][0] = rect_points_3D[2][0];
+            triangle_points[6][1][2][1] = rect_points_3D[2][1];
+            triangle_points[6][1][2][2] = rect_points_3D[2][2];
 
 
-        //     triangle_points[6][2][0][0] = rect_points_3D[6][0];
-        //     triangle_points[6][2][0][1] = rect_points_3D[6][1];
-        //     triangle_points[6][2][0][2] = rect_points_3D[6][2];
+            triangle_points[6][2][0][0] = rect_points_3D[6][0];
+            triangle_points[6][2][0][1] = rect_points_3D[6][1];
+            triangle_points[6][2][0][2] = rect_points_3D[6][2];
 
-        //     triangle_points[6][2][1][0] = rect_points_3D[2][0];
-        //     triangle_points[6][2][1][1] = rect_points_3D[2][1];
-        //     triangle_points[6][2][1][2] = rect_points_3D[2][2];
+            triangle_points[6][2][1][0] = rect_points_3D[2][0];
+            triangle_points[6][2][1][1] = rect_points_3D[2][1];
+            triangle_points[6][2][1][2] = rect_points_3D[2][2];
 
-        //     triangle_points[6][2][2][0] = rect_points_3D[7][0];
-        //     triangle_points[6][2][2][1] = rect_points_3D[7][1];
-        //     triangle_points[6][2][2][2] = rect_points_3D[7][2];
+            triangle_points[6][2][2][0] = rect_points_3D[7][0];
+            triangle_points[6][2][2][1] = rect_points_3D[7][1];
+            triangle_points[6][2][2][2] = rect_points_3D[7][2];
 
 
 
-        //     triangle_points[7][0][0][0] = rect_points_3D[7][0];
-        //     triangle_points[7][0][0][1] = rect_points_3D[7][1];
-        //     triangle_points[7][0][0][2] = rect_points_3D[7][2];
+            triangle_points[7][0][0][0] = rect_points_3D[7][0];
+            triangle_points[7][0][0][1] = rect_points_3D[7][1];
+            triangle_points[7][0][0][2] = rect_points_3D[7][2];
 
-        //     triangle_points[7][0][1][0] = rect_points_3D[6][0];
-        //     triangle_points[7][0][1][1] = rect_points_3D[6][1];
-        //     triangle_points[7][0][1][2] = rect_points_3D[6][2];
+            triangle_points[7][0][1][0] = rect_points_3D[6][0];
+            triangle_points[7][0][1][1] = rect_points_3D[6][1];
+            triangle_points[7][0][1][2] = rect_points_3D[6][2];
 
-        //     triangle_points[7][0][2][0] = rect_points_3D[5][0];
-        //     triangle_points[7][0][2][1] = rect_points_3D[5][1];
-        //     triangle_points[7][0][2][2] = rect_points_3D[5][2];
+            triangle_points[7][0][2][0] = rect_points_3D[5][0];
+            triangle_points[7][0][2][1] = rect_points_3D[5][1];
+            triangle_points[7][0][2][2] = rect_points_3D[5][2];
 
 
-        //     triangle_points[7][1][0][0] = rect_points_3D[7][0];
-        //     triangle_points[7][1][0][1] = rect_points_3D[7][1];
-        //     triangle_points[7][1][0][2] = rect_points_3D[7][2];
+            triangle_points[7][1][0][0] = rect_points_3D[7][0];
+            triangle_points[7][1][0][1] = rect_points_3D[7][1];
+            triangle_points[7][1][0][2] = rect_points_3D[7][2];
 
-        //     triangle_points[7][1][1][0] = rect_points_3D[5][0];
-        //     triangle_points[7][1][1][1] = rect_points_3D[5][1];
-        //     triangle_points[7][1][1][2] = rect_points_3D[5][2];
+            triangle_points[7][1][1][0] = rect_points_3D[5][0];
+            triangle_points[7][1][1][1] = rect_points_3D[5][1];
+            triangle_points[7][1][1][2] = rect_points_3D[5][2];
 
-        //     triangle_points[7][1][2][0] = rect_points_3D[3][0];
-        //     triangle_points[7][1][2][1] = rect_points_3D[3][1];
-        //     triangle_points[7][1][2][2] = rect_points_3D[3][2];
+            triangle_points[7][1][2][0] = rect_points_3D[3][0];
+            triangle_points[7][1][2][1] = rect_points_3D[3][1];
+            triangle_points[7][1][2][2] = rect_points_3D[3][2];
 
 
-        //     triangle_points[7][2][0][0] = rect_points_3D[7][0];
-        //     triangle_points[7][2][0][1] = rect_points_3D[7][1];
-        //     triangle_points[7][2][0][2] = rect_points_3D[7][2];
+            triangle_points[7][2][0][0] = rect_points_3D[7][0];
+            triangle_points[7][2][0][1] = rect_points_3D[7][1];
+            triangle_points[7][2][0][2] = rect_points_3D[7][2];
 
-        //     triangle_points[7][2][1][0] = rect_points_3D[6][0];
-        //     triangle_points[7][2][1][1] = rect_points_3D[6][1];
-        //     triangle_points[7][2][1][2] = rect_points_3D[6][2];
+            triangle_points[7][2][1][0] = rect_points_3D[6][0];
+            triangle_points[7][2][1][1] = rect_points_3D[6][1];
+            triangle_points[7][2][1][2] = rect_points_3D[6][2];
 
-        //     triangle_points[7][2][2][0] = rect_points_3D[3][0];
-        //     triangle_points[7][2][2][1] = rect_points_3D[3][1];
-        //     triangle_points[7][2][2][2] = rect_points_3D[3][2];
+            triangle_points[7][2][2][0] = rect_points_3D[3][0];
+            triangle_points[7][2][2][1] = rect_points_3D[3][1];
+            triangle_points[7][2][2][2] = rect_points_3D[3][2];
 
-        //     return triangle_points;
-        // }
+            return triangle_points;
+        }
 
 
         std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D){
@@ -769,32 +803,6 @@
         }
 
 
-        std::vector<std::vector<int>> Graphics::compute_2D_rectangle(std::vector<std::vector<double>> rect_points_3D){
-
-            std::vector<std::vector<int>> rect_points_2D;
-
-            // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-            for (int i = 0; i < rect_points_3D.size(); i++){
-                rect_points_2D.emplace_back();
-
-                rect_points_2D[i].emplace_back(0);
-                rect_points_2D[i].emplace_back(0);
-
-                double anglex = atan2(rect_points_3D[i][0] - playerx, rect_points_3D[i][2] - playerz) + anglex_adj;
-                int x = (int) (tan(anglex) * zscreendiff);
-
-                double angley = atan2(rect_points_3D[i][1] - playery, rect_points_3D[i][2] - playerz);
-                int y = (int) (tan(angley) * zscreendiff);
-
-                rect_points_2D[i][0] = (int) (x + 960);
-                rect_points_2D[i][1] = (int) (y + 540);
-            }
-
-            return rect_points_2D;
-
-        }
-
-
         std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_triangles(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points){
             std::vector<std::vector<std::vector<std::vector<int>>>> object_2D(
                 triangle_points.size(), std::vector<std::vector<std::vector<int>>>(
@@ -824,8 +832,9 @@
 
 
         void Graphics::clear_draw_screen(){
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black background
-            glClear(GL_COLOR_BUFFER_BIT);
+            // Clear the screen with a color
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
         }
 
 
@@ -850,13 +859,7 @@
             // draw_floor_lines(horizon_points_2D);
 
 
-            //SDL_RenderDrawLine(renderer, 0, 540, 1920, 540);
-
-            glBegin(GL_LINES);
-                glVertex2i(0, 540);
-                glVertex2i(1920, 540);
-            glEnd();
-
+            SDL_RenderDrawLine(renderer, 0, 540, 1920, 540);
 
             // for (double i = 0; i < 1980; i++){
             //     for (double j = 0; j < 1000; j++){
@@ -884,11 +887,7 @@
 
             for (int i = 0; i < floor_points_2D.size(); i++){
                 for (int j = 0; j < floor_points_2D[i].size(); j++){
-                    //SDL_RenderDrawLine(renderer, floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1], floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
-                    glBegin(GL_LINES);
-                        glVertex2i(floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1]);
-                        glVertex2i(floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
-                    glEnd();
+                    SDL_RenderDrawLine(renderer, floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1], floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
                 }
             }
 
@@ -900,38 +899,24 @@
             for (int i = 0; i < triangle_points.size(); i++){
                 //if (triangle_points[i][0][0][2] > 5){
                     for (int j = 0; j < triangle_points[0].size(); j++){
-                        // SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
-                        // SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
-                        // SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
-                        glBegin(GL_LINES);
-                            glVertex2i(triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
-                            glVertex2i(triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
-                        glEnd();
-
-                        glBegin(GL_LINES);
-                            glVertex2i(triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
-                            glVertex2i(triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
-                        glEnd();
-
-                        glBegin(GL_LINES);
-                            glVertex2i(triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
-                            glVertex2i(triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
-                        glEnd();
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
                     }
                 //}
             }
         }
 
 
-        void Graphics::draw_rectangle(std::vector<std::vector<int>> rect_points){
+        void Graphics::draw_triangles_rectangle(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points){
 
-            // // Create a surface with a single line
-            // SDL_Surface* lineSurface = SDL_CreateRGBSurface(0, 2, 1, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
-            // SDL_FillRect(lineSurface, nullptr, SDL_MapRGB(lineSurface->format, 0, 255, 0));  // White line
+            // Create a surface with a single line
+            SDL_Surface* lineSurface = SDL_CreateRGBSurface(0, 2, 1, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+            SDL_FillRect(lineSurface, nullptr, SDL_MapRGB(lineSurface->format, 0, 255, 0));  // White line
 
-            // // Convert the surface to a texture
-            // SDL_Texture* lineTexture = SDL_CreateTextureFromSurface(renderer, lineSurface);
-            // SDL_FreeSurface(lineSurface);
+            // Convert the surface to a texture
+            SDL_Texture* lineTexture = SDL_CreateTextureFromSurface(renderer, lineSurface);
+            SDL_FreeSurface(lineSurface);
 
             // Now you can render this line texture multiple times at different positions
             // SDL_Rect destRect = {100, 100, 200, 1};  // 200px long line
@@ -939,58 +924,15 @@
 
 
 
-            // for (int i = 0; i < triangle_points.size(); i++){
-            //     //if (triangle_points[i][0][0][2] > 5){
-            //         for (int j = 0; j < triangle_points[0].size(); j++){
-            //             SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
-            //             //SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
-            //             SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
-            //         }
-            //     //}
-            // }
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(rect_points[0][0], rect_points[0][1]);
-                glVertex2i(rect_points[1][0], rect_points[1][1]);
-                glVertex2i(rect_points[3][0], rect_points[3][1]);
-                glVertex2i(rect_points[2][0], rect_points[2][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(rect_points[2][0], rect_points[2][1]);
-                glVertex2i(rect_points[0][0], rect_points[0][1]);
-                glVertex2i(rect_points[4][0], rect_points[4][1]);
-                glVertex2i(rect_points[6][0], rect_points[6][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(rect_points[0][0], rect_points[0][1]);
-                glVertex2i(rect_points[1][0], rect_points[1][1]);
-                glVertex2i(rect_points[5][0], rect_points[5][1]);
-                glVertex2i(rect_points[4][0], rect_points[4][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(rect_points[5][0], rect_points[5][1]);
-                glVertex2i(rect_points[1][0], rect_points[1][1]);
-                glVertex2i(rect_points[3][0], rect_points[3][1]);
-                glVertex2i(rect_points[7][0], rect_points[7][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(rect_points[2][0], rect_points[2][1]);
-                glVertex2i(rect_points[3][0], rect_points[3][1]);
-                glVertex2i(rect_points[7][0], rect_points[7][1]);
-                glVertex2i(rect_points[6][0], rect_points[6][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(rect_points[4][0], rect_points[4][1]);
-                glVertex2i(rect_points[5][0], rect_points[5][1]);
-                glVertex2i(rect_points[7][0], rect_points[7][1]);
-                glVertex2i(rect_points[6][0], rect_points[6][1]);
-            glEnd();
-
+            for (int i = 0; i < triangle_points.size(); i++){
+                //if (triangle_points[i][0][0][2] > 5){
+                    for (int j = 0; j < triangle_points[0].size(); j++){
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][0][0], triangle_points[i][j][0][1], triangle_points[i][j][1][0], triangle_points[i][j][1][1]);
+                        //SDL_RenderDrawLine(renderer, triangle_points[i][j][1][0], triangle_points[i][j][1][1], triangle_points[i][j][2][0], triangle_points[i][j][2][1]);
+                        SDL_RenderDrawLine(renderer, triangle_points[i][j][2][0], triangle_points[i][j][2][1], triangle_points[i][j][0][0], triangle_points[i][j][0][1]);
+                    }
+                //}
+            }
 
             // for (int i = 0; i < triangle_points.size(); i++){
             //     //if (triangle_points[i][0][0][2] > 5){
@@ -1011,13 +953,12 @@
 
 
         void Graphics::set_color(int r, int g, int b){
-            glColor3f(r, g, b); // Red color
+            // Set the draw color.
+            SDL_SetRenderDrawColor(renderer, r, g, b, 255);
         }
 
         void Graphics::present_frame(){
             // Present the rendered frame
-            // SDL_RenderPresent(renderer);
-            glutSwapBuffers();
-            glFlush();
+            SDL_RenderPresent(renderer);
         }
 //};
