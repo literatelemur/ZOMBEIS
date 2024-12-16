@@ -1,4 +1,3 @@
-#include <SDL2/SDL.h>
 #include <iostream>
 #include <array>
 #include <vector>
@@ -20,9 +19,7 @@ class Graphics {
         int playerz;
 
         double anglex_adj;
-
-        SDL_Window* window;
-        SDL_Renderer* renderer;
+        double pi;
 
         std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
 
@@ -33,8 +30,6 @@ class Graphics {
         std::vector<std::vector<double>> make_rectangle(std::vector<double> center, double top_length, double side_length, double depth);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
-
-        //std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_rectangle(std::vector<std::vector<double>> rect_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> line_points_3D);
 
