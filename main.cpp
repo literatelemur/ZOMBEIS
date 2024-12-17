@@ -20,9 +20,10 @@ std::vector<Zombie> zombie_vector;
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'w':
-            if (graphics.playerz < 1000){
-                graphics.playerz += 5;
-            }
+            graphics.playerz += 5;
+            // if (graphics.playerz < 1000){
+            //     graphics.playerz += 5;
+            // }
         case 's':
             graphics.playerz -= 5;
             // if (graphics.playerz > 0){
