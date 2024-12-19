@@ -17,6 +17,7 @@ class Graphics {
         int playerx;
         int playery;
         int playerz;
+        double near_plane;
 
         double anglex_adj;
         double pi;

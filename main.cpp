@@ -24,6 +24,7 @@ void keyboard(unsigned char key, int x, int y) {
             // if (graphics.playerz < 1000){
             //     graphics.playerz += 5;
             // }
+            break;
         case 's':
             graphics.playerz -= 5;
             // if (graphics.playerz > 0){
@@ -31,13 +32,16 @@ void keyboard(unsigned char key, int x, int y) {
             // }
             break;
         case 'd':
-            if (graphics.playerx < 1920){
-                graphics.playerx += 5;
-            }
+            graphics.playerx += 5;
+            // if (graphics.playerx < 1920){
+            //     graphics.playerx += 5;
+            // }
+            break;
         case 'a':
-            if (graphics.playerx > 0){
-                graphics.playerx -= 5;
-            }
+            graphics.playerx -= 5;
+            // if (graphics.playerx > 0){
+            //     graphics.playerx -= 5;
+            // }
             break;
         case 'r':
             if (graphics.playery > 0){
@@ -123,9 +127,11 @@ int main(int argc, char* argv[]) {
     std::mt19937 gen(rd());
 
     // Define a distribution range (e.g., between 1 and 100)
-    std::uniform_int_distribution<> distribx(0, 1920);
-    std::uniform_int_distribution<> distribz(0, 10000);
-    std::uniform_int_distribution<> distribs(1, 10);
+    // std::uniform_int_distribution<> distribx(-19040, 20960);
+    // std::uniform_int_distribution<> distribz(500, 10000);
+    std::uniform_int_distribution<> distribx(-1040, 1960);
+    std::uniform_int_distribution<> distribz(500, 10000);
+    std::uniform_int_distribution<> distribs(1, 15);
 
     int random_numx = distribx(gen);
     int random_numz = distribz(gen);
