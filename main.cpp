@@ -9,36 +9,38 @@
 #include <random>
 
 #include "Zombie.h"
+#include "Arrow.h"
 #include "Graphics.h"
 
 Graphics graphics;
 int num_zombies;
 std::vector<Zombie> zombie_vector;
+std::vector<Arrow> arrow_vector;
 
 
 // Keyboard input callback
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'w':
-            graphics.playerz += 5;
+            graphics.playerz += 20 * 2;
             // if (graphics.playerz < 1000){
             //     graphics.playerz += 5;
             // }
             break;
         case 's':
-            graphics.playerz -= 5;
+            graphics.playerz -= 20 * 2;
             // if (graphics.playerz > 0){
             //     graphics.playerz -= 5;
             // }
             break;
         case 'd':
-            graphics.playerx += 5;
+            graphics.playerx += 20 * 2;
             // if (graphics.playerx < 1920){
             //     graphics.playerx += 5;
             // }
             break;
         case 'a':
-            graphics.playerx -= 5;
+            graphics.playerx -= 20 * 2;
             // if (graphics.playerx > 0){
             //     graphics.playerx -= 5;
             // }
@@ -64,10 +66,13 @@ void keyboard(unsigned char key, int x, int y) {
             }
             break;
         case 'z':
-            graphics.anglex_adj -= 0.01745329;
+            graphics.anglex_adj -= 0.01745329 * 2;
             break;
         case 'c':
-            graphics.anglex_adj += 0.01745329;
+            graphics.anglex_adj += 0.01745329 * 2;
+            break;
+        case 'x':
+            arrow_vector[0].move(&graphics);
             break;
         case 27: //ESC key
             exit(0);
@@ -88,6 +93,9 @@ void render_all(){
         for (double i = 0; i < num_zombies; i++){
             zombie_vector[i].render_zombie(&graphics);
         }
+
+        graphics.set_color(1.0f, 1.0f, 1.0f);
+        arrow_vector[0].render_arrow(&graphics);
 
         glutPostRedisplay();
         graphics.present_frame();
@@ -151,6 +159,10 @@ int main(int argc, char* argv[]) {
         random_nums = distribs(gen);
         zombie_vector[i].speed = random_nums;
     }
+
+
+
+    arrow_vector.emplace_back(Arrow(&graphics));
     
     // Register the keyboard input callback
     glutKeyboardFunc(keyboard);

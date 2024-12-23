@@ -13,8 +13,8 @@ Graphics::Graphics(){
 
     zscreendiff = 1000;
     playerx = 960;
-    //playery = 1060;
-    playery = 900;
+    playery = 1060;
+    //playery = 900;
     playerz = 0;
     near_plane = 0.01;
 
@@ -136,7 +136,7 @@ std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> cente
 }
 
 
-std::vector<std::vector<double>> Graphics::make_rectangle(std::vector<double> center, double top_length, double side_length, double depth){
+std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, double top_length, double side_length, double depth){
     std::vector<std::vector<double>> rect_points_3D(8, std::vector<double>(3, 0));
 
     rect_points_3D[0][0] = center[0] - top_length / 2;
@@ -388,10 +388,10 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
             floor_points_2D[i][j][0].emplace_back(0);
 
             double anglex1 = atan2(x_diff1, z_diff1);
-            int x1 = (int) (tan(anglex1) * zscreendiff);
+            //int x1 = (int) (tan(anglex1) * zscreendiff);
 
             double angley1 = atan2(y_diff1, z_diff1);
-            int y1 = (int) (tan(angley1) * zscreendiff);
+            //int y1 = (int) (tan(angley1) * zscreendiff);
 
             double anglex1_turn = anglex_adj - anglex1;
 
@@ -401,10 +401,10 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
             floor_points_2D[i][j][1].emplace_back(0);
 
             double anglex2 = atan2(x_diff2, z_diff2);
-            int x2 = (int) (tan(anglex2) * zscreendiff);
+            //int x2 = (int) (tan(anglex2) * zscreendiff);
 
             double angley2 = atan2(y_diff2, z_diff2);
-            int y2 = (int) (tan(angley2) * zscreendiff);
+            //int y2 = (int) (tan(angley2) * zscreendiff);
 
             double anglex2_turn = anglex_adj - anglex2;
 
@@ -504,7 +504,7 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
 
 // }
 
-std::vector<std::vector<int>> Graphics::compute_2D_rectangle(std::vector<std::vector<double>> rect_points_3D){
+std::vector<std::vector<int>> Graphics::compute_2D_box(std::vector<std::vector<double>> rect_points_3D){
 
     std::vector<std::vector<int>> rect_points_2D;
 
@@ -683,7 +683,7 @@ void Graphics::draw_triangles_sphere(std::vector<std::vector<std::vector<std::ve
 }
 
 
-void Graphics::draw_rectangle(std::vector<std::vector<int>> rect_points_2D){
+void Graphics::draw_box(std::vector<std::vector<int>> rect_points_2D){
 
     bool skip = false;
 

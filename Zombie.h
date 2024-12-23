@@ -26,11 +26,11 @@ class Zombie {
         std::vector<std::vector<double>> rect_points_3D_leg2;
 
 
-        Zombie(Graphics* graphics, int given_x, int given_y, int given_z); // Constructor
+        Zombie(Graphics* graphics, int given_x, int given_y, int given_z);
 
         void render_zombie(Graphics* graphics);
 
         void move(int dir);
 };
 
-#endif // zombie_H
+#endif
