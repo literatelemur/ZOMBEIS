@@ -22,25 +22,25 @@ std::vector<Arrow> arrow_vector;
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'w':
-            graphics.playerz += 20 * 2;
+            graphics.playerz += 5;
             // if (graphics.playerz < 1000){
             //     graphics.playerz += 5;
             // }
             break;
         case 's':
-            graphics.playerz -= 20 * 2;
+            graphics.playerz -= 5;
             // if (graphics.playerz > 0){
             //     graphics.playerz -= 5;
             // }
             break;
         case 'd':
-            graphics.playerx += 20 * 2;
+            graphics.playerx += 5;
             // if (graphics.playerx < 1920){
             //     graphics.playerx += 5;
             // }
             break;
         case 'a':
-            graphics.playerx -= 20 * 2;
+            graphics.playerx -= 5;
             // if (graphics.playerx > 0){
             //     graphics.playerx -= 5;
             // }
@@ -80,6 +80,24 @@ void keyboard(unsigned char key, int x, int y) {
 }
 
 
+void mouse_click(int button, int state, int x, int y) {
+    if (state == GLUT_DOWN) {
+        std::cout << "Mouse clicked at: (" << x << ", " << y << ")\n";
+
+        // Check which button was pressed
+        switch (button) {
+            case GLUT_LEFT_BUTTON:
+                arrow_vector.emplace_back(Arrow(&graphics, x, y));
+                break;
+            case GLUT_RIGHT_BUTTON:
+                break;
+            case GLUT_MIDDLE_BUTTON:
+                break;
+        }
+    }
+}
+
+
 void render_all(){
         graphics.clear_draw_screen();
         graphics.set_color(1.0f, 0.0f, 0.0f);
@@ -95,7 +113,10 @@ void render_all(){
         }
 
         graphics.set_color(1.0f, 1.0f, 1.0f);
-        arrow_vector[0].render_arrow(&graphics);
+
+        for (int i = 0; i < arrow_vector.size(); i++){
+            arrow_vector[i].render_arrow(&graphics);
+        }
 
         glutPostRedisplay();
         graphics.present_frame();
@@ -162,10 +183,13 @@ int main(int argc, char* argv[]) {
 
 
 
-    arrow_vector.emplace_back(Arrow(&graphics));
+    //arrow_vector.emplace_back(Arrow(&graphics));
     
     // Register the keyboard input callback
     glutKeyboardFunc(keyboard);
+
+    // Register the mouse callback function
+    glutMouseFunc(mouse_click);
 
     // Register the display function.
     glutDisplayFunc(render_all);

@@ -1,1 +1,1 @@
-g++ -g main.cpp Zombie.cpp Graphics.cpp -Ifreeglut-3.6.0\include -lGL -lGLU -lglut -Isdl2\include -Lsdl2\lib -lSDL2main -lSDL2 -o main.exe
+g++ -g main.cpp Zombie.cpp Arrow.cpp Graphics.cpp -Ifreeglut-3.6.0\include -lGL -lGLU -lglut -Isdl2\include -Lsdl2\lib -lSDL2main -lSDL2 -o main.exe
