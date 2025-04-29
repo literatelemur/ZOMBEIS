@@ -28,7 +28,7 @@ class Zombie {
 
         Zombie(Graphics* graphics, int given_x, int given_y, int given_z);
 
-        void render_zombie(Graphics* graphics);
+        void render(Graphics* graphics);
 
         void move(int dir);
 };

@@ -82,7 +82,7 @@ void keyboard(unsigned char key, int x, int y) {
 
 void mouse_click(int button, int state, int x, int y) {
     if (state == GLUT_DOWN) {
-        std::cout << "Mouse clicked at: (" << x << ", " << y << ")\n";
+        //std::cout << "Mouse clicked at: (" << x << ", " << y << ")\n";
 
         // Check which button was pressed
         switch (button) {
@@ -109,13 +109,14 @@ void render_all(){
         graphics.set_color(0.0f, 0.0f, 1.0f);
 
         for (double i = 0; i < num_zombies; i++){
-            zombie_vector[i].render_zombie(&graphics);
+            zombie_vector[i].render(&graphics);
         }
 
         graphics.set_color(1.0f, 1.0f, 1.0f);
 
         for (int i = 0; i < arrow_vector.size(); i++){
-            arrow_vector[i].render_arrow(&graphics);
+            arrow_vector[i].move(&graphics);
+            arrow_vector[i].render(&graphics);
         }
 
         glutPostRedisplay();
@@ -172,7 +173,7 @@ int main(int argc, char* argv[]) {
         random_numx = distribx(gen);
         random_numz = distribz(gen);
         zombie_vector.emplace_back(Zombie(&graphics, random_numx, 1064, random_numz));
-        zombie_vector[i].render_zombie(&graphics);
+        zombie_vector[i].render(&graphics);
     }
 
     // Randomly setting speed for zombies.

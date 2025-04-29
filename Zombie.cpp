@@ -24,7 +24,7 @@ Zombie::Zombie(Graphics* graphics, int x, int y, int z){
 }
 
 
-void Zombie::render_zombie(Graphics* graphics){
+void Zombie::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<double>>>> sphere_triangle_points_3D_head = graphics->find_triangle_points_sphere(sphere_points_3D_head);
     std::vector<std::vector<std::vector<std::vector<int>>>> sphere_triangle_points_2D_head = graphics->compute_2D_triangles(sphere_triangle_points_3D_head);
