@@ -692,6 +692,52 @@ void Graphics::draw_box(std::vector<std::vector<int>> rect_points_2D){
     }
 
     if (!skip){
+
+        set_color(0.0f, 0.0f, 0.0f);
+        glBegin(GL_POLYGON);
+            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
+            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
+            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
+            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
+        glEnd();
+
+        glBegin(GL_POLYGON);
+            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
+            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
+            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
+            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
+        glEnd();
+
+        glBegin(GL_POLYGON);
+            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
+            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
+            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
+            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
+        glEnd();
+
+        glBegin(GL_POLYGON);
+            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
+            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
+            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
+            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
+        glEnd();
+
+        glBegin(GL_POLYGON);
+            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
+            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
+            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
+            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
+        glEnd();
+
+        glBegin(GL_POLYGON);
+            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
+            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
+            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
+            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
+        glEnd();
+
+
+        set_color(0.0f, 0.0f, 1.0f);
         glBegin(GL_LINE_LOOP);
             glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
             glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
