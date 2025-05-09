@@ -17,6 +17,9 @@ class Zombie {
     public:
 
         int speed;
+        int leg_angle;
+        int leg_length;
+        double pi;
 
         std::vector<std::vector<double>> sphere_points_3D_head;
         std::vector<std::vector<double>> rect_points_3D_body;
@@ -25,12 +28,15 @@ class Zombie {
         std::vector<std::vector<double>> rect_points_3D_leg1;
         std::vector<std::vector<double>> rect_points_3D_leg2;
 
+        std::vector<std::vector<double>> orig_points_3D_leg1;
+
 
         Zombie(Graphics* graphics, int given_x, int given_y, int given_z);
 
         void render(Graphics* graphics);
 
         void move(int dir);
+
 };
 
 #endif

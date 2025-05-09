@@ -46,7 +46,9 @@ class Graphics {
 
         void draw_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
 
-        void draw_box(std::vector<std::vector<int>> rect_points);
+        void draw_full_box(std::vector<std::vector<int>> rect_points);
+
+        void draw_hollow_box(std::vector<std::vector<int>> rect_points);
 
         void set_color(int r, int g, int b);
 

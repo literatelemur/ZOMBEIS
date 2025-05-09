@@ -39,7 +39,8 @@ void Arrow::render(Graphics* graphics){
     
     rect_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
     std::vector<std::vector<int>> rect_points_2D_body = graphics->compute_2D_box(rect_points_3D_body);
-    graphics->draw_box(rect_points_2D_body);
+    graphics->set_color(1, 1, 1);
+    graphics->draw_hollow_box(rect_points_2D_body);
 
 }
 

@@ -317,50 +317,6 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
 }
 
 
-// std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D){
-
-//     std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D;
-
-//     // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-//     for (int i = 0; i < floor_points_3D.size(); i++){
-//         floor_points_2D.emplace_back();
-
-//         for (int j = 0; j < floor_points_3D[i].size(); j++){
-//             floor_points_2D[i].emplace_back();
-
-//             for (int k = 0; k < 2; k++){
-//                 floor_points_2D[i][j].emplace_back();
-//                 floor_points_2D[i][j][k].emplace_back(0);
-//                 floor_points_2D[i][j][k].emplace_back(0);
-
-//                 double anglex = atan2(floor_points_3D[i][j][k][0] - playerx, floor_points_3D[i][j][k][2] - playerz) + anglex_adj;
-//                 int x = (int) (tan(anglex) * zscreendiff);
-
-//                 double angley = atan2(floor_points_3D[i][j][k][1] - playery, floor_points_3D[i][j][k][2] - playerz);
-//                 int y = (int) (tan(angley) * zscreendiff);
-
-//                 floor_points_2D[i][j][k][0] = (int) (x + 960);
-//                 floor_points_2D[i][j][k][1] = (int) (y + 540);
-//             }
-//         }
-//     }
-
-//     return floor_points_2D;
-
-// }
-
-
-
-                // double anglex2 = anglex_adj + anglex;
-                // double hyp = sqrt((floor_points_3D[i][j][k][0] - playerx) * (floor_points_3D[i][j][k][0] - playerx) + (floor_points_3D[i][j][k][2] - playerz) * (floor_points_3D[i][j][k][2] - playerz));
-                // double leg1 = sin(anglex2) * hyp;
-                // double leg2 = cos(anglex2) * hyp;
-                // double short_leg2 = zscreendiff;
-                // double short_leg1 = (short_leg2 / leg2) * leg1;
-                // int x2 = (int) short_leg1;
-
-
-
 std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D){
 
     std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D;
@@ -476,34 +432,6 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
 }
 
 
-// std::vector<std::vector<int>> Graphics::compute_2D_rectangle(std::vector<std::vector<double>> rect_points_3D){
-
-//     std::vector<std::vector<int>> rect_points_2D;
-
-//     // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-//     for (int i = 0; i < rect_points_3D.size(); i++){
-//         rect_points_2D.emplace_back();
-
-//         rect_points_2D[i].emplace_back(0);
-//         rect_points_2D[i].emplace_back(0);
-
-//         double anglex = atan2(rect_points_3D[i][0] - playerx, rect_points_3D[i][2] - playerz);
-//         int x = (int) (tan(anglex) * zscreendiff);
-
-//         double angley = atan2(rect_points_3D[i][1] - playery, rect_points_3D[i][2] - playerz);
-//         int y = (int) (tan(angley) * zscreendiff);
-
-//         // double anglex2 = anglex_adj - anglex;
-//         // double x2 = (sin(anglex2) * zscreendiff);
-
-//         rect_points_2D[i][0] = (int) (960 + x);
-//         rect_points_2D[i][1] = (int) (540 + y);
-//     }
-
-//     return rect_points_2D;
-
-// }
-
 std::vector<std::vector<int>> Graphics::compute_2D_box(std::vector<std::vector<double>> rect_points_3D){
 
     std::vector<std::vector<int>> rect_points_2D;
@@ -543,36 +471,6 @@ std::vector<std::vector<int>> Graphics::compute_2D_box(std::vector<std::vector<d
 
 }
 
-
-// std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_triangles(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points_3D){
-//     std::vector<std::vector<std::vector<std::vector<int>>>> object_2D(
-//         triangle_points_3D.size(), std::vector<std::vector<std::vector<int>>>(
-//                 triangle_points_3D[0].size(), std::vector<std::vector<int>>(
-//                             3, std::vector<int>(2, 0))));
-
-//     // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-//     for (int i = 0; i < triangle_points_3D.size(); i++){
-//         for (int j = 0; j < triangle_points_3D[0].size(); j++){
-//             for (int k = 0; k < 3; k++){
-
-//                 double anglex = atan2(triangle_points_3D[i][j][k][0] - playerx, triangle_points_3D[i][j][k][2] - playerz);
-//                 int x = (int) (tan(anglex) * zscreendiff);
-
-//                 double angley = atan2(triangle_points_3D[i][j][k][1] - playery, triangle_points_3D[i][j][k][2] - playerz);
-//                 int y = (int) (tan(angley) * zscreendiff);
-
-//                 // double anglex2 = anglex_adj - anglex;
-//                 // double x2 = (sin(anglex2) * zscreendiff);
-
-//                 object_2D[i][j][k][0] = (int) (960 + x);
-//                 object_2D[i][j][k][1] = (int) (540 + y);
-//             }
-//         }
-//     }
-
-//     return object_2D;
-
-// }
 
 std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_triangles(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points_3D){
     std::vector<std::vector<std::vector<std::vector<int>>>> object_2D(
@@ -683,7 +581,7 @@ void Graphics::draw_triangles_sphere(std::vector<std::vector<std::vector<std::ve
 }
 
 
-void Graphics::draw_box(std::vector<std::vector<int>> rect_points_2D){
+void Graphics::draw_full_box(std::vector<std::vector<int>> rect_points_2D){
 
     bool skip = false;
 
@@ -693,7 +591,6 @@ void Graphics::draw_box(std::vector<std::vector<int>> rect_points_2D){
 
     if (!skip){
 
-        set_color(0.0f, 0.0f, 0.0f);
         glBegin(GL_POLYGON);
             glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
             glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
@@ -735,9 +632,21 @@ void Graphics::draw_box(std::vector<std::vector<int>> rect_points_2D){
             glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
             glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
         glEnd();
+    }
+
+}
 
 
-        set_color(0.0f, 0.0f, 1.0f);
+void Graphics::draw_hollow_box(std::vector<std::vector<int>> rect_points_2D){
+
+    bool skip = false;
+
+    for (int i = 0; i < rect_points_2D.size(); i++){
+        if (rect_points_2D[i][0] == -10000 && rect_points_2D[i][1] == -10000) skip = true;
+    }
+
+    if (!skip){
+
         glBegin(GL_LINE_LOOP);
             glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
             glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);

@@ -58,11 +58,13 @@ void keyboard(unsigned char key, int x, int y) {
         case 'e':
             for (int i = 0; i < num_zombies; i++){
                 zombie_vector[i].move(1);
+                zombie_vector[i].render(&graphics);
             }
             break;
         case 'q':
             for (int j = 0; j < num_zombies; j++){
                 zombie_vector[j].move(-1);
+                zombie_vector[j].render(&graphics);
             }
             break;
         case 'z':
@@ -74,6 +76,21 @@ void keyboard(unsigned char key, int x, int y) {
         case 'x':
             arrow_vector[0].move(&graphics);
             break;
+
+        case '/':
+            
+            std::cout << "-----------------\n";
+
+            for (int i = 0; i < zombie_vector[0].rect_points_3D_leg1.size(); i++){
+
+                for (int j = 0; j < zombie_vector[0].rect_points_3D_leg1[0].size(); j++){
+                    std::cout << i << " " << zombie_vector[0].rect_points_3D_leg1[i][j];
+                    std::cout << "\n";
+                }
+                std::cout << "---\n";
+            }
+            break;
+
         case 27: //ESC key
             exit(0);
     }
@@ -199,3 +216,16 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
+
+
+//FIXX:
+// -distance-based render of objects so far away objects not in front of close ones
+// -zombei walking animations
+// -fix turning
+// -make horizon physical line at end of grid
+// -make arrows tilt?
+// -make bow
+// -make arrows more detailed visually
+// -make world spherical
+// -make full screen clicking work
