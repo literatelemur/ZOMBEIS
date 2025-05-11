@@ -8,6 +8,7 @@
 
 #include <random>
 
+#include "main.h"
 #include "Zombie.h"
 #include "Arrow.h"
 #include "Graphics.h"
@@ -17,6 +18,10 @@ int num_zombies;
 std::vector<Zombie> zombie_vector;
 std::vector<Arrow> arrow_vector;
 
+int window_width = 1920;
+int window_height = 1080;
+
+const float aspect_ratio = 16.0f / 9.0f; // Desired aspect ratio
 
 // Keyboard input callback
 void keyboard(unsigned char key, int x, int y) {
@@ -115,6 +120,67 @@ void mouse_click(int button, int state, int x, int y) {
 }
 
 
+void reshapen_window_recal(int before_width, int before_height){
+    window_width = glutGet(GLUT_WINDOW_WIDTH);
+    window_height = glutGet(GLUT_WINDOW_HEIGHT);
+
+
+
+
+    glViewport(0, 0, window_width, window_height);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, window_width, window_height, 0); // Map OpenGL coordinates to screen pixels
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+
+
+
+    // window_width = before_width;
+    // window_height = before_height;
+
+
+
+    // const float logical_width = 1920.0f;
+    // const float logical_height = 1080.0f;
+    // const float aspect_ratio = logical_width / logical_height;
+    // float window_aspect = (float)window_width / (float)window_height;
+
+    // // vp is for viewport
+    // int vp_width, vp_height;
+    // int vp_x = 0, vp_y = 0;
+
+    // if (window_aspect > aspect_ratio) {
+    //     // Window is wider than logical aspect — pillarbox /gpt
+    //     vp_height = window_height;
+    //     vp_width = (int)(window_height * aspect_ratio);
+    //     vp_x = (window_width - vp_width) / 2;
+    // } else {
+    //     // Window is taller than logical aspect — letterbox /gpt
+    //     vp_width = window_width;
+    //     vp_height = (int)(window_width / aspect_ratio);
+    //     vp_y = (window_height - vp_height) / 2;
+    // }
+
+    // // Centered viewport with fixed aspect ratio
+    // glViewport(vp_x, vp_y, vp_width, vp_height);
+
+    // // Fixed logical projection
+    // glMatrixMode(GL_PROJECTION);
+    // glLoadIdentity();
+    // gluOrtho2D(0.0, logical_width, logical_height, 0.0);
+
+    // glMatrixMode(GL_MODELVIEW);
+    // glLoadIdentity();
+
+
+
+}
+
+
 void render_all(){
         graphics.clear_draw_screen();
         graphics.set_color(1.0f, 0.0f, 0.0f);
@@ -124,6 +190,38 @@ void render_all(){
         graphics.draw_floor_lines(floor_points_2D);
 
         graphics.set_color(0.0f, 0.0f, 1.0f);
+
+        int zombie_to_remove = -1;
+        int arrow_to_remove = -1;
+    
+
+        // Check for collision for all arrows hitting all zombeis
+        for (int i = 0; i < arrow_vector.size(); i++){
+
+            for (double j = 0; j < num_zombies; j++){
+                if (zombie_vector[j].rect_points_3D_body[0][0] <= arrow_vector[i].x &&
+                        zombie_vector[j].rect_points_3D_body[1][0] >= arrow_vector[i].x &&
+                        zombie_vector[j].rect_points_3D_body[0][1] <= arrow_vector[i].y &&
+                        zombie_vector[j].rect_points_3D_body[2][1] >= arrow_vector[i].y &&
+                        zombie_vector[j].rect_points_3D_body[0][2] >= arrow_vector[i].z &&
+                        zombie_vector[j].rect_points_3D_body[4][2] <= arrow_vector[i].z){
+
+                    zombie_to_remove = j;
+                    arrow_to_remove = i;
+                    break;
+                }
+            }
+
+            if (zombie_to_remove != -1){
+                
+                zombie_vector.erase(zombie_vector.begin() + zombie_to_remove);
+                arrow_vector.erase(arrow_vector.begin() + arrow_to_remove);
+                num_zombies--;
+                zombie_to_remove = -1;
+                arrow_to_remove = -1;
+            }   
+
+        }
 
         for (double i = 0; i < num_zombies; i++){
             zombie_vector[i].render(&graphics);
@@ -149,17 +247,15 @@ int main(int argc, char* argv[]) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     
-    // int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
-    // int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
-    int windowWidth = 1920;
-    int windowHeight = 1080;
-    glutInitWindowSize(windowWidth, windowHeight);
+    glutInitWindowSize(window_width, window_height);
     glutCreateWindow("ZOMBEIS");
+
+    //glutReshapeFunc(reshapen_window_recal);
 
     // Set up orthographic projection
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(0, windowWidth, windowHeight, 0); // Map OpenGL coordinates to screen pixels
+    gluOrtho2D(0, window_width, window_height, 0); // Map OpenGL coordinates to screen pixels
 
     // Main loop flag
     bool isRunning = true;
@@ -176,15 +272,22 @@ int main(int argc, char* argv[]) {
     // Define a distribution range (e.g., between 1 and 100)
     // std::uniform_int_distribution<> distribx(-19040, 20960);
     // std::uniform_int_distribution<> distribz(500, 10000);
-    std::uniform_int_distribution<> distribx(-1040, 1960);
-    std::uniform_int_distribution<> distribz(500, 10000);
+
+    // std::uniform_int_distribution<> distribx(-1040, 1960);
+    // std::uniform_int_distribution<> distribz(500, 10000);
+    // std::uniform_int_distribution<> distribs(1, 15);
+
+    std::uniform_int_distribution<> distribx(460, 1460);
+    //std::uniform_int_distribution<> distribz(500, 10000);
+    std::uniform_int_distribution<> distribz(500, 5000);
     std::uniform_int_distribution<> distribs(1, 15);
 
     int random_numx = distribx(gen);
     int random_numz = distribz(gen);
     int random_nums = distribs(gen);
 
-    num_zombies = 100;
+    //num_zombies = 100;
+    num_zombies = 50;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
@@ -221,11 +324,12 @@ int main(int argc, char* argv[]) {
 
 //FIXX:
 // -distance-based render of objects so far away objects not in front of close ones
-// -zombei walking animations
 // -fix turning
 // -make horizon physical line at end of grid
 // -make arrows tilt?
 // -make bow
 // -make arrows more detailed visually
 // -make world spherical
-// -make full screen clicking work
+
+// -refine zombei leg movement animation
+// -fix hollow portions of zombei heads

@@ -7,13 +7,15 @@
 
 #include "Zombie.h"
 #include "Graphics.h"
+#include "main.h"
 
 
 Zombie::Zombie(Graphics* graphics, int x, int y, int z){
 
-    speed = 1;
-    leg_angle = 0;
-    double pi = 3.14159265358979323846;
+    speed = 10;
+    leg_angle1 = 0;
+    leg_inner_dir = 1;
+    pi = 3.14159265358979323846;
 
     sphere_points_3D_head = graphics->make_sphere({(double)x, (double)y - 20, (double)z}, 5, 12);
     rect_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 10, 20, 5);
@@ -26,25 +28,19 @@ Zombie::Zombie(Graphics* graphics, int x, int y, int z){
 
     
     leg_length = rect_points_3D_leg1[2][1] - rect_points_3D_leg1[0][1];
-
-
-    orig_points_3D_leg1 = std::vector<std::vector<double>>(8, std::vector<double>(3, 0.0));
-    for (int i = 2; i < 4; i++){
-        for (int j = 0; j < 3; j++){
-            orig_points_3D_leg1[i][j] = rect_points_3D_leg1[i][j];
-        }
-    }
-            
+    leg_depth = rect_points_3D_leg1[0][2] - rect_points_3D_leg1[4][2];
 
 }
 
 
 void Zombie::render(Graphics* graphics){
 
-    graphics->set_color(0, 0, 1);
     std::vector<std::vector<std::vector<std::vector<double>>>> sphere_triangle_points_3D_head = graphics->find_triangle_points_sphere(sphere_points_3D_head);
     std::vector<std::vector<std::vector<std::vector<int>>>> sphere_triangle_points_2D_head = graphics->compute_2D_triangles(sphere_triangle_points_3D_head);
-    graphics->draw_triangles_sphere(sphere_triangle_points_2D_head);
+    graphics->set_color(0, 0, 0);
+    graphics->draw_full_triangles_sphere(sphere_triangle_points_2D_head);
+    graphics->set_color(0, 0, 1);
+    graphics->draw_hollow_triangles_sphere(sphere_triangle_points_2D_head);
 
     std::vector<std::vector<int>> rect_points_2D_body = graphics->compute_2D_box(rect_points_3D_body);
     graphics->set_color(0, 0, 0);
@@ -80,7 +76,7 @@ void Zombie::render(Graphics* graphics){
 
 void Zombie::move(int dir){
 
-    // Moving all zombei points towards player (negative z direction)
+    // Moving all zombei points towards player (negative z direction).
 
     for (int i = 0; i < sphere_points_3D_head.size(); i++){
         sphere_points_3D_head[i][2] -= speed * dir;
@@ -96,73 +92,112 @@ void Zombie::move(int dir){
 
 
 
-    // if (dir == 1) leg_angle += 1;
-    // else leg_angle -= 1;
-
-    // double other_angle = (180 - leg_angle) / 2.0;
-
-    // double leg_angle_rad = leg_angle * (pi / 180.0);
-    // double other_angle_rad = other_angle * (pi / 180.0);
-
-
-
-    // double leg_tri_opp_side;
-
-    // // avoid divide by zero
-    // // if (std::abs(sin(other_angle_rad)) < 1e-6) {
-    // //     leg_tri_opp_side = 0;
-    // // } else {
-    // //     leg_tri_opp_side = sin(leg_angle_rad) * leg_length / sin(other_angle_rad);
-    // // }
-
-
-    // leg_tri_opp_side = sin(leg_angle_rad) * leg_length / sin(other_angle_rad);
-
-
-    // double other_tri_angle = 90 - other_angle;
-    // double other_tri_angle_rad = other_tri_angle * (pi / 180.0);
-
-    // double y_diff = sin(other_tri_angle_rad) * leg_tri_opp_side;
-    // double z_diff = cos(other_tri_angle_rad) * leg_tri_opp_side;
-
-    // rect_points_3D_leg1[6][1] = orig_points_3D_leg1[6][1] - y_diff;
-    // rect_points_3D_leg1[6][2] = orig_points_3D_leg1[6][2] - z_diff;
     
-    // rect_points_3D_leg1[7][1] = orig_points_3D_leg1[7][1] - y_diff;
-    // rect_points_3D_leg1[7][2] = orig_points_3D_leg1[7][2] - z_diff;
+    if (leg_angle1 > 89) leg_inner_dir = 0;
+    else if (leg_angle1 < -89) leg_inner_dir = 1;
 
 
+    if (leg_inner_dir == 1) {
+            leg_angle1 += 20;
+            leg_angle2 -= 20;
+    } else {
+            leg_angle1 -= 20;
+            leg_angle2 += 20;
+    }
 
 
-    // rect_points_3D_leg1[6][1] = rect_points_3D_leg1[6][1] - 0;
-    // rect_points_3D_leg1[6][2] = rect_points_3D_leg1[6][2] - 0;
+    // Turning the first leg.
+
+    double leg_angle1_rad = leg_angle1 * (pi / 180.0);
+
+    double z_diff = sin(leg_angle1_rad) * leg_length;
+    double y_diff = cos(leg_angle1_rad) * leg_length;
+
+    rect_points_3D_leg1[6][1] = rect_points_3D_leg1[4][1] + y_diff;
+    rect_points_3D_leg1[6][2] = rect_points_3D_leg1[4][2] - z_diff;
     
-    // rect_points_3D_leg1[7][1] = rect_points_3D_leg1[7][1] - 0;
-    // rect_points_3D_leg1[7][2] = rect_points_3D_leg1[7][2] - 0;
+    rect_points_3D_leg1[7][1] = rect_points_3D_leg1[5][1] + y_diff;
+    rect_points_3D_leg1[7][2] = rect_points_3D_leg1[5][2] - z_diff;
+
+
+    
+    double same_tri_other_angle = 90 - leg_angle1;
+    double tri2_angle = 90 - same_tri_other_angle;
+
+    double tri2_angle_rad = tri2_angle * (pi / 180.0);
+
+    double z2_diff = cos(tri2_angle_rad) * leg_depth;
+    double y2_diff = sin(tri2_angle_rad) * leg_depth;
+
+    rect_points_3D_leg1[2][1] = rect_points_3D_leg1[6][1] + y2_diff;
+    rect_points_3D_leg1[2][2] = rect_points_3D_leg1[6][2] + z2_diff;
+    
+    rect_points_3D_leg1[3][1] = rect_points_3D_leg1[7][1] + y2_diff;
+    rect_points_3D_leg1[3][2] = rect_points_3D_leg1[7][2] + z2_diff;
 
 
 
-    // std::cout << "--------\n";
-    // std::cout << leg_tri_opp_side;
-    // std::cout << "\n";
-    // std::cout << y_diff;
-    // std::cout << "\n"; 
-    // std::cout << z_diff;
-    // std::cout << "\n";
+    double same_tri2_other_angle = 180 - (tri2_angle + 90);
+    double tri3_angle = 90 - same_tri2_other_angle;
 
-    // std::cout << "----------\n";
-    // std::cout << leg_angle;
-    // std::cout << "\n";
+    double tri3_angle_rad = tri3_angle * (pi / 180.0);
 
-    // std::cout << y_diff;
-    // std::cout << "\n";
+    double z3_diff = sin(tri3_angle_rad) * leg_length;
+    double y3_diff = cos(tri3_angle_rad) * leg_length;
 
-    // std::cout << z_diff;
-    // std::cout << "\n";
+    rect_points_3D_leg1[0][1] = rect_points_3D_leg1[2][1] - y3_diff;
+    rect_points_3D_leg1[0][2] = rect_points_3D_leg1[2][2] + z3_diff;
+    
+    rect_points_3D_leg1[1][1] = rect_points_3D_leg1[3][1] - y3_diff;
+    rect_points_3D_leg1[1][2] = rect_points_3D_leg1[3][2] + z3_diff;
 
-    // for (int i = 0; i < rect_points_3D_leg1.size(); i++){
-        
-    // }
 
+
+
+
+    // Turning the second leg.
+
+    double leg_angle2_rad = leg_angle2 * (pi / 180.0);
+
+    z_diff = sin(leg_angle2_rad) * leg_length;
+    y_diff = cos(leg_angle2_rad) * leg_length;
+
+    rect_points_3D_leg2[6][1] = rect_points_3D_leg2[4][1] + y_diff;
+    rect_points_3D_leg2[6][2] = rect_points_3D_leg2[4][2] - z_diff;
+    
+    rect_points_3D_leg2[7][1] = rect_points_3D_leg2[5][1] + y_diff;
+    rect_points_3D_leg2[7][2] = rect_points_3D_leg2[5][2] - z_diff;
+
+
+    
+    same_tri_other_angle = 90 - leg_angle2;
+    tri2_angle = 90 - same_tri_other_angle;
+
+    tri2_angle_rad = tri2_angle * (pi / 180.0);
+
+    z2_diff = cos(tri2_angle_rad) * leg_depth;
+    y2_diff = sin(tri2_angle_rad) * leg_depth;
+
+    rect_points_3D_leg2[2][1] = rect_points_3D_leg2[6][1] + y2_diff;
+    rect_points_3D_leg2[2][2] = rect_points_3D_leg2[6][2] + z2_diff;
+    
+    rect_points_3D_leg2[3][1] = rect_points_3D_leg2[7][1] + y2_diff;
+    rect_points_3D_leg2[3][2] = rect_points_3D_leg2[7][2] + z2_diff;
+
+
+
+    same_tri2_other_angle = 180 - (tri2_angle + 90);
+    tri3_angle = 90 - same_tri2_other_angle;
+
+    tri3_angle_rad = tri3_angle * (pi / 180.0);
+
+    z3_diff = sin(tri3_angle_rad) * leg_length;
+    y3_diff = cos(tri3_angle_rad) * leg_length;
+
+    rect_points_3D_leg2[0][1] = rect_points_3D_leg2[2][1] - y3_diff;
+    rect_points_3D_leg2[0][2] = rect_points_3D_leg2[2][2] + z3_diff;
+    
+    rect_points_3D_leg2[1][1] = rect_points_3D_leg2[3][1] - y3_diff;
+    rect_points_3D_leg2[1][2] = rect_points_3D_leg2[3][2] + z3_diff;
     
 }

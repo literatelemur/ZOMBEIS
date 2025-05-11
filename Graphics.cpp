@@ -15,7 +15,7 @@ Graphics::Graphics(){
     playerx = 960;
     playery = 1060;
     //playery = 900;
-    playerz = 0;
+    playerz = 1000;
     near_plane = 0.01;
 
     anglex_adj = 0;
@@ -547,7 +547,32 @@ void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<
 }
 
 
-void Graphics::draw_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points_2D){
+void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points_2D){
+
+    for (int i = 0; i < triangle_points_2D.size(); i++){
+
+        bool skip = false;
+        for (int j = 0; j < triangle_points_2D[0].size(); j++){
+            for (int k = 0; k < triangle_points_2D[0][0].size(); k++){
+                if (triangle_points_2D[i][j][k][0] == -10000 && triangle_points_2D[i][j][k][1] == -10000 ) skip = true;
+            }
+        }
+
+        if (!skip){
+
+            for (int j = 0; j < triangle_points_2D[0].size(); j++){
+                glBegin(GL_POLYGON);
+                    glVertex2i(triangle_points_2D[i][j][0][0], triangle_points_2D[i][j][0][1]);
+                    glVertex2i(triangle_points_2D[i][j][1][0], triangle_points_2D[i][j][1][1]);
+                    glVertex2i(triangle_points_2D[i][j][2][0], triangle_points_2D[i][j][2][1]);
+                glEnd();
+            }
+        }
+    }
+}
+
+
+void Graphics::draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points_2D){
 
     for (int i = 0; i < triangle_points_2D.size(); i++){
 

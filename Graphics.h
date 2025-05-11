@@ -44,7 +44,9 @@ class Graphics {
 
         void draw_floor_lines(std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D);
 
-        void draw_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
+        void draw_full_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
+
+        void draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points);
 
         void draw_full_box(std::vector<std::vector<int>> rect_points);
 

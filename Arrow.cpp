@@ -7,6 +7,9 @@
 
 #include "Arrow.h"
 #include "Graphics.h"
+#include "main.h"
+
+#include <GL/glut.h>
 
 Arrow::Arrow(Graphics* graphics, int click_x, int click_y){
 
@@ -15,14 +18,16 @@ Arrow::Arrow(Graphics* graphics, int click_x, int click_y){
     origin_y = graphics->playery;
     origin_z = graphics->playerz;
 
-    x = graphics->playerz;
-    y = graphics->playerz;
     z = graphics->playerz;
 
     depth = 5;
 
-    double x_diff_screen = click_x - 960;
-    double y_diff_screen = click_y - 540;
+
+    double x_diff_screen = click_x - glutGet(GLUT_WINDOW_WIDTH) / 2;
+    double y_diff_screen = click_y - glutGet(GLUT_WINDOW_HEIGHT) / 2;
+
+    x_diff_screen = click_x / double(glutGet(GLUT_WINDOW_WIDTH)) * 1920.0 - 1920 / 2;
+    y_diff_screen = click_y / double(glutGet(GLUT_WINDOW_HEIGHT)) * 1080.0 - 1080 / 2;
 
     anglex = atan2(x_diff_screen, graphics->zscreendiff);
     angley = atan2(y_diff_screen, graphics->zscreendiff);
@@ -30,7 +35,7 @@ Arrow::Arrow(Graphics* graphics, int click_x, int click_y){
     double x_diff_3D = tan(anglex) * (z - origin_z);
     double y_diff_3D = tan(angley) * (z - origin_z);
 
-    rect_points_3D_body = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)z}, 10, 10, depth);
+    rect_points_3D_body = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)z}, 1, 1, depth);
 
 }
 
@@ -47,7 +52,7 @@ void Arrow::render(Graphics* graphics){
 
 void Arrow::move(Graphics* graphics){
 
-    z++;
+    z+=1;
 
     double x_diff_origin_3D = tan(anglex) * (z - origin_z);
     double y_diff_origin_3D = tan(angley) * (z - origin_z);
