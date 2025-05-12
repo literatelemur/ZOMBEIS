@@ -15,6 +15,8 @@ Zombie::Zombie(Graphics* graphics, int x, int y, int z){
     speed = 10;
     leg_angle1 = 0;
     leg_inner_dir = 1;
+    arm_phase = 1;
+    arm_dir = "down";
     pi = 3.14159265358979323846;
 
     sphere_points_3D_head = graphics->make_sphere({(double)x, (double)y - 20, (double)z}, 5, 12);
@@ -199,5 +201,50 @@ void Zombie::move(int dir){
     
     rect_points_3D_leg2[1][1] = rect_points_3D_leg2[3][1] - y3_diff;
     rect_points_3D_leg2[1][2] = rect_points_3D_leg2[3][2] + z3_diff;
+
+
+
+
+    if (arm_phase % 2 == 0){
+        if (arm_dir == "down"){
+            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
+                rect_points_3D_arm1[i][1]++;
+                rect_points_3D_arm2[i][1]++;
+            }
+        }else if (arm_dir == "left"){
+            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
+                rect_points_3D_arm1[i][0]--;
+                rect_points_3D_arm2[i][0]--;
+            }
+        }else if (arm_dir == "right"){
+            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
+                rect_points_3D_arm1[i][0]++;
+                rect_points_3D_arm2[i][0]++;
+            }
+        }else if (arm_dir == "up"){
+            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
+                rect_points_3D_arm1[i][1]--;
+                rect_points_3D_arm2[i][1]--;
+            }
+        }
+    }
+
+
+    if (arm_phase > 0 && arm_phase < 4){
+        arm_phase++;
+
+    }else if (arm_phase == 4){
+        arm_phase = 1;
+        if (arm_dir == "down"){arm_dir = "up";}
+        else if (arm_dir == "left"){arm_dir = "right";}
+        else if (arm_dir == "right"){arm_dir = "left";}
+        else if (arm_dir == "up"){arm_dir = "down";}
+    }
+
+    // }else if (arm_phase < 0 && arm_phase > -3){
+    //     arm_phase--;
+    // }else if (arm_phase == -3){
+    //     arm_phase = 0;
+        
     
 }
