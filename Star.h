@@ -20,9 +20,9 @@ class Star {
         int origin_x;
         int origin_y;
         int origin_z;
-        int x;
-        int y;
-        int z;
+        double x;
+        double y;
+        double z;
         double anglex;
         double angley;
         int depth;
@@ -34,7 +34,7 @@ class Star {
 
         std::vector<std::vector<double>> rect_points_3D_body;
 
-        Star(Graphics* graphics, int x, int y, int z, int upper_bound, int lower_bound);
+        Star(Graphics* graphics, double x, double y, double z, int lower_bound, int upper_bound);
 
         void render(Graphics* graphics);
 

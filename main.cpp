@@ -190,7 +190,7 @@ void render_all(){
             star_vector[i].move(&graphics);
             star_vector[i].render(&graphics);
         }
-        
+
         graphics.set_color(1.0f, 0.0f, 0.0f);
         graphics.draw_horizon();
 
@@ -320,7 +320,7 @@ int main(int argc, char* argv[]) {
     for (int i = -10040; i < 10460; i += 500){
         for (int k = 1000; k < 50000; k += 500){
             random_numy = distriby(gen);
-            star_vector.emplace_back(Star(&graphics, i, random_numy, k, -1000, -2000));
+            star_vector.emplace_back(Star(&graphics, (double)i, (double)random_numy, (double)k, -2000, -1000));
         }
     }
 

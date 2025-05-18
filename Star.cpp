@@ -11,7 +11,7 @@
 
 #include <GL/glut.h>
 
-Star::Star(Graphics* graphics, int given_x, int given_y, int given_z, int given_upper_bound, int given_lower_bound){
+Star::Star(Graphics* graphics, double given_x, double given_y, double given_z, int given_lower_bound, int given_upper_bound){
 
     count = 0;
     depth = 5;
