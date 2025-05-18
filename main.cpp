@@ -12,11 +12,13 @@
 #include "Zombie.h"
 #include "Arrow.h"
 #include "Graphics.h"
+#include "Star.h"
 
 Graphics graphics;
 int num_zombies;
 std::vector<Zombie> zombie_vector;
 std::vector<Arrow> arrow_vector;
+std::vector<Star> star_vector;
 
 int window_width = 1920;
 int window_height = 1080;
@@ -183,6 +185,12 @@ void reshapen_window_recal(int before_width, int before_height){
 
 void render_all(){
         graphics.clear_draw_screen();
+
+        for (int i = 0; i < star_vector.size(); i++){
+            star_vector[i].move(&graphics);
+            star_vector[i].render(&graphics);
+        }
+        
         graphics.set_color(1.0f, 0.0f, 0.0f);
         graphics.draw_horizon();
 
@@ -233,6 +241,7 @@ void render_all(){
             arrow_vector[i].move(&graphics);
             arrow_vector[i].render(&graphics);
         }
+
 
         glutPostRedisplay();
         graphics.present_frame();
@@ -302,6 +311,20 @@ int main(int argc, char* argv[]) {
         zombie_vector[i].speed = random_nums;
     }
 
+
+
+    // Making stars
+    std::uniform_int_distribution<> distriby(-1800, -1100);
+    int random_numy = distriby(gen);
+
+    for (int i = -10040; i < 10460; i += 500){
+        for (int k = 1000; k < 50000; k += 500){
+            random_numy = distriby(gen);
+            star_vector.emplace_back(Star(&graphics, i, random_numy, k, -1000, -2000));
+        }
+    }
+
+    //star_vector.emplace_back(Star(&graphics, 960, 1060, 1010)); 
 
 
     //arrow_vector.emplace_back(Arrow(&graphics));
