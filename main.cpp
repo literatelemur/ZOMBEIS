@@ -25,8 +25,79 @@ int window_height = 1080;
 
 const float aspect_ratio = 16.0f / 9.0f; // Desired aspect ratio
 
+bool key_states[256] = { false };
+
+
+
+void keyDown(unsigned char key, int idk1, int idk2) {
+    key_states[key] = true;
+}
+
+
+void keyUp(unsigned char key, int idk1, int idk2){
+    key_states[key] = false;
+}
+
+
+// Keyboard press check
+void key_press_check() {
+    if(key_states['w']){
+        graphics.playerz += 5;
+        // if (graphics.playerz < 1000){
+        //     graphics.playerz += 5;
+        // }
+    }if(key_states['s']){
+        graphics.playerz -= 5;
+        // if (graphics.playerz > 0){
+        //     graphics.playerz -= 5;
+        // }
+    }if(key_states['d']){
+        graphics.playerx += 5;
+        // if (graphics.playerx < 1920){
+        //     graphics.playerx += 5;
+        // }
+    }if(key_states['a']){
+        graphics.playerx -= 5;
+        // if (graphics.playerx > 0){
+        //     graphics.playerx -= 5;
+        // }
+    }if(key_states['r']){
+        if (graphics.playery > 0){
+            graphics.playery -= 5;
+        }
+    }if(key_states['f']){
+        if (graphics.playery < 1070){
+            graphics.playery += 5;
+        }
+    }if(key_states['e']){
+        for (int i = 0; i < num_zombies; i++){
+            zombie_vector[i].move(1);
+            zombie_vector[i].render(&graphics);
+        }
+    }if(key_states['q']){
+        for (int j = 0; j < num_zombies; j++){
+            zombie_vector[j].move(-1);
+            zombie_vector[j].render(&graphics);
+        }
+    }if(key_states['z']){
+        graphics.anglex_adj -= 0.01745329 * 2;
+
+    }if(key_states['c']){
+        graphics.anglex_adj += 0.01745329 * 2;
+
+    }if(key_states['x']){
+        arrow_vector[0].move(&graphics);
+    }if(key_states['/']){
+
+    //27 - ESC key
+    }if(key_states[27]){ 
+        exit(0);
+    }
+}
+
+
 // Keyboard input callback
-void keyboard(unsigned char key, int x, int y) {
+void keyboard(unsigned char key, int idk1, int idk2) {
     switch (key) {
         case 'w':
             graphics.playerz += 5;
@@ -192,7 +263,7 @@ void render_all(){
         }
 
         graphics.set_color(1.0f, 0.0f, 0.0f);
-        graphics.draw_horizon();
+        //graphics.draw_horizon();
 
         std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
         graphics.draw_floor_lines(floor_points_2D);
@@ -240,7 +311,12 @@ void render_all(){
         for (int i = 0; i < arrow_vector.size(); i++){
             arrow_vector[i].move(&graphics);
             arrow_vector[i].render(&graphics);
+            if (arrow_vector[i].y >= 1080){
+                arrow_vector.erase(arrow_vector.begin() + i);
+            }
         }
+
+
 
 
         glutPostRedisplay();
@@ -314,14 +390,22 @@ int main(int argc, char* argv[]) {
 
 
     // Making stars
-    std::uniform_int_distribution<> distriby(-1800, -1100);
-    int random_numy = distriby(gen);
+    std::uniform_int_distribution<> distrib_starx(-25000, 25000);
+    int random_star_numx = distrib_starx(gen);
 
-    for (int i = -10040; i < 10460; i += 500){
-        for (int k = 1000; k < 50000; k += 500){
-            random_numy = distriby(gen);
-            star_vector.emplace_back(Star(&graphics, (double)i, (double)random_numy, (double)k, -2000, -1000));
-        }
+    std::uniform_int_distribution<> distrib_stary(-1800, -1100);
+    int random_star_numy = distrib_stary(gen);
+
+    std::uniform_int_distribution<> distrib_starz(1000, 50000);
+    int random_star_numz = distrib_starz(gen);
+
+    int count = 1;
+    while (count < 5000){
+        random_star_numx = distrib_starx(gen);
+        random_star_numy = distrib_stary(gen);
+        random_star_numz = distrib_starz(gen);
+        star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, -2000, -1000));
+        count++;
     }
 
     //star_vector.emplace_back(Star(&graphics, 960, 1060, 1010)); 
@@ -330,10 +414,16 @@ int main(int argc, char* argv[]) {
     //arrow_vector.emplace_back(Arrow(&graphics));
     
     // Register the keyboard input callback
-    glutKeyboardFunc(keyboard);
+    glutKeyboardFunc(keyDown);
+    glutKeyboardUpFunc(keyUp);
+    //glutKeyboardFunc(keyboard);
+    //glutIdleFunc(keyboard);
 
     // Register the mouse callback function
     glutMouseFunc(mouse_click);
+
+    // Check keyboard input constantly
+    glutIdleFunc(key_press_check);
 
     // Register the display function.
     glutDisplayFunc(render_all);
