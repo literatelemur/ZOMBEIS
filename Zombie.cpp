@@ -204,33 +204,33 @@ void Zombie::move(int dir){
 
 
 
-
+    // Moving arms
     if (arm_phase % 2 == 0){
         if (arm_dir == "down"){
             for (int i = 0; i < rect_points_3D_arm1.size(); i++){
                 rect_points_3D_arm1[i][1]++;
                 rect_points_3D_arm2[i][1]++;
             }
-        }else if (arm_dir == "left"){
-            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
-                rect_points_3D_arm1[i][0]--;
-                rect_points_3D_arm2[i][0]--;
-            }
-        }else if (arm_dir == "right"){
-            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
-                rect_points_3D_arm1[i][0]++;
-                rect_points_3D_arm2[i][0]++;
-            }
         }else if (arm_dir == "up"){
             for (int i = 0; i < rect_points_3D_arm1.size(); i++){
                 rect_points_3D_arm1[i][1]--;
                 rect_points_3D_arm2[i][1]--;
             }
+        }else if (arm_dir == "out"){
+            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
+                rect_points_3D_arm1[i][0]--;
+                rect_points_3D_arm2[i][0]++;
+            }
+        }else if (arm_dir == "in"){
+            for (int i = 0; i < rect_points_3D_arm1.size(); i++){
+                rect_points_3D_arm1[i][0]++;
+                rect_points_3D_arm2[i][0]--;
+            }
         }
     }
 
 
-    if (arm_phase > 0 && arm_phase < 4){
+    if (arm_phase > -1 && arm_phase < 4){
         arm_phase++;
 
     }else if (arm_phase == 4){

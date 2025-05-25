@@ -86,91 +86,12 @@ void key_press_check() {
         graphics.anglex_adj += 0.01745329 * 2;
 
     }if(key_states['x']){
-        arrow_vector[0].move(&graphics);
+        
     }if(key_states['/']){
 
     //27 - ESC key
     }if(key_states[27]){ 
         exit(0);
-    }
-}
-
-
-// Keyboard input callback
-void keyboard(unsigned char key, int idk1, int idk2) {
-    switch (key) {
-        case 'w':
-            graphics.playerz += 5;
-            // if (graphics.playerz < 1000){
-            //     graphics.playerz += 5;
-            // }
-            break;
-        case 's':
-            graphics.playerz -= 5;
-            // if (graphics.playerz > 0){
-            //     graphics.playerz -= 5;
-            // }
-            break;
-        case 'd':
-            graphics.playerx += 5;
-            // if (graphics.playerx < 1920){
-            //     graphics.playerx += 5;
-            // }
-            break;
-        case 'a':
-            graphics.playerx -= 5;
-            // if (graphics.playerx > 0){
-            //     graphics.playerx -= 5;
-            // }
-            break;
-        case 'r':
-            if (graphics.playery > 0){
-                graphics.playery -= 5;
-            }
-            break;
-        case 'f':
-            if (graphics.playery < 1080){
-                graphics.playery += 5;
-            }
-            break;
-        case 'e':
-            for (int i = 0; i < num_zombies; i++){
-                zombie_vector[i].move(1);
-                zombie_vector[i].render(&graphics);
-            }
-            break;
-        case 'q':
-            for (int j = 0; j < num_zombies; j++){
-                zombie_vector[j].move(-1);
-                zombie_vector[j].render(&graphics);
-            }
-            break;
-        case 'z':
-            graphics.anglex_adj -= 0.01745329 * 2;
-            break;
-        case 'c':
-            graphics.anglex_adj += 0.01745329 * 2;
-            break;
-        case 'x':
-            arrow_vector[0].move(&graphics);
-            break;
-
-        case '/':
-            
-            std::cout << "-----------------\n";
-
-            for (int i = 0; i < zombie_vector[0].rect_points_3D_leg1.size(); i++){
-
-                for (int j = 0; j < zombie_vector[0].rect_points_3D_leg1[0].size(); j++){
-                    std::cout << i << " " << zombie_vector[0].rect_points_3D_leg1[i][j];
-                    std::cout << "\n";
-                }
-                std::cout << "---\n";
-            }
-            break;
-
-        case 27: //ESC key
-            exit(0);
     }
 }
 
@@ -190,67 +111,6 @@ void mouse_click(int button, int state, int x, int y) {
                 break;
         }
     }
-}
-
-
-void reshapen_window_recal(int before_width, int before_height){
-    window_width = glutGet(GLUT_WINDOW_WIDTH);
-    window_height = glutGet(GLUT_WINDOW_HEIGHT);
-
-
-
-
-    glViewport(0, 0, window_width, window_height);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, window_width, window_height, 0); // Map OpenGL coordinates to screen pixels
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-
-
-
-    // window_width = before_width;
-    // window_height = before_height;
-
-
-
-    // const float logical_width = 1920.0f;
-    // const float logical_height = 1080.0f;
-    // const float aspect_ratio = logical_width / logical_height;
-    // float window_aspect = (float)window_width / (float)window_height;
-
-    // // vp is for viewport
-    // int vp_width, vp_height;
-    // int vp_x = 0, vp_y = 0;
-
-    // if (window_aspect > aspect_ratio) {
-    //     // Window is wider than logical aspect — pillarbox /gpt
-    //     vp_height = window_height;
-    //     vp_width = (int)(window_height * aspect_ratio);
-    //     vp_x = (window_width - vp_width) / 2;
-    // } else {
-    //     // Window is taller than logical aspect — letterbox /gpt
-    //     vp_width = window_width;
-    //     vp_height = (int)(window_width / aspect_ratio);
-    //     vp_y = (window_height - vp_height) / 2;
-    // }
-
-    // // Centered viewport with fixed aspect ratio
-    // glViewport(vp_x, vp_y, vp_width, vp_height);
-
-    // // Fixed logical projection
-    // glMatrixMode(GL_PROJECTION);
-    // glLoadIdentity();
-    // gluOrtho2D(0.0, logical_width, logical_height, 0.0);
-
-    // glMatrixMode(GL_MODELVIEW);
-    // glLoadIdentity();
-
-
-
 }
 
 
@@ -311,7 +171,7 @@ void render_all(){
         for (int i = 0; i < arrow_vector.size(); i++){
             arrow_vector[i].move(&graphics);
             arrow_vector[i].render(&graphics);
-            if (arrow_vector[i].y >= 1080){
+            if (arrow_vector[i].y >= 1070){
                 arrow_vector.erase(arrow_vector.begin() + i);
             }
         }
@@ -334,8 +194,6 @@ int main(int argc, char* argv[]) {
     
     glutInitWindowSize(window_width, window_height);
     glutCreateWindow("ZOMBEIS");
-
-    //glutReshapeFunc(reshapen_window_recal);
 
     // Set up orthographic projection
     glMatrixMode(GL_PROJECTION);

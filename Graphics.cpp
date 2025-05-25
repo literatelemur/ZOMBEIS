@@ -16,7 +16,7 @@ Graphics::Graphics(){
     playery = 1060;
     //playery = 900;
     playerz = 1000;
-    near_plane = 0.01;
+    near_plane = 0.1;
 
     anglex_adj = 0;
     // double fov = 90.0; // Field of view in degrees
@@ -344,10 +344,8 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
             floor_points_2D[i][j][0].emplace_back(0);
 
             double anglex1 = atan2(x_diff1, z_diff1);
-            //int x1 = (int) (tan(anglex1) * zscreendiff);
 
             double angley1 = atan2(y_diff1, z_diff1);
-            //int y1 = (int) (tan(angley1) * zscreendiff);
 
             double anglex1_turn = anglex_adj - anglex1;
 
@@ -357,10 +355,8 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
             floor_points_2D[i][j][1].emplace_back(0);
 
             double anglex2 = atan2(x_diff2, z_diff2);
-            //int x2 = (int) (tan(anglex2) * zscreendiff);
 
             double angley2 = atan2(y_diff2, z_diff2);
-            //int y2 = (int) (tan(angley2) * zscreendiff);
 
             double anglex2_turn = anglex_adj - anglex2;
 
@@ -381,25 +377,26 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
 
             // Determining if clipping is necessary (when z value reaches behind player).
             if (z1_turn_clip < near_plane && z2_turn_clip < near_plane){
-                floor_points_2D[i][j][0][0] = -10000;
-                floor_points_2D[i][j][0][1] = -10000;
+                floor_points_2D[i][j][0][0] = -100000;
+                floor_points_2D[i][j][0][1] = -100000;
 
-                floor_points_2D[i][j][1][0] = -10000;
-                floor_points_2D[i][j][1][1] = -10000;
+                floor_points_2D[i][j][1][0] = -100000;
+                floor_points_2D[i][j][1][1] = -100000;
 
             } else if (z1_turn_clip < near_plane){
 
-                double t = (near_plane - z1_turn_clip) / (z2_turn_clip - z1_turn_clip); // Calculate interpolation factor
-                x1_turn_clip = x1_turn_clip + t * (x2_turn_clip - x1_turn_clip);        // Interpolate x
-                z1_turn_clip = near_plane;                                              // Set z to near plane
+                double ratio_along = (near_plane - z1_turn_clip) / (z2_turn_clip - z1_turn_clip); // Calculate interpolation factor //gpt
+                x1_turn_clip = x1_turn_clip + ratio_along * (x2_turn_clip - x1_turn_clip);        // Interpolate x //gpt
+                z1_turn_clip = near_plane;                                                        // Set z to near plane //gpt
 
             } else if (z2_turn_clip < near_plane){
                 
-                double t = (near_plane - z2_turn_clip) / (z1_turn_clip - z2_turn_clip); // Calculate interpolation factor
-                x2_turn_clip = x2_turn_clip + t * (x1_turn_clip - x2_turn_clip);        // Interpolate x
-                z2_turn_clip = near_plane;                                              // Set z to near plane
+                double ratio_along = (near_plane - z2_turn_clip) / (z1_turn_clip - z2_turn_clip); // Calculate interpolation factor //gpt
+                x2_turn_clip = x2_turn_clip + ratio_along * (x1_turn_clip - x2_turn_clip);        // Interpolate x //gpt
+                z2_turn_clip = near_plane;                                                        // Set z to near plane //gpt
 
             }
+
 
 
             anglex1 = atan2(x1_turn_clip, z1_turn_clip);
@@ -409,11 +406,42 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
             int y1_turn_2D = (int) (tan(angley1) * zscreendiff);
 
 
+
+            // if (i == 0 && j == 399){
+            //     std::cout << "-----------\n";
+            //     std::cout << anglex1 * (180 / 3.1415) << "\n";
+            //     std::cout << x1_turn_2D << "\n";
+            //     std::cout << z1_turn_clip << "\n";
+            // }
+
+
             anglex2 = atan2(x2_turn_clip, z2_turn_clip);
             int x2_turn_2D = (int) (tan(anglex2) * zscreendiff);
 
             angley2 = atan2(y2_turn_clip, z2_turn_clip);
             int y2_turn_2D = (int) (tan(angley2) * zscreendiff);
+
+
+            // anglex1 = atan2(x1_turn_clip, z1_turn_clip);
+            // //int x1_turn_2D = (int) (tan(anglex1) * zscreendiff);
+            // double x1_small_hyp = zscreendiff / cos(anglex1);
+            // int x1_turn_2D = (int) (sin(anglex1) * x1_small_hyp);
+
+            // angley1 = atan2(y1_turn_clip, z1_turn_clip);
+            // //int y1_turn_2D = (int) (tan(angley1) * zscreendiff);
+            // double y1_small_hyp = zscreendiff / cos(angley1);
+            // int y1_turn_2D = (int) (sin(angley1) * y1_small_hyp);
+
+
+            // anglex2 = atan2(x2_turn_clip, z2_turn_clip);
+            // //int x2_turn_2D = (int) (tan(anglex2) * zscreendiff);
+            // double x2_small_hyp = zscreendiff / cos(anglex2);
+            // int x2_turn_2D = (int) (sin(anglex2) * x2_small_hyp);
+
+            // angley2 = atan2(y2_turn_clip, z2_turn_clip);
+            // //int y2_turn_2D = (int) (tan(angley2) * zscreendiff);
+            // double y2_small_hyp = zscreendiff / cos(angley2);
+            // int y2_turn_2D = (int) (sin(angley2) * y2_small_hyp);
 
 
             if (z1_turn_clip >= near_plane && z2_turn_clip >= near_plane){
@@ -443,28 +471,56 @@ std::vector<std::vector<int>> Graphics::compute_2D_box(std::vector<std::vector<d
         rect_points_2D[i].emplace_back(0);
         rect_points_2D[i].emplace_back(0);
 
-        double anglex = atan2(rect_points_3D[i][0] - playerx, rect_points_3D[i][2] - playerz);
-        //int x = (int) (tan(anglex) * zscreendiff);
+        // double anglex = atan2(rect_points_3D[i][0] - playerx, rect_points_3D[i][2] - playerz);
+        // //int x = (int) (tan(anglex) * zscreendiff);
 
-        double angley = atan2(rect_points_3D[i][1] - playery, rect_points_3D[i][2] - playerz);
-        int y = (int) (tan(angley) * zscreendiff);
+        // double angley = atan2(rect_points_3D[i][1] - playery, rect_points_3D[i][2] - playerz);
+        // int y = (int) (tan(angley) * zscreendiff);
 
 
-        double anglex_turn = anglex_adj - anglex;
-        double hyp = (rect_points_3D[i][0] - playerx) / sin(anglex);
-        double z_turn_diff = cos(anglex_turn) * hyp;
+        // double anglex_turn = anglex_adj - anglex;
+        // double hyp = (rect_points_3D[i][0] - playerx) / sin(anglex);
+        // double z_turn_diff = cos(anglex_turn) * hyp;
 
-        if (z_turn_diff < near_plane){
-            rect_points_2D[i][0] = -10000;
-            rect_points_2D[i][1] = -10000;    
+        // if (z_turn_diff < near_plane){
+        //     rect_points_2D[i][0] = -100000;
+        //     rect_points_2D[i][1] = -100000;    
 
-        } else{
+        // } else{
 
-            int x = (int) (tan(anglex_turn) * zscreendiff);
+        //     int x = (int) (tan(anglex_turn) * zscreendiff);
 
-            rect_points_2D[i][0] = (int) (960 - x);
-            rect_points_2D[i][1] = (int) (540 + y);
+        //     rect_points_2D[i][0] = (int) (960 - x);
+        //     rect_points_2D[i][1] = (int) (540 + y);
+        // }
+
+
+
+
+
+        // gpt
+        double x_diff = rect_points_3D[i][0] - playerx;
+        double y_diff = rect_points_3D[i][1] - playery;
+        double z_diff = rect_points_3D[i][2] - playerz;
+
+        double sin_a = sin(anglex_adj);
+        double cos_a = cos(anglex_adj);
+
+        // Rotate around Y-axis //gpt
+        double x_cam = x_diff * cos_a - z_diff * sin_a;
+        double z_cam = x_diff * sin_a + z_diff * cos_a;
+
+        if (z_cam < near_plane) {
+            rect_points_2D[i][0] = -100000;
+            rect_points_2D[i][1] = -100000;
+        } else {
+            int x = (int)((x_cam / z_cam) * zscreendiff) * -1; // multiplied by -1 to adjust from gpt
+            int y = (int)((y_diff / z_cam) * zscreendiff);
+
+            rect_points_2D[i][0] = 960 - x;
+            rect_points_2D[i][1] = 540 + y;
         }
+
     }
 
     return rect_points_2D;
@@ -483,25 +539,54 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_tri
         for (int j = 0; j < triangle_points_3D[0].size(); j++){
             for (int k = 0; k < 3; k++){
                 
-                double anglex = atan2(triangle_points_3D[i][j][k][0] - playerx, triangle_points_3D[i][j][k][2] - playerz);
-                //int x = (int) (tan(anglex) * zscreendiff);
+                // double anglex = atan2(triangle_points_3D[i][j][k][0] - playerx, triangle_points_3D[i][j][k][2] - playerz);
+                // //int x = (int) (tan(anglex) * zscreendiff);
 
-                double angley = atan2(triangle_points_3D[i][j][k][1] - playery, triangle_points_3D[i][j][k][2] - playerz);
-                int y = (int) (tan(angley) * zscreendiff);
+                // double angley = atan2(triangle_points_3D[i][j][k][1] - playery, triangle_points_3D[i][j][k][2] - playerz);
+                // int y = (int) (tan(angley) * zscreendiff);
 
-                double anglex_turn = anglex_adj - anglex;
-                double hyp = (triangle_points_3D[i][j][k][0] - playerx) / sin(anglex);
-                double z_turn_diff = cos(anglex_turn) * hyp;
+                // double anglex_turn = anglex_adj - anglex;
+                // double hyp = (triangle_points_3D[i][j][k][0] - playerx) / sin(anglex);
 
-                if (z_turn_diff < near_plane){
-                    object_2D[i][j][k][0] = -10000;
-                    object_2D[i][j][k][1] = -10000;
+                // double z_turn_diff = cos(anglex_turn) * hyp;
 
-                } else{
-                    int x = (int) (tan(anglex_turn) * zscreendiff);
+                // if (z_turn_diff < near_plane){
+                //     object_2D[i][j][k][0] = -100000;
+                //     object_2D[i][j][k][1] = -100000;
 
-                    object_2D[i][j][k][0] = (int) (960 - x);
-                    object_2D[i][j][k][1] = (int) (540 + y);
+                // } else{
+                //     int x = (int) (tan(anglex_turn) * zscreendiff);
+
+                //     object_2D[i][j][k][0] = (int) (960 - x);
+                //     object_2D[i][j][k][1] = (int) (540 + y);
+                // }
+
+
+
+
+
+
+                // gpt
+                double x_diff = triangle_points_3D[i][j][k][0] - playerx;
+                double y_diff = triangle_points_3D[i][j][k][1] - playery;
+                double z_diff = triangle_points_3D[i][j][k][2] - playerz;
+
+                double sin_a = sin(anglex_adj);
+                double cos_a = cos(anglex_adj);
+
+                // Rotate around Y-axis //gpt
+                double x_cam = x_diff * cos_a - z_diff * sin_a;
+                double z_cam = x_diff * sin_a + z_diff * cos_a;
+
+                if (z_cam < near_plane) {
+                    object_2D[i][j][k][0] = -100000;
+                    object_2D[i][j][k][1] = -100000;
+                } else {
+                    int x = (int)((x_cam / z_cam) * zscreendiff) * -1; // multiplied by -1 to adjust from gpt
+                    int y = (int)((y_diff / z_cam) * zscreendiff);
+
+                    object_2D[i][j][k][0] = 960 - x;
+                    object_2D[i][j][k][1] = 540 + y;
                 }
             }
         }
@@ -532,8 +617,8 @@ void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<
 
     for (int i = 0; i < floor_points_2D.size(); i++){
         for (int j = 0; j < floor_points_2D[i].size(); j++){
-            if (floor_points_2D[i][j][0][0] != -10000 && floor_points_2D[i][j][1][0] != -10000 &&
-                    floor_points_2D[i][j][0][1] != -10000 && floor_points_2D[i][j][1][1] != -10000){
+            if (floor_points_2D[i][j][0][0] != -100000 && floor_points_2D[i][j][1][0] != -100000 &&
+                    floor_points_2D[i][j][0][1] != -100000 && floor_points_2D[i][j][1][1] != -100000){
                 
 
                 glBegin(GL_LINES);
@@ -554,7 +639,7 @@ void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<st
         bool skip = false;
         for (int j = 0; j < triangle_points_2D[0].size(); j++){
             for (int k = 0; k < triangle_points_2D[0][0].size(); k++){
-                if (triangle_points_2D[i][j][k][0] == -10000 && triangle_points_2D[i][j][k][1] == -10000 ) skip = true;
+                if (triangle_points_2D[i][j][k][0] == -100000 && triangle_points_2D[i][j][k][1] == -100000 ) skip = true;
             }
         }
 
@@ -579,7 +664,7 @@ void Graphics::draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<
         bool skip = false;
         for (int j = 0; j < triangle_points_2D[0].size(); j++){
             for (int k = 0; k < triangle_points_2D[0][0].size(); k++){
-                if (triangle_points_2D[i][j][k][0] == -10000 && triangle_points_2D[i][j][k][1] == -10000 ) skip = true;
+                if (triangle_points_2D[i][j][k][0] == -100000 && triangle_points_2D[i][j][k][1] == -100000 ) skip = true;
             }
         }
 
@@ -611,7 +696,7 @@ void Graphics::draw_full_box(std::vector<std::vector<int>> rect_points_2D){
     bool skip = false;
 
     for (int i = 0; i < rect_points_2D.size(); i++){
-        if (rect_points_2D[i][0] == -10000 && rect_points_2D[i][1] == -10000) skip = true;
+        if (rect_points_2D[i][0] == -100000 && rect_points_2D[i][1] == -100000) skip = true;
     }
 
     if (!skip){
@@ -667,7 +752,7 @@ void Graphics::draw_hollow_box(std::vector<std::vector<int>> rect_points_2D){
     bool skip = false;
 
     for (int i = 0; i < rect_points_2D.size(); i++){
-        if (rect_points_2D[i][0] == -10000 && rect_points_2D[i][1] == -10000) skip = true;
+        if (rect_points_2D[i][0] == -100000 && rect_points_2D[i][1] == -100000) skip = true;
     }
 
     if (!skip){
