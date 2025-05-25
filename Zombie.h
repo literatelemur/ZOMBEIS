@@ -21,7 +21,6 @@ class Zombie {
         int leg_angle2;
         int leg_inner_dir;
         int arm_phase;
-        std::string arm_dir;
 
         int leg_length;
         int leg_depth;

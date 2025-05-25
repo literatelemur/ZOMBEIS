@@ -295,12 +295,11 @@ int main(int argc, char* argv[]) {
 
 //FIXX:
 // -distance-based render of objects so far away objects not in front of close ones
-// -fix turning
 // -make horizon physical line at end of grid
-// -make arrows tilt?
 // -make bow
 // -make arrows more detailed visually
 // -make world spherical
+// -make arm movement better
 
 // -refine zombei leg movement animation
 // -fix hollow portions of zombei heads
