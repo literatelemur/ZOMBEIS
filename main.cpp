@@ -66,9 +66,9 @@ void key_press_check() {
             graphics.playery -= 5;
         }
     }if(key_states['f']){
-        if (graphics.playery < 1070){
+        //if (graphics.playery < 1070){
             graphics.playery += 5;
-        }
+        //}
     }if(key_states['e']){
         for (int i = 0; i < num_zombies; i++){
             zombie_vector[i].move(1);
@@ -122,11 +122,26 @@ void render_all(){
             star_vector[i].render(&graphics);
         }
 
-        graphics.set_color(1.0f, 0.0f, 0.0f);
-        //graphics.draw_horizon();
 
-        std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics.find_triangle_points_sphere(graphics.floor_points_3D[0][0]);
+        std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_triangles(floor_points_3D);
+
+
+        //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
+
+
+        graphics.set_color(1.0f, 1.0f, 1.0f);
+
+        graphics.draw_full_triangles_sphere(floor_points_2D);
+
+        graphics.set_color(1.0f, 0.0f, 0.0f);
+
+        graphics.draw_hollow_triangles_sphere(floor_points_2D);
+
+
         graphics.draw_floor_lines(floor_points_2D);
+
+
 
         graphics.set_color(0.0f, 0.0f, 1.0f);
 
@@ -195,7 +210,7 @@ int main(int argc, char* argv[]) {
     glutInitWindowSize(window_width, window_height);
     glutCreateWindow("ZOMBEIS");
 
-    // Set up orthographic projection
+    // Set up orthographic projection //gpt
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, window_width, window_height, 0); // Map OpenGL coordinates to screen pixels
@@ -206,22 +221,13 @@ int main(int argc, char* argv[]) {
     // Event handler
     //SDL_Event event;
 
-    // Create a random device (seed source)
+    // Create a random device (seed source) //gpt
     std::random_device rd;
 
-    // Initialize a random number generator (Mersenne Twister)
+    // Initialize a random number generator (Mersenne Twister) //gpt
     std::mt19937 gen(rd());
 
-    // Define a distribution range (e.g., between 1 and 100)
-    // std::uniform_int_distribution<> distribx(-19040, 20960);
-    // std::uniform_int_distribution<> distribz(500, 10000);
-
-    // std::uniform_int_distribution<> distribx(-1040, 1960);
-    // std::uniform_int_distribution<> distribz(500, 10000);
-    // std::uniform_int_distribution<> distribs(1, 15);
-
     std::uniform_int_distribution<> distribx(460, 1460);
-    //std::uniform_int_distribution<> distribz(500, 10000);
     std::uniform_int_distribution<> distribz(500, 5000);
     std::uniform_int_distribution<> distribs(1, 15);
 
@@ -230,7 +236,8 @@ int main(int argc, char* argv[]) {
     int random_nums = distribs(gen);
 
     //num_zombies = 100;
-    num_zombies = 50;
+     num_zombies = 50;
+    //num_zombies = 25;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
@@ -266,10 +273,6 @@ int main(int argc, char* argv[]) {
         count++;
     }
 
-    //star_vector.emplace_back(Star(&graphics, 960, 1060, 1010)); 
-
-
-    //arrow_vector.emplace_back(Arrow(&graphics));
     
     // Register the keyboard input callback
     glutKeyboardFunc(keyDown);
@@ -300,6 +303,7 @@ int main(int argc, char* argv[]) {
 // -make arrows more detailed visually
 // -make world spherical
 // -make arm movement better
+// -review floor angle code vs zombei angle code (zombei angle code being gpt)
 
 // -refine zombei leg movement animation
 // -fix hollow portions of zombei heads

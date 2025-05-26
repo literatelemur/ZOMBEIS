@@ -34,54 +34,65 @@ Graphics::Graphics(){
     // z_start = 500;
     // z_stop = 1000;
 
+
+    // Horizontal plane floor points
+    // floor_points_3D.emplace_back();
+
+    // int i = 0;
+    // for (double x = x_start; x < x_stop; x += 100){
+    //     floor_points_3D[0].emplace_back();
+    //     floor_points_3D[0][i].emplace_back();
+    //     floor_points_3D[0][i][0].emplace_back(0);
+    //     floor_points_3D[0][i][0].emplace_back(0);
+    //     floor_points_3D[0][i][0].emplace_back(0);
+    //     floor_points_3D[0][i][0][0] = x;
+    //     floor_points_3D[0][i][0][1] = 1080;
+    //     floor_points_3D[0][i][0][2] = z_start;
+
+    //     floor_points_3D[0][i].emplace_back();
+    //     floor_points_3D[0][i][1].emplace_back(0);
+    //     floor_points_3D[0][i][1].emplace_back(0);
+    //     floor_points_3D[0][i][1].emplace_back(0);
+    //     floor_points_3D[0][i][1][0] = x;
+    //     floor_points_3D[0][i][1][1] = 1080;
+    //     floor_points_3D[0][i][1][2] = z_stop;
+
+    //     i++;
+    // }
+
+
+    // floor_points_3D.emplace_back();
+
+    // i = 0;
+    // for (double z = z_start; z < z_stop; z += 100){
+    //     floor_points_3D[1].emplace_back();
+    //     floor_points_3D[1][i].emplace_back();
+    //     floor_points_3D[1][i][0].emplace_back(0);
+    //     floor_points_3D[1][i][0].emplace_back(0);
+    //     floor_points_3D[1][i][0].emplace_back(0);
+    //     floor_points_3D[1][i][0][0] = x_start;
+    //     floor_points_3D[1][i][0][1] = 1080;
+    //     floor_points_3D[1][i][0][2] = z;
+
+    //     floor_points_3D[1][i].emplace_back();
+    //     floor_points_3D[1][i][1].emplace_back(0);
+    //     floor_points_3D[1][i][1].emplace_back(0);
+    //     floor_points_3D[1][i][1].emplace_back(0);
+    //     floor_points_3D[1][i][1][0] = x_stop;
+    //     floor_points_3D[1][i][1][1] = 1080;
+    //     floor_points_3D[1][i][1][2] = z;
+
+    //     i++;
+    // }
+
+
+    // Zombei head globe floor points
     floor_points_3D.emplace_back();
 
-    int i = 0;
-    for (double x = x_start; x < x_stop; x += 100){
-        floor_points_3D[0].emplace_back();
-        floor_points_3D[0][i].emplace_back();
-        floor_points_3D[0][i][0].emplace_back(0);
-        floor_points_3D[0][i][0].emplace_back(0);
-        floor_points_3D[0][i][0].emplace_back(0);
-        floor_points_3D[0][i][0][0] = x;
-        floor_points_3D[0][i][0][1] = 1080;
-        floor_points_3D[0][i][0][2] = z_start;
-
-        floor_points_3D[0][i].emplace_back();
-        floor_points_3D[0][i][1].emplace_back(0);
-        floor_points_3D[0][i][1].emplace_back(0);
-        floor_points_3D[0][i][1].emplace_back(0);
-        floor_points_3D[0][i][1][0] = x;
-        floor_points_3D[0][i][1][1] = 1080;
-        floor_points_3D[0][i][1][2] = z_stop;
-
-        i++;
-    }
-
-
-    floor_points_3D.emplace_back();
-
-    i = 0;
-    for (double z = z_start; z < z_stop; z += 100){
-        floor_points_3D[1].emplace_back();
-        floor_points_3D[1][i].emplace_back();
-        floor_points_3D[1][i][0].emplace_back(0);
-        floor_points_3D[1][i][0].emplace_back(0);
-        floor_points_3D[1][i][0].emplace_back(0);
-        floor_points_3D[1][i][0][0] = x_start;
-        floor_points_3D[1][i][0][1] = 1080;
-        floor_points_3D[1][i][0][2] = z;
-
-        floor_points_3D[1][i].emplace_back();
-        floor_points_3D[1][i][1].emplace_back(0);
-        floor_points_3D[1][i][1].emplace_back(0);
-        floor_points_3D[1][i][1].emplace_back(0);
-        floor_points_3D[1][i][1][0] = x_stop;
-        floor_points_3D[1][i][1][1] = 1080;
-        floor_points_3D[1][i][1][2] = z;
-
-        i++;
-    }
+    floor_points_3D[0].emplace_back();
+    floor_points_3D[0][0].emplace_back();
+    
+    floor_points_3D[0][0] = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
 
 }
 
