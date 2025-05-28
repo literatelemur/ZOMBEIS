@@ -136,10 +136,30 @@ void render_all(){
 
         graphics.set_color(1.0f, 0.0f, 0.0f);
 
-        graphics.draw_hollow_triangles_sphere(floor_points_2D);
+        //graphics.draw_hollow_triangles_sphere(floor_points_2D);
 
 
         graphics.draw_floor_lines(floor_points_2D);
+
+
+
+
+        std::vector<std::vector<std::vector<std::vector<double>>>> test_points_3D = graphics.find_triangle_points_sphere(graphics.test_points_3D[0][0]);
+        std::vector<std::vector<std::vector<std::vector<int>>>> test_points_2D = graphics.compute_2D_triangles(test_points_3D);
+
+
+        //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
+
+
+        graphics.set_color(1.0f, 1.0f, 1.0f);
+
+        graphics.draw_full_triangles_sphere(test_points_2D);
+
+        graphics.set_color(1.0f, 0.0f, 0.0f);
+
+        graphics.draw_hollow_triangles_sphere(test_points_2D);
+
+
 
 
 

@@ -24,6 +24,8 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
 
+        std::vector<std::vector<std::vector<std::vector<double>>>> test_points_3D;
+
         Graphics(); // Constructor
 
         std::vector<std::vector<double>> make_sphere(std::vector<double> center, int radius, int num_points);

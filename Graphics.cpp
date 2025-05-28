@@ -94,6 +94,17 @@ Graphics::Graphics(){
     
     floor_points_3D[0][0] = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
 
+
+
+
+
+    test_points_3D.emplace_back();
+
+    test_points_3D[0].emplace_back();
+    test_points_3D[0][0].emplace_back();
+    
+    test_points_3D[0][0] = make_sphere({(double)playerx, (double)playery, (double)playerz}, 3, 12);
+
 }
 
 
@@ -137,7 +148,7 @@ std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> cente
 
         // copied attempt at 12-sided geodesic sphere (based on golden ratio):
 
-        double phi = 1.61803;
+        double phi = 1.6180339887;
         sphere_points_3D = { {center[0] + -1 * radius,  center[1] + phi * radius,  center[2] + 0 * radius}, {center[0] + 1 * radius,  center[1] + phi * radius,  center[2] + 0 * radius}, {center[0] + -1 * radius, center[1] + -phi * radius,  center[2] + 0 * radius}, {center[0] + 1 * radius, center[1] + -phi * radius,  center[2] + 0 * radius},
             {center[0] + 0 * radius, center[1] + -1 * radius,  center[2] + phi * radius}, {center[0] + 0 * radius,  center[1] + 1 * radius,  center[2] + phi * radius}, {center[0] + 0 * radius, center[1] + -1 * radius, center[2] + -phi * radius}, {center[0] + 0 * radius,  center[1] + 1 * radius, center[2] + -phi * radius},
             {center[0] + phi * radius,  center[1] + 0 * radius, center[2] + -1 * radius}, {center[0] + phi * radius,  center[1] + 0 * radius,  center[2] + 1 * radius}, {center[0] + -phi * radius,  center[1] + 0 * radius, center[2] + -1 * radius}, {center[0] + -phi * radius,  center[1] + 0 * radius,  center[2] + 1 * radius} };
@@ -323,7 +334,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
             }
         }
     }
-    
+
     return triangle_points_3D;
 }
 
@@ -416,14 +427,6 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lin
             angley1 = atan2(y1_turn_clip, z1_turn_clip);
             int y1_turn_2D = (int) (tan(angley1) * zscreendiff);
 
-
-
-            // if (i == 0 && j == 399){
-            //     std::cout << "-----------\n";
-            //     std::cout << anglex1 * (180 / 3.1415) << "\n";
-            //     std::cout << x1_turn_2D << "\n";
-            //     std::cout << z1_turn_clip << "\n";
-            // }
 
 
             anglex2 = atan2(x2_turn_clip, z2_turn_clip);
@@ -648,15 +651,15 @@ void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<st
     for (int i = 0; i < triangle_points_2D.size(); i++){
 
         bool skip = false;
-        for (int j = 0; j < triangle_points_2D[0].size(); j++){
-            for (int k = 0; k < triangle_points_2D[0][0].size(); k++){
+        for (int j = 0; j < triangle_points_2D[i].size(); j++){
+            for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
                 if (triangle_points_2D[i][j][k][0] == -100000 && triangle_points_2D[i][j][k][1] == -100000 ) skip = true;
             }
         }
 
         if (!skip){
 
-            for (int j = 0; j < triangle_points_2D[0].size(); j++){
+            for (int j = 0; j < triangle_points_2D[i].size(); j++){
                 glBegin(GL_POLYGON);
                     glVertex2i(triangle_points_2D[i][j][0][0], triangle_points_2D[i][j][0][1]);
                     glVertex2i(triangle_points_2D[i][j][1][0], triangle_points_2D[i][j][1][1]);
@@ -665,6 +668,18 @@ void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<st
             }
         }
     }
+
+    // for (int i = 0; i < triangle_points_2D.size(); i++){
+    //     for (int j = 0; j < triangle_points_2D[i].size(); j++){
+    //         std::cout << "--------------\n";
+    //         for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
+    //             std::cout << i << "\n";
+    //             std::cout << j << "\n";
+    //             std::cout << k << "\n";
+    //             std::cout << triangle_points_2D[i][j][k][0] << " " << triangle_points_2D[i][j][k][1] << "\n";
+    //         }
+    //     }
+    // }
 }
 
 
