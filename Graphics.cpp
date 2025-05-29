@@ -5,6 +5,7 @@
 #include <cmath>
 #include <string>
 #include <algorithm>
+#include <list>
 
 #include "Graphics.h"
 
@@ -104,6 +105,7 @@ Graphics::Graphics(){
     test_points_3D[0][0].emplace_back();
     
     test_points_3D[0][0] = make_sphere({(double)playerx, (double)playery, (double)playerz}, 3, 12);
+    //test_points_3D[0][0] = make_sphere({(double)0, (double)0, (double)0}, 3, 12);
 
 }
 
@@ -207,7 +209,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
         triangle_points_3D.emplace_back();
 
         // Determining shortest line between each point and all other points.
-        double shortest = 99999;
+        double shortest = 99999999;
         double dist1;
 
         for (int j = 0; j < sphere_points_3D.size(); j++){
@@ -224,10 +226,10 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
             if (xdist <= ydist && xdist <= zdist){
                 larger1 = ydist;
                 larger2 = zdist;
-            } else if(ydist <= xdist && ydist <= zdist){
+            }else if (ydist <= xdist && ydist <= zdist){
                 larger1 = xdist;
                 larger2 = zdist;
-            } else if(zdist <= xdist && zdist <= ydist){
+            }else if (zdist <= xdist && zdist <= ydist){
                 larger1 = xdist;
                 larger2 = ydist;
             }
@@ -252,10 +254,10 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
             if (xdist <= ydist && xdist <= zdist){
                 larger1 = ydist;
                 larger2 = zdist;
-            } else if(ydist <= xdist && ydist <= zdist){
+            }else if (ydist <= xdist && ydist <= zdist){
                 larger1 = xdist;
                 larger2 = zdist;
-            } else if(zdist <= xdist && zdist <= ydist){
+            }else if (zdist <= xdist && zdist <= ydist){
                 larger1 = xdist;
                 larger2 = ydist;
             }
@@ -273,7 +275,11 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
         for (int a = 0; a < adj_points.size(); a++){
             triangle_points_3D[i].emplace_back();
 
+            std::vector<int> duplicate_vector;
+            bool duplicate;
             for (int k = 0; k < sphere_points_3D.size(); k++){
+                duplicate = false;
+
                 if (k == i || k == adj_points[a] || i == adj_points[a]){continue;}
                 double xdist = std::abs(sphere_points_3D[k][0] - sphere_points_3D[adj_points[a]][0]);
                 double ydist = std::abs(sphere_points_3D[k][1] - sphere_points_3D[adj_points[a]][1]);
@@ -284,10 +290,10 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
                 if (xdist <= ydist && xdist <= zdist){
                     larger1 = ydist;
                     larger2 = zdist;
-                } else if(ydist <= xdist && ydist <= zdist){
+                }else if (ydist <= xdist && ydist <= zdist){
                     larger1 = xdist;
                     larger2 = zdist;
-                } else if(zdist <= xdist && zdist <= ydist){
+                }else if (zdist <= xdist && zdist <= ydist){
                     larger1 = xdist;
                     larger2 = ydist;
                 }
@@ -303,38 +309,104 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
                 if (xdist <= ydist && xdist <= zdist){
                     larger1 = ydist;
                     larger2 = zdist;
-                } else if(ydist <= xdist && ydist <= zdist){
+                }else if (ydist <= xdist && ydist <= zdist){
                     larger1 = xdist;
                     larger2 = zdist;
-                } else if(zdist <= xdist && zdist <= ydist){
+                }else if (zdist <= xdist && zdist <= ydist){
                     larger1 = xdist;
                     larger2 = ydist;
                 }
 
                 dist3 = std::sqrt(larger1*larger1 + larger2*larger2);
 
+                    // std::cout << "++++++++++++++++++++\n";
+                    // if (i == 0){
+                    // std::cout << dist1 << "\n";
+                    // std::cout << dist2 << "\n";
+                    // std::cout << dist3 << "\n";
+                    // }
+                    
                 if (dist2 > shortest - 1 && dist2 < shortest + 1 && dist3 > shortest - 1 && dist3 < shortest + 1){
                     
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][0] = sphere_points_3D[i][0];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][1] = sphere_points_3D[i][1];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][2] = sphere_points_3D[i][2];
 
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][0] = sphere_points_3D[adj_points[a]][0];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][1] = sphere_points_3D[adj_points[a]][1];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][2] = sphere_points_3D[adj_points[a]][2];
 
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][0] = sphere_points_3D[k][0];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][1] = sphere_points_3D[k][1];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][2] = sphere_points_3D[k][2];
-                    break;
+                    // if (i == 0){
+                    //     std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n";
+                    //     std::cout << a << "\n";
+                    //     std::cout << adj_points.size() << "\n";
+                    //     std::cout << k << "\n";
+                    //     for (int l = 0; l < adj_points.size(); l++){
+                    //         std::cout << "=========================\n";
+                    //         for (int m = 0; m < sphere_points_3D[adj_points[l]].size(); m++){
+                    //             std::cout << "-----------------------\n";
+
+                    //             std::cout << sphere_points_3D[adj_points[l]][m] << "\n";    
+                    //             std::cout << sphere_points_3D[adj_points[l]][m] << "\n";    
+                    //             std::cout << sphere_points_3D[adj_points[l]][m] << "\n";    
+                    //         }
+                    //     }
+                        
+                    // }
+
+
+                    
+
+                    if (i == 0){
+                        std::cout << "kkkkkkkkkkkkkkkkkk\n";
+                    std::cout << k << "\n";
+                        
+                        
+                    }
+
+                    for (int n = 0; n < duplicate_vector.size(); n++){
+                        if (k == duplicate_vector[n]){
+                            duplicate = true;
+                        }
+                    }
+
+
+                    if (!duplicate){
+
+                        duplicate_vector.push_back(k);
+
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][0][0] = sphere_points_3D[i][0];
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][0][1] = sphere_points_3D[i][1];
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][0][2] = sphere_points_3D[i][2];
+
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][1][0] = sphere_points_3D[adj_points[a]][0];
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][1][1] = sphere_points_3D[adj_points[a]][1];
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][1][2] = sphere_points_3D[adj_points[a]][2];
+
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][2][0] = sphere_points_3D[k][0];
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][2][1] = sphere_points_3D[k][1];
+                        triangle_points_3D[i][triangle_points_3D[i].size()-1][2][2] = sphere_points_3D[k][2];
+                        break;
+                    }
                 }
             }
+
+            std::cout << "9999999999999999\n";
+    std::cout << duplicate_vector.size() << "\n";
+            // if (i == 0){
+            // std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n";
+            //             for (int l = 0; l < adj_points.size(); l++){
+            //                 std::cout << "=========================\n";
+
+            //                     std::cout << adj_points[l] << "\n";    
+            //             }
+            //         }
         }
     }
 
+    
+    // for (int i = 0; i < triangle_points_3D[0].size(); i++){
+    //     std::cout << "-------------------\n";
+    //     std::cout << triangle_points_3D[0][i][1][0] << " " << triangle_points_3D[0][i][1][1] << " " << triangle_points_3D[0][i][1][2] << "\n";
+    //     std::cout << triangle_points_3D[0][i][2][0] << " " << triangle_points_3D[0][i][2][1] << " " << triangle_points_3D[0][i][2][2] << "\n";
+    // }
     return triangle_points_3D;
 }
 
@@ -658,7 +730,6 @@ void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<st
         }
 
         if (!skip){
-
             for (int j = 0; j < triangle_points_2D[i].size(); j++){
                 glBegin(GL_POLYGON);
                     glVertex2i(triangle_points_2D[i][j][0][0], triangle_points_2D[i][j][0][1]);

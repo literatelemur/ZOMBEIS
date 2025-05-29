@@ -4,6 +4,7 @@
 #include <cmath>
 #include <string>
 #include <algorithm>
+#include <list>
 
 
 #ifndef graphics_H
