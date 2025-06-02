@@ -88,23 +88,18 @@ Graphics::Graphics(){
 
 
     // Zombei head globe floor points
-    floor_points_3D.emplace_back();
+    floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
 
-    floor_points_3D[0].emplace_back();
-    floor_points_3D[0][0].emplace_back();
+
+
+
+
+    // test_points_3D.emplace_back();
+
+    // test_points_3D[0].emplace_back();
+    // test_points_3D[0][0].emplace_back();
     
-    floor_points_3D[0][0] = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
-
-
-
-
-
-    test_points_3D.emplace_back();
-
-    test_points_3D[0].emplace_back();
-    test_points_3D[0][0].emplace_back();
-    
-    test_points_3D[0][0] = make_sphere({(double)playerx, (double)playery, (double)playerz}, 3, 12);
+    //test_points_3D[0][0] = make_sphere({(double)playerx, (double)playery, (double)playerz}, 3, 12);
     //test_points_3D[0][0] = make_sphere({(double)0, (double)0, (double)0}, 3, 12);
 
 }
@@ -203,7 +198,6 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
 
     std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points_3D;
 
-
     for (int i = 0; i < sphere_points_3D.size(); i++){
 
         triangle_points_3D.emplace_back();
@@ -214,6 +208,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
 
         for (int j = 0; j < sphere_points_3D.size(); j++){
             if (i == j){continue;}
+
             double xdist = std::abs(sphere_points_3D[j][0] - sphere_points_3D[i][0]);
             double ydist = std::abs(sphere_points_3D[j][1] - sphere_points_3D[i][1]);
             double zdist = std::abs(sphere_points_3D[j][2] - sphere_points_3D[i][2]);
@@ -263,7 +258,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
             }
 
             dist1 = std::sqrt(larger1*larger1 + larger2*larger2);
-            if (dist1 > shortest - 1 && dist1 < shortest + 1){
+            if (dist1 > shortest - 1000 && dist1 < shortest + 1000){
                 adj_points.emplace_back(j);
             }
         }
@@ -273,12 +268,11 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
         double dist3;
 
         for (int a = 0; a < adj_points.size(); a++){
+            
             triangle_points_3D[i].emplace_back();
 
-            std::vector<int> duplicate_vector;
-            bool duplicate;
             for (int k = 0; k < sphere_points_3D.size(); k++){
-                duplicate = false;
+                // duplicate = false;
 
                 if (k == i || k == adj_points[a] || i == adj_points[a]){continue;}
                 double xdist = std::abs(sphere_points_3D[k][0] - sphere_points_3D[adj_points[a]][0]);
@@ -318,96 +312,69 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
                 }
 
                 dist3 = std::sqrt(larger1*larger1 + larger2*larger2);
-
-                    // std::cout << "++++++++++++++++++++\n";
-                    // if (i == 0){
-                    // std::cout << dist1 << "\n";
-                    // std::cout << dist2 << "\n";
-                    // std::cout << dist3 << "\n";
-                    // }
                     
-                if (dist2 > shortest - 1 && dist2 < shortest + 1 && dist3 > shortest - 1 && dist3 < shortest + 1){
-                    
+                if (dist2 > shortest - 1000 && dist2 < shortest + 1000 && dist3 > shortest - 1000 && dist3 < shortest + 1000){
 
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][0] = sphere_points_3D[i][0];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][1] = sphere_points_3D[i][1];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][2] = sphere_points_3D[i][2];
 
-                    // if (i == 0){
-                    //     std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n";
-                    //     std::cout << a << "\n";
-                    //     std::cout << adj_points.size() << "\n";
-                    //     std::cout << k << "\n";
-                    //     for (int l = 0; l < adj_points.size(); l++){
-                    //         std::cout << "=========================\n";
-                    //         for (int m = 0; m < sphere_points_3D[adj_points[l]].size(); m++){
-                    //             std::cout << "-----------------------\n";
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][0] = sphere_points_3D[adj_points[a]][0];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][1] = sphere_points_3D[adj_points[a]][1];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][2] = sphere_points_3D[adj_points[a]][2];
 
-                    //             std::cout << sphere_points_3D[adj_points[l]][m] << "\n";    
-                    //             std::cout << sphere_points_3D[adj_points[l]][m] << "\n";    
-                    //             std::cout << sphere_points_3D[adj_points[l]][m] << "\n";    
-                    //         }
-                    //     }
-                        
-                    // }
-
-
-                    
-
-                    if (i == 0){
-                        std::cout << "kkkkkkkkkkkkkkkkkk\n";
-                    std::cout << k << "\n";
-                        
-                        
-                    }
-
-                    for (int n = 0; n < duplicate_vector.size(); n++){
-                        if (k == duplicate_vector[n]){
-                            duplicate = true;
-                        }
-                    }
-
-
-                    if (!duplicate){
-
-                        duplicate_vector.push_back(k);
-
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][0][0] = sphere_points_3D[i][0];
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][0][1] = sphere_points_3D[i][1];
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][0][2] = sphere_points_3D[i][2];
-
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][1][0] = sphere_points_3D[adj_points[a]][0];
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][1][1] = sphere_points_3D[adj_points[a]][1];
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][1][2] = sphere_points_3D[adj_points[a]][2];
-
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][2][0] = sphere_points_3D[k][0];
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][2][1] = sphere_points_3D[k][1];
-                        triangle_points_3D[i][triangle_points_3D[i].size()-1][2][2] = sphere_points_3D[k][2];
-                        break;
-                    }
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][0] = sphere_points_3D[k][0];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][1] = sphere_points_3D[k][1];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][2] = sphere_points_3D[k][2];
                 }
             }
 
-            std::cout << "9999999999999999\n";
-    std::cout << duplicate_vector.size() << "\n";
-            // if (i == 0){
-            // std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n";
-            //             for (int l = 0; l < adj_points.size(); l++){
-            //                 std::cout << "=========================\n";
-
-            //                     std::cout << adj_points[l] << "\n";    
-            //             }
-            //         }
         }
+        
     }
 
-    
-    // for (int i = 0; i < triangle_points_3D[0].size(); i++){
-    //     std::cout << "-------------------\n";
-    //     std::cout << triangle_points_3D[0][i][1][0] << " " << triangle_points_3D[0][i][1][1] << " " << triangle_points_3D[0][i][1][2] << "\n";
-    //     std::cout << triangle_points_3D[0][i][2][0] << " " << triangle_points_3D[0][i][2][1] << " " << triangle_points_3D[0][i][2][2] << "\n";
-    // }
     return triangle_points_3D;
+}
+
+
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D){
+    std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
+    
+    floor_points_3D[0].emplace_back();
+    floor_points_3D[0][0].emplace_back();
+    floor_points_3D[0][0][0].emplace_back(0);
+    floor_points_3D[0][0][0].emplace_back(0);
+    floor_points_3D[0][0][0].emplace_back(0);
+    // floor_points_3D[0][i][0][0] = x;
+    // floor_points_3D[0][i][0][1] = 1080;
+    // floor_points_3D[0][i][0][2] = z_start;
+
+    floor_points_3D[0][0].emplace_back();
+    floor_points_3D[0][0][1].emplace_back(0);
+    floor_points_3D[0][0][1].emplace_back(0);
+    floor_points_3D[0][0][1].emplace_back(0);
+    // floor_points_3D[0][i][1][0] = x;
+    // floor_points_3D[0][i][1][1] = 1080;
+    // floor_points_3D[0][i][1][2] = z_stop;
+
+    floor_points_3D[1].emplace_back();
+    floor_points_3D[1][0].emplace_back();
+    floor_points_3D[1][0][0].emplace_back(0);
+    floor_points_3D[1][0][0].emplace_back(0);
+    floor_points_3D[1][0][0].emplace_back(0);
+    // floor_points_3D[0][i][0][0] = x;
+    // floor_points_3D[0][i][0][1] = 1080;
+    // floor_points_3D[0][i][0][2] = z_start;
+
+    floor_points_3D[1][0].emplace_back();
+    floor_points_3D[1][0][1].emplace_back(0);
+    floor_points_3D[1][0][1].emplace_back(0);
+    floor_points_3D[1][0][1].emplace_back(0);
+
+    return floor_points_3D;
 }
 
 
@@ -725,9 +692,42 @@ void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<st
         bool skip = false;
         for (int j = 0; j < triangle_points_2D[i].size(); j++){
             for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
-                if (triangle_points_2D[i][j][k][0] == -100000 && triangle_points_2D[i][j][k][1] == -100000 ) skip = true;
+                if (triangle_points_2D[i][j][k][0] == -100000 && triangle_points_2D[i][j][k][1] == -100000) skip = true;
             }
         }
+
+        // if (!skip){
+        //     for (int j = 0; j < triangle_points_2D[i].size(); j++){
+        //         glBegin(GL_POLYGON);
+        //             glVertex2i(triangle_points_2D[i][j][0][0], triangle_points_2D[i][j][0][1]);
+        //             glVertex2i(triangle_points_2D[i][j][1][0], triangle_points_2D[i][j][1][1]);
+        //             glVertex2i(triangle_points_2D[i][j][2][0], triangle_points_2D[i][j][2][1]);
+        //         glEnd();
+        //     }
+        // }
+
+
+        // Means to determine if triangle can be skipped based on 2D values
+        //bool skip = false;
+        // std::vector<std::vector<std::string>> skip_vector(3, std::vector<std::string>(2, " "));
+        // for (int j = 0; j < triangle_points_2D[i].size(); j++){
+        //     skip = false;
+
+        //     for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
+        //         if (triangle_points_2D[i][j][k][0] < 0) skip_vector[k][0] = "x < 0";
+        //         else if (triangle_points_2D[i][j][k][0] > 1920) skip_vector[k][0] = "x > 1920";
+
+        //         if (triangle_points_2D[i][j][k][1] < 0) skip_vector[k][1] = "y < 0";
+        //         else if (triangle_points_2D[i][j][k][1] > 1080) skip_vector[k][1] = "y > 1080";
+        //     }
+
+
+        // }
+
+        // if ((skip_vector[0][0] == skip_vector[1][0] && skip_vector[1][0] == skip_vector[2][0]) || 
+        //             (skip_vector[0][1] == skip_vector[1][1] && skip_vector[1][1] == skip_vector[2][1])){
+        //     skip = true;
+        // }
 
         if (!skip){
             for (int j = 0; j < triangle_points_2D[i].size(); j++){

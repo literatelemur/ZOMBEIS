@@ -23,7 +23,7 @@ class Graphics {
         double anglex_adj;
         double pi;
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
+        std::vector<std::vector<double>> floor_sphere_points_3D;
 
         std::vector<std::vector<std::vector<std::vector<double>>>> test_points_3D;
 
@@ -34,6 +34,8 @@ class Graphics {
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
+
+        std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D);        
 
         std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> line_points_3D);
 

@@ -62,9 +62,9 @@ void key_press_check() {
         //     graphics.playerx -= 5;
         // }
     }if(key_states['r']){
-        if (graphics.playery > 0){
+        // if (graphics.playery > 0){
             graphics.playery -= 5;
-        }
+        // }
     }if(key_states['f']){
         //if (graphics.playery < 1070){
             graphics.playery += 5;
@@ -123,29 +123,8 @@ void render_all(){
         }
 
 
-        // std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics.find_triangle_points_sphere(graphics.floor_points_3D[0][0]);
-        // std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_triangles(floor_points_3D);
-
-
-        ////std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
-
-
-        // graphics.set_color(1.0f, 1.0f, 1.0f);
-
-        // graphics.draw_full_triangles_sphere(floor_points_2D);
-
-        // graphics.set_color(1.0f, 0.0f, 0.0f);
-
-        // //graphics.draw_hollow_triangles_sphere(floor_points_2D);
-
-
-        // graphics.draw_floor_lines(floor_points_2D);
-
-
-
-
-        std::vector<std::vector<std::vector<std::vector<double>>>> test_points_3D = graphics.find_triangle_points_sphere(graphics.test_points_3D[0][0]);
-        std::vector<std::vector<std::vector<std::vector<int>>>> test_points_2D = graphics.compute_2D_triangles(test_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>> floor_sphere_points_3D = graphics.find_triangle_points_sphere(graphics.floor_sphere_points_3D);
+        std::vector<std::vector<std::vector<std::vector<int>>>> floor_sphere_points_2D = graphics.compute_2D_triangles(floor_sphere_points_3D);
 
 
         //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
@@ -153,11 +132,34 @@ void render_all(){
 
         graphics.set_color(1.0f, 1.0f, 1.0f);
 
-        graphics.draw_full_triangles_sphere(test_points_2D);
+        graphics.draw_full_triangles_sphere(floor_sphere_points_2D);
 
         graphics.set_color(1.0f, 0.0f, 0.0f);
 
-        graphics.draw_hollow_triangles_sphere(test_points_2D);
+        graphics.draw_hollow_triangles_sphere(floor_sphere_points_2D);
+
+
+        //graphics.draw_floor_lines(floor_points_2D);
+
+
+
+
+        // std::vector<std::vector<std::vector<std::vector<double>>>> test_points_3D = graphics.find_triangle_points_sphere(graphics.test_points_3D[0][0]);
+        // std::vector<std::vector<std::vector<std::vector<int>>>> test_points_2D = graphics.compute_2D_triangles(test_points_3D);
+
+
+        //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
+
+
+
+
+        // graphics.set_color(1.0f, 1.0f, 1.0f);
+
+        // graphics.draw_full_triangles_sphere(test_points_2D);
+
+        // graphics.set_color(1.0f, 0.0f, 0.0f);
+
+        // graphics.draw_hollow_triangles_sphere(test_points_2D);
 
 
 
