@@ -21,6 +21,7 @@ class Graphics {
         double near_plane;
 
         double anglex_adj;
+        double angley_adj;
         double pi;
 
         std::vector<std::vector<double>> floor_sphere_points_3D;

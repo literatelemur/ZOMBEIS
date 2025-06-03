@@ -85,6 +85,12 @@ void key_press_check() {
     }if(key_states['c']){
         graphics.anglex_adj += 0.01745329 * 2;
 
+    }if(key_states['t']){
+        graphics.angley_adj -= 0.01745329;
+
+    }if(key_states['g']){
+        graphics.angley_adj += 0.01745329;
+        
     }if(key_states['x']){
         
     }if(key_states['/']){
