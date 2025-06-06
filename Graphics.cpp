@@ -15,7 +15,6 @@ Graphics::Graphics(){
     zscreendiff = 1000;
     playerx = 960;
     playery = 1060;
-    //playery = 900;
     playerz = 1000;
     near_plane = 0.1;
 
@@ -89,7 +88,8 @@ Graphics::Graphics(){
 
 
     // Zombei head globe floor points
-    floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
+    //floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
+    floor_sphere_points_3D = make_sphere({(double)960, (double)560, (double)5000}, 1000, 12);
 
 
 
@@ -340,45 +340,89 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
 }
 
 
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D){
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D, std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points_3D){
     std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
     
 
+    // 
+    floor_points_3D.emplace_back();
+    floor_points_3D.emplace_back();
+    for (int i = 0; i < triangle_points_3D.size(); i++){
+        for (int j = 0; j < triangle_points_3D[i].size(); j++){
+            
+
+                    double x1_start = triangle_points_3D[i][j][0][0];
+                    double y1_start = triangle_points_3D[i][j][0][1];
+                    double z1_start = triangle_points_3D[i][j][0][2];
+
+                    double x1_end = triangle_points_3D[i][j][1][0];
+                    double y1_end = triangle_points_3D[i][j][1][1];
+                    double z1_end = triangle_points_3D[i][j][1][2];
+                    
+                    double x2_start = triangle_points_3D[i][j][2][0];
+                    double y2_start = triangle_points_3D[i][j][2][1];
+                    double z2_start = triangle_points_3D[i][j][2][2];
+
+                    double x2_end = triangle_points_3D[i][j][1][0];
+                    double y2_end = triangle_points_3D[i][j][1][1];
+                    double z2_end = triangle_points_3D[i][j][1][2];
+
+                    double x3_start = triangle_points_3D[i][j][2][0];
+                    double y3_start = triangle_points_3D[i][j][2][1];
+                    double z3_start = triangle_points_3D[i][j][2][2];
+
+                    double x3_end = triangle_points_3D[i][j][0][0];
+                    double y3_end = triangle_points_3D[i][j][0][1];
+                    double z3_end = triangle_points_3D[i][j][0][2];
 
 
+                    for (double t = 0.0; t < 1.0; t += 0.05){
+                        int x1 = (int) (x1_start + t * (x1_end - x1_start));
+                        int y1 = (int) (y1_start + t * (y1_end - y1_start));
+                        int z1 = (int) (z1_start + t * (z1_end - z1_start));
+
+                        int x2 = (int) (x2_start + t * (x2_end - x2_start));
+                        int y2 = (int) (y2_start + t * (y2_end - y2_start));
+                        int z2 = (int) (z2_start + t * (z2_end - z2_start));
+
+                        floor_points_3D[0].emplace_back();
+                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
+                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
+
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(x1);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(y1);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(z1);
+
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(x2);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(y2);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(z2);
 
 
+                        x1 = (int) (x2_start + t * (x2_end - x2_start));
+                        y1 = (int) (y2_start + t * (y2_end - y2_start));
+                        z1 = (int) (z2_start + t * (z2_end - z2_start));
 
-    floor_points_3D[0].emplace_back();
-    floor_points_3D[0][0].emplace_back();
-    floor_points_3D[0][0][0].emplace_back(0);
-    floor_points_3D[0][0][0].emplace_back(0);
-    floor_points_3D[0][0][0].emplace_back(0);
-    // floor_points_3D[0][i][0][0] = x;
-    // floor_points_3D[0][i][0][1] = 1080;
-    // floor_points_3D[0][i][0][2] = z_start;
+                        x2 = (int) (x3_start + t * (x3_end - x3_start));
+                        y2 = (int) (y3_start + t * (y3_end - y3_start));
+                        z2 = (int) (z3_start + t * (z3_end - z3_start));
 
-    floor_points_3D[0][0].emplace_back();
-    floor_points_3D[0][0][1].emplace_back(0);
-    floor_points_3D[0][0][1].emplace_back(0);
-    floor_points_3D[0][0][1].emplace_back(0);
-    // floor_points_3D[0][i][1][0] = x;
-    // floor_points_3D[0][i][1][1] = 1080;
-    // floor_points_3D[0][i][1][2] = z_stop;
+                        floor_points_3D[0].emplace_back();
+                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
+                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
 
-    floor_points_3D[1].emplace_back();
-    floor_points_3D[1][0].emplace_back();
-    floor_points_3D[1][0][0].emplace_back(0);
-    floor_points_3D[1][0][0].emplace_back(0);
-    floor_points_3D[1][0][0].emplace_back(0);
-    // floor_points_3D[0][i][0][0] = x;
-    // floor_points_3D[0][i][0][1] = 1080;
-    // floor_points_3D[0][i][0][2] = z_start;
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(x1);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(y1);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(z1);
 
-    floor_points_3D[1][0].emplace_back();
-    floor_points_3D[1][0][1].emplace_back(0);
-    floor_points_3D[1][0][1].emplace_back(0);
-    floor_points_3D[1][0][1].emplace_back(0);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(x2);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(y2);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(z2);
+
+            }
+
+
+        }   
+    }
 
     return floor_points_3D;
 }

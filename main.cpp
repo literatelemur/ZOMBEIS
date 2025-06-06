@@ -129,23 +129,31 @@ void render_all(){
         }
 
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> floor_sphere_points_3D = graphics.find_triangle_points_sphere(graphics.floor_sphere_points_3D);
-        std::vector<std::vector<std::vector<std::vector<int>>>> floor_sphere_points_2D = graphics.compute_2D_triangles(floor_sphere_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>> floor_sphere_triangle_points_3D = graphics.find_triangle_points_sphere(graphics.floor_sphere_points_3D);
+        std::vector<std::vector<std::vector<std::vector<int>>>> floor_sphere_triangle_points_2D = graphics.compute_2D_triangles(floor_sphere_triangle_points_3D);
 
 
         //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
 
 
-        graphics.set_color(1.0f, 1.0f, 1.0f);
+        graphics.set_color(0.0f, 0.0f, 0.0f);
 
-        graphics.draw_full_triangles_sphere(floor_sphere_points_2D);
+        graphics.draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
 
         graphics.set_color(1.0f, 0.0f, 0.0f);
 
-        graphics.draw_hollow_triangles_sphere(floor_sphere_points_2D);
+        graphics.draw_hollow_triangles_sphere(floor_sphere_triangle_points_2D);
 
 
-        //graphics.draw_floor_lines(floor_points_2D);
+
+
+        // Drawing floor lines
+
+        std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics.find_floor_lines_on_globe(graphics.floor_sphere_points_3D, floor_sphere_triangle_points_3D);
+
+        std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(floor_points_3D);
+
+        graphics.draw_floor_lines(floor_points_2D);
 
 
 
@@ -301,6 +309,7 @@ int main(int argc, char* argv[]) {
         count++;
     }
 
+
     
     // Register the keyboard input callback
     glutKeyboardFunc(keyDown);
@@ -335,3 +344,7 @@ int main(int argc, char* argv[]) {
 
 // -refine zombei leg movement animation
 // -fix hollow portions of zombei heads
+
+// -fix icosahedron missing two triangles
+// -fix line turning up and down
+// -fix line rendering when part past player
