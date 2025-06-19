@@ -138,7 +138,7 @@ void render_all(){
 
         graphics.set_color(0.0f, 0.0f, 0.0f);
 
-        graphics.draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
+        //graphics.draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
 
         graphics.set_color(1.0f, 0.0f, 0.0f);
 

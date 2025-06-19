@@ -88,8 +88,8 @@ Graphics::Graphics(){
 
 
     // Zombei head globe floor points
-    //floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
-    floor_sphere_points_3D = make_sphere({(double)960, (double)560, (double)5000}, 1000, 12);
+    floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
+    //floor_sphere_points_3D = make_sphere({(double)960, (double)560, (double)5000}, 1000, 12);
 
 
 
@@ -398,25 +398,25 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
                         floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(z2);
 
 
-                        x1 = (int) (x2_start + t * (x2_end - x2_start));
-                        y1 = (int) (y2_start + t * (y2_end - y2_start));
-                        z1 = (int) (z2_start + t * (z2_end - z2_start));
+                        // x1 = (int) (x2_start + t * (x2_end - x2_start));
+                        // y1 = (int) (y2_start + t * (y2_end - y2_start));
+                        // z1 = (int) (z2_start + t * (z2_end - z2_start));
 
-                        x2 = (int) (x3_start + t * (x3_end - x3_start));
-                        y2 = (int) (y3_start + t * (y3_end - y3_start));
-                        z2 = (int) (z3_start + t * (z3_end - z3_start));
+                        // x2 = (int) (x3_start + t * (x3_end - x3_start));
+                        // y2 = (int) (y3_start + t * (y3_end - y3_start));
+                        // z2 = (int) (z3_start + t * (z3_end - z3_start));
 
-                        floor_points_3D[0].emplace_back();
-                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
+                        // floor_points_3D[1].emplace_back();
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
 
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(x1);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(y1);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(z1);
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(x1);
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(y1);
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(z1);
 
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(x2);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(y2);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(z2);
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(x2);
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(y2);
+                        // floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(z2);
 
             }
 
