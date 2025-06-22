@@ -129,8 +129,8 @@ void render_all(){
         }
 
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> floor_sphere_triangle_points_3D = graphics.find_triangle_points_sphere(graphics.floor_sphere_points_3D);
-        std::vector<std::vector<std::vector<std::vector<int>>>> floor_sphere_triangle_points_2D = graphics.compute_2D_triangles(floor_sphere_triangle_points_3D);
+        std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_sphere_triangle_points_3D = graphics.find_triangle_points_sphere(graphics.floor_sphere_points_3D);
+        std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> floor_sphere_triangle_points_2D = graphics.compute_2D_triangles(floor_sphere_triangle_points_3D);
 
 
         //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
@@ -138,7 +138,7 @@ void render_all(){
 
         graphics.set_color(0.0f, 0.0f, 0.0f);
 
-        //graphics.draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
+        graphics.draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
 
         graphics.set_color(1.0f, 0.0f, 0.0f);
 
@@ -301,7 +301,8 @@ int main(int argc, char* argv[]) {
     int random_star_numz = distrib_starz(gen);
 
     int count = 1;
-    while (count < 5000){
+    //while (count < 5000){
+    while (count < 1000){
         random_star_numx = distrib_starx(gen);
         random_star_numy = distrib_stary(gen);
         random_star_numz = distrib_starz(gen);

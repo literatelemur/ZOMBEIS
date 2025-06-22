@@ -89,6 +89,7 @@ Graphics::Graphics(){
 
     // Zombei head globe floor points
     floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 1500, (double)playerz + 1500}, 1000, 12);
+    //floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 5000, (double)playerz + 15000}, 5000, 12);
     //floor_sphere_points_3D = make_sphere({(double)960, (double)560, (double)5000}, 1000, 12);
 
 
@@ -195,9 +196,9 @@ std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, 
 }
 
 
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
+std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
 
-    std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points_3D;
+    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D;
 
     for (int i = 0; i < sphere_points_3D.size(); i++){
 
@@ -269,7 +270,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
         double dist3;
 
         for (int a = 0; a < adj_points.size(); a++){
-            
+
             triangle_points_3D[i].emplace_back();
 
             for (int k = 0; k < sphere_points_3D.size(); k++){
@@ -315,20 +316,22 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
                     
                 if (dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
 
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][0] = sphere_points_3D[i][0];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][1] = sphere_points_3D[i][1];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][0][2] = sphere_points_3D[i][2];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back();
 
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][0] = sphere_points_3D[adj_points[a]][0];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][1] = sphere_points_3D[adj_points[a]][1];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][1][2] = sphere_points_3D[adj_points[a]][2];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1].emplace_back(std::vector<double>(3, 0));
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][0][0] = sphere_points_3D[i][0];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][0][1] = sphere_points_3D[i][1];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][0][2] = sphere_points_3D[i][2];
 
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1].emplace_back(std::vector<double>(3, 0));
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][0] = sphere_points_3D[k][0];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][1] = sphere_points_3D[k][1];
-                    triangle_points_3D[i][triangle_points_3D[i].size()-1][2][2] = sphere_points_3D[k][2];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1].emplace_back(std::vector<double>(3, 0));
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][1][0] = sphere_points_3D[adj_points[a]][0];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][1][1] = sphere_points_3D[adj_points[a]][1];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][1][2] = sphere_points_3D[adj_points[a]][2];
+
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1].emplace_back(std::vector<double>(3, 0));
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][2][0] = sphere_points_3D[k][0];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][2][1] = sphere_points_3D[k][1];
+                    triangle_points_3D[i][triangle_points_3D[i].size()-1][triangle_points_3D[i][triangle_points_3D[i].size()-1].size()-1][2][2] = sphere_points_3D[k][2];
                 }
             }
 
@@ -340,7 +343,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_triang
 }
 
 
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D, std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points_3D){
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D, std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D){
     std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
     
 
@@ -349,79 +352,83 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
     floor_points_3D.emplace_back();
     for (int i = 0; i < triangle_points_3D.size(); i++){
         for (int j = 0; j < triangle_points_3D[i].size(); j++){
+            for (int l = 0; l < triangle_points_3D[i][j].size(); l++){
             
 
-                    double x1_start = triangle_points_3D[i][j][0][0];
-                    double y1_start = triangle_points_3D[i][j][0][1];
-                    double z1_start = triangle_points_3D[i][j][0][2];
+                double x1_start = triangle_points_3D[i][j][l][0][0];
+                double y1_start = triangle_points_3D[i][j][l][0][1];
+                double z1_start = triangle_points_3D[i][j][l][0][2];
 
-                    double x1_end = triangle_points_3D[i][j][1][0];
-                    double y1_end = triangle_points_3D[i][j][1][1];
-                    double z1_end = triangle_points_3D[i][j][1][2];
-                    
-                    double x2_start = triangle_points_3D[i][j][2][0];
-                    double y2_start = triangle_points_3D[i][j][2][1];
-                    double z2_start = triangle_points_3D[i][j][2][2];
+                double x1_end = triangle_points_3D[i][j][l][1][0];
+                double y1_end = triangle_points_3D[i][j][l][1][1];
+                double z1_end = triangle_points_3D[i][j][l][1][2];
+                
+                double x2_start = triangle_points_3D[i][j][l][2][0];
+                double y2_start = triangle_points_3D[i][j][l][2][1];
+                double z2_start = triangle_points_3D[i][j][l][2][2];
 
-                    double x2_end = triangle_points_3D[i][j][1][0];
-                    double y2_end = triangle_points_3D[i][j][1][1];
-                    double z2_end = triangle_points_3D[i][j][1][2];
+                double x2_end = triangle_points_3D[i][j][l][1][0];
+                double y2_end = triangle_points_3D[i][j][l][1][1];
+                double z2_end = triangle_points_3D[i][j][l][1][2];
 
-                    double x3_start = triangle_points_3D[i][j][2][0];
-                    double y3_start = triangle_points_3D[i][j][2][1];
-                    double z3_start = triangle_points_3D[i][j][2][2];
+                double x3_start = triangle_points_3D[i][j][l][2][0];
+                double y3_start = triangle_points_3D[i][j][l][2][1];
+                double z3_start = triangle_points_3D[i][j][l][2][2];
 
-                    double x3_end = triangle_points_3D[i][j][0][0];
-                    double y3_end = triangle_points_3D[i][j][0][1];
-                    double z3_end = triangle_points_3D[i][j][0][2];
-
-
-                    for (double t = 0.0; t < 1.0; t += 0.05){
-                        int x1 = (int) (x1_start + t * (x1_end - x1_start));
-                        int y1 = (int) (y1_start + t * (y1_end - y1_start));
-                        int z1 = (int) (z1_start + t * (z1_end - z1_start));
-
-                        int x2 = (int) (x2_start + t * (x2_end - x2_start));
-                        int y2 = (int) (y2_start + t * (y2_end - y2_start));
-                        int z2 = (int) (z2_start + t * (z2_end - z2_start));
-
-                        floor_points_3D[0].emplace_back();
-                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(x1);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(y1);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(z1);
-
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(x2);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(y2);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(z2);
+                double x3_end = triangle_points_3D[i][j][l][0][0];
+                double y3_end = triangle_points_3D[i][j][l][0][1];
+                double z3_end = triangle_points_3D[i][j][l][0][2];
 
 
-                        // x1 = (int) (x2_start + t * (x2_end - x2_start));
-                        // y1 = (int) (y2_start + t * (y2_end - y2_start));
-                        // z1 = (int) (z2_start + t * (z2_end - z2_start));
+                for (double t = 0.0; t < 1.0; t += 0.05){
+                    int x1 = (int) (x1_start + t * (x1_end - x1_start));
+                    int y1 = (int) (y1_start + t * (y1_end - y1_start));
+                    int z1 = (int) (z1_start + t * (z1_end - z1_start));
 
-                        // x2 = (int) (x3_start + t * (x3_end - x3_start));
-                        // y2 = (int) (y3_start + t * (y3_end - y3_start));
-                        // z2 = (int) (z3_start + t * (z3_end - z3_start));
+                    int x2 = (int) (x2_start + t * (x2_end - x2_start));
+                    int y2 = (int) (y2_start + t * (y2_end - y2_start));
+                    int z2 = (int) (z2_start + t * (z2_end - z2_start));
 
-                        // floor_points_3D[1].emplace_back();
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
+                    floor_points_3D[0].emplace_back();
+                    floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
+                    floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
 
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(x1);
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(y1);
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(z1);
+                    floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(x1);
+                    floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(y1);
+                    floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(z1);
 
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(x2);
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(y2);
-                        // floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(z2);
+                    floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(x2);
+                    floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(y2);
+                    floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(z2);
+
+
+                    x1 = (int) (x2_start + t * (x2_end - x2_start));
+                    y1 = (int) (y2_start + t * (y2_end - y2_start));
+                    z1 = (int) (z2_start + t * (z2_end - z2_start));
+
+                    x2 = (int) (x3_start + t * (x3_end - x3_start));
+                    y2 = (int) (y3_start + t * (y3_end - y3_start));
+                    z2 = (int) (z3_start + t * (z3_end - z3_start));
+
+                    floor_points_3D[1].emplace_back();
+                    floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
+                    floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
+
+                    floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(x1);
+                    floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(y1);
+                    floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(z1);
+
+                    floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(x2);
+                    floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(y2);
+                    floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(z2);
+
+                }
 
             }
 
 
         }   
+
     }
 
     return floor_points_3D;
@@ -640,74 +647,77 @@ std::vector<std::vector<int>> Graphics::compute_2D_box(std::vector<std::vector<d
 }
 
 
-std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_triangles(std::vector<std::vector<std::vector<std::vector<double>>>> triangle_points_3D){
-    std::vector<std::vector<std::vector<std::vector<int>>>> object_2D(
-        triangle_points_3D.size(), std::vector<std::vector<std::vector<int>>>(
-                triangle_points_3D[0].size(), std::vector<std::vector<int>>(
-                            3, std::vector<int>(2, 0))));
+std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> Graphics::compute_2D_triangles(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D){
+    std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> object_2D(
+        triangle_points_3D.size(), std::vector<std::vector<std::vector<std::vector<int>>>>(
+                triangle_points_3D[0].size(), std::vector<std::vector<std::vector<int>>>(
+                    triangle_points_3D[0][0].size(), std::vector<std::vector<int>>(
+                            3, std::vector<int>(2, 0)))));
 
     // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
     for (int i = 0; i < triangle_points_3D.size(); i++){
         for (int j = 0; j < triangle_points_3D[0].size(); j++){
-            for (int k = 0; k < 3; k++){
-                
-                // double anglex = atan2(triangle_points_3D[i][j][k][0] - playerx, triangle_points_3D[i][j][k][2] - playerz);
-                // //int x = (int) (tan(anglex) * zscreendiff);
+            for (int l = 0; l < triangle_points_3D[0][0].size(); l++){
+                for (int k = 0; k < 3; k++){
+                    
+                    // double anglex = atan2(triangle_points_3D[i][j][k][0] - playerx, triangle_points_3D[i][j][k][2] - playerz);
+                    // //int x = (int) (tan(anglex) * zscreendiff);
 
-                // double angley = atan2(triangle_points_3D[i][j][k][1] - playery, triangle_points_3D[i][j][k][2] - playerz);
-                // int y = (int) (tan(angley) * zscreendiff);
+                    // double angley = atan2(triangle_points_3D[i][j][k][1] - playery, triangle_points_3D[i][j][k][2] - playerz);
+                    // int y = (int) (tan(angley) * zscreendiff);
 
-                // double anglex_turn = anglex_adj - anglex;
-                // double hyp = (triangle_points_3D[i][j][k][0] - playerx) / sin(anglex);
+                    // double anglex_turn = anglex_adj - anglex;
+                    // double hyp = (triangle_points_3D[i][j][k][0] - playerx) / sin(anglex);
 
-                // double z_turn_diff = cos(anglex_turn) * hyp;
+                    // double z_turn_diff = cos(anglex_turn) * hyp;
 
-                // if (z_turn_diff < near_plane){
-                //     object_2D[i][j][k][0] = -100000;
-                //     object_2D[i][j][k][1] = -100000;
+                    // if (z_turn_diff < near_plane){
+                    //     object_2D[i][j][k][0] = -100000;
+                    //     object_2D[i][j][k][1] = -100000;
 
-                // } else{
-                //     int x = (int) (tan(anglex_turn) * zscreendiff);
+                    // } else{
+                    //     int x = (int) (tan(anglex_turn) * zscreendiff);
 
-                //     object_2D[i][j][k][0] = (int) (960 - x);
-                //     object_2D[i][j][k][1] = (int) (540 + y);
-                // }
-
-
-
+                    //     object_2D[i][j][k][0] = (int) (960 - x);
+                    //     object_2D[i][j][k][1] = (int) (540 + y);
+                    // }
 
 
 
-                // gpt
-                double x_diff = triangle_points_3D[i][j][k][0] - playerx;
-                double y_diff = triangle_points_3D[i][j][k][1] - playery;
-                double z_diff = triangle_points_3D[i][j][k][2] - playerz;
-
-                double sin_ax = sin(angley_adj);
-                double cos_ax = cos(angley_adj);
-                double sin_ay = sin(anglex_adj);
-                double cos_ay = cos(anglex_adj);
 
 
-                // --- Rotate around Y-axis --- //gpt
-                double x1 = -x_diff * cos_ay + z_diff * sin_ay;
-                double z1 = x_diff * sin_ay + z_diff * cos_ay;
-                double y1 = y_diff;
 
-                // --- Rotate around X-axis --- //gpt
-                double y_final = y1 * cos_ax - z1 * sin_ax;
-                double z_final = y1 * sin_ax + z1 * cos_ax;
-                double x_final = x1;
+                    // gpt
+                    double x_diff = triangle_points_3D[i][j][l][k][0] - playerx;
+                    double y_diff = triangle_points_3D[i][j][l][k][1] - playery;
+                    double z_diff = triangle_points_3D[i][j][l][k][2] - playerz;
 
-                if (z_final < near_plane) {
-                    object_2D[i][j][k][0] = -100000;
-                    object_2D[i][j][k][1] = -100000;
-                } else {
-                    int x = (int)((x_final / z_final) * zscreendiff);
-                    int y = (int)((y_final / z_final) * zscreendiff);
+                    double sin_ax = sin(angley_adj);
+                    double cos_ax = cos(angley_adj);
+                    double sin_ay = sin(anglex_adj);
+                    double cos_ay = cos(anglex_adj);
 
-                    object_2D[i][j][k][0] = 960 - x;
-                    object_2D[i][j][k][1] = 540 + y;
+
+                    // --- Rotate around Y-axis --- //gpt
+                    double x1 = -x_diff * cos_ay + z_diff * sin_ay;
+                    double z1 = x_diff * sin_ay + z_diff * cos_ay;
+                    double y1 = y_diff;
+
+                    // --- Rotate around X-axis --- //gpt
+                    double y_final = y1 * cos_ax - z1 * sin_ax;
+                    double z_final = y1 * sin_ax + z1 * cos_ax;
+                    double x_final = x1;
+
+                    if (z_final < near_plane) {
+                        object_2D[i][j][l][k][0] = -100000;
+                        object_2D[i][j][l][k][1] = -100000;
+                    } else {
+                        int x = (int)((x_final / z_final) * zscreendiff);
+                        int y = (int)((y_final / z_final) * zscreendiff);
+
+                        object_2D[i][j][l][k][0] = 960 - x;
+                        object_2D[i][j][l][k][1] = 540 + y;
+                    }
                 }
             }
         }
@@ -746,6 +756,7 @@ void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<
                     glVertex2i(floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1]);
                     glVertex2i(floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
                 glEnd();
+
             }
         }
     }
@@ -753,14 +764,16 @@ void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<
 }
 
 
-void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points_2D){
+void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> triangle_points_2D){
 
     for (int i = 0; i < triangle_points_2D.size(); i++){
 
         bool skip = false;
         for (int j = 0; j < triangle_points_2D[i].size(); j++){
-            for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
-                if (triangle_points_2D[i][j][k][0] == -100000 && triangle_points_2D[i][j][k][1] == -100000) skip = true;
+            for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
+                for (int k = 0; k < triangle_points_2D[i][j][l].size(); k++){
+                    if (triangle_points_2D[i][j][l][k][0] == -100000 && triangle_points_2D[i][j][l][k][1] == -100000) skip = true;
+                }
             }
         }
 
@@ -800,11 +813,13 @@ void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<st
 
         if (!skip){
             for (int j = 0; j < triangle_points_2D[i].size(); j++){
-                glBegin(GL_POLYGON);
-                    glVertex2i(triangle_points_2D[i][j][0][0], triangle_points_2D[i][j][0][1]);
-                    glVertex2i(triangle_points_2D[i][j][1][0], triangle_points_2D[i][j][1][1]);
-                    glVertex2i(triangle_points_2D[i][j][2][0], triangle_points_2D[i][j][2][1]);
-                glEnd();
+                for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
+                    glBegin(GL_POLYGON);
+                        glVertex2i(triangle_points_2D[i][j][l][0][0], triangle_points_2D[i][j][l][0][1]);
+                        glVertex2i(triangle_points_2D[i][j][l][1][0], triangle_points_2D[i][j][l][1][1]);
+                        glVertex2i(triangle_points_2D[i][j][l][2][0], triangle_points_2D[i][j][l][2][1]);
+                    glEnd();
+                }
             }
         }
     }
@@ -812,34 +827,38 @@ void Graphics::draw_full_triangles_sphere(std::vector<std::vector<std::vector<st
 }
 
 
-void Graphics::draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<std::vector<int>>>> triangle_points_2D){
+void Graphics::draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> triangle_points_2D){
 
     for (int i = 0; i < triangle_points_2D.size(); i++){
 
         bool skip = false;
         for (int j = 0; j < triangle_points_2D[0].size(); j++){
-            for (int k = 0; k < triangle_points_2D[0][0].size(); k++){
-                if (triangle_points_2D[i][j][k][0] == -100000 && triangle_points_2D[i][j][k][1] == -100000 ) skip = true;
+            for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
+                for (int k = 0; k < triangle_points_2D[0][0].size(); k++){
+                    if (triangle_points_2D[i][j][l][k][0] == -100000 && triangle_points_2D[i][j][l][k][1] == -100000 ) skip = true;
+                }
             }
         }
 
         if (!skip){
 
             for (int j = 0; j < triangle_points_2D[0].size(); j++){
-                glBegin(GL_LINES);
-                    glVertex2i(triangle_points_2D[i][j][0][0], triangle_points_2D[i][j][0][1]);
-                    glVertex2i(triangle_points_2D[i][j][1][0], triangle_points_2D[i][j][1][1]);
-                glEnd();
+                for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
+                    glBegin(GL_LINES);
+                        glVertex2i(triangle_points_2D[i][j][l][0][0], triangle_points_2D[i][j][l][0][1]);
+                        glVertex2i(triangle_points_2D[i][j][l][1][0], triangle_points_2D[i][j][l][1][1]);
+                    glEnd();
 
-                glBegin(GL_LINES);
-                    glVertex2i(triangle_points_2D[i][j][1][0], triangle_points_2D[i][j][1][1]);
-                    glVertex2i(triangle_points_2D[i][j][2][0], triangle_points_2D[i][j][2][1]);
-                glEnd();
+                    glBegin(GL_LINES);
+                        glVertex2i(triangle_points_2D[i][j][l][1][0], triangle_points_2D[i][j][l][1][1]);
+                        glVertex2i(triangle_points_2D[i][j][l][2][0], triangle_points_2D[i][j][l][2][1]);
+                    glEnd();
 
-                glBegin(GL_LINES);
-                    glVertex2i(triangle_points_2D[i][j][2][0], triangle_points_2D[i][j][2][1]);
-                    glVertex2i(triangle_points_2D[i][j][0][0], triangle_points_2D[i][j][0][1]);
-                glEnd();
+                    glBegin(GL_LINES);
+                        glVertex2i(triangle_points_2D[i][j][l][2][0], triangle_points_2D[i][j][l][2][1]);
+                        glVertex2i(triangle_points_2D[i][j][l][0][0], triangle_points_2D[i][j][l][0][1]);
+                    glEnd();
+                }
             }
         }
     }
