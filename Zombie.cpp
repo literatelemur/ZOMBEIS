@@ -12,6 +12,10 @@
 
 Zombie::Zombie(Graphics* graphics, int x, int y, int z){
 
+    center_x = x;
+    center_y = y;
+    center_z = z;
+
     speed = 10;
     leg_angle1 = 0;
     leg_inner_dir = 1;
@@ -76,6 +80,10 @@ void Zombie::render(Graphics* graphics){
 }
 
 void Zombie::move(int dir){
+
+
+    center_z -= speed * dir;
+
 
     // Moving all zombei points towards player (negative z direction).
 
@@ -249,4 +257,11 @@ void Zombie::move(int dir){
         arm_phase = 0;
     }
         
+}
+
+
+void Zombie::gravitate(){
+
+    
+
 }

@@ -13,12 +13,9 @@
 #include "Arrow.h"
 #include "Graphics.h"
 #include "Star.h"
+#include "World.h"
 
 Graphics graphics;
-int num_zombies;
-std::vector<Zombie> zombie_vector;
-std::vector<Arrow> arrow_vector;
-std::vector<Star> star_vector;
 
 int window_width = 1920;
 int window_height = 1080;
@@ -27,6 +24,13 @@ const float aspect_ratio = 16.0f / 9.0f; // Desired aspect ratio
 
 bool key_states[256] = { false };
 
+int num_zombies;
+std::vector<Zombie> zombie_vector;
+std::vector<Arrow> arrow_vector;
+std::vector<Star> star_vector;
+
+// Making world
+World world = World(&graphics);
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -121,6 +125,7 @@ void mouse_click(int button, int state, int x, int y) {
 
 
 void render_all(){
+
         graphics.clear_draw_screen();
 
         for (int i = 0; i < star_vector.size(); i++){
@@ -129,57 +134,8 @@ void render_all(){
         }
 
 
-        std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_sphere_triangle_points_3D = graphics.find_triangle_points_sphere(graphics.floor_sphere_points_3D);
-        std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> floor_sphere_triangle_points_2D = graphics.compute_2D_triangles(floor_sphere_triangle_points_3D);
+        world.render(&graphics);
 
-
-        //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
-
-
-        graphics.set_color(0.0f, 0.0f, 0.0f);
-
-        graphics.draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
-
-        graphics.set_color(1.0f, 0.0f, 0.0f);
-
-        graphics.draw_hollow_triangles_sphere(floor_sphere_triangle_points_2D);
-
-
-
-
-        // Drawing floor lines
-
-        std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics.find_floor_lines_on_globe(graphics.floor_sphere_points_3D, floor_sphere_triangle_points_3D);
-
-        std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(floor_points_3D);
-
-        graphics.draw_floor_lines(floor_points_2D);
-
-
-
-
-        // std::vector<std::vector<std::vector<std::vector<double>>>> test_points_3D = graphics.find_triangle_points_sphere(graphics.test_points_3D[0][0]);
-        // std::vector<std::vector<std::vector<std::vector<int>>>> test_points_2D = graphics.compute_2D_triangles(test_points_3D);
-
-
-        //std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics.compute_2D_lines(graphics.floor_points_3D);
-
-
-
-
-        // graphics.set_color(1.0f, 1.0f, 1.0f);
-
-        // graphics.draw_full_triangles_sphere(test_points_2D);
-
-        // graphics.set_color(1.0f, 0.0f, 0.0f);
-
-        // graphics.draw_hollow_triangles_sphere(test_points_2D);
-
-
-
-
-
-        graphics.set_color(0.0f, 0.0f, 1.0f);
 
         int zombie_to_remove = -1;
         int arrow_to_remove = -1;
@@ -213,18 +169,19 @@ void render_all(){
 
         }
 
-        // for (double i = 0; i < num_zombies; i++){
-        //     zombie_vector[i].render(&graphics);
-        // }
+        for (double i = 0; i < num_zombies; i++){
+            zombie_vector[i].gravitate();
+            zombie_vector[i].render(&graphics);
+        }
 
         graphics.set_color(1.0f, 1.0f, 1.0f);
 
         for (int i = 0; i < arrow_vector.size(); i++){
             arrow_vector[i].move(&graphics);
             arrow_vector[i].render(&graphics);
-            if (arrow_vector[i].y >= 1070){
-                arrow_vector.erase(arrow_vector.begin() + i);
-            }
+            // if (arrow_vector[i].y >= 1070){
+            //     arrow_vector.erase(arrow_vector.begin() + i);
+            // }
         }
 
 
@@ -257,6 +214,7 @@ int main(int argc, char* argv[]) {
     // Event handler
     //SDL_Event event;
 
+
     // Create a random device (seed source) //gpt
     std::random_device rd;
 
@@ -272,7 +230,7 @@ int main(int argc, char* argv[]) {
     int random_nums = distribs(gen);
 
     //num_zombies = 100;
-     num_zombies = 50;
+    num_zombies = 50;
     //num_zombies = 25;
 
     for (double i = 0; i < num_zombies; i++){
@@ -336,16 +294,13 @@ int main(int argc, char* argv[]) {
 
 //FIXX:
 // -distance-based render of objects so far away objects not in front of close ones
-// -make horizon physical line at end of grid
 // -make bow
-// -make arrows more detailed visually
-// -make world spherical
+// -make arrows more detailed visually?
 // -make arm movement better
 // -review floor angle code vs zombei angle code (zombei angle code being gpt)
 
 // -refine zombei leg movement animation
-// -fix hollow portions of zombei heads
 
-// -fix icosahedron missing two triangles
 // -fix line turning up and down
-// -fix line rendering when part past player
+// -fix line rendering when part past player on incline
+// -comment graphics.find_floor_lines_on_globe

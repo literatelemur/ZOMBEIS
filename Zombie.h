@@ -16,6 +16,9 @@ class Zombie {
 
     public:
 
+        int center_x;
+        int center_y;
+        int center_z;
         int speed;
         int leg_angle1;
         int leg_angle2;
@@ -39,6 +42,8 @@ class Zombie {
         void render(Graphics* graphics);
 
         void move(int dir);
+
+        void gravitate();
 
 };
 
