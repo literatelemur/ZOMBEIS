@@ -170,7 +170,7 @@ void render_all(){
         }
 
         for (double i = 0; i < num_zombies; i++){
-            zombie_vector[i].gravitate();
+            zombie_vector[i].gravitate(world);
             zombie_vector[i].render(&graphics);
         }
 
@@ -230,8 +230,8 @@ int main(int argc, char* argv[]) {
     int random_nums = distribs(gen);
 
     //num_zombies = 100;
-    num_zombies = 50;
-    //num_zombies = 25;
+    //num_zombies = 50;
+    num_zombies = 25;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);

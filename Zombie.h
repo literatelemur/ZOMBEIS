@@ -11,6 +11,7 @@
 #define zombie_H
 
 class Graphics;
+class World;
 
 class Zombie {
 
@@ -43,7 +44,7 @@ class Zombie {
 
         void move(int dir);
 
-        void gravitate();
+        void gravitate(World world);
 
 };
 

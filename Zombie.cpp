@@ -8,6 +8,8 @@
 #include "Zombie.h"
 #include "Graphics.h"
 #include "main.h"
+#include "World.h"
+
 
 
 Zombie::Zombie(Graphics* graphics, int x, int y, int z){
@@ -260,8 +262,31 @@ void Zombie::move(int dir){
 }
 
 
-void Zombie::gravitate(){
+void Zombie::gravitate(World world){
 
-    
+    // Computing distance between center of zombei and center of world.
+
+    double dist = sqrt((center_x - world.center_x) * (center_x - world.center_x) + (center_y - world.center_y) * (center_y - world.center_y) + (center_z - world.center_z) * (center_z - world.center_z));
+
+
+    if (dist > 1000 * 1.6180339887) {
+
+        center_y++;
+
+
+        // Moving all zombei points.
+
+        for (int i = 0; i < sphere_points_3D_head.size(); i++){
+            sphere_points_3D_head[i][1] ++;
+        }
+
+        for (int i = 0; i < rect_points_3D_body.size(); i++){
+            rect_points_3D_body[i][1] ++;
+            rect_points_3D_arm1[i][1] ++;
+            rect_points_3D_arm2[i][1] ++;
+            rect_points_3D_leg1[i][1] ++;
+            rect_points_3D_leg2[i][1] ++;
+        }
+    }
 
 }
