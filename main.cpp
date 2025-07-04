@@ -179,6 +179,7 @@ void render_all(){
         for (int i = 0; i < arrow_vector.size(); i++){
             arrow_vector[i].move(&graphics);
             arrow_vector[i].render(&graphics);
+            // Arrow hits floor
             // if (arrow_vector[i].y >= 1070){
             //     arrow_vector.erase(arrow_vector.begin() + i);
             // }
@@ -230,8 +231,8 @@ int main(int argc, char* argv[]) {
     int random_nums = distribs(gen);
 
     //num_zombies = 100;
-    //num_zombies = 50;
-    num_zombies = 25;
+    num_zombies = 50;
+    //num_zombies = 25;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
@@ -259,8 +260,8 @@ int main(int argc, char* argv[]) {
     int random_star_numz = distrib_starz(gen);
 
     int count = 1;
-    //while (count < 5000){
-    while (count < 1000){
+    while (count < 5000){
+    //while (count < 1000){
         random_star_numx = distrib_starx(gen);
         random_star_numy = distrib_stary(gen);
         random_star_numz = distrib_starz(gen);

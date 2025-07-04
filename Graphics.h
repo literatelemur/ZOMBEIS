@@ -36,7 +36,7 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D, std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);        
+        std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<double>> sphere_points_3D, std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> line_points_3D);
 
