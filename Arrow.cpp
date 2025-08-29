@@ -52,7 +52,7 @@ void Arrow::render(Graphics* graphics){
 
 void Arrow::move(Graphics* graphics){
 
-    z+=1;
+    z+=30;
 
     double x_diff_origin_3D = tan(anglex) * (z - origin_z);
     double y_diff_origin_3D = tan(angley) * (z - origin_z);

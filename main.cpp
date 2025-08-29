@@ -46,32 +46,32 @@ void keyUp(unsigned char key, int idk1, int idk2){
 // Keyboard press check
 void key_press_check() {
     if(key_states['w']){
-        graphics.playerz += 5;
+        graphics.playerz += 50;
         // if (graphics.playerz < 1000){
         //     graphics.playerz += 5;
         // }
     }if(key_states['s']){
-        graphics.playerz -= 5;
+        graphics.playerz -= 50;
         // if (graphics.playerz > 0){
         //     graphics.playerz -= 5;
         // }
     }if(key_states['d']){
-        graphics.playerx += 5;
+        graphics.playerx += 50;
         // if (graphics.playerx < 1920){
         //     graphics.playerx += 5;
         // }
     }if(key_states['a']){
-        graphics.playerx -= 5;
+        graphics.playerx -= 50;
         // if (graphics.playerx > 0){
         //     graphics.playerx -= 5;
         // }
     }if(key_states['r']){
         // if (graphics.playery > 0){
-            graphics.playery -= 5;
+            graphics.playery -= 50;
         // }
     }if(key_states['f']){
         //if (graphics.playery < 1070){
-            graphics.playery += 5;
+            graphics.playery += 50;
         //}
     }if(key_states['e']){
         for (int i = 0; i < num_zombies; i++){
@@ -84,16 +84,16 @@ void key_press_check() {
             zombie_vector[j].render(&graphics);
         }
     }if(key_states['z']){
-        graphics.anglex_adj -= 0.01745329 * 2;
+        graphics.anglex_diff -= 0.01745329 * 2;
 
     }if(key_states['c']){
-        graphics.anglex_adj += 0.01745329 * 2;
+        graphics.anglex_diff += 0.01745329 * 2;
 
     }if(key_states['t']){
-        graphics.angley_adj -= 0.01745329;
+        graphics.angley_diff -= 0.01745329;
 
     }if(key_states['g']){
-        graphics.angley_adj += 0.01745329;
+        graphics.angley_diff += 0.01745329;
         
     }if(key_states['x']){
         
