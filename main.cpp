@@ -171,7 +171,7 @@ void render_all(){
 
         for (double i = 0; i < num_zombies; i++){
             zombie_vector[i].gravitate(world);
-            zombie_vector[i].render(&graphics);
+            //zombie_vector[i].render(&graphics);
         }
 
         graphics.set_color(1.0f, 1.0f, 1.0f);
@@ -231,8 +231,8 @@ int main(int argc, char* argv[]) {
     int random_nums = distribs(gen);
 
     //num_zombies = 100;
-    num_zombies = 50;
-    //num_zombies = 25;
+    //num_zombies = 50;
+    num_zombies = 25;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
@@ -259,14 +259,14 @@ int main(int argc, char* argv[]) {
     std::uniform_int_distribution<> distrib_starz(1000, 50000);
     int random_star_numz = distrib_starz(gen);
 
-    int count = 1;
-    while (count < 5000){
-    //while (count < 1000){
+    int num_stars = 1;
+    //while (num_stars < 5000){
+    while (num_stars < 1000){
         random_star_numx = distrib_starx(gen);
         random_star_numy = distrib_stary(gen);
         random_star_numz = distrib_starz(gen);
         star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, -2000, -1000));
-        count++;
+        num_stars++;
     }
 
 
