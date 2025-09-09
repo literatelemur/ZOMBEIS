@@ -39,7 +39,7 @@ void World::render(Graphics* graphics){
 
     graphics->set_color(1.0f, 0.0f, 0.0f);
 
-    //graphics->draw_hollow_triangles_sphere(floor_sphere_triangle_points_2D);
+    graphics->draw_hollow_triangles_sphere(floor_sphere_triangle_points_2D);
 
 
     // Drawing floor lines

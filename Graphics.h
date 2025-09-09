@@ -14,6 +14,8 @@ class Graphics {
 
     public:
 
+        int drawi, drawj, drawl;
+
         int zscreendiff;
         int playerx;
         int playery;

@@ -20,7 +20,7 @@ Graphics graphics;
 int window_width = 1920;
 int window_height = 1080;
 
-const float aspect_ratio = 16.0f / 9.0f; // Desired aspect ratio
+//const float aspect_ratio = 16.0f / 9.0f; // Desired aspect ratio
 
 bool key_states[256] = { false };
 
@@ -46,32 +46,32 @@ void keyUp(unsigned char key, int idk1, int idk2){
 // Keyboard press check
 void key_press_check() {
     if(key_states['w']){
-        graphics.playerz += 50;
+        graphics.playerz += 10;
         // if (graphics.playerz < 1000){
         //     graphics.playerz += 5;
         // }
     }if(key_states['s']){
-        graphics.playerz -= 50;
+        graphics.playerz -= 10;
         // if (graphics.playerz > 0){
         //     graphics.playerz -= 5;
         // }
     }if(key_states['d']){
-        graphics.playerx += 50;
+        graphics.playerx += 10;
         // if (graphics.playerx < 1920){
         //     graphics.playerx += 5;
         // }
     }if(key_states['a']){
-        graphics.playerx -= 50;
+        graphics.playerx -= 10;
         // if (graphics.playerx > 0){
         //     graphics.playerx -= 5;
         // }
     }if(key_states['r']){
         // if (graphics.playery > 0){
-            graphics.playery -= 50;
+            graphics.playery -= 10;
         // }
     }if(key_states['f']){
         //if (graphics.playery < 1070){
-            graphics.playery += 50;
+            graphics.playery += 10;
         //}
     }if(key_states['e']){
         for (int i = 0; i < num_zombies; i++){
@@ -170,7 +170,7 @@ void render_all(){
         }
 
         for (double i = 0; i < num_zombies; i++){
-            zombie_vector[i].gravitate(world);
+            //zombie_vector[i].gravitate(world);
             //zombie_vector[i].render(&graphics);
         }
 
