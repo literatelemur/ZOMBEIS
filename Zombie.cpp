@@ -43,7 +43,7 @@ Zombie::Zombie(Graphics* graphics, int x, int y, int z){
 void Zombie::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D_head = graphics->find_triangle_points_sphere(sphere_points_3D_head);
-    std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> sphere_triangle_points_2D_head = graphics->compute_2D_triangles(sphere_triangle_points_3D_head);
+    std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> sphere_triangle_points_2D_head = graphics->compute_2D_sphere_triangles(sphere_triangle_points_3D_head);
     graphics->set_color(0, 0, 0);
     graphics->draw_full_triangles_sphere(sphere_triangle_points_2D_head);
     graphics->set_color(0, 0, 1);

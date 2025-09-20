@@ -30,7 +30,8 @@ World::World(Graphics* graphics){
 void World::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_sphere_triangle_points_3D = graphics->find_triangle_points_sphere(floor_sphere_points_3D);
-    std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> floor_sphere_triangle_points_2D = graphics->compute_2D_triangles(floor_sphere_triangle_points_3D);
+    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> clipped_floor_sphere_triangle_points_3D = graphics->clip_triangle_points_sphere(floor_sphere_triangle_points_3D);
+    std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> floor_sphere_triangle_points_2D = graphics->compute_2D_sphere_triangles(clipped_floor_sphere_triangle_points_3D);
 
 
     graphics->set_color(0.0f, 0.0f, 0.0f);
@@ -44,9 +45,9 @@ void World::render(Graphics* graphics){
 
     // Drawing floor lines
 
-    std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics->find_floor_lines_on_globe(graphics->floor_sphere_points_3D, floor_sphere_triangle_points_3D);
+    std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics->find_floor_lines_on_globe(floor_sphere_triangle_points_3D);
 
-    std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics->compute_2D_lines(floor_points_3D);
+    std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics->compute_2D_sphere_lines(floor_points_3D);
 
     graphics->draw_floor_lines(floor_points_2D);
 }
