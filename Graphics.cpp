@@ -342,9 +342,9 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
 }
 
 
-std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
+std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> Graphics::clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
 
-    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> clipped_polygon_points_3D_sphere;
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_polygon_points_3D_sphere;
 
     for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
         clipped_polygon_points_3D_sphere.emplace_back();
@@ -366,7 +366,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
                 line1[1].emplace_back(triangle_points_3D_sphere[i][j][k][1][1]);
                 line1[1].emplace_back(triangle_points_3D_sphere[i][j][k][1][2]);
 
-                std::vector<double> clipped_coor_line1 = clip_3D_line(line1);
+                std::vector<double> clipped_coor_diffs_line1 = clip_3D_line(line1);
 
 
 
@@ -381,7 +381,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
                 line2[1].emplace_back(triangle_points_3D_sphere[i][j][k][2][1]);
                 line2[1].emplace_back(triangle_points_3D_sphere[i][j][k][2][2]);
 
-                std::vector<double> clipped_coor_line2 = clip_3D_line(line2);
+                std::vector<double> clipped_coor_diffs_line2 = clip_3D_line(line2);
 
 
 
@@ -397,48 +397,151 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
                 line3[1].emplace_back(triangle_points_3D_sphere[i][j][k][0][1]);
                 line3[1].emplace_back(triangle_points_3D_sphere[i][j][k][0][2]);
 
-                std::vector<double> clipped_coor_line3 = clip_3D_line(line3);
+                std::vector<double> clipped_coor_diffs_line3 = clip_3D_line(line3);
+
+                
+
+
+                std::vector<std::vector<double>> clipped_coor_line1;
+
+
+                if (line1[0][0] != -100000 && line1[0][1] != -100000 && line1[0][2] != -100000 && 
+                        line1[1][0] != -100000 && line1[1][1] != -100000 && line1[1][2] != -100000){
+
+                    clipped_coor_line1.emplace_back();
+                    clipped_coor_line1[0].emplace_back(playerx - clipped_coor_diffs_line1[0]); //Not sure why this is "playerx - clipped_coor_diffs_line1[0]" and not the reverse "clipped_coor_diffs_line1[0] + playerx" that is done in function clip_3D_line() but idk.
+                    clipped_coor_line1[0].emplace_back(playery + clipped_coor_diffs_line1[1]);
+                    clipped_coor_line1[0].emplace_back(playerz + clipped_coor_diffs_line1[2]);
+
+
+                    clipped_coor_line1.emplace_back();
+                    clipped_coor_line1[1].emplace_back(playerx - clipped_coor_diffs_line1[3]);
+                    clipped_coor_line1[1].emplace_back(playery + clipped_coor_diffs_line1[4]);
+                    clipped_coor_line1[1].emplace_back(playerz + clipped_coor_diffs_line1[5]);
+
+                }else{
+
+                    clipped_coor_line1.emplace_back();
+                    clipped_coor_line1[0].emplace_back(-100000);
+                    clipped_coor_line1[0].emplace_back(-100000);
+                    clipped_coor_line1[0].emplace_back(-100000);
+
+
+                    clipped_coor_line1.emplace_back();
+                    clipped_coor_line1[1].emplace_back(-100000);
+                    clipped_coor_line1[1].emplace_back(-100000);
+                    clipped_coor_line1[1].emplace_back(-100000);
+                }
+
+
+                
+
+
+                std::vector<std::vector<double>> clipped_coor_line2;
+
+                if (line2[0][0] != -100000 && line2[0][1] != -100000 && line2[0][2] != -100000 && 
+                        line2[1][0] != -100000 && line2[1][1] != -100000 && line2[1][2] != -100000){
+
+                    clipped_coor_line2.emplace_back();
+                    clipped_coor_line2[0].emplace_back(playerx - clipped_coor_diffs_line2[0]); //Not sure why this is "playerx - clipped_coor_diffs_line2[0]" and not the reverse "clipped_coor_diffs_line2[0] + playerx" that is done in function clip_3D_line() but idk.
+                    clipped_coor_line2[0].emplace_back(playery + clipped_coor_diffs_line2[1]);
+                    clipped_coor_line2[0].emplace_back(playerz + clipped_coor_diffs_line2[2]);
+
+
+                    clipped_coor_line2.emplace_back();
+                    clipped_coor_line2[1].emplace_back(playerx - clipped_coor_diffs_line2[3]);
+                    clipped_coor_line2[1].emplace_back(playery + clipped_coor_diffs_line2[4]);
+                    clipped_coor_line2[1].emplace_back(playerz + clipped_coor_diffs_line2[5]);
+
+                }else{
+
+                    clipped_coor_line2.emplace_back();
+                    clipped_coor_line2[0].emplace_back(-100000);
+                    clipped_coor_line2[0].emplace_back(-100000);
+                    clipped_coor_line2[0].emplace_back(-100000);
+
+
+                    clipped_coor_line2.emplace_back();
+                    clipped_coor_line2[1].emplace_back(-100000);
+                    clipped_coor_line2[1].emplace_back(-100000);
+                    clipped_coor_line2[1].emplace_back(-100000);
+                }
+
+
+                std::vector<std::vector<double>> clipped_coor_line3;
+
+                if (line3[0][0] != -100000 && line3[0][1] != -100000 && line3[0][2] != -100000 && 
+                        line3[1][0] != -100000 && line3[1][1] != -100000 && line3[1][2] != -100000){
+
+                    clipped_coor_line3.emplace_back();
+                    clipped_coor_line3[0].emplace_back(playerx - clipped_coor_diffs_line3[0]); //Not sure why this is "playerx - clipped_coor_diffs_line3[0]" and not the reverse "clipped_coor_diffs_line3[0] + playerx" that is done in function clip_3D_line() but idk.
+                    clipped_coor_line3[0].emplace_back(playery + clipped_coor_diffs_line3[1]);
+                    clipped_coor_line3[0].emplace_back(playerz + clipped_coor_diffs_line3[2]);
+
+
+                    clipped_coor_line3.emplace_back();
+                    clipped_coor_line3[1].emplace_back(playerx - clipped_coor_diffs_line3[3]);
+                    clipped_coor_line3[1].emplace_back(playery + clipped_coor_diffs_line3[4]);
+                    clipped_coor_line3[1].emplace_back(playerz + clipped_coor_diffs_line3[5]);
+
+                }else{
+
+                    clipped_coor_line3.emplace_back();
+                    clipped_coor_line3[0].emplace_back(-100000);
+                    clipped_coor_line3[0].emplace_back(-100000);
+                    clipped_coor_line3[0].emplace_back(-100000);
+
+
+                    clipped_coor_line3.emplace_back();
+                    clipped_coor_line3[1].emplace_back(-100000);
+                    clipped_coor_line3[1].emplace_back(-100000);
+                    clipped_coor_line3[1].emplace_back(-100000);
+                }
+
+
+                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
+                clipped_polygon_points_3D_sphere[i][j][k][0].emplace_back();
+                clipped_polygon_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][0]);
+                clipped_polygon_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][1]);
+                clipped_polygon_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][2]);
+
+                clipped_polygon_points_3D_sphere[i][j][k][0].emplace_back();
+                clipped_polygon_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][0]);
+                clipped_polygon_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][1]);
+                clipped_polygon_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][2]);
 
 
 
                 clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][0].emplace_back(clipped_coor_line1[0]);
-                clipped_polygon_points_3D_sphere[i][j][k][0].emplace_back(clipped_coor_line1[1]);
-                clipped_polygon_points_3D_sphere[i][j][k][0].emplace_back(clipped_coor_line1[2]);
+                clipped_polygon_points_3D_sphere[i][j][k][1].emplace_back();
+                clipped_polygon_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][0]);
+                clipped_polygon_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][1]);
+                clipped_polygon_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][2]);
 
-                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][1].emplace_back(clipped_coor_line1[3]);
-                clipped_polygon_points_3D_sphere[i][j][k][1].emplace_back(clipped_coor_line1[4]);
-                clipped_polygon_points_3D_sphere[i][j][k][1].emplace_back(clipped_coor_line1[5]);
+                clipped_polygon_points_3D_sphere[i][j][k][1].emplace_back();
+                clipped_polygon_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][0]);
+                clipped_polygon_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][1]);
+                clipped_polygon_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][2]);
 
-
-                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][2].emplace_back(clipped_coor_line2[0]);
-                clipped_polygon_points_3D_sphere[i][j][k][2].emplace_back(clipped_coor_line2[1]);
-                clipped_polygon_points_3D_sphere[i][j][k][2].emplace_back(clipped_coor_line2[2]);
-
-                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][3].emplace_back(clipped_coor_line2[3]);
-                clipped_polygon_points_3D_sphere[i][j][k][3].emplace_back(clipped_coor_line2[4]);
-                clipped_polygon_points_3D_sphere[i][j][k][3].emplace_back(clipped_coor_line2[5]);
 
 
                 clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][4].emplace_back(clipped_coor_line3[0]);
-                clipped_polygon_points_3D_sphere[i][j][k][4].emplace_back(clipped_coor_line3[1]);
-                clipped_polygon_points_3D_sphere[i][j][k][4].emplace_back(clipped_coor_line3[2]);
+                clipped_polygon_points_3D_sphere[i][j][k][2].emplace_back();
+                clipped_polygon_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][0]);
+                clipped_polygon_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][1]);
+                clipped_polygon_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][2]);
 
-                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][5].emplace_back(clipped_coor_line3[3]);
-                clipped_polygon_points_3D_sphere[i][j][k][5].emplace_back(clipped_coor_line3[4]);
-                clipped_polygon_points_3D_sphere[i][j][k][5].emplace_back(clipped_coor_line3[5]);
+                clipped_polygon_points_3D_sphere[i][j][k][2].emplace_back();
+                clipped_polygon_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][0]);
+                clipped_polygon_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][1]);
+                clipped_polygon_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][2]);
                 
             }
         }
     }
 
-    return triangle_points_3D_sphere;
-    //return clipped_polygon_points_3D_sphere;
+    //return triangle_points_3D_sphere;
+    return clipped_polygon_points_3D_sphere;
 }
 
 
@@ -587,7 +690,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
 }
 
 
-std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> world_lines_points_3D){
+std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> world_lines_points_3D){
 
     std::vector<std::vector<std::vector<std::vector<int>>>> world_lines_points_2D;
 
@@ -609,20 +712,23 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sph
             world_lines_points_2D[i][j][1].emplace_back(0);
 
 
-            std::vector<double> clipped_coor = clip_3D_line(world_lines_points_3D[i][j]);
+            std::vector<double> clipped_coor_diffs = clip_3D_line(world_lines_points_3D[i][j]);
             
-            double x1_clip_diff = clipped_coor[0];
-            double y1_clip_diff = clipped_coor[1];
-            double z1_clip_diff = clipped_coor[2];
+            double x1_clip_diff = clipped_coor_diffs[0];
+            double y1_clip_diff = clipped_coor_diffs[1];
+            double z1_clip_diff = clipped_coor_diffs[2];
 
-            double x2_clip_diff = clipped_coor[3];
-            double y2_clip_diff = clipped_coor[4];
-            double z2_clip_diff = clipped_coor[5];
+            double x2_clip_diff = clipped_coor_diffs[3];
+            double y2_clip_diff = clipped_coor_diffs[4];
+            double z2_clip_diff = clipped_coor_diffs[5];
+
+            
 
 
 
             if (x1_clip_diff == -100000 && y1_clip_diff == -100000 && z1_clip_diff == -100000 &&
                     x2_clip_diff == -100000 && y2_clip_diff == -100000 && z2_clip_diff == -100000){
+
                             
                 world_lines_points_2D[i][j][0][0] = -100000;
                 world_lines_points_2D[i][j][0][1] = -100000;
@@ -632,24 +738,29 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sph
 
             }else{
 
-                double anglex1 = atan2(x1_clip_diff, z1_clip_diff);
-                int x1_turn_2D = (int) (tan(anglex1) * zscreendiff);
+                // Returning diff to objective point so that it can be plugged into compute_2D_point.
+                double x_3D = (x1_clip_diff - playerx) * -1;
+                double y_3D = y1_clip_diff + playery;
+                double z_3D = z1_clip_diff + playerz;
 
-                double angley1 = atan2(y1_clip_diff, z1_clip_diff);
-                int y1_turn_2D = (int) (tan(angley1) * zscreendiff);
+                std::vector<double> point_3D = {x_3D, y_3D, z_3D};
+                std::vector<int> point_2D = compute_2D_point(point_3D);
 
-                double anglex2 = atan2(x2_clip_diff, z2_clip_diff);
-                int x2_turn_2D = (int) (tan(anglex2) * zscreendiff);
+                world_lines_points_2D[i][j][0][0] = point_2D[0];
+                world_lines_points_2D[i][j][0][1] = point_2D[1];
 
-                double angley2 = atan2(y2_clip_diff, z2_clip_diff);
-                int y2_turn_2D = (int) (tan(angley2) * zscreendiff);
-                
 
-                world_lines_points_2D[i][j][0][0] = (int) (960 - x1_turn_2D);
-                world_lines_points_2D[i][j][0][1] = (int) (540 + y1_turn_2D);
 
-                world_lines_points_2D[i][j][1][0] = (int) (960 - x2_turn_2D);
-                world_lines_points_2D[i][j][1][1] = (int) (540 + y2_turn_2D);
+                x_3D = (x2_clip_diff - playerx) * -1;
+                y_3D = y2_clip_diff + playery;
+                z_3D = z2_clip_diff + playerz;
+
+                point_3D = {x_3D, y_3D, z_3D};
+                point_2D = compute_2D_point(point_3D);
+
+                world_lines_points_2D[i][j][1][0] = point_2D[0];
+                world_lines_points_2D[i][j][1][1] = point_2D[1];
+
             }
 
         }
@@ -683,7 +794,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
 
     
     // Determining if clipping is necessary (when z value reaches behind player).
-    if (z_diff1 < near_plane && z_diff2 < near_plane){
+    if (z_diff1 <= near_plane && z_diff2 <= near_plane){
 
         x1_clip_diff = -100000;
         y1_clip_diff = -100000;
@@ -694,7 +805,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
         z2_clip_diff = -100000;
 
 
-    }else if (z_diff1 < near_plane){
+    }else if (z_diff1 <= near_plane){
 
         double ratio_along = (near_plane - z_diff1) / (line_points_3D[1][2] - line_points_3D[0][2]);
         double x1_clip = line_points_3D[0][0] + ratio_along * (line_points_3D[1][0] - line_points_3D[0][0]);
@@ -711,7 +822,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
 
 
 
-    }else if (z_diff2 < near_plane){
+    }else if (z_diff2 <= near_plane){
 
         x1_clip_diff = x_diff1;
         y1_clip_diff = y_diff1;
@@ -738,15 +849,15 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
         z2_clip_diff = z_diff2;
     }
 
-    std::vector<double> clipped_coor;
-    clipped_coor.emplace_back(x1_clip_diff);
-    clipped_coor.emplace_back(y1_clip_diff);
-    clipped_coor.emplace_back(z1_clip_diff);
-    clipped_coor.emplace_back(x2_clip_diff);
-    clipped_coor.emplace_back(y2_clip_diff);
-    clipped_coor.emplace_back(z2_clip_diff);
+    std::vector<double> clipped_coor_diffs;
+    clipped_coor_diffs.emplace_back(x1_clip_diff);
+    clipped_coor_diffs.emplace_back(y1_clip_diff);
+    clipped_coor_diffs.emplace_back(z1_clip_diff);
+    clipped_coor_diffs.emplace_back(x2_clip_diff);
+    clipped_coor_diffs.emplace_back(y2_clip_diff);
+    clipped_coor_diffs.emplace_back(z2_clip_diff);
 
-    return clipped_coor;
+    return clipped_coor_diffs;
 }
 
 // std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_lines(std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D){
@@ -897,76 +1008,12 @@ std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> Graphics::c
 
     // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
     for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
-        for (int j = 0; j < triangle_points_3D_sphere[0].size(); j++){
-            for (int l = 0; l < triangle_points_3D_sphere[0][0].size(); l++){ 
+        for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
+            for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){ 
 
                 for (int k = 0; k < 3; k++){
-                    
-                    // double anglex = atan2(triangle_points_3D_sphere[i][j][l][k][0] - playerx, triangle_points_3D_sphere[i][j][l][k][2] - playerz);
-                    // //int x = (int) (tan(anglex) * zscreendiff);
 
-                    // double angley = atan2(triangle_points_3D_sphere[i][j][l][k][1] - playery, triangle_points_3D_sphere[i][j][l][k][2] - playerz);
-                    // int y = (int) (tan(angley) * zscreendiff);
-
-                    // double anglex_turn = anglex_diff - anglex;
-                    // double hyp = (triangle_points_3D_sphere[i][j][l][k][0] - playerx) / sin(anglex);
-
-                    // double z_turn_diff = cos(anglex_turn) * hyp;
-
-                    // if (z_turn_diff < near_plane){
-                    //     object_2D[i][j][l][k][0] = -100000;
-                    //     object_2D[i][j][l][k][1] = -100000;
-
-                    // } else{
-                    //     int x = (int) (tan(anglex_turn) * zscreendiff);
-
-                    //     object_2D[i][j][l][k][0] = (int) (960 - x);
-                    //     object_2D[i][j][l][k][1] = (int) (540 + y);
-                    // }
-
-
-                    
-
-
-
-                    double x_3D_diff = playerx - triangle_points_3D_sphere[i][j][l][k][0];
-                    double y_3D_diff = triangle_points_3D_sphere[i][j][l][k][1] - playery;
-                    double z_3D_diff = triangle_points_3D_sphere[i][j][l][k][2] - playerz;
-
-                    // double x_3D_hyp = sqrt(x_3D_diff * x_3D_diff + z_3D_diff * z_3D_diff);
-                    // double y_3D_hyp = sqrt(y_3D_diff * y_3D_diff + z_3D_diff * z_3D_diff);
-
-                    double anglex = atan2(x_3D_diff, z_3D_diff);
-                    double anglex_turn = anglex + anglex_diff;
-
-                    double angley = atan2(y_3D_diff, z_3D_diff);
-                    //double angley_turn = angley + angley_diff;
-
-
-
-                    int x_2D_diff = (int) (tan(anglex_turn) * zscreendiff);
-                    int y_2D_diff = (int) (tan(angley) * zscreendiff);
-
-
-
-                    object_2D[i][j][l][k][0] = (int) (960 - x_2D_diff);
-                    object_2D[i][j][l][k][1] = (int) (540 + y_2D_diff);
-
-
-
-                    // if (z_turn_diff < near_plane){
-                    //     object_2D[i][j][l][k][0] = -100000;
-                    //     object_2D[i][j][l][k][1] = -100000;
-
-                    // } else{
-                        //int x = (int) (tan(anglex_turn) * zscreendiff);
-
-                        // object_2D[i][j][l][k][0] = (int) (960 - x_2D_diff);
-                        // object_2D[i][j][l][k][1] = (int) (540 + y_2D_diff);
-                    //}
-
-
-
+                    object_2D[i][j][l][k] = compute_2D_point(triangle_points_3D_sphere[i][j][l][k]);
 
 
 
@@ -1002,6 +1049,40 @@ std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> Graphics::c
                     //     object_2D[i][j][l][k][1] = 540 + y;
                     // }
                 }
+            }
+        }
+    }
+
+    return object_2D;
+
+}
+
+
+std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> Graphics::compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points_3D_sphere_as_lines){
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> object_2D;
+
+    // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
+    for (int i = 0; i < triangle_points_3D_sphere_as_lines.size(); i++){
+        object_2D.emplace_back();
+        for (int j = 0; j < triangle_points_3D_sphere_as_lines[i].size(); j++){
+            object_2D[i].emplace_back();
+            for (int k = 0; k < triangle_points_3D_sphere_as_lines[i][j].size(); k++){ 
+
+                object_2D[i][j].emplace_back();
+
+                object_2D[i][j][k].emplace_back();
+                object_2D[i][j][k][0].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][0][0]));
+                object_2D[i][j][k][0].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][0][1]));
+
+
+                object_2D[i][j][k].emplace_back();
+                object_2D[i][j][k][1].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][1][0]));
+                object_2D[i][j][k][1].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][1][1]));
+
+
+                object_2D[i][j][k].emplace_back();
+                object_2D[i][j][k][2].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][2][0]));
+                object_2D[i][j][k][2].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][2][1]));
             }
         }
     }
@@ -1142,6 +1223,39 @@ void Graphics::draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<
 }
 
 
+
+void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> triangle_points_2D){
+
+    for (int i = 0; i < triangle_points_2D.size(); i++){
+
+        bool skip = false;
+        for (int j = 0; j < triangle_points_2D[i].size(); j++){
+            for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
+                for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
+                    if (triangle_points_2D[i][j][k][l][0][0] == -100000 && triangle_points_2D[i][j][k][l][0][1] == -100000 &&
+                            triangle_points_2D[i][j][k][l][1][0] == -100000 && triangle_points_2D[i][j][k][l][1][1] == -100000 ) skip = true;
+                }
+            }
+        }
+
+        if (!skip){
+
+            for (int j = 0; j < triangle_points_2D[i].size(); j++){
+                for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
+                    for (int l = 0; l < triangle_points_2D[i][j][k].size(); l++){
+                        glBegin(GL_LINES);
+                            glVertex2i(triangle_points_2D[i][j][k][l][0][0], triangle_points_2D[i][j][k][l][0][1]);
+                            glVertex2i(triangle_points_2D[i][j][k][l][1][0], triangle_points_2D[i][j][k][l][1][1]);
+                        glEnd();
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
 void Graphics::draw_full_box(std::vector<std::vector<int>> rect_points_2D){
 
     bool skip = false;
@@ -1215,6 +1329,37 @@ void Graphics::draw_full_polygon(std::vector<std::vector<int>> polygon_points_2D
                 glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
             glEnd();
 
+        }else if (polygon_points_2D.size() == 4){
+
+            glBegin(GL_POLYGON);
+                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
+                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
+                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
+                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
+            glEnd();
+
+        }else if (polygon_points_2D.size() == 5){
+
+            glBegin(GL_POLYGON);
+                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
+                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
+                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
+                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
+                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
+            glEnd();
+
+        }else if (polygon_points_2D.size() == 6){
+
+            glBegin(GL_POLYGON);
+                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
+                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
+                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
+                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
+                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
+                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
+            glEnd();
+
+        // Drawing full box.
         }else if (polygon_points_2D.size() == 8){
             glBegin(GL_POLYGON);
                 glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
@@ -1278,6 +1423,36 @@ void Graphics::draw_hollow_polygon(std::vector<std::vector<int>> polygon_points_
                 glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
                 glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
                 glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
+            glEnd();
+
+        }else if (polygon_points_2D.size() == 4){
+
+            glBegin(GL_LINE_LOOP);
+                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
+                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
+                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
+                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
+            glEnd();
+
+        }else if (polygon_points_2D.size() == 5){
+
+            glBegin(GL_LINE_LOOP);
+                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
+                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
+                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
+                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
+                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
+            glEnd();
+
+        }else if (polygon_points_2D.size() == 6){
+
+            glBegin(GL_LINE_LOOP);
+                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
+                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
+                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
+                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
+                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
+                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
             glEnd();
 
         }else if (polygon_points_2D.size() == 8){

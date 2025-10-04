@@ -30,24 +30,24 @@ World::World(Graphics* graphics){
 void World::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_sphere_triangle_points_3D = graphics->find_triangle_points_sphere(floor_sphere_points_3D);
-    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> clipped_floor_sphere_triangle_points_3D = graphics->clip_triangle_points_sphere(floor_sphere_triangle_points_3D);
-    std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> floor_sphere_triangle_points_2D = graphics->compute_2D_sphere_triangles(clipped_floor_sphere_triangle_points_3D);
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_floor_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(floor_sphere_triangle_points_3D);
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> floor_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_floor_sphere_triangle_points_3D_as_lines);
 
 
     graphics->set_color(0.0f, 0.0f, 0.0f);
 
-    graphics->draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
+    //graphics->draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
 
     graphics->set_color(1.0f, 0.0f, 0.0f);
 
-    graphics->draw_hollow_triangles_sphere(floor_sphere_triangle_points_2D);
+    graphics->draw_hollow_triangles_sphere_as_lines(floor_sphere_triangle_points_2D_as_lines);
 
 
     // Drawing floor lines
 
     std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics->find_floor_lines_on_globe(floor_sphere_triangle_points_3D);
 
-    std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics->compute_2D_sphere_lines(floor_points_3D);
+    std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics->clip_and_compute_2D_sphere_lines(floor_points_3D);
 
     graphics->draw_floor_lines(floor_points_2D);
 }

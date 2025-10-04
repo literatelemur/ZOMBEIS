@@ -36,11 +36,11 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
-        std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_sphere);
+        std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_sphere);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
 
-        std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);
+        std::vector<std::vector<std::vector<std::vector<int>>>> clip_and_compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);
 
         std::vector<int> compute_2D_point(std::vector<double> point_3D);
 
@@ -49,6 +49,8 @@ class Graphics {
         std::vector<std::vector<int>> compute_2D_box(std::vector<std::vector<double>> rect_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> compute_2D_sphere_triangles(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points);
+
+        std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points);
 
         void clear_draw_screen();
 
@@ -59,6 +61,8 @@ class Graphics {
         void draw_full_triangles_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> triangle_points);
 
         void draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> triangle_points);
+
+        void draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> triangle_points_as_lines);
 
         void draw_full_box(std::vector<std::vector<int>> rect_points);
 
