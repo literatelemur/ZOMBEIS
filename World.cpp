@@ -31,16 +31,16 @@ void World::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_sphere_triangle_points_3D = graphics->find_triangle_points_sphere(floor_sphere_points_3D);
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_floor_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(floor_sphere_triangle_points_3D);
-    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> floor_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_floor_sphere_triangle_points_3D_as_lines);
-
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> clipped_floor_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_floor_sphere_triangle_points_3D_as_lines);
 
     graphics->set_color(0.0f, 0.0f, 0.0f);
 
     //graphics->draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
 
+
     graphics->set_color(1.0f, 0.0f, 0.0f);
 
-    graphics->draw_hollow_triangles_sphere_as_lines(floor_sphere_triangle_points_2D_as_lines);
+    graphics->draw_hollow_triangles_sphere_as_lines(clipped_floor_sphere_triangle_points_2D_as_lines);
 
 
     // Drawing floor lines

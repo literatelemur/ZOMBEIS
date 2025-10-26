@@ -342,6 +342,153 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
 }
 
 
+
+
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
+    std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
+    
+
+    // Going through each triangle plane on the icosahedron globe and finding floor line start and end points based on scaled difference between points.
+    floor_points_3D.emplace_back();
+    floor_points_3D.emplace_back();
+    // for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
+    //     for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
+    //         for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){
+
+    std::vector<std::vector<std::vector<double>>> triangle_planes_already_lined;
+
+    for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
+        for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
+            for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){
+                
+
+                // Checking to see if triangle plane has already been given floor lines. If so, it is skipped.
+                int skip_count;
+                bool skip = false;
+                for (int t = 0; t < triangle_planes_already_lined.size(); t++){
+                    skip_count = 0;
+
+                    for (int p = 0; p < triangle_planes_already_lined[t].size(); p++){
+                        for (int pp = 0; pp < triangle_points_3D_sphere[i][j][l].size(); pp++){
+
+                            if (triangle_planes_already_lined[t][p][0] == triangle_points_3D_sphere[i][j][l][pp][0] &&
+                                    triangle_planes_already_lined[t][p][1] == triangle_points_3D_sphere[i][j][l][pp][1] &&
+                                    triangle_planes_already_lined[t][p][2] == triangle_points_3D_sphere[i][j][l][pp][2]){
+                                skip_count++;
+                            }
+
+                        }
+
+                    }
+
+                    if (skip_count == 3){
+                        skip = true;
+                    }
+                }
+
+
+                if (!skip){
+                    double xline_base1_start = triangle_points_3D_sphere[i][j][l][0][0];
+                    double yline_base1_start = triangle_points_3D_sphere[i][j][l][0][1];
+                    double zline_base1_start = triangle_points_3D_sphere[i][j][l][0][2];
+
+                    double xline_base1_end = triangle_points_3D_sphere[i][j][l][1][0];
+                    double yline_base1_end = triangle_points_3D_sphere[i][j][l][1][1];
+                    double zline_base1_end = triangle_points_3D_sphere[i][j][l][1][2];
+                    
+                    double xline_base2_start = triangle_points_3D_sphere[i][j][l][2][0];
+                    double yline_base2_start = triangle_points_3D_sphere[i][j][l][2][1];
+                    double zline_base2_start = triangle_points_3D_sphere[i][j][l][2][2];
+
+                    double xline_base2_end = triangle_points_3D_sphere[i][j][l][1][0];
+                    double yline_base2_end = triangle_points_3D_sphere[i][j][l][1][1];
+                    double zline_base2_end = triangle_points_3D_sphere[i][j][l][1][2];
+
+                    double xline_base3_start = triangle_points_3D_sphere[i][j][l][0][0];
+                    double yline_base3_start = triangle_points_3D_sphere[i][j][l][0][1];
+                    double zline_base3_start = triangle_points_3D_sphere[i][j][l][0][2];
+
+                    double xline_base3_end = triangle_points_3D_sphere[i][j][l][2][0];
+                    double yline_base3_end = triangle_points_3D_sphere[i][j][l][2][1];
+                    double zline_base3_end = triangle_points_3D_sphere[i][j][l][2][2];
+
+
+                    // Scale determines the number of lines on icosaphere.
+                    // Starting value and increment value should match and be evenly multiplied into 1.0.
+                    for (double scale = 0.0; scale < 1.0; scale += 0.1){
+                        int xline_start = (int) (xline_base1_start + scale * (xline_base1_end - xline_base1_start));
+                        int yline_start = (int) (yline_base1_start + scale * (yline_base1_end - yline_base1_start));
+                        int zline_start = (int) (zline_base1_start + scale * (zline_base1_end - zline_base1_start));
+
+                        int xline_end = (int) (xline_base2_start + scale * (xline_base2_end - xline_base2_start));
+                        int yline_end = (int) (yline_base2_start + scale * (yline_base2_end - yline_base2_start));
+                        int zline_end = (int) (zline_base2_start + scale * (zline_base2_end - zline_base2_start));
+
+                        floor_points_3D[0].emplace_back();
+                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
+                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
+
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(xline_start);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(yline_start);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(zline_start);
+
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(xline_end);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(yline_end);
+                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(zline_end);
+
+
+
+                        xline_start = (int) (xline_base1_start + scale * (xline_base1_end - xline_base1_start));
+                        yline_start = (int) (yline_base1_start + scale * (yline_base1_end - yline_base1_start));
+                        zline_start = (int) (zline_base1_start + scale * (zline_base1_end - zline_base1_start));
+
+                        xline_end = (int) (xline_base3_start + scale * (xline_base3_end - xline_base3_start));
+                        yline_end = (int) (yline_base3_start + scale * (yline_base3_end - yline_base3_start));
+                        zline_end = (int) (zline_base3_start + scale * (zline_base3_end - zline_base3_start));
+
+                        floor_points_3D[1].emplace_back();
+                        floor_points_3D[1][floor_points_3D[0].size() - 1].emplace_back();
+                        floor_points_3D[1][floor_points_3D[0].size() - 1].emplace_back();
+
+                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(xline_start);
+                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(yline_start);
+                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(zline_start);
+
+                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(xline_end);
+                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(yline_end);
+                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(zline_end);
+
+                    }
+
+                    triangle_planes_already_lined.emplace_back();
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][0]);
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][1]);
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][2]);
+
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][0]);
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][1]);
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][2]);
+
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][0]);
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][1]);
+                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][2]);
+                    
+                }
+
+            }
+
+
+        }   
+
+    }
+
+    return floor_points_3D;
+}
+
+
 std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> Graphics::clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_polygon_points_3D_sphere;
@@ -540,153 +687,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
         }
     }
 
-    //return triangle_points_3D_sphere;
     return clipped_polygon_points_3D_sphere;
-}
-
-
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
-    std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
-    
-
-    // Going through each triangle plane on the icosahedron globe and finding floor line start and end points based on scaled difference between points.
-    floor_points_3D.emplace_back();
-    floor_points_3D.emplace_back();
-    // for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
-    //     for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
-    //         for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){
-
-    std::vector<std::vector<std::vector<double>>> triangle_planes_already_lined;
-
-    for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
-        for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
-            for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){
-                
-
-                // Checking to see if triangle plane has already been given floor lines. If so, it is skipped.
-                int skip_count;
-                bool skip = false;
-                for (int t = 0; t < triangle_planes_already_lined.size(); t++){
-                    skip_count = 0;
-
-                    for (int p = 0; p < triangle_planes_already_lined[t].size(); p++){
-                        for (int pp = 0; pp < triangle_points_3D_sphere[i][j][l].size(); pp++){
-
-                            if (triangle_planes_already_lined[t][p][0] == triangle_points_3D_sphere[i][j][l][pp][0] &&
-                                    triangle_planes_already_lined[t][p][1] == triangle_points_3D_sphere[i][j][l][pp][1] &&
-                                    triangle_planes_already_lined[t][p][2] == triangle_points_3D_sphere[i][j][l][pp][2]){
-                                skip_count++;
-                            }
-
-                        }
-
-                    }
-
-                    if (skip_count == 3){
-                        skip = true;
-                    }
-                }
-
-
-                if (!skip){
-                    double xline_base1_start = triangle_points_3D_sphere[i][j][l][0][0];
-                    double yline_base1_start = triangle_points_3D_sphere[i][j][l][0][1];
-                    double zline_base1_start = triangle_points_3D_sphere[i][j][l][0][2];
-
-                    double xline_base1_end = triangle_points_3D_sphere[i][j][l][1][0];
-                    double yline_base1_end = triangle_points_3D_sphere[i][j][l][1][1];
-                    double zline_base1_end = triangle_points_3D_sphere[i][j][l][1][2];
-                    
-                    double xline_base2_start = triangle_points_3D_sphere[i][j][l][2][0];
-                    double yline_base2_start = triangle_points_3D_sphere[i][j][l][2][1];
-                    double zline_base2_start = triangle_points_3D_sphere[i][j][l][2][2];
-
-                    double xline_base2_end = triangle_points_3D_sphere[i][j][l][1][0];
-                    double yline_base2_end = triangle_points_3D_sphere[i][j][l][1][1];
-                    double zline_base2_end = triangle_points_3D_sphere[i][j][l][1][2];
-
-                    double xline_base3_start = triangle_points_3D_sphere[i][j][l][0][0];
-                    double yline_base3_start = triangle_points_3D_sphere[i][j][l][0][1];
-                    double zline_base3_start = triangle_points_3D_sphere[i][j][l][0][2];
-
-                    double xline_base3_end = triangle_points_3D_sphere[i][j][l][2][0];
-                    double yline_base3_end = triangle_points_3D_sphere[i][j][l][2][1];
-                    double zline_base3_end = triangle_points_3D_sphere[i][j][l][2][2];
-
-
-                    // Scale determines the number of lines on icosaphere.
-                    // Starting value and increment value should match and be evenly multiplied into 1.0.
-                    for (double scale = 0.0; scale < 1.0; scale += 0.1){
-                        int xline_start = (int) (xline_base1_start + scale * (xline_base1_end - xline_base1_start));
-                        int yline_start = (int) (yline_base1_start + scale * (yline_base1_end - yline_base1_start));
-                        int zline_start = (int) (zline_base1_start + scale * (zline_base1_end - zline_base1_start));
-
-                        int xline_end = (int) (xline_base2_start + scale * (xline_base2_end - xline_base2_start));
-                        int yline_end = (int) (yline_base2_start + scale * (yline_base2_end - yline_base2_start));
-                        int zline_end = (int) (zline_base2_start + scale * (zline_base2_end - zline_base2_start));
-
-                        floor_points_3D[0].emplace_back();
-                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-                        floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(xline_start);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(yline_start);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(zline_start);
-
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(xline_end);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(yline_end);
-                        floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(zline_end);
-
-
-
-                        xline_start = (int) (xline_base1_start + scale * (xline_base1_end - xline_base1_start));
-                        yline_start = (int) (yline_base1_start + scale * (yline_base1_end - yline_base1_start));
-                        zline_start = (int) (zline_base1_start + scale * (zline_base1_end - zline_base1_start));
-
-                        xline_end = (int) (xline_base3_start + scale * (xline_base3_end - xline_base3_start));
-                        yline_end = (int) (yline_base3_start + scale * (yline_base3_end - yline_base3_start));
-                        zline_end = (int) (zline_base3_start + scale * (zline_base3_end - zline_base3_start));
-
-                        floor_points_3D[1].emplace_back();
-                        floor_points_3D[1][floor_points_3D[0].size() - 1].emplace_back();
-                        floor_points_3D[1][floor_points_3D[0].size() - 1].emplace_back();
-
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(xline_start);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(yline_start);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(zline_start);
-
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(xline_end);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(yline_end);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(zline_end);
-
-                    }
-
-                    triangle_planes_already_lined.emplace_back();
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][0]);
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][1]);
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][2]);
-
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][0]);
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][1]);
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][2]);
-
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][0]);
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][1]);
-                    triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][2]);
-                    
-                }
-
-            }
-
-
-        }   
-
-    }
-
-    return floor_points_3D;
 }
 
 
@@ -1311,6 +1312,63 @@ void Graphics::draw_full_box(std::vector<std::vector<int>> rect_points_2D){
 
 }
 
+
+void Graphics::draw_hollow_box(std::vector<std::vector<int>> rect_points_2D){
+
+    bool skip = false;
+
+    for (int i = 0; i < rect_points_2D.size(); i++){
+        if (rect_points_2D[i][0] == -100000 && rect_points_2D[i][1] == -100000) skip = true;
+    }
+
+    if (!skip){
+
+        glBegin(GL_LINE_LOOP);
+            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
+            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
+            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
+            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
+        glEnd();
+
+        glBegin(GL_LINE_LOOP);
+            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
+            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
+            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
+            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
+        glEnd();
+
+        glBegin(GL_LINE_LOOP);
+            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
+            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
+            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
+            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
+        glEnd();
+
+        glBegin(GL_LINE_LOOP);
+            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
+            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
+            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
+            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
+        glEnd();
+
+        glBegin(GL_LINE_LOOP);
+            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
+            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
+            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
+            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
+        glEnd();
+
+        glBegin(GL_LINE_LOOP);
+            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
+            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
+            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
+            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
+        glEnd();
+    }
+
+}
+
+
 void Graphics::draw_full_polygon(std::vector<std::vector<int>> polygon_points_2D){
 
     bool skip = false;
@@ -1498,62 +1556,6 @@ void Graphics::draw_hollow_polygon(std::vector<std::vector<int>> polygon_points_
                 glVertex2i(polygon_points_2D[6][0], polygon_points_2D[6][1]);
             glEnd();
         }
-    }
-
-}
-
-
-void Graphics::draw_hollow_box(std::vector<std::vector<int>> rect_points_2D){
-
-    bool skip = false;
-
-    for (int i = 0; i < rect_points_2D.size(); i++){
-        if (rect_points_2D[i][0] == -100000 && rect_points_2D[i][1] == -100000) skip = true;
-    }
-
-    if (!skip){
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
     }
 
 }

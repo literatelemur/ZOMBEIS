@@ -170,8 +170,8 @@ void render_all(){
         }
 
         for (double i = 0; i < num_zombies; i++){
-            //zombie_vector[i].gravitate(world);
-            //zombie_vector[i].render(&graphics);
+            zombie_vector[i].gravitate(world);
+            zombie_vector[i].render(&graphics);
         }
 
         graphics.set_color(1.0f, 1.0f, 1.0f);
@@ -303,5 +303,4 @@ int main(int argc, char* argv[]) {
 // -refine zombei leg movement animation
 
 // -fix line turning up and down
-// -fix line rendering when part past player on incline
 // -comment graphics.find_floor_lines_on_globe
