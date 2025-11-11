@@ -5,13 +5,13 @@
 #include <string>
 #include <algorithm>
 
-#include "Arrow.h"
+#include "Bullet.h"
 #include "Graphics.h"
 #include "main.h"
 
 #include <GL/glut.h>
 
-Arrow::Arrow(Graphics* graphics, int click_x, int click_y){
+Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
 
     count = 0;
     origin_x = graphics->playerx;
@@ -40,7 +40,7 @@ Arrow::Arrow(Graphics* graphics, int click_x, int click_y){
 }
 
 
-void Arrow::render(Graphics* graphics){
+void Bullet::render(Graphics* graphics){
     
     rect_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
     std::vector<std::vector<int>> rect_points_2D_body = graphics->compute_2D_box(rect_points_3D_body);
@@ -50,9 +50,9 @@ void Arrow::render(Graphics* graphics){
 }
 
 
-void Arrow::move(Graphics* graphics){
+void Bullet::move(Graphics* graphics){
 
-    z+=30;
+    z+=15;
 
     double x_diff_origin_3D = tan(anglex) * (z - origin_z);
     double y_diff_origin_3D = tan(angley) * (z - origin_z);

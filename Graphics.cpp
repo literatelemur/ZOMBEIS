@@ -10,7 +10,7 @@
 #include "Graphics.h"
 
         
-Graphics::Graphics(){
+Graphics::Graphics(){   
 
     zscreendiff = 1000;
     playerx = 960;
@@ -25,83 +25,6 @@ Graphics::Graphics(){
     //double fov = 90.0; // Field of view in degrees
     pi = 3.141592653589793;
     //zscreendiff = 1920 / (2 * tan(fov * 0.5 * pi / 180.0));
-
-    double x_start = -19040;
-    double x_stop = 20960;
-
-    //double z_start = 100;
-    double z_start = 500;
-    double z_stop = 40500;
-
-    // x_start = -100;
-    // x_stop = 1000;
-    // z_start = 500;
-    // z_stop = 1000;
-
-
-    // Horizontal plane floor points
-    // floor_points_3D.emplace_back();
-
-    // int i = 0;
-    // for (double x = x_start; x < x_stop; x += 100){
-    //     floor_points_3D[0].emplace_back();
-    //     floor_points_3D[0][i].emplace_back();
-    //     floor_points_3D[0][i][0].emplace_back(0);
-    //     floor_points_3D[0][i][0].emplace_back(0);
-    //     floor_points_3D[0][i][0].emplace_back(0);
-    //     floor_points_3D[0][i][0][0] = x;
-    //     floor_points_3D[0][i][0][1] = 1080;
-    //     floor_points_3D[0][i][0][2] = z_start;
-
-    //     floor_points_3D[0][i].emplace_back();
-    //     floor_points_3D[0][i][1].emplace_back(0);
-    //     floor_points_3D[0][i][1].emplace_back(0);
-    //     floor_points_3D[0][i][1].emplace_back(0);
-    //     floor_points_3D[0][i][1][0] = x;
-    //     floor_points_3D[0][i][1][1] = 1080;
-    //     floor_points_3D[0][i][1][2] = z_stop;
-
-    //     i++;
-    // }
-
-
-    // floor_points_3D.emplace_back();
-
-    // i = 0;
-    // for (double z = z_start; z < z_stop; z += 100){
-    //     floor_points_3D[1].emplace_back();
-    //     floor_points_3D[1][i].emplace_back();
-    //     floor_points_3D[1][i][0].emplace_back(0);
-    //     floor_points_3D[1][i][0].emplace_back(0);
-    //     floor_points_3D[1][i][0].emplace_back(0);
-    //     floor_points_3D[1][i][0][0] = x_start;
-    //     floor_points_3D[1][i][0][1] = 1080;
-    //     floor_points_3D[1][i][0][2] = z;
-
-    //     floor_points_3D[1][i].emplace_back();
-    //     floor_points_3D[1][i][1].emplace_back(0);
-    //     floor_points_3D[1][i][1].emplace_back(0);
-    //     floor_points_3D[1][i][1].emplace_back(0);
-    //     floor_points_3D[1][i][1][0] = x_stop;
-    //     floor_points_3D[1][i][1][1] = 1080;
-    //     floor_points_3D[1][i][1][2] = z;
-
-    //     i++;
-    // }
-
-    
-
-
-
-
-
-    // test_points_3D.emplace_back();
-
-    // test_points_3D[0].emplace_back();
-    // test_points_3D[0][0].emplace_back();
-    
-    //test_points_3D[0][0] = make_sphere({(double)playerx, (double)playery, (double)playerz}, 3, 12);
-    //test_points_3D[0][0] = make_sphere({(double)0, (double)0, (double)0}, 3, 12);
 
 }
 
@@ -691,29 +614,29 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
 }
 
 
-std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> world_lines_points_3D){
+std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D){
 
-    std::vector<std::vector<std::vector<std::vector<int>>>> world_lines_points_2D;
+    std::vector<std::vector<std::vector<std::vector<int>>>> lines_points_2D;
 
     // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-    for (int i = 0; i < world_lines_points_3D.size(); i++){
-        world_lines_points_2D.emplace_back();
+    for (int i = 0; i < lines_points_3D.size(); i++){
+        lines_points_2D.emplace_back();
 
-        for (int j = 0; j < world_lines_points_3D[i].size(); j++){
-            world_lines_points_2D[i].emplace_back();
-
-
-            world_lines_points_2D[i][j].emplace_back();
-            world_lines_points_2D[i][j][0].emplace_back(0);
-            world_lines_points_2D[i][j][0].emplace_back(0);
+        for (int j = 0; j < lines_points_3D[i].size(); j++){
+            lines_points_2D[i].emplace_back();
 
 
-            world_lines_points_2D[i][j].emplace_back();
-            world_lines_points_2D[i][j][1].emplace_back(0);
-            world_lines_points_2D[i][j][1].emplace_back(0);
+            lines_points_2D[i][j].emplace_back();
+            lines_points_2D[i][j][0].emplace_back(0);
+            lines_points_2D[i][j][0].emplace_back(0);
 
 
-            std::vector<double> clipped_coor_diffs = clip_3D_line(world_lines_points_3D[i][j]);
+            lines_points_2D[i][j].emplace_back();
+            lines_points_2D[i][j][1].emplace_back(0);
+            lines_points_2D[i][j][1].emplace_back(0);
+
+
+            std::vector<double> clipped_coor_diffs = clip_3D_line(lines_points_3D[i][j]);
             
             double x1_clip_diff = clipped_coor_diffs[0];
             double y1_clip_diff = clipped_coor_diffs[1];
@@ -731,11 +654,11 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
                     x2_clip_diff == -100000 && y2_clip_diff == -100000 && z2_clip_diff == -100000){
 
                             
-                world_lines_points_2D[i][j][0][0] = -100000;
-                world_lines_points_2D[i][j][0][1] = -100000;
+                lines_points_2D[i][j][0][0] = -100000;
+                lines_points_2D[i][j][0][1] = -100000;
 
-                world_lines_points_2D[i][j][1][0] = -100000;
-                world_lines_points_2D[i][j][1][1] = -100000;
+                lines_points_2D[i][j][1][0] = -100000;
+                lines_points_2D[i][j][1][1] = -100000;
 
             }else{
 
@@ -747,8 +670,8 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
                 std::vector<double> point_3D = {x_3D, y_3D, z_3D};
                 std::vector<int> point_2D = compute_2D_point(point_3D);
 
-                world_lines_points_2D[i][j][0][0] = point_2D[0];
-                world_lines_points_2D[i][j][0][1] = point_2D[1];
+                lines_points_2D[i][j][0][0] = point_2D[0];
+                lines_points_2D[i][j][0][1] = point_2D[1];
 
 
 
@@ -759,8 +682,8 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
                 point_3D = {x_3D, y_3D, z_3D};
                 point_2D = compute_2D_point(point_3D);
 
-                world_lines_points_2D[i][j][1][0] = point_2D[0];
-                world_lines_points_2D[i][j][1][1] = point_2D[1];
+                lines_points_2D[i][j][1][0] = point_2D[0];
+                lines_points_2D[i][j][1][1] = point_2D[1];
 
             }
 
@@ -768,7 +691,7 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
     }
 
 
-    return world_lines_points_2D;
+    return lines_points_2D;
 
 }
 
@@ -1562,11 +1485,10 @@ void Graphics::draw_hollow_polygon(std::vector<std::vector<int>> polygon_points_
 
 
 void Graphics::set_color(int r, int g, int b){
-    glColor3f(r, g, b); // Red color
+    glColor3f(r, g, b);
 }
 
 void Graphics::present_frame(){
     // Present the rendered frame
-    //glutSwapBuffers();
     glFlush();
 }

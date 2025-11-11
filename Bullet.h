@@ -6,12 +6,12 @@
 #include <algorithm>
 
 
-#ifndef arrow_H
-#define arrow_H
+#ifndef bullet_H
+#define bullet_H
 
 class Graphics;
 
-class Arrow {
+class Bullet {
 
     public:
 
@@ -29,7 +29,7 @@ class Arrow {
 
         std::vector<std::vector<double>> rect_points_3D_body;
 
-        Arrow(Graphics* graphics, int x, int y);
+        Bullet(Graphics* graphics, int x, int y);
 
         void render(Graphics* graphics);
 

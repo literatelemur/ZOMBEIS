@@ -29,17 +29,17 @@ Star::Star(Graphics* graphics, double given_x, double given_y, double given_z, i
     y = given_y;
     z = given_z;
 
-    rect_points_3D_body = graphics->make_box({x, y, z}, 1, 1, depth);
+    box_points_3D_body = graphics->make_box({x, y, z}, 1, 1, depth);
 
 }
 
 
 void Star::render(Graphics* graphics){
     
-    rect_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
-    std::vector<std::vector<int>> rect_points_2D_body = graphics->compute_2D_box(rect_points_3D_body);
+    box_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
+    std::vector<std::vector<int>> box_points_2D_body = graphics->compute_2D_box(box_points_3D_body);
     graphics->set_color(1, 1, 1);
-    graphics->draw_hollow_box(rect_points_2D_body);
+    graphics->draw_hollow_box(box_points_2D_body);
 
 }
 

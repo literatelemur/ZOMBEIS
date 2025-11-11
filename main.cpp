@@ -10,7 +10,7 @@
 
 #include "main.h"
 #include "Zombie.h"
-#include "Arrow.h"
+#include "Bullet.h"
 #include "Graphics.h"
 #include "Star.h"
 #include "World.h"
@@ -26,7 +26,7 @@ bool key_states[256] = { false };
 
 int num_zombies;
 std::vector<Zombie> zombie_vector;
-std::vector<Arrow> arrow_vector;
+std::vector<Bullet> bullet_vector;
 std::vector<Star> star_vector;
 
 // Making world
@@ -113,7 +113,7 @@ void mouse_click(int button, int state, int x, int y) {
         // Check which button was pressed
         switch (button) {
             case GLUT_LEFT_BUTTON:
-                arrow_vector.emplace_back(Arrow(&graphics, x, y));
+                bullet_vector.emplace_back(Bullet(&graphics, x, y));
                 break;
             case GLUT_RIGHT_BUTTON:
                 break;
@@ -138,22 +138,22 @@ void render_all(){
 
 
         int zombie_to_remove = -1;
-        int arrow_to_remove = -1;
+        int bullet_to_remove = -1;
     
 
-        // Check for collision for all arrows hitting all zombeis
-        for (int i = 0; i < arrow_vector.size(); i++){
+        // Check for collision for all bullets hitting all zombeis
+        for (int i = 0; i < bullet_vector.size(); i++){
 
             for (double j = 0; j < num_zombies; j++){
-                if (zombie_vector[j].rect_points_3D_body[0][0] <= arrow_vector[i].x &&
-                        zombie_vector[j].rect_points_3D_body[1][0] >= arrow_vector[i].x &&
-                        zombie_vector[j].rect_points_3D_body[0][1] <= arrow_vector[i].y &&
-                        zombie_vector[j].rect_points_3D_body[2][1] >= arrow_vector[i].y &&
-                        zombie_vector[j].rect_points_3D_body[0][2] >= arrow_vector[i].z &&
-                        zombie_vector[j].rect_points_3D_body[4][2] <= arrow_vector[i].z){
+                if (zombie_vector[j].rect_points_3D_body[0][0] <= bullet_vector[i].x &&
+                        zombie_vector[j].rect_points_3D_body[1][0] >= bullet_vector[i].x &&
+                        zombie_vector[j].rect_points_3D_body[0][1] <= bullet_vector[i].y &&
+                        zombie_vector[j].rect_points_3D_body[2][1] >= bullet_vector[i].y &&
+                        zombie_vector[j].rect_points_3D_body[0][2] >= bullet_vector[i].z &&
+                        zombie_vector[j].rect_points_3D_body[4][2] <= bullet_vector[i].z){
 
                     zombie_to_remove = j;
-                    arrow_to_remove = i;
+                    bullet_to_remove = i;
                     break;
                 }
             }
@@ -161,10 +161,10 @@ void render_all(){
             if (zombie_to_remove != -1){
                 
                 zombie_vector.erase(zombie_vector.begin() + zombie_to_remove);
-                arrow_vector.erase(arrow_vector.begin() + arrow_to_remove);
+                bullet_vector.erase(bullet_vector.begin() + bullet_to_remove);
                 num_zombies--;
                 zombie_to_remove = -1;
-                arrow_to_remove = -1;
+                bullet_to_remove = -1;
             }   
 
         }
@@ -176,12 +176,12 @@ void render_all(){
 
         graphics.set_color(1.0f, 1.0f, 1.0f);
 
-        for (int i = 0; i < arrow_vector.size(); i++){
-            arrow_vector[i].move(&graphics);
-            arrow_vector[i].render(&graphics);
-            // Arrow hits floor
-            // if (arrow_vector[i].y >= 1070){
-            //     arrow_vector.erase(arrow_vector.begin() + i);
+        for (int i = 0; i < bullet_vector.size(); i++){
+            bullet_vector[i].move(&graphics);
+            bullet_vector[i].render(&graphics);
+            // Bullet hits floor
+            // if (bullet_vector[i].y >= 1070){
+            //     bullet_vector.erase(bullet_vector.begin() + i);
             // }
         }
 
@@ -296,7 +296,7 @@ int main(int argc, char* argv[]) {
 //FIXX:
 // -distance-based render of objects so far away objects not in front of close ones
 // -make bow
-// -make arrows more detailed visually?
+// -make bullets more detailed visually?
 // -make arm movement better
 // -review floor angle code vs zombei angle code (zombei angle code being gpt)
 
