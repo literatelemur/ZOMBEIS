@@ -31,11 +31,11 @@ class Zombie {
         double pi;
 
         std::vector<std::vector<double>> sphere_points_3D_head;
-        std::vector<std::vector<double>> rect_points_3D_body;
-        std::vector<std::vector<double>> rect_points_3D_arm1;
-        std::vector<std::vector<double>> rect_points_3D_arm2;
-        std::vector<std::vector<double>> rect_points_3D_leg1;
-        std::vector<std::vector<double>> rect_points_3D_leg2;
+        std::vector<std::vector<double>> box_points_3D_body;
+        std::vector<std::vector<double>> box_points_3D_arm1;
+        std::vector<std::vector<double>> box_points_3D_arm2;
+        std::vector<std::vector<double>> box_points_3D_leg1;
+        std::vector<std::vector<double>> box_points_3D_leg2;
 
 
         Zombie(Graphics* graphics, int given_x, int given_y, int given_z);

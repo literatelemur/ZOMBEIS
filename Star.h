@@ -32,7 +32,7 @@ class Star {
         int osc;
         int y_wait;
 
-        std::vector<std::vector<double>> box_points_3D_body;
+        std::vector<std::vector<double>> box_points_3D;
 
         Star(Graphics* graphics, double x, double y, double z, int lower_bound, int upper_bound);
 

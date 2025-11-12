@@ -35,17 +35,20 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
     double x_diff_3D = tan(anglex) * (z - origin_z);
     double y_diff_3D = tan(angley) * (z - origin_z);
 
-    rect_points_3D_body = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)z}, 1, 1, depth);
+    box_points_3D = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)z}, 1, 1, depth);
 
 }
 
 
 void Bullet::render(Graphics* graphics){
     
-    rect_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
-    std::vector<std::vector<int>> rect_points_2D_body = graphics->compute_2D_box(rect_points_3D_body);
+    box_points_3D = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
+    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D = graphics->clip_box(box_points_3D);
+    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D = graphics->compute_2D_box_as_lines(clipped_box_points_3D);
+    // graphics->set_color(0, 0, 0);
+    // graphics->draw_full_box(box_points_2D_body);
     graphics->set_color(1, 1, 1);
-    graphics->draw_hollow_box(rect_points_2D_body);
+    graphics->draw_hollow_box_as_lines(clipped_box_points_2D);
 
 }
 

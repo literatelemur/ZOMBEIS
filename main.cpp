@@ -145,12 +145,12 @@ void render_all(){
         for (int i = 0; i < bullet_vector.size(); i++){
 
             for (double j = 0; j < num_zombies; j++){
-                if (zombie_vector[j].rect_points_3D_body[0][0] <= bullet_vector[i].x &&
-                        zombie_vector[j].rect_points_3D_body[1][0] >= bullet_vector[i].x &&
-                        zombie_vector[j].rect_points_3D_body[0][1] <= bullet_vector[i].y &&
-                        zombie_vector[j].rect_points_3D_body[2][1] >= bullet_vector[i].y &&
-                        zombie_vector[j].rect_points_3D_body[0][2] >= bullet_vector[i].z &&
-                        zombie_vector[j].rect_points_3D_body[4][2] <= bullet_vector[i].z){
+                if (zombie_vector[j].box_points_3D_body[0][0] <= bullet_vector[i].x &&
+                        zombie_vector[j].box_points_3D_body[1][0] >= bullet_vector[i].x &&
+                        zombie_vector[j].box_points_3D_body[0][1] <= bullet_vector[i].y &&
+                        zombie_vector[j].box_points_3D_body[2][1] >= bullet_vector[i].y &&
+                        zombie_vector[j].box_points_3D_body[0][2] >= bullet_vector[i].z &&
+                        zombie_vector[j].box_points_3D_body[4][2] <= bullet_vector[i].z){
 
                     zombie_to_remove = j;
                     bullet_to_remove = i;

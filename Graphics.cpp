@@ -696,6 +696,257 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
 }
 
 
+std::vector<std::vector<std::vector<double>>> Graphics::clip_box(std::vector<std::vector<double>> box_points_3D){
+
+    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D;
+
+    // Finding individual lines for a given box.
+    std::vector<std::vector<double>> line1;
+    line1.emplace_back();
+    line1[0].emplace_back(box_points_3D[0][0]);
+    line1[0].emplace_back(box_points_3D[0][1]);
+    line1[0].emplace_back(box_points_3D[0][2]);
+
+    line1.emplace_back();
+    line1[1].emplace_back(box_points_3D[1][0]);
+    line1[1].emplace_back(box_points_3D[1][1]);
+    line1[1].emplace_back(box_points_3D[1][2]);
+
+    std::vector<double> clipped_coor_diffs_line1 = clip_3D_line(line1);
+
+
+    std::vector<std::vector<double>> line2;
+    line2.emplace_back();
+    line2[0].emplace_back(box_points_3D[1][0]);
+    line2[0].emplace_back(box_points_3D[1][1]);
+    line2[0].emplace_back(box_points_3D[1][2]);
+
+    line2.emplace_back();
+    line2[1].emplace_back(box_points_3D[3][0]);
+    line2[1].emplace_back(box_points_3D[3][1]);
+    line2[1].emplace_back(box_points_3D[3][2]);
+
+    std::vector<double> clipped_coor_diffs_line2 = clip_3D_line(line2);
+
+
+    std::vector<std::vector<double>> line3;
+    line3.emplace_back();
+    line3[0].emplace_back(box_points_3D[3][0]);
+    line3[0].emplace_back(box_points_3D[3][1]);
+    line3[0].emplace_back(box_points_3D[3][2]);
+
+    line3.emplace_back();
+    line3[1].emplace_back(box_points_3D[2][0]);
+    line3[1].emplace_back(box_points_3D[2][1]);
+    line3[1].emplace_back(box_points_3D[2][2]);
+
+    std::vector<double> clipped_coor_diffs_line3 = clip_3D_line(line3);
+
+
+    std::vector<std::vector<double>> line4;
+    line4.emplace_back();
+    line4[0].emplace_back(box_points_3D[2][0]);
+    line4[0].emplace_back(box_points_3D[2][1]);
+    line4[0].emplace_back(box_points_3D[2][2]);
+
+    line4.emplace_back();
+    line4[1].emplace_back(box_points_3D[0][0]);
+    line4[1].emplace_back(box_points_3D[0][1]);
+    line4[1].emplace_back(box_points_3D[0][2]);
+
+    std::vector<double> clipped_coor_diffs_line4 = clip_3D_line(line4);
+
+
+    std::vector<std::vector<double>> line5;
+    line5.emplace_back();
+    line5[0].emplace_back(box_points_3D[4][0]);
+    line5[0].emplace_back(box_points_3D[4][1]);
+    line5[0].emplace_back(box_points_3D[4][2]);
+
+    line5.emplace_back();
+    line5[1].emplace_back(box_points_3D[5][0]);
+    line5[1].emplace_back(box_points_3D[5][1]);
+    line5[1].emplace_back(box_points_3D[5][2]);
+
+    std::vector<double> clipped_coor_diffs_line5 = clip_3D_line(line5);
+
+
+    std::vector<std::vector<double>> line6;
+    line6.emplace_back();
+    line6[0].emplace_back(box_points_3D[5][0]);
+    line6[0].emplace_back(box_points_3D[5][1]);
+    line6[0].emplace_back(box_points_3D[5][2]);
+
+    line6.emplace_back();
+    line6[1].emplace_back(box_points_3D[7][0]);
+    line6[1].emplace_back(box_points_3D[7][1]);
+    line6[1].emplace_back(box_points_3D[7][2]);
+
+    std::vector<double> clipped_coor_diffs_line6 = clip_3D_line(line6);
+
+
+    std::vector<std::vector<double>> line7;
+    line7.emplace_back();
+    line7[0].emplace_back(box_points_3D[7][0]);
+    line7[0].emplace_back(box_points_3D[7][1]);
+    line7[0].emplace_back(box_points_3D[7][2]);
+
+    line7.emplace_back();
+    line7[1].emplace_back(box_points_3D[6][0]);
+    line7[1].emplace_back(box_points_3D[6][1]);
+    line7[1].emplace_back(box_points_3D[6][2]);
+
+    std::vector<double> clipped_coor_diffs_line7 = clip_3D_line(line7);
+
+
+    std::vector<std::vector<double>> line8;
+    line8.emplace_back();
+    line8[0].emplace_back(box_points_3D[6][0]);
+    line8[0].emplace_back(box_points_3D[6][1]);
+    line8[0].emplace_back(box_points_3D[6][2]);
+
+    line8.emplace_back();
+    line8[1].emplace_back(box_points_3D[4][0]);
+    line8[1].emplace_back(box_points_3D[4][1]);
+    line8[1].emplace_back(box_points_3D[4][2]);
+
+    std::vector<double> clipped_coor_diffs_line8 = clip_3D_line(line8);
+
+
+    std::vector<std::vector<double>> line9;
+    line9.emplace_back();
+    line9[0].emplace_back(box_points_3D[0][0]);
+    line9[0].emplace_back(box_points_3D[0][1]);
+    line9[0].emplace_back(box_points_3D[0][2]);
+
+    line9.emplace_back();
+    line9[1].emplace_back(box_points_3D[4][0]);
+    line9[1].emplace_back(box_points_3D[4][1]);
+    line9[1].emplace_back(box_points_3D[4][2]);
+
+    std::vector<double> clipped_coor_diffs_line9 = clip_3D_line(line9);
+
+
+    std::vector<std::vector<double>> line10;
+    line10.emplace_back();
+    line10[0].emplace_back(box_points_3D[1][0]);
+    line10[0].emplace_back(box_points_3D[1][1]);
+    line10[0].emplace_back(box_points_3D[1][2]);
+
+    line10.emplace_back();
+    line10[1].emplace_back(box_points_3D[5][0]);
+    line10[1].emplace_back(box_points_3D[5][1]);
+    line10[1].emplace_back(box_points_3D[5][2]);
+
+    std::vector<double> clipped_coor_diffs_line10 = clip_3D_line(line10);
+
+
+    std::vector<std::vector<double>> line11;
+    line11.emplace_back();
+    line11[0].emplace_back(box_points_3D[2][0]);
+    line11[0].emplace_back(box_points_3D[2][1]);
+    line11[0].emplace_back(box_points_3D[2][2]);
+
+    line11.emplace_back();
+    line11[1].emplace_back(box_points_3D[6][0]);
+    line11[1].emplace_back(box_points_3D[6][1]);
+    line11[1].emplace_back(box_points_3D[6][2]);
+
+    std::vector<double> clipped_coor_diffs_line11 = clip_3D_line(line11);
+
+
+    std::vector<std::vector<double>> line12;
+    line12.emplace_back();
+    line12[0].emplace_back(box_points_3D[3][0]);
+    line12[0].emplace_back(box_points_3D[3][1]);
+    line12[0].emplace_back(box_points_3D[3][2]);
+
+    line12.emplace_back();
+    line12[1].emplace_back(box_points_3D[7][0]);
+    line12[1].emplace_back(box_points_3D[7][1]);
+    line12[1].emplace_back(box_points_3D[7][2]);
+
+    std::vector<double> clipped_coor_diffs_line12 = clip_3D_line(line12);
+
+
+    // Adding coor_diffs for each line into one vector so that it can be iterated upon.
+    std::vector<std::vector<double>> clipped_coor_diffs_lines;
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line1);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line2);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line3);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line4);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line5);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line6);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line7);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line8);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line9);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line10);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line11);
+    clipped_coor_diffs_lines.emplace_back(clipped_coor_diffs_line12);
+
+
+    // Converting coor_diffs to absolute coordinates.
+    for (int i = 0; i < 12; i++){
+
+        std::vector<std::vector<double>> clipped_coor_line;
+
+        if (clipped_coor_diffs_lines[i][0] != -100000 && clipped_coor_diffs_lines[i][1] != -100000 && clipped_coor_diffs_lines[i][2] != -100000 && 
+                clipped_coor_diffs_lines[i][3] != -100000 && clipped_coor_diffs_lines[i][4] != -100000 && clipped_coor_diffs_lines[i][5] != -100000){
+
+            clipped_coor_line.emplace_back();
+            clipped_coor_line[0].emplace_back(playerx - clipped_coor_diffs_lines[i][0]); //Not sure why this is "playerx - clipped_coor_diffs_line1[0]" and not the reverse "clipped_coor_diffs_line1[0] + playerx" that is done in function clip_3D_line() but idk.
+            clipped_coor_line[0].emplace_back(playery + clipped_coor_diffs_lines[i][1]);
+            clipped_coor_line[0].emplace_back(playerz + clipped_coor_diffs_lines[i][2]);
+
+
+            clipped_coor_line.emplace_back();
+            clipped_coor_line[1].emplace_back(playerx - clipped_coor_diffs_lines[i][3]);
+            clipped_coor_line[1].emplace_back(playery + clipped_coor_diffs_lines[i][4]);
+            clipped_coor_line[1].emplace_back(playerz + clipped_coor_diffs_lines[i][5]);
+
+        }else{
+
+            clipped_coor_line.emplace_back();
+            clipped_coor_line[0].emplace_back(-100000);
+            clipped_coor_line[0].emplace_back(-100000);
+            clipped_coor_line[0].emplace_back(-100000);
+
+
+            clipped_coor_line.emplace_back();
+            clipped_coor_line[1].emplace_back(-100000);
+            clipped_coor_line[1].emplace_back(-100000);
+            clipped_coor_line[1].emplace_back(-100000);
+        }
+
+
+        clipped_box_points_3D.emplace_back();
+        clipped_box_points_3D[i].emplace_back();
+        clipped_box_points_3D[i][0].emplace_back();
+        clipped_box_points_3D[i][0][0] = clipped_coor_line[0][0];
+
+        clipped_box_points_3D[i][0].emplace_back();
+        clipped_box_points_3D[i][0][1] = clipped_coor_line[0][1];
+
+        clipped_box_points_3D[i][0].emplace_back();
+        clipped_box_points_3D[i][0][2] = clipped_coor_line[0][2];
+
+
+        clipped_box_points_3D[i].emplace_back();
+        clipped_box_points_3D[i][1].emplace_back();
+        clipped_box_points_3D[i][1][0] = clipped_coor_line[1][0];
+
+        clipped_box_points_3D[i][1].emplace_back();
+        clipped_box_points_3D[i][1][1] = clipped_coor_line[1][1];
+
+        clipped_box_points_3D[i][1].emplace_back();
+        clipped_box_points_3D[i][1][2] = clipped_coor_line[1][2];
+
+    }
+
+   return clipped_box_points_3D;
+
+}
+
 
 std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line_points_3D){
 
@@ -919,6 +1170,22 @@ std::vector<std::vector<int>> Graphics::compute_2D_box(std::vector<std::vector<d
     }
 
     return rect_points_2D;
+
+}
+
+
+
+std::vector<std::vector<std::vector<int>>> Graphics::compute_2D_box_as_lines(std::vector<std::vector<std::vector<double>>> clipped_box_points_3D){
+    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D;
+
+    for (int i = 0; i < clipped_box_points_3D.size(); i++){
+        clipped_box_points_2D.emplace_back();
+
+        clipped_box_points_2D[i].emplace_back(compute_2D_point(clipped_box_points_3D[i][0]));
+        clipped_box_points_2D[i].emplace_back(compute_2D_point(clipped_box_points_3D[i][1]));
+    }
+
+    return clipped_box_points_2D;
 
 }
 
@@ -1291,6 +1558,25 @@ void Graphics::draw_hollow_box(std::vector<std::vector<int>> rect_points_2D){
 
 }
 
+
+void Graphics::draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D){
+
+    for (int i = 0; i < clipped_box_points_2D.size(); i++){
+        bool skip = false;
+
+        if (clipped_box_points_2D[i][0][0] == -100000 && clipped_box_points_2D[i][0][1] == -100000 && 
+                clipped_box_points_2D[i][1][0] == -100000 && clipped_box_points_2D[i][1][1] == -100000){
+            skip = true;
+        }
+
+        if (!skip){
+            glBegin(GL_LINES);
+                glVertex2i(clipped_box_points_2D[i][0][0], clipped_box_points_2D[i][0][1]);
+                glVertex2i(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
+            glEnd();
+        }
+    }
+}
 
 void Graphics::draw_full_polygon(std::vector<std::vector<int>> polygon_points_2D){
 

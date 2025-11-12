@@ -27,7 +27,7 @@ class Bullet {
         double angley;
         int depth;
 
-        std::vector<std::vector<double>> rect_points_3D_body;
+        std::vector<std::vector<double>> box_points_3D;
 
         Bullet(Graphics* graphics, int x, int y);
 

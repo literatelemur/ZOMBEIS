@@ -29,17 +29,23 @@ Star::Star(Graphics* graphics, double given_x, double given_y, double given_z, i
     y = given_y;
     z = given_z;
 
-    box_points_3D_body = graphics->make_box({x, y, z}, 1, 1, depth);
+    box_points_3D = graphics->make_box({x, y, z}, 1, 1, depth);
 
 }
 
 
 void Star::render(Graphics* graphics){
     
-    box_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
-    std::vector<std::vector<int>> box_points_2D_body = graphics->compute_2D_box(box_points_3D_body);
+    box_points_3D = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
+
+    // std::vector<std::vector<int>> box_points_2D_body = graphics->compute_2D_box(box_points_3D);
+    // graphics->set_color(1, 1, 1);
+    // graphics->draw_hollow_box(box_points_2D_body);
+
+    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D = graphics->clip_box(box_points_3D);
+    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D = graphics->compute_2D_box_as_lines(clipped_box_points_3D);
     graphics->set_color(1, 1, 1);
-    graphics->draw_hollow_box(box_points_2D_body);
+    graphics->draw_hollow_box_as_lines(clipped_box_points_2D);
 
 }
 
