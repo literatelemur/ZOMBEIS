@@ -19,8 +19,8 @@ World::World(Graphics* graphics){
     // center_z = graphics->playerz + 1500;
 
     center_x = 960;
-    center_y = 1060 + 1500;
-    center_z = 1000 + 1500;
+    center_y = 1060 + 1100;
+    center_z = 1000 + 500;
 
     gravity_dist = 5000;
 

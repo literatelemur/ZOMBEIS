@@ -90,10 +90,10 @@ void key_press_check() {
         graphics.anglex_diff += 0.01745329 * 2;
 
     }if(key_states['t']){
-        graphics.angley_diff -= 0.01745329;
+        graphics.angley_diff += 0.01745329 * 2;
 
     }if(key_states['g']){
-        graphics.angley_diff += 0.01745329;
+        graphics.angley_diff -= 0.01745329 * 2;
         
     }if(key_states['x']){
         
