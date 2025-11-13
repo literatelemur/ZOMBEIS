@@ -38,9 +38,9 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
 
-        std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_sphere);
+        std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere);
 
-        std::vector<std::vector<std::vector<std::vector<int>>>> clip_and_compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>> clip_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);
 
         std::vector<std::vector<std::vector<double>>> clip_box(std::vector<std::vector<double>> box_points_3D);
 
@@ -53,6 +53,8 @@ class Graphics {
         std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> compute_2D_sphere_triangles(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points);
 
         std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points);
+
+        std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D);
 
         std::vector<int> compute_2D_point(std::vector<double> point_3D);
 
@@ -73,10 +75,6 @@ class Graphics {
         void draw_hollow_box(std::vector<std::vector<int>> rect_points);
 
         void draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D);
-
-        void draw_full_polygon(std::vector<std::vector<int>> polygon_points_2D);
-
-        void draw_hollow_polygon(std::vector<std::vector<int>> polygon_points_2D);
 
         void set_color(int r, int g, int b);
 

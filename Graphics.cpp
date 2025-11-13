@@ -414,16 +414,16 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
 
 std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> Graphics::clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
 
-    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_polygon_points_3D_sphere;
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_triangle_points_3D_sphere;
 
     for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
-        clipped_polygon_points_3D_sphere.emplace_back();
+        clipped_triangle_points_3D_sphere.emplace_back();
 
         for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
-            clipped_polygon_points_3D_sphere[i].emplace_back();
+            clipped_triangle_points_3D_sphere[i].emplace_back();
 
             for (int k = 0; k < triangle_points_3D_sphere[i][j].size(); k++){
-                clipped_polygon_points_3D_sphere[i][j].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j].emplace_back();
 
                 std::vector<std::vector<double>> line1;
                 line1.emplace_back();
@@ -569,71 +569,73 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
                 }
 
 
-                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][0].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][0]);
-                clipped_polygon_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][1]);
-                clipped_polygon_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][2]);
+                clipped_triangle_points_3D_sphere[i][j][k].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][0].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][0]);
+                clipped_triangle_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][1]);
+                clipped_triangle_points_3D_sphere[i][j][k][0][0].emplace_back(clipped_coor_line1[0][2]);
 
-                clipped_polygon_points_3D_sphere[i][j][k][0].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][0]);
-                clipped_polygon_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][1]);
-                clipped_polygon_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][2]);
-
-
-
-                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][1].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][0]);
-                clipped_polygon_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][1]);
-                clipped_polygon_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][2]);
-
-                clipped_polygon_points_3D_sphere[i][j][k][1].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][0]);
-                clipped_polygon_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][1]);
-                clipped_polygon_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][2]);
+                clipped_triangle_points_3D_sphere[i][j][k][0].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][0]);
+                clipped_triangle_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][1]);
+                clipped_triangle_points_3D_sphere[i][j][k][0][1].emplace_back(clipped_coor_line1[1][2]);
 
 
 
-                clipped_polygon_points_3D_sphere[i][j][k].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][2].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][0]);
-                clipped_polygon_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][1]);
-                clipped_polygon_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][2]);
+                clipped_triangle_points_3D_sphere[i][j][k].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][1].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][0]);
+                clipped_triangle_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][1]);
+                clipped_triangle_points_3D_sphere[i][j][k][1][0].emplace_back(clipped_coor_line2[0][2]);
 
-                clipped_polygon_points_3D_sphere[i][j][k][2].emplace_back();
-                clipped_polygon_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][0]);
-                clipped_polygon_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][1]);
-                clipped_polygon_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][2]);
+                clipped_triangle_points_3D_sphere[i][j][k][1].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][0]);
+                clipped_triangle_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][1]);
+                clipped_triangle_points_3D_sphere[i][j][k][1][1].emplace_back(clipped_coor_line2[1][2]);
+
+
+
+                clipped_triangle_points_3D_sphere[i][j][k].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][2].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][0]);
+                clipped_triangle_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][1]);
+                clipped_triangle_points_3D_sphere[i][j][k][2][0].emplace_back(clipped_coor_line3[0][2]);
+
+                clipped_triangle_points_3D_sphere[i][j][k][2].emplace_back();
+                clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][0]);
+                clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][1]);
+                clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][2]);
                 
             }
         }
     }
 
-    return clipped_polygon_points_3D_sphere;
+    return clipped_triangle_points_3D_sphere;
 }
 
 
-std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D){
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D){
 
-    std::vector<std::vector<std::vector<std::vector<int>>>> lines_points_2D;
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D;
 
     // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
     for (int i = 0; i < lines_points_3D.size(); i++){
-        lines_points_2D.emplace_back();
+        clipped_lines_points_3D.emplace_back();
 
         for (int j = 0; j < lines_points_3D[i].size(); j++){
-            lines_points_2D[i].emplace_back();
+            clipped_lines_points_3D[i].emplace_back();
 
 
-            lines_points_2D[i][j].emplace_back();
-            lines_points_2D[i][j][0].emplace_back(0);
-            lines_points_2D[i][j][0].emplace_back(0);
+            clipped_lines_points_3D[i][j].emplace_back();
+            clipped_lines_points_3D[i][j][0].emplace_back(0);
+            clipped_lines_points_3D[i][j][0].emplace_back(0);
+            clipped_lines_points_3D[i][j][0].emplace_back(0);
 
 
-            lines_points_2D[i][j].emplace_back();
-            lines_points_2D[i][j][1].emplace_back(0);
-            lines_points_2D[i][j][1].emplace_back(0);
+            clipped_lines_points_3D[i][j].emplace_back();
+            clipped_lines_points_3D[i][j][1].emplace_back(0);
+            clipped_lines_points_3D[i][j][1].emplace_back(0);
+            clipped_lines_points_3D[i][j][1].emplace_back(0);
 
 
             std::vector<double> clipped_coor_diffs = clip_3D_line(lines_points_3D[i][j]);
@@ -654,11 +656,13 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
                     x2_clip_diff == -100000 && y2_clip_diff == -100000 && z2_clip_diff == -100000){
 
                             
-                lines_points_2D[i][j][0][0] = -100000;
-                lines_points_2D[i][j][0][1] = -100000;
+                clipped_lines_points_3D[i][j][0][0] = -100000;
+                clipped_lines_points_3D[i][j][0][1] = -100000;
+                clipped_lines_points_3D[i][j][0][2] = -100000;
 
-                lines_points_2D[i][j][1][0] = -100000;
-                lines_points_2D[i][j][1][1] = -100000;
+                clipped_lines_points_3D[i][j][1][0] = -100000;
+                clipped_lines_points_3D[i][j][1][1] = -100000;
+                clipped_lines_points_3D[i][j][1][2] = -100000;
 
             }else{
 
@@ -668,11 +672,10 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
                 double z_3D = z1_clip_diff + playerz;
 
                 std::vector<double> point_3D = {x_3D, y_3D, z_3D};
-                std::vector<int> point_2D = compute_2D_point(point_3D);
 
-                lines_points_2D[i][j][0][0] = point_2D[0];
-                lines_points_2D[i][j][0][1] = point_2D[1];
-
+                clipped_lines_points_3D[i][j][0][0] = point_3D[0];
+                clipped_lines_points_3D[i][j][0][1] = point_3D[1];
+                clipped_lines_points_3D[i][j][0][2] = point_3D[2];
 
 
                 x_3D = (x2_clip_diff - playerx) * -1;
@@ -680,20 +683,21 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::clip_and_compu
                 z_3D = z2_clip_diff + playerz;
 
                 point_3D = {x_3D, y_3D, z_3D};
-                point_2D = compute_2D_point(point_3D);
 
-                lines_points_2D[i][j][1][0] = point_2D[0];
-                lines_points_2D[i][j][1][1] = point_2D[1];
 
+                clipped_lines_points_3D[i][j][1][0] = point_3D[0];
+                clipped_lines_points_3D[i][j][1][1] = point_3D[1];
+                clipped_lines_points_3D[i][j][1][2] = point_3D[2];
             }
 
         }
     }
 
 
-    return lines_points_2D;
+    return clipped_lines_points_3D;
 
 }
+
 
 
 std::vector<std::vector<std::vector<double>>> Graphics::clip_box(std::vector<std::vector<double>> box_points_3D){
@@ -1283,6 +1287,29 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>
 }
 
 
+std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D){
+    std::vector<std::vector<std::vector<std::vector<int>>>> clipped_lines_points_2D;
+
+    for (int i = 0; i < clipped_lines_points_3D.size(); i++){
+        clipped_lines_points_2D.emplace_back();
+
+        for (int j = 0; j < clipped_lines_points_3D[i].size(); j++){
+            clipped_lines_points_2D[i].emplace_back();
+
+            std::vector<int> point_2D = compute_2D_point(clipped_lines_points_3D[i][j][0]);
+            clipped_lines_points_2D[i][j].emplace_back(point_2D);
+
+            point_2D = compute_2D_point(clipped_lines_points_3D[i][j][1]);
+            clipped_lines_points_2D[i][j].emplace_back(point_2D);
+        }
+
+    }
+    
+    return clipped_lines_points_2D;
+}
+
+
+
 std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
     std::vector<int> point_2D(2, 0);
 
@@ -1576,197 +1603,6 @@ void Graphics::draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>
             glEnd();
         }
     }
-}
-
-void Graphics::draw_full_polygon(std::vector<std::vector<int>> polygon_points_2D){
-
-    bool skip = false;
-
-    for (int i = 0; i < polygon_points_2D.size(); i++){
-        if (polygon_points_2D[i][0] == -100000 && polygon_points_2D[i][1] == -100000) skip = true;
-    }
-
-    if (!skip){
-
-        if (polygon_points_2D.size() == 3){
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-            glEnd();
-
-        }else if (polygon_points_2D.size() == 4){
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-            glEnd();
-
-        }else if (polygon_points_2D.size() == 5){
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-            glEnd();
-
-        }else if (polygon_points_2D.size() == 6){
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-            glEnd();
-
-        // Drawing full box.
-        }else if (polygon_points_2D.size() == 8){
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-            glEnd();
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-                glVertex2i(polygon_points_2D[6][0], polygon_points_2D[6][1]);
-            glEnd();
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-            glEnd();
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[7][0], polygon_points_2D[7][1]);
-            glEnd();
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[7][0], polygon_points_2D[7][1]);
-                glVertex2i(polygon_points_2D[6][0], polygon_points_2D[6][1]);
-            glEnd();
-
-            glBegin(GL_POLYGON);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-                glVertex2i(polygon_points_2D[7][0], polygon_points_2D[7][1]);
-                glVertex2i(polygon_points_2D[6][0], polygon_points_2D[6][1]);
-            glEnd();
-        }
-    }
-
-}
-
-void Graphics::draw_hollow_polygon(std::vector<std::vector<int>> polygon_points_2D){
-
-    bool skip = false;
-
-    for (int i = 0; i < polygon_points_2D.size(); i++){
-        if (polygon_points_2D[i][0] == -100000 && polygon_points_2D[i][1] == -100000) skip = true;
-    }
-
-    if (!skip){
-
-        if (polygon_points_2D.size() == 3){
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-            glEnd();
-
-        }else if (polygon_points_2D.size() == 4){
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-            glEnd();
-
-        }else if (polygon_points_2D.size() == 5){
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-            glEnd();
-
-        }else if (polygon_points_2D.size() == 6){
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-            glEnd();
-
-        }else if (polygon_points_2D.size() == 8){
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-                glVertex2i(polygon_points_2D[6][0], polygon_points_2D[6][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[0][0], polygon_points_2D[0][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-                glVertex2i(polygon_points_2D[1][0], polygon_points_2D[1][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[7][0], polygon_points_2D[7][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[2][0], polygon_points_2D[2][1]);
-                glVertex2i(polygon_points_2D[3][0], polygon_points_2D[3][1]);
-                glVertex2i(polygon_points_2D[7][0], polygon_points_2D[7][1]);
-                glVertex2i(polygon_points_2D[6][0], polygon_points_2D[6][1]);
-            glEnd();
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2i(polygon_points_2D[4][0], polygon_points_2D[4][1]);
-                glVertex2i(polygon_points_2D[5][0], polygon_points_2D[5][1]);
-                glVertex2i(polygon_points_2D[7][0], polygon_points_2D[7][1]);
-                glVertex2i(polygon_points_2D[6][0], polygon_points_2D[6][1]);
-            glEnd();
-        }
-    }
-
 }
 
 

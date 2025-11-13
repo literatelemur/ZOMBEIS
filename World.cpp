@@ -51,7 +51,9 @@ void World::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D = graphics->find_floor_lines_on_globe(floor_sphere_triangle_points_3D);
 
-    std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D = graphics->clip_and_compute_2D_sphere_lines(floor_points_3D);
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_floor_points_3D = graphics->clip_sphere_lines(floor_points_3D);
 
-    graphics->draw_floor_lines(floor_points_2D);
+    std::vector<std::vector<std::vector<std::vector<int>>>> clipped_floor_points_2D = graphics->compute_2D_sphere_lines(clipped_floor_points_3D);
+
+    graphics->draw_floor_lines(clipped_floor_points_2D);
 }
