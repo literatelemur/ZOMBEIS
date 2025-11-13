@@ -20,7 +20,9 @@ Graphics graphics;
 int window_width = 1920;
 int window_height = 1080;
 
-//const float aspect_ratio = 16.0f / 9.0f; // Desired aspect ratio
+bool first_mouse_move = true;
+int last_mouse_movex = int(window_width / 2);
+int last_mouse_movey = int(window_height / 2);
 
 bool key_states[256] = { false };
 
@@ -123,6 +125,28 @@ void mouse_click(int button, int state, int x, int y) {
     }
 }
 
+void mouse_move(int x, int y){
+
+    if (first_mouse_move){
+        last_mouse_movex = x;
+        last_mouse_movey = y;
+        first_mouse_move = false;
+    }
+    
+    int mouse_diffx = x - last_mouse_movex;
+    int mouse_diffy = last_mouse_movey - y;
+
+    last_mouse_movex = x;
+    last_mouse_movey = y;
+
+    double sensitivity = 1.0;
+
+    graphics.anglex_diff = graphics.anglex_diff + mouse_diffx * sensitivity * 0.001;
+    graphics.angley_diff = graphics.angley_diff + mouse_diffy * sensitivity * 0.001;
+
+    if (x > window_height || x < 0 || y > window_height || y < 0) glutWarpPointer(window_width / 2, window_height / 2);
+    
+}
 
 void render_all(){
 
@@ -187,7 +211,6 @@ void render_all(){
 
 
 
-
         glutPostRedisplay();
         graphics.present_frame();
 
@@ -196,16 +219,16 @@ void render_all(){
 
 int main(int argc, char* argv[]) {
     
-    Graphics graphics;
-    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     
     glutInitWindowSize(window_width, window_height);
     glutCreateWindow("ZOMBEIS");
 
-    // Set up orthographic projection //gpt
-    glMatrixMode(GL_PROJECTION);
+    glutSetCursor(GLUT_CURSOR_NONE);
+    glutPassiveMotionFunc(mouse_move);
+    glutWarpPointer(window_width / 2, window_height / 2);
+
     glLoadIdentity();
     gluOrtho2D(0, window_width, window_height, 0); // Map OpenGL coordinates to screen pixels
 
