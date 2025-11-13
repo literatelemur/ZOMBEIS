@@ -1248,20 +1248,24 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sph
 std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
     std::vector<int> point_2D(2, 0);
 
-    // Computing the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-    double x_3D_diff = playerx - point_3D[0];
-    double y_3D_diff = point_3D[1] - playery;
+    // Determining the adjusted x and y 3D differences when considering turning.
     double z_3D_diff = point_3D[2] - playerz;
 
+    double turnx_diff_3D = tan(anglex_diff) * z_3D_diff;
+    double turny_diff_3D = tan(angley_diff) * z_3D_diff;
+
+    // Computing the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
+    double x_3D_diff = playerx - point_3D[0] + turnx_diff_3D;
+    double y_3D_diff = point_3D[1] - playery + turny_diff_3D;
+    
+
     double anglex = atan2(x_3D_diff, z_3D_diff);
-    double anglex_turn = anglex + anglex_diff;
 
     double angley = atan2(y_3D_diff, z_3D_diff);
-    double angley_turn = angley + angley_diff;
 
 
-    int x_2D_diff = (int) (tan(anglex_turn) * zscreendiff);
-    int y_2D_diff = (int) (tan(angley_turn) * zscreendiff);
+    int x_2D_diff = (int) (tan(anglex) * zscreendiff);
+    int y_2D_diff = (int) (tan(angley) * zscreendiff);
 
 
 
