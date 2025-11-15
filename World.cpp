@@ -12,19 +12,25 @@
 #include "main.h"
 
 
-World::World(Graphics* graphics){
+World::World(Graphics* graphics, int x, int y, int z, std::vector<float> color){
 
     // center_x = graphics->playerx;
     // center_y = graphics->playery + 1500;
     // center_z = graphics->playerz + 1500;
 
-    center_x = 960;
-    center_y = 1060 + 1100;
-    center_z = 1000 + 500;
+    // center_x = 960;
+    // center_y = 1060 + 1100;
+    // center_z = 1000 + 500;
+
+    center_x = x;
+    center_y = y;
+    center_z = z;
+
+    surface_color = color;
 
     gravity_dist = 5000;
 
-    floor_sphere_points_3D = graphics->make_sphere({(double)center_x, (double)center_y, (double)center_z}, 1000, 12);
+    floor_sphere_points_3D = graphics->make_sphere({(double)center_x, (double)center_y, (double)center_z}, 1000, 6);
     //floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 5000, (double)playerz + 15000}, 5000, 12);
     //floor_sphere_points_3D = make_sphere({(double)960, (double)560, (double)5000}, 1000, 12);
 
@@ -39,10 +45,14 @@ void World::render(Graphics* graphics){
 
     graphics->set_color(0.0f, 0.0f, 0.0f);
 
-    //graphics->draw_full_triangles_sphere(floor_sphere_triangle_points_2D);
+    //graphics->draw_full_triangles_sphere(clipped_floor_sphere_triangle_points_2D_as_lines);
 
 
-    graphics->set_color(1.0f, 0.0f, 0.0f);
+    //graphics->set_color(1.0f, 0.0f, 1.0f);
+
+    //graphics->set_color(0.0f, 1.0f, 0.0f);
+
+    graphics->set_color(surface_color[0], surface_color[1], surface_color[2]);
 
     graphics->draw_hollow_triangles_sphere_as_lines(clipped_floor_sphere_triangle_points_2D_as_lines);
 

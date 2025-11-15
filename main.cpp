@@ -30,9 +30,9 @@ int num_zombies;
 std::vector<Zombie> zombie_vector;
 std::vector<Bullet> bullet_vector;
 std::vector<Star> star_vector;
+std::vector<World> world_vector;
 
-// Making world
-World world = World(&graphics);
+int player_speed = 100;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -48,32 +48,32 @@ void keyUp(unsigned char key, int idk1, int idk2){
 // Keyboard press check
 void key_press_check() {
     if(key_states['w']){
-        graphics.playerz += 10;
+        graphics.playerz += player_speed;
         // if (graphics.playerz < 1000){
         //     graphics.playerz += 5;
         // }
     }if(key_states['s']){
-        graphics.playerz -= 10;
+        graphics.playerz -= player_speed;
         // if (graphics.playerz > 0){
         //     graphics.playerz -= 5;
         // }
     }if(key_states['d']){
-        graphics.playerx += 10;
+        graphics.playerx += player_speed;
         // if (graphics.playerx < 1920){
         //     graphics.playerx += 5;
         // }
     }if(key_states['a']){
-        graphics.playerx -= 10;
+        graphics.playerx -= player_speed;
         // if (graphics.playerx > 0){
         //     graphics.playerx -= 5;
         // }
     }if(key_states['r']){
         // if (graphics.playery > 0){
-            graphics.playery -= 10;
+            graphics.playery -= player_speed;
         // }
     }if(key_states['f']){
         //if (graphics.playery < 1070){
-            graphics.playery += 10;
+            graphics.playery += player_speed;
         //}
     }if(key_states['e']){
         for (int i = 0; i < num_zombies; i++){
@@ -144,21 +144,33 @@ void mouse_move(int x, int y){
     graphics.anglex_diff = graphics.anglex_diff + mouse_diffx * sensitivity * 0.001;
     graphics.angley_diff = graphics.angley_diff + mouse_diffy * sensitivity * 0.001;
 
-    if (x > window_height || x < 0 || y > window_height || y < 0) glutWarpPointer(window_width / 2, window_height / 2);
+    if (x > window_width || x < 100 || y > window_height || y < 100){
+        glutWarpPointer(window_width / 2, window_height / 2);
+        first_mouse_move = true;
+    }
     
+}
+
+void mouse_enter_leave_window(int state){
+
+    if (state == GLUT_LEFT){
+        glutWarpPointer(window_width / 2, window_height / 2);
+        first_mouse_move = true;
+    }
 }
 
 void render_all(){
 
         graphics.clear_draw_screen();
 
+        for (int i = 0; i < world_vector.size(); i++){
+            world_vector[i].render(&graphics);
+        }
+
         for (int i = 0; i < star_vector.size(); i++){
             star_vector[i].move(&graphics);
             star_vector[i].render(&graphics);
-        }
-
-
-        world.render(&graphics);
+        }        
 
 
         int zombie_to_remove = -1;
@@ -194,7 +206,7 @@ void render_all(){
         }
 
         for (double i = 0; i < num_zombies; i++){
-            zombie_vector[i].gravitate(world);
+            zombie_vector[i].gravitate(world_vector[0]);
             zombie_vector[i].render(&graphics);
         }
 
@@ -228,6 +240,7 @@ int main(int argc, char* argv[]) {
     glutSetCursor(GLUT_CURSOR_NONE);
     glutPassiveMotionFunc(mouse_move);
     glutWarpPointer(window_width / 2, window_height / 2);
+    glutEntryFunc(mouse_enter_leave_window);
 
     glLoadIdentity();
     gluOrtho2D(0, window_width, window_height, 0); // Map OpenGL coordinates to screen pixels
@@ -245,6 +258,67 @@ int main(int argc, char* argv[]) {
     // Initialize a random number generator (Mersenne Twister) //gpt
     std::mt19937 gen(rd());
 
+
+    // Making worlds
+    // world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500));
+    // world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500));
+    // world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000));
+    // world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 + 1000, 1000 + 500 + 20000));
+    // world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000));
+    // world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 + 8000, 1000 + 500 + 40000));
+
+    // Making worlds
+    std::uniform_int_distribution<> distrib_worldx(-10000, 10000);
+    int random_world_numx = distrib_worldx(gen);
+
+    std::uniform_int_distribution<> distrib_worldy(-2500, 2500);
+    int random_world_numy = distrib_worldy(gen);
+
+    std::uniform_int_distribution<> distrib_worldz(1000, 50000);
+    int random_world_numz = distrib_worldz(gen);
+
+
+    std::uniform_int_distribution<> distrib_world_colorr(0, 10);
+    float random_world_colorr = distrib_world_colorr(gen);
+
+    std::uniform_int_distribution<> distrib_world_colorg(0, 10);
+    float random_world_colorg = distrib_world_colorg(gen);
+
+    std::uniform_int_distribution<> distrib_world_colorb(0, 10);
+    float random_world_colorb = distrib_world_colorb(gen);
+
+    std::uniform_int_distribution<> distrib_world_color(0, 10);
+    float random_world_color = distrib_world_color(gen);
+
+
+    int num_worlds = 0;
+    while (num_worlds < 25){
+        random_world_numx = distrib_worldx(gen);
+        random_world_numy = distrib_worldy(gen);
+        random_world_numz = distrib_worldz(gen);
+
+        random_world_colorr = distrib_world_colorr(gen);
+        random_world_colorg = distrib_world_colorg(gen);
+        random_world_colorb = distrib_world_colorb(gen);
+        random_world_color = distrib_world_color(gen);
+
+        //std::vector<float> surface_color = {(float)random_world_colorr, (float)random_world_colorg, (float)random_world_colorb};
+
+        std::vector<float> surface_color;
+        if (random_world_color > 3){
+            surface_color = {1, 1, 1};
+        } else{
+            surface_color = {0, 0, 1};
+        }
+
+        world_vector.emplace_back(World(&graphics, 960 + random_world_numx, 1060 + 1100 + random_world_numy, 1000 + 500 + random_world_numz, surface_color));
+        num_worlds++;
+    }
+
+
+
+
+    // Making zombeis
     std::uniform_int_distribution<> distribx(460, 1460);
     std::uniform_int_distribution<> distribz(500, 5000);
     std::uniform_int_distribution<> distribs(1, 15);
@@ -255,7 +329,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombies = 100;
     //num_zombies = 50;
-    num_zombies = 25;
+    //num_zombies = 25;
+    num_zombies = 0;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
