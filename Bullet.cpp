@@ -22,15 +22,11 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
 
     depth = 5;
 
+    double x_diff_screen = click_x / double(glutGet(GLUT_WINDOW_WIDTH)) * 1920.0 - 1920 / 2;
+    double y_diff_screen = click_y / double(glutGet(GLUT_WINDOW_HEIGHT)) * 1080.0 - 1080 / 2;
 
-    double x_diff_screen = click_x - glutGet(GLUT_WINDOW_WIDTH) / 2;
-    double y_diff_screen = click_y - glutGet(GLUT_WINDOW_HEIGHT) / 2;
-
-    x_diff_screen = click_x / double(glutGet(GLUT_WINDOW_WIDTH)) * 1920.0 - 1920 / 2;
-    y_diff_screen = click_y / double(glutGet(GLUT_WINDOW_HEIGHT)) * 1080.0 - 1080 / 2;
-
-    anglex = atan2(x_diff_screen, graphics->zscreendiff);
-    angley = atan2(y_diff_screen, graphics->zscreendiff);
+    anglex = atan2(0.0, graphics->zscreendiff) + graphics->anglex_diff;
+    angley = atan2(0.0, graphics->zscreendiff) - graphics->angley_diff;
 
     double x_diff_3D = tan(anglex) * (z - origin_z);
     double y_diff_3D = tan(angley) * (z - origin_z);

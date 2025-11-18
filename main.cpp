@@ -32,6 +32,7 @@ std::vector<Bullet> bullet_vector;
 std::vector<Star> star_vector;
 std::vector<World> world_vector;
 
+//int player_speed = 10;
 int player_speed = 100;
 
 
@@ -210,7 +211,6 @@ void render_all(){
             zombie_vector[i].render(&graphics);
         }
 
-        graphics.set_color(1.0f, 1.0f, 1.0f);
 
         for (int i = 0; i < bullet_vector.size(); i++){
             bullet_vector[i].move(&graphics);
@@ -267,6 +267,7 @@ int main(int argc, char* argv[]) {
     // world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000));
     // world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 + 8000, 1000 + 500 + 40000));
 
+    
     // Making worlds
     std::uniform_int_distribution<> distrib_worldx(-10000, 10000);
     int random_world_numx = distrib_worldx(gen);
@@ -302,14 +303,14 @@ int main(int argc, char* argv[]) {
         random_world_colorb = distrib_world_colorb(gen);
         random_world_color = distrib_world_color(gen);
 
-        //std::vector<float> surface_color = {(float)random_world_colorr, (float)random_world_colorg, (float)random_world_colorb};
+        std::vector<float> surface_color = {(float)random_world_colorr, (float)random_world_colorg, (float)random_world_colorb};
 
-        std::vector<float> surface_color;
-        if (random_world_color > 3){
-            surface_color = {1, 1, 1};
-        } else{
-            surface_color = {0, 0, 1};
-        }
+        // std::vector<float> surface_color;
+        // if (random_world_color > 3){
+        //     surface_color = {1, 1, 1};
+        // } else{
+        //     surface_color = {0, 0, 1};
+        // }
 
         world_vector.emplace_back(World(&graphics, 960 + random_world_numx, 1060 + 1100 + random_world_numy, 1000 + 500 + random_world_numz, surface_color));
         num_worlds++;
