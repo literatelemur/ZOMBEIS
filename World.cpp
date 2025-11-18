@@ -30,7 +30,7 @@ World::World(Graphics* graphics, int x, int y, int z, std::vector<float> color){
 
     gravity_dist = 5000;
 
-    floor_sphere_points_3D = graphics->make_sphere({(double)center_x, (double)center_y, (double)center_z}, 1000, 6);
+    floor_sphere_points_3D = graphics->make_sphere({(double)center_x, (double)center_y, (double)center_z}, 1000, 12);
     //floor_sphere_points_3D = make_sphere({(double)playerx, (double)playery + 5000, (double)playerz + 15000}, 5000, 12);
     //floor_sphere_points_3D = make_sphere({(double)960, (double)560, (double)5000}, 1000, 12);
 
