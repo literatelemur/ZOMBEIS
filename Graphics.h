@@ -63,7 +63,7 @@ class Graphics {
 
         void draw_floor_lines(std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D);
 
-        void draw_full_triangles_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> triangle_points);
+        void draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangles_points_2D_as_lines);
 
         void draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> triangle_points);
 

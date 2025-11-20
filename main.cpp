@@ -54,42 +54,34 @@ void keyUp(unsigned char key, int idk1, int idk2){
 void key_press_check() {
     if(key_states['w']){
         graphics.playerz += player_speed;
-        // if (graphics.playerz < 1000){
-        //     graphics.playerz += 5;
-        // }
+
     }if(key_states['s']){
         graphics.playerz -= player_speed;
-        // if (graphics.playerz > 0){
-        //     graphics.playerz -= 5;
-        // }
+
     }if(key_states['d']){
         graphics.playerx += player_speed;
-        // if (graphics.playerx < 1920){
-        //     graphics.playerx += 5;
-        // }
+
     }if(key_states['a']){
         graphics.playerx -= player_speed;
-        // if (graphics.playerx > 0){
-        //     graphics.playerx -= 5;
-        // }
+
     }if(key_states['r']){
-        // if (graphics.playery > 0){
-            graphics.playery -= player_speed;
-        // }
+        graphics.playery -= player_speed;
+
     }if(key_states['f']){
-        //if (graphics.playery < 1070){
-            graphics.playery += player_speed;
-        //}
+        graphics.playery += player_speed;
+
     }if(key_states['e']){
         for (int i = 0; i < num_zombies; i++){
             zombie_vector[i].move(1);
             zombie_vector[i].render(&graphics);
         }
+
     }if(key_states['q']){
         for (int j = 0; j < num_zombies; j++){
             zombie_vector[j].move(-1);
             zombie_vector[j].render(&graphics);
         }
+        
     }if(key_states['z']){
         graphics.anglex_diff -= 0.01745329 * 2;
 
@@ -333,8 +325,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombies = 100;
     //num_zombies = 50;
-    //num_zombies = 25;
-    num_zombies = 0;
+    num_zombies = 25;
+    //num_zombies = 0;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
@@ -372,9 +364,11 @@ int main(int argc, char* argv[]) {
     // }
 
 
+
+
     // Making starscape
 
-    starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 100000, 12);
+    starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
     starscape_base_triangle_points_3D = graphics.find_triangle_points_sphere(starscape_base_points_3D);
 
     for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
@@ -382,21 +376,16 @@ int main(int argc, char* argv[]) {
             for (int k = 0; k < starscape_base_triangle_points_3D[i][j].size(); k++){
 
                 std::uniform_int_distribution<> distrib_starx(starscape_base_triangle_points_3D[i][j][k][0][0], starscape_base_triangle_points_3D[i][j][k][1][0]);
-                int random_star_numx = distrib_starx(gen);
-
                 std::uniform_int_distribution<> distrib_stary(starscape_base_triangle_points_3D[i][j][k][0][1], starscape_base_triangle_points_3D[i][j][k][2][1]);
-                int random_star_numy = distrib_stary(gen);
-
                 std::uniform_int_distribution<> distrib_starz(starscape_base_triangle_points_3D[i][j][k][0][2], starscape_base_triangle_points_3D[i][j][k][2][2]);
-                int random_star_numz = distrib_starz(gen);
 
                 int num_stars = 1;
                 //while (num_stars < 5000){
-                while (num_stars < 100){
-                    random_star_numx = distrib_starx(gen);
-                    random_star_numy = distrib_stary(gen);
-                    random_star_numz = distrib_starz(gen);
-                    star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, -2000, -1000));
+                while (num_stars < 5){
+                    int random_star_numx = distrib_starx(gen);
+                    int random_star_numy = distrib_stary(gen);
+                    int random_star_numz = distrib_starz(gen);
+                    star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, random_star_numy + 100, random_star_numy - 100));
                     num_stars++;
                 }
                 
@@ -434,8 +423,5 @@ int main(int argc, char* argv[]) {
 // -make bullets more detailed visually?
 // -make arm movement better
 // -review floor angle code vs zombei angle code (zombei angle code being gpt)
-
 // -refine zombei leg movement animation
-
-// -fix line turning up and down
 // -comment graphics.find_floor_lines_on_globe
