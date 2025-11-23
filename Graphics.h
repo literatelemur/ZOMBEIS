@@ -75,6 +75,8 @@ class Graphics {
 
         void draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D);
 
+        void draw_hud();
+
         void set_color(int r, int g, int b);
 
         void present_frame();

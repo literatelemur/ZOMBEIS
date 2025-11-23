@@ -599,6 +599,34 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
                 clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][0]);
                 clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][1]);
                 clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][2]);
+
+
+                // std::cout << "----------------------\n";
+                // std::cout << clipped_coor_line1[0][0] << "\n";
+                // std::cout << clipped_coor_line1[0][1] << "\n";
+                // std::cout << clipped_coor_line1[0][2] << "\n";
+
+                // std::cout << clipped_coor_line1[1][0] << "\n";
+                // std::cout << clipped_coor_line1[1][1] << "\n";
+                // std::cout << clipped_coor_line1[1][2] << "\n";
+
+                // std::cout << "---\n";
+                // std::cout << clipped_coor_line2[0][0] << "\n";
+                // std::cout << clipped_coor_line2[0][1] << "\n";
+                // std::cout << clipped_coor_line2[0][2] << "\n";
+
+                // std::cout << clipped_coor_line2[1][0] << "\n";
+                // std::cout << clipped_coor_line2[1][1] << "\n";
+                // std::cout << clipped_coor_line2[1][2] << "\n";
+
+                // std::cout << "---\n";
+                // std::cout << clipped_coor_line3[0][0] << "\n";
+                // std::cout << clipped_coor_line3[0][1] << "\n";
+                // std::cout << clipped_coor_line3[0][2] << "\n";
+
+                // std::cout << clipped_coor_line3[1][0] << "\n";
+                // std::cout << clipped_coor_line3[1][1] << "\n";
+                // std::cout << clipped_coor_line3[1][2] << "\n";
                 
             }
         }
@@ -1201,18 +1229,39 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>
                 object_2D[i][j].emplace_back();
 
                 object_2D[i][j][k].emplace_back();
-                object_2D[i][j][k][0].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][0][0]));
-                object_2D[i][j][k][0].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][0][1]));
+
+                if (triangle_points_3D_sphere_as_lines[i][j][k][0][0][0] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][0][0][1] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][0][0][2] != -100000 &&
+                        triangle_points_3D_sphere_as_lines[i][j][k][0][1][0] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][0][1][1] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][0][1][2] != -100000){
+                    object_2D[i][j][k][0].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][0][0]));
+                    object_2D[i][j][k][0].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][0][1]));
+                }else{
+                    object_2D[i][j][k][0].emplace_back(std::vector<int>{-100000, -100000});
+                    object_2D[i][j][k][0].emplace_back(std::vector<int>{-100000, -100000});
+                }
 
 
                 object_2D[i][j][k].emplace_back();
-                object_2D[i][j][k][1].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][1][0]));
-                object_2D[i][j][k][1].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][1][1]));
+
+                if (triangle_points_3D_sphere_as_lines[i][j][k][1][0][0] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][1][0][1] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][1][0][2] != -100000 &&
+                        triangle_points_3D_sphere_as_lines[i][j][k][1][1][0] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][1][1][1] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][1][1][2] != -100000){
+                    object_2D[i][j][k][1].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][1][0]));
+                    object_2D[i][j][k][1].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][1][1]));
+                }else{
+                    object_2D[i][j][k][1].emplace_back(std::vector<int>{-100000, -100000});
+                    object_2D[i][j][k][1].emplace_back(std::vector<int>{-100000, -100000});
+                }
 
 
                 object_2D[i][j][k].emplace_back();
-                object_2D[i][j][k][2].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][2][0]));
-                object_2D[i][j][k][2].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][2][1]));
+
+                if (triangle_points_3D_sphere_as_lines[i][j][k][2][0][0] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][2][0][1] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][2][0][2] != -100000 &&
+                        triangle_points_3D_sphere_as_lines[i][j][k][2][1][0] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][2][1][1] != -100000 && triangle_points_3D_sphere_as_lines[i][j][k][2][1][2] != -100000){
+                    object_2D[i][j][k][2].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][2][0]));
+                    object_2D[i][j][k][2].emplace_back(compute_2D_point(triangle_points_3D_sphere_as_lines[i][j][k][2][1]));
+                }else{
+                    object_2D[i][j][k][2].emplace_back(std::vector<int>{-100000, -100000});
+                    object_2D[i][j][k][2].emplace_back(std::vector<int>{-100000, -100000});
+                }
             }
         }
     }
@@ -1246,6 +1295,7 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sph
 
 
 std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
+
     std::vector<int> point_2D(2, 0);
 
     // Determining the adjusted x and y 3D differences when considering turning.
@@ -1266,7 +1316,6 @@ std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
 
     int x_2D_diff = (int) (tan(anglex) * zscreendiff);
     int y_2D_diff = (int) (tan(angley) * zscreendiff);
-
 
 
     point_2D[0] = (int) (960 - x_2D_diff);
@@ -1345,12 +1394,12 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
 
                 std::vector<std::vector<int>> valid_points;
                 for (int l = 0; l < sphere_triangles_points_2D_as_lines[i][j][k].size(); l++){
-                    if ((sphere_triangles_points_2D_as_lines[i][j][k][l][0][0] != -100000 && sphere_triangles_points_2D_as_lines[i][j][k][l][0][1] != -100000) || 
-                            (sphere_triangles_points_2D_as_lines[i][j][k][l][1][0] != -100000 && sphere_triangles_points_2D_as_lines[i][j][k][l][1][1] != -100000)){
+                    if (sphere_triangles_points_2D_as_lines[i][j][k][l][0][0] != -100000 && sphere_triangles_points_2D_as_lines[i][j][k][l][0][1] != -100000 && 
+                            sphere_triangles_points_2D_as_lines[i][j][k][l][1][0] != -100000 && sphere_triangles_points_2D_as_lines[i][j][k][l][1][1] != -100000){
                         valid_points.emplace_back();
                         valid_points[valid_points.size()-1].emplace_back(sphere_triangles_points_2D_as_lines[i][j][k][l][0][0]);
                         valid_points[valid_points.size()-1].emplace_back(sphere_triangles_points_2D_as_lines[i][j][k][l][0][1]);
-                    };
+                    }
                 }
 
                 if (valid_points.size() == 3){
@@ -1361,14 +1410,15 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                         glVertex2f(valid_points[2][0], valid_points[2][1]);
                     glEnd();
 
-                }else if (valid_points.size() == 4){
-                    glBegin(GL_POLYGON);
-                        glVertex2f(valid_points[0][0], valid_points[0][1]);
-                        glVertex2f(valid_points[1][0], valid_points[1][1]);
-                        glVertex2f(valid_points[2][0], valid_points[2][1]);
-                        glVertex2f(valid_points[3][0], valid_points[3][1]);
-                    glEnd();
                 }
+                // }else if (valid_points.size() == 4){
+                //     glBegin(GL_POLYGON);
+                //         glVertex2f(valid_points[0][0], valid_points[0][1]);
+                //         glVertex2f(valid_points[1][0], valid_points[1][1]);
+                //         glVertex2f(valid_points[2][0], valid_points[2][1]);
+                //         glVertex2f(valid_points[3][0], valid_points[3][1]);
+                //     glEnd();
+                // }
 
             }
         }
@@ -1581,9 +1631,24 @@ void Graphics::draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>
 }
 
 
+void Graphics::draw_hud(){
+
+    // glBegin(GL_LINES);
+    //     glVertex2i();
+    //     glVertex2i(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
+    // glEnd();
+
+    // glBegin(GL_LINES);
+    //     glVertex2i(clipped_box_points_2D[i][0][0], clipped_box_points_2D[i][0][1]);
+    //     glVertex2i(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
+    // glEnd();
+}
+
+
 void Graphics::set_color(int r, int g, int b){
     glColor3f(r, g, b);
 }
+
 
 void Graphics::present_frame(){
     // Present the rendered frame

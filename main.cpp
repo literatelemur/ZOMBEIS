@@ -37,7 +37,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> starscap
 
 
 //int player_speed = 10;
-int player_speed = 100;
+int player_speed = 10;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -81,7 +81,7 @@ void key_press_check() {
             zombie_vector[j].move(-1);
             zombie_vector[j].render(&graphics);
         }
-        
+
     }if(key_states['z']){
         graphics.anglex_diff -= 0.01745329 * 2;
 
@@ -325,8 +325,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombies = 100;
     //num_zombies = 50;
-    num_zombies = 25;
-    //num_zombies = 0;
+    //num_zombies = 25;
+    num_zombies = 0;
 
     for (double i = 0; i < num_zombies; i++){
         random_numx = distribx(gen);
@@ -425,3 +425,4 @@ int main(int argc, char* argv[]) {
 // -review floor angle code vs zombei angle code (zombei angle code being gpt)
 // -refine zombei leg movement animation
 // -comment graphics.find_floor_lines_on_globe
+// -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
