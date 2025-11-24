@@ -599,34 +599,6 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
                 clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][0]);
                 clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][1]);
                 clipped_triangle_points_3D_sphere[i][j][k][2][1].emplace_back(clipped_coor_line3[1][2]);
-
-
-                // std::cout << "----------------------\n";
-                // std::cout << clipped_coor_line1[0][0] << "\n";
-                // std::cout << clipped_coor_line1[0][1] << "\n";
-                // std::cout << clipped_coor_line1[0][2] << "\n";
-
-                // std::cout << clipped_coor_line1[1][0] << "\n";
-                // std::cout << clipped_coor_line1[1][1] << "\n";
-                // std::cout << clipped_coor_line1[1][2] << "\n";
-
-                // std::cout << "---\n";
-                // std::cout << clipped_coor_line2[0][0] << "\n";
-                // std::cout << clipped_coor_line2[0][1] << "\n";
-                // std::cout << clipped_coor_line2[0][2] << "\n";
-
-                // std::cout << clipped_coor_line2[1][0] << "\n";
-                // std::cout << clipped_coor_line2[1][1] << "\n";
-                // std::cout << clipped_coor_line2[1][2] << "\n";
-
-                // std::cout << "---\n";
-                // std::cout << clipped_coor_line3[0][0] << "\n";
-                // std::cout << clipped_coor_line3[0][1] << "\n";
-                // std::cout << clipped_coor_line3[0][2] << "\n";
-
-                // std::cout << clipped_coor_line3[1][0] << "\n";
-                // std::cout << clipped_coor_line3[1][1] << "\n";
-                // std::cout << clipped_coor_line3[1][2] << "\n";
                 
             }
         }

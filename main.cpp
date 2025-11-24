@@ -37,7 +37,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> starscap
 
 
 //int player_speed = 10;
-int player_speed = 10;
+int player_speed = 100;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -216,7 +216,6 @@ void render_all(){
             //     bullet_vector.erase(bullet_vector.begin() + i);
             // }
         }
-
 
         glutPostRedisplay();
         graphics.present_frame();
