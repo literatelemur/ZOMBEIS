@@ -22,7 +22,7 @@ class Graphics {
 
         double anglex_diff;
         double angley_diff;
-
+        
 
         std::vector<std::vector<double>> floor_sphere_points_3D;
 

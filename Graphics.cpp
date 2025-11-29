@@ -994,6 +994,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
         z2_clip_diff = z_diff2;
 
 
+
     }else if (z_diff2 <= near_plane){
 
         x1_clip_diff = x_diff1;
@@ -1415,11 +1416,11 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                         glVertex2i(valid_points[3][0], valid_points[3][1]);
                     glEnd();
 
-                    std::cout << "------------\n";
-                    std::cout << valid_points[0][0] << " " << valid_points[0][1] << "\n";
-                    std::cout << valid_points[1][0] << " " << valid_points[1][1] << "\n";
-                    std::cout << valid_points[2][0] << " " << valid_points[2][1] << "\n";
-                    std::cout << valid_points[3][0] << " " << valid_points[3][1] << "\n";
+                    // std::cout << "------------\n";
+                    // std::cout << valid_points[0][0] << " " << valid_points[0][1] << "\n";
+                    // std::cout << valid_points[1][0] << " " << valid_points[1][1] << "\n";
+                    // std::cout << valid_points[2][0] << " " << valid_points[2][1] << "\n";
+                    // std::cout << valid_points[3][0] << " " << valid_points[3][1] << "\n";
                     
                 }
                 }
