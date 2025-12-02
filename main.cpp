@@ -160,14 +160,14 @@ void render_all(){
 
         graphics.clear_draw_screen();
 
-        for (int i = 0; i < world_vector.size(); i++){
-            world_vector[i].render(&graphics);
-        }
-
         for (int i = 0; i < star_vector.size(); i++){
             star_vector[i].move(&graphics);
             star_vector[i].render(&graphics);
-        }        
+        }   
+
+        for (int i = 0; i < world_vector.size(); i++){
+            world_vector[i].render(&graphics);
+        }
 
 
         int zombie_to_remove = -1;
@@ -367,48 +367,48 @@ int main(int argc, char* argv[]) {
 
     // Making icosahedron starscape
 
-    // starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
-    // starscape_base_triangle_points_3D = graphics.find_triangle_points_sphere(starscape_base_points_3D);
+    starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
+    starscape_base_triangle_points_3D = graphics.find_triangle_points_sphere(starscape_base_points_3D);
 
-    // for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
-    //     for (int j = 0; j < starscape_base_triangle_points_3D[i].size(); j++){
-    //         for (int k = 0; k < starscape_base_triangle_points_3D[i][j].size(); k++){
+    for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
+        for (int j = 0; j < starscape_base_triangle_points_3D[i].size(); j++){
+            for (int k = 0; k < starscape_base_triangle_points_3D[i][j].size(); k++){
 
-    //             int minx = starscape_base_triangle_points_3D[i][j][k][0][0];
-    //             int maxx = starscape_base_triangle_points_3D[i][j][k][1][0];
+                int minx = starscape_base_triangle_points_3D[i][j][k][0][0];
+                int maxx = starscape_base_triangle_points_3D[i][j][k][1][0];
 
-    //             if (minx > maxx) std::swap(minx, maxx);
-
-
-    //             int miny = starscape_base_triangle_points_3D[i][j][k][0][1];
-    //             int maxy = starscape_base_triangle_points_3D[i][j][k][2][1];
-
-    //             if (miny > maxy) std::swap(miny, maxy);
+                if (minx > maxx) std::swap(minx, maxx);
 
 
-    //             int minz = starscape_base_triangle_points_3D[i][j][k][0][2];
-    //             int maxz = starscape_base_triangle_points_3D[i][j][k][2][2];
+                int miny = starscape_base_triangle_points_3D[i][j][k][0][1];
+                int maxy = starscape_base_triangle_points_3D[i][j][k][2][1];
 
-    //             if (minz > maxz) std::swap(minz, maxz);
+                if (miny > maxy) std::swap(miny, maxy);
 
 
-    //             std::uniform_int_distribution<> distrib_starx(minx, maxx);
-    //             std::uniform_int_distribution<> distrib_stary(miny, maxy);
-    //             std::uniform_int_distribution<> distrib_starz(minz, maxz);
+                int minz = starscape_base_triangle_points_3D[i][j][k][0][2];
+                int maxz = starscape_base_triangle_points_3D[i][j][k][2][2];
 
-    //             int num_stars = 1;
-    //             //while (num_stars < 5000){
-    //             while (num_stars < 2){
-    //                 int random_star_numx = distrib_starx(gen);
-    //                 int random_star_numy = distrib_stary(gen);
-    //                 int random_star_numz = distrib_starz(gen);
-    //                 star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, random_star_numy + 100, random_star_numy - 100));
-    //                 num_stars++;
-    //             }
+                if (minz > maxz) std::swap(minz, maxz);
+
+
+                std::uniform_int_distribution<> distrib_starx(minx, maxx);
+                std::uniform_int_distribution<> distrib_stary(miny, maxy);
+                std::uniform_int_distribution<> distrib_starz(minz, maxz);
+
+                int num_stars = 1;
+                //while (num_stars < 5000){
+                while (num_stars < 10){
+                    int random_star_numx = distrib_starx(gen);
+                    int random_star_numy = distrib_stary(gen);
+                    int random_star_numz = distrib_starz(gen);
+                    star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, random_star_numy + 100, random_star_numy - 100));
+                    num_stars++;
+                }
                 
-    //         }
-    //     }
-    // }
+            }
+        }
+    }
 
 
     
@@ -444,3 +444,5 @@ int main(int argc, char* argv[]) {
 // -comment graphics.find_floor_lines_on_globe
 // -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
 // -consider switching drawing to floats instead of ints
+// -investigate large numbers drawing coordinates when clipping
+// -fix floor lines duplicating icosahedron edges

@@ -278,7 +278,6 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
         for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
             for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){
                 
-
                 // Checking to see if triangle plane has already been given floor lines. If so, it is skipped.
                 int skip_count;
                 bool skip = false;
@@ -332,7 +331,10 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
 
                     // Scale determines the number of lines on icosaphere.
                     // Starting value and increment value should match and be evenly multiplied into 1.0.
-                    for (double scale = 0.0; scale < 1.0; scale += 0.1){
+                    for (int s = 1; s < 10; s++){
+
+                        double scale = s / 10.0;
+
                         int xline_start = (int) (xline_base1_start + scale * (xline_base1_end - xline_base1_start));
                         int yline_start = (int) (yline_base1_start + scale * (yline_base1_end - yline_base1_start));
                         int zline_start = (int) (zline_base1_start + scale * (zline_base1_end - zline_base1_start));
@@ -364,16 +366,16 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
                         zline_end = (int) (zline_base3_start + scale * (zline_base3_end - zline_base3_start));
 
                         floor_points_3D[1].emplace_back();
-                        floor_points_3D[1][floor_points_3D[0].size() - 1].emplace_back();
-                        floor_points_3D[1][floor_points_3D[0].size() - 1].emplace_back();
+                        floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
+                        floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
 
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(xline_start);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(yline_start);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][0].emplace_back(zline_start);
+                        floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(xline_start);
+                        floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(yline_start);
+                        floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(zline_start);
 
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(xline_end);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(yline_end);
-                        floor_points_3D[1][floor_points_3D[0].size() - 1][1].emplace_back(zline_end);
+                        floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(xline_end);
+                        floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(yline_end);
+                        floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(zline_end);
 
                     }
 
@@ -1395,7 +1397,6 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                     }
                 }
 
-                if (i == 2 && j == 0 && k == 1){
                 if (valid_points.size() == 3){
 
                     
@@ -1415,21 +1416,12 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                         glVertex2i(valid_points[2][0], valid_points[2][1]);
                         glVertex2i(valid_points[3][0], valid_points[3][1]);
                     glEnd();
-
-                    // std::cout << "------------\n";
-                    // std::cout << valid_points[0][0] << " " << valid_points[0][1] << "\n";
-                    // std::cout << valid_points[1][0] << " " << valid_points[1][1] << "\n";
-                    // std::cout << valid_points[2][0] << " " << valid_points[2][1] << "\n";
-                    // std::cout << valid_points[3][0] << " " << valid_points[3][1] << "\n";
                     
-                }
                 }
 
             }
         }
     }
-
-
 }
 
 
@@ -1491,10 +1483,12 @@ void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std
             for (int j = 0; j < triangle_points_2D[i].size(); j++){
                 for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
                     for (int l = 0; l < triangle_points_2D[i][j][k].size(); l++){
+
                         glBegin(GL_LINES);
                             glVertex2i(triangle_points_2D[i][j][k][l][0][0], triangle_points_2D[i][j][k][l][0][1]);
                             glVertex2i(triangle_points_2D[i][j][k][l][1][0], triangle_points_2D[i][j][k][l][1][1]);
                         glEnd();
+
                     }
                 }
             }
