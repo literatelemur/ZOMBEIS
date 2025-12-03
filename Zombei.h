@@ -7,13 +7,13 @@
 
 //#include "Graphics.h"
 
-#ifndef zombie_H
-#define zombie_H
+#ifndef zombei_H
+#define zombei_H
 
 class Graphics;
 class World;
 
-class Zombie {
+class Zombei {
 
     public:
 
@@ -38,7 +38,7 @@ class Zombie {
         std::vector<std::vector<double>> box_points_3D_leg2;
 
 
-        Zombie(Graphics* graphics, int given_x, int given_y, int given_z);
+        Zombei(Graphics* graphics, int given_x, int given_y, int given_z);
 
         void render(Graphics* graphics);
 

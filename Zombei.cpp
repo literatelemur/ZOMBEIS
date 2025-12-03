@@ -5,14 +5,14 @@
 #include <string>
 #include <algorithm>
 
-#include "Zombie.h"
+#include "Zombei.h"
 #include "Graphics.h"
 #include "main.h"
 #include "World.h"
 
 
 
-Zombie::Zombie(Graphics* graphics, int x, int y, int z){
+Zombei::Zombei(Graphics* graphics, int x, int y, int z){
 
     center_x = x;
     center_y = y;
@@ -40,7 +40,7 @@ Zombie::Zombie(Graphics* graphics, int x, int y, int z){
 }
 
 
-void Zombie::render(Graphics* graphics){
+void Zombei::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D_head = graphics->find_triangle_points_sphere(sphere_points_3D_head);
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_head_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(sphere_triangle_points_3D_head);
@@ -98,7 +98,7 @@ void Zombie::render(Graphics* graphics){
 
 }
 
-void Zombie::move(int dir){
+void Zombei::move(int dir){
 
 
     center_z -= speed * dir;
@@ -279,7 +279,7 @@ void Zombie::move(int dir){
 }
 
 
-void Zombie::gravitate(World world){
+void Zombei::gravitate(World world){
 
     // Computing distance between center of zombei and center of world.
 

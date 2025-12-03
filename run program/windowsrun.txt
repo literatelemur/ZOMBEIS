@@ -3,7 +3,7 @@ Msys2Mingw64
 cd /c/Users/radeo/Desktop/ZOMBEIS/
 
 
-g++ -g main.cpp Graphics.cpp Star.cpp World.cpp Zombie.cpp Bullet.cpp -o main.exe -I/mingw64/include -L/mingw64/lib -lfreeglut -lopengl32 -lglu32 -lwinmm -lgdi32
+g++ -g main.cpp Graphics.cpp Star.cpp World.cpp Zombei.cpp Bullet.cpp -o main.exe -I/mingw64/include -L/mingw64/lib -lfreeglut -lopengl32 -lglu32 -lwinmm -lgdi32
 
 gdb ./main
 
