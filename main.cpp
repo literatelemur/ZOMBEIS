@@ -41,7 +41,6 @@ std::vector<std::vector<double>> starscape_base_points_3D;
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> starscape_base_triangle_points_3D;
 
 
-//int player_speed = 10;
 int player_speed = 10;
 
 
@@ -137,30 +136,6 @@ void track_mouse_move(int x, int y){
 
 void mouse_move_check(){
 
-    // if (first_mouse_move){
-    //     last_mouse_movex = mousex;
-    //     last_mouse_movey = mousey;
-    //     first_mouse_move = false;
-    // }
-    
-    // mouse_diffx = mousex - last_mouse_movex;
-    // mouse_diffy = last_mouse_movey - mousey;
-
-    // last_mouse_movex = mousex;
-    // last_mouse_movey = mousey;
-
-    // double sensitivity = 1.0;
-
-    // graphics.anglex_diff = graphics.anglex_diff + mouse_diffx * sensitivity * 0.001;
-    // graphics.angley_diff = graphics.angley_diff + mouse_diffy * sensitivity * 0.001;
-
-
-    // if (mousex > window_width || mousex < 100 || mousey > window_height || mousey < 100){
-    //     glutWarpPointer(window_width / 2, window_height / 2);
-    //     first_mouse_move = true;
-    // }
-
-
     if (!first_mouse_move){
 
         glutWarpPointer(window_width / 2, window_height / 2);
@@ -180,19 +155,9 @@ void mouse_move_check(){
 }
 
 
-void mouse_enter_leave_window(int state){
-
-    if (state == GLUT_LEFT){
-        glutWarpPointer(window_width / 2, window_height / 2);
-        first_mouse_move = true;
-    }
-}
-
-
 void check_keys_and_mouse(){
 
     key_press_check();
-
     mouse_move_check();
 
 }
@@ -326,7 +291,6 @@ int main(int argc, char* argv[]) {
     // std::uniform_int_distribution<> distrib_world_color(0, 10);
     // float random_world_color = distrib_world_color(gen);
 
-
     // int num_worlds = 0;
     // while (num_worlds < 25){
     //     random_world_numx = distrib_worldx(gen);
@@ -439,7 +403,7 @@ int main(int argc, char* argv[]) {
 
                 int num_stars = 1;
                 //while (num_stars < 5000){
-                while (num_stars < 2){
+                while (num_stars < 10){
                     int random_star_numx = distrib_starx(gen);
                     int random_star_numy = distrib_stary(gen);
                     int random_star_numz = distrib_starz(gen);
@@ -483,10 +447,9 @@ int main(int argc, char* argv[]) {
 // -make bow
 // -make bullets more detailed visually?
 // -make arm movement better
-// -review floor angle code vs zombei angle code (zombei angle code being gpt)
 // -refine zombei leg movement animation
 // -comment graphics.find_floor_lines_on_globe
 // -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
 // -consider switching drawing to floats instead of ints
 // -investigate large numbers drawing coordinates when clipping
-// -fix floor lines duplicating icosahedron edges
+// -fix clipping of triangle points sphere taking away everything too soon

@@ -1037,86 +1037,6 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
 }
 
 
-std::vector<std::vector<int>> Graphics::compute_2D_box(std::vector<std::vector<double>> rect_points_3D){
-
-    std::vector<std::vector<int>> rect_points_2D;
-
-    // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-    for (int i = 0; i < rect_points_3D.size(); i++){
-        rect_points_2D.emplace_back();
-
-        rect_points_2D[i].emplace_back(0);
-        rect_points_2D[i].emplace_back(0);
-
-
-
-        // double anglex = atan2(rect_points_3D[i][0] - playerx, rect_points_3D[i][2] - playerz);
-        // //int x = (int) (tan(anglex) * zscreendiff);
-
-        // double angley = atan2(rect_points_3D[i][1] - playery, rect_points_3D[i][2] - playerz);
-        // int y = (int) (tan(angley) * zscreendiff);
-
-
-        // double anglex_turn = anglex + anglex_diff;
-        // double hyp = (rect_points_3D[i][0] - playerx) / sin(anglex);
-        // double z_turn_diff = cos(anglex_turn) * hyp;
-
-        // if (z_turn_diff < near_plane){
-        //     rect_points_2D[i][0] = -100000;
-        //     rect_points_2D[i][1] = -100000;    
-
-        // } else{
-
-        //     int x = (int) (tan(anglex_turn) * zscreendiff);
-
-        //     rect_points_2D[i][0] = (int) (960 + x);
-        //     rect_points_2D[i][1] = (int) (540 + y);
-        // }
-
-
-
-
-
-        // gpt
-        double x_diff = rect_points_3D[i][0] - playerx;
-        double y_diff = rect_points_3D[i][1] - playery;
-        double z_diff = rect_points_3D[i][2] - playerz;
-
-        double sin_ax = sin(angley_diff);
-        double cos_ax = cos(angley_diff);
-        double sin_ay = sin(anglex_diff);
-        double cos_ay = cos(anglex_diff);
-
-
-        // --- Rotate around Y-axis --- //gpt
-        double x1 = -x_diff * cos_ay + z_diff * sin_ay;
-        double z1 = x_diff * sin_ay + z_diff * cos_ay;
-        double y1 = y_diff;
-
-        // --- Rotate around X-axis --- //gpt
-        double y_final = y1 * cos_ax - z1 * sin_ax;
-        double z_final = y1 * sin_ax + z1 * cos_ax;
-        double x_final = x1;
-
-        if (z_final < near_plane) {
-            rect_points_2D[i][0] = -100000;
-            rect_points_2D[i][1] = -100000;
-        } else {
-            int x = (int)((x_final / z_final) * zscreendiff);
-            int y = (int)((y_final / z_final) * zscreendiff);
-
-            rect_points_2D[i][0] = 960 - x;
-            rect_points_2D[i][1] = 540 + y;
-        }
-
-    }
-
-    return rect_points_2D;
-
-}
-
-
-
 std::vector<std::vector<std::vector<int>>> Graphics::compute_2D_box_as_lines(std::vector<std::vector<std::vector<double>>> clipped_box_points_3D){
     std::vector<std::vector<std::vector<int>>> clipped_box_points_2D;
 
@@ -1128,65 +1048,6 @@ std::vector<std::vector<std::vector<int>>> Graphics::compute_2D_box_as_lines(std
     }
 
     return clipped_box_points_2D;
-
-}
-
-
-std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> Graphics::compute_2D_sphere_triangles(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
-    std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> object_2D(
-        triangle_points_3D_sphere.size(), std::vector<std::vector<std::vector<std::vector<int>>>>(
-                triangle_points_3D_sphere[0].size(), std::vector<std::vector<std::vector<int>>>(
-                    triangle_points_3D_sphere[0][0].size(), std::vector<std::vector<int>>(
-                            3, std::vector<int>(2, 0)))));
-
-    // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-    for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
-        for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
-            for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){ 
-
-                for (int k = 0; k < 3; k++){
-
-                    object_2D[i][j][l][k] = compute_2D_point(triangle_points_3D_sphere[i][j][l][k]);
-
-
-
-                    // // gpt
-                    // double x_diff = triangle_points_3D_sphere[i][j][l][k][0] - playerx;
-                    // double y_diff = triangle_points_3D_sphere[i][j][l][k][1] - playery;
-                    // double z_diff = triangle_points_3D_sphere[i][j][l][k][2] - playerz;
-
-                    // double sin_ax = sin(angley_diff);
-                    // double cos_ax = cos(angley_diff);
-                    // double sin_ay = sin(anglex_diff);
-                    // double cos_ay = cos(anglex_diff);
-
-
-                    // // --- Rotate around Y-axis --- //gpt
-                    // double x1 = -x_diff * cos_ay + z_diff * sin_ay;
-                    // double z1 = x_diff * sin_ay + z_diff * cos_ay;
-                    // double y1 = y_diff;
-
-                    // // --- Rotate around X-axis --- //gpt
-                    // double y_final = y1 * cos_ax - z1 * sin_ax;
-                    // double z_final = y1 * sin_ax + z1 * cos_ax;
-                    // double x_final = x1;
-
-                    // if (z_final < near_plane) {
-                    //     object_2D[i][j][l][k][0] = -100000;
-                    //     object_2D[i][j][l][k][1] = -100000;
-                    // } else {
-                    //     int x = (int)((x_final / z_final) * zscreendiff);
-                    //     int y = (int)((y_final / z_final) * zscreendiff);
-
-                    //     object_2D[i][j][l][k][0] = 960 - x;
-                    //     object_2D[i][j][l][k][1] = 540 + y;
-                    // }
-                }
-            }
-        }
-    }
-
-    return object_2D;
 
 }
 
@@ -1272,7 +1133,6 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sph
 }
 
 
-
 std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
 
     std::vector<int> point_2D(2, 0);
@@ -1311,16 +1171,6 @@ void Graphics::clear_draw_screen(){
 }
 
 
-void Graphics::draw_horizon(){
-
-    glBegin(GL_LINES);
-        glVertex2i(0, 540);
-        glVertex2i(1920, 540);
-    glEnd();
-
-}
-
-
 void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D){
 
     for (int i = 0; i < floor_points_2D.size(); i++){
@@ -1341,31 +1191,6 @@ void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<
 
 
 void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangles_points_2D_as_lines){
-
-    // for (int i = 0; i < triangle_points_2D.size(); i++){
-
-    //     bool skip = false;
-    //     for (int j = 0; j < triangle_points_2D[i].size(); j++){
-    //         for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
-    //             for (int k = 0; k < triangle_points_2D[i][j][l].size(); k++){
-    //                 if (triangle_points_2D[i][j][l][k][0] == -100000 && triangle_points_2D[i][j][l][k][1] == -100000) skip = true;
-    //             }
-    //         }
-    //     }
-
-    //     if (!skip){
-    //         for (int j = 0; j < triangle_points_2D[i].size(); j++){
-    //             for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
-
-    //                 glBegin(GL_POLYGON);
-    //                     glVertex2i(triangle_points_2D[i][j][l][0][0], triangle_points_2D[i][j][l][0][1]);
-    //                     glVertex2i(triangle_points_2D[i][j][l][1][0], triangle_points_2D[i][j][l][1][1]);
-    //                     glVertex2i(triangle_points_2D[i][j][l][2][0], triangle_points_2D[i][j][l][2][1]);
-    //                 glEnd();
-    //             }
-    //         }
-    //     }
-    // }
 
     for (int i = 0; i < sphere_triangles_points_2D_as_lines.size(); i++){
         for (int j = 0; j < sphere_triangles_points_2D_as_lines[i].size(); j++){
@@ -1425,44 +1250,6 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
 }
 
 
-void Graphics::draw_hollow_triangles_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>> triangle_points_2D){
-
-    for (int i = 0; i < triangle_points_2D.size(); i++){
-
-        bool skip = false;
-        for (int j = 0; j < triangle_points_2D[0].size(); j++){
-            for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
-                for (int k = 0; k < triangle_points_2D[0][0].size(); k++){
-                    if (triangle_points_2D[i][j][l][k][0] == -100000 && triangle_points_2D[i][j][l][k][1] == -100000 ) skip = true;
-                }
-            }
-        }
-
-        if (!skip){
-
-            for (int j = 0; j < triangle_points_2D[0].size(); j++){
-                for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
-                    glBegin(GL_LINES);
-                        glVertex2i(triangle_points_2D[i][j][l][0][0], triangle_points_2D[i][j][l][0][1]);
-                        glVertex2i(triangle_points_2D[i][j][l][1][0], triangle_points_2D[i][j][l][1][1]);
-                    glEnd();
-
-                    glBegin(GL_LINES);
-                        glVertex2i(triangle_points_2D[i][j][l][1][0], triangle_points_2D[i][j][l][1][1]);
-                        glVertex2i(triangle_points_2D[i][j][l][2][0], triangle_points_2D[i][j][l][2][1]);
-                    glEnd();
-
-                    glBegin(GL_LINES);
-                        glVertex2i(triangle_points_2D[i][j][l][2][0], triangle_points_2D[i][j][l][2][1]);
-                        glVertex2i(triangle_points_2D[i][j][l][0][0], triangle_points_2D[i][j][l][0][1]);
-                    glEnd();
-                }
-            }
-        }
-    }
-}
-
-
 
 void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> triangle_points_2D){
 
@@ -1494,119 +1281,6 @@ void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std
             }
         }
     }
-}
-
-
-
-void Graphics::draw_full_box(std::vector<std::vector<int>> rect_points_2D){
-
-    bool skip = false;
-
-    for (int i = 0; i < rect_points_2D.size(); i++){
-        if (rect_points_2D[i][0] == -100000 && rect_points_2D[i][1] == -100000) skip = true;
-    }
-
-    if (!skip){
-
-        glBegin(GL_POLYGON);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-
-        glBegin(GL_POLYGON);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-    }
-
-}
-
-
-void Graphics::draw_hollow_box(std::vector<std::vector<int>> rect_points_2D){
-
-    bool skip = false;
-
-    for (int i = 0; i < rect_points_2D.size(); i++){
-        if (rect_points_2D[i][0] == -100000 && rect_points_2D[i][1] == -100000) skip = true;
-    }
-
-    if (!skip){
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[0][0], rect_points_2D[0][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[1][0], rect_points_2D[1][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[2][0], rect_points_2D[2][1]);
-            glVertex2i(rect_points_2D[3][0], rect_points_2D[3][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2i(rect_points_2D[4][0], rect_points_2D[4][1]);
-            glVertex2i(rect_points_2D[5][0], rect_points_2D[5][1]);
-            glVertex2i(rect_points_2D[7][0], rect_points_2D[7][1]);
-            glVertex2i(rect_points_2D[6][0], rect_points_2D[6][1]);
-        glEnd();
-    }
-
 }
 
 
