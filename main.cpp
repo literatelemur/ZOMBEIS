@@ -27,7 +27,6 @@ int last_mouse_movey = int(window_height / 2);
 int mousex;
 int mousey;
 
-bool just_warped_mouse = false;
 
 bool key_states[256] = { false };
 
@@ -40,8 +39,10 @@ std::vector<World> world_vector;
 std::vector<std::vector<double>> starscape_base_points_3D;
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> starscape_base_triangle_points_3D;
 
+std::vector<std::vector<double>> test_box;
 
-int player_speed = 10;
+
+int player_speed = 1;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -224,6 +225,16 @@ void render_all(){
             // }
         }
 
+
+        std::vector<std::vector<std::vector<double>>> clipped_box_points_3D = graphics.clip_box(test_box);
+        std::vector<std::vector<std::vector<int>>> clipped_box_points_2D = graphics.compute_2D_box_as_lines(clipped_box_points_3D);
+        graphics.set_color(0, 0, 0);
+        graphics.draw_full_box_as_lines(clipped_box_points_2D);
+
+        graphics.set_color(1, 1, 1);
+        graphics.draw_hollow_box_as_lines(clipped_box_points_2D);
+
+
         glutPostRedisplay();
         graphics.present_frame();
 
@@ -244,6 +255,27 @@ int main(int argc, char* argv[]) {
 
     glLoadIdentity();
     gluOrtho2D(0, window_width, window_height, 0); // Map OpenGL coordinates to screen pixels
+
+
+    // Register the keyboard input callback
+    glutKeyboardFunc(keyDown);
+    glutKeyboardUpFunc(keyUp);
+    //glutKeyboardFunc(keyboard);
+    //glutIdleFunc(keyboard);
+
+    // Register the mouse callback function
+    glutMouseFunc(mouse_click);
+
+    glutPassiveMotionFunc(track_mouse_move);
+    glutMotionFunc(track_mouse_move);
+
+    // Check keyboard input constantly
+    glutIdleFunc(check_keys_and_mouse);
+
+    // Register the display function.
+    glutDisplayFunc(render_all);
+
+    
 
     // Main loop flag
     bool isRunning = true;
@@ -403,7 +435,7 @@ int main(int argc, char* argv[]) {
 
                 int num_stars = 1;
                 //while (num_stars < 5000){
-                while (num_stars < 10){
+                while (num_stars < 2){
                     int random_star_numx = distrib_starx(gen);
                     int random_star_numy = distrib_stary(gen);
                     int random_star_numz = distrib_starz(gen);
@@ -416,24 +448,7 @@ int main(int argc, char* argv[]) {
     }
 
 
-    
-    // Register the keyboard input callback
-    glutKeyboardFunc(keyDown);
-    glutKeyboardUpFunc(keyUp);
-    //glutKeyboardFunc(keyboard);
-    //glutIdleFunc(keyboard);
-
-    // Register the mouse callback function
-    glutMouseFunc(mouse_click);
-
-    glutPassiveMotionFunc(track_mouse_move);
-    glutMotionFunc(track_mouse_move);
-
-    // Check keyboard input constantly
-    glutIdleFunc(check_keys_and_mouse);
-
-    // Register the display function.
-    glutDisplayFunc(render_all);
+    test_box = graphics.make_box(std::vector<double>{960, 1060, 0 + 25}, 100, 100, 100);    
 
     glutMainLoop();
 

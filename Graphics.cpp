@@ -885,7 +885,7 @@ std::vector<std::vector<std::vector<double>>> Graphics::clip_box(std::vector<std
 
 
     // Converting coor_diffs to absolute coordinates.
-    for (int i = 0; i < 12; i++){
+    for (int i = 0; i < clipped_coor_diffs_lines.size(); i++){
 
         std::vector<std::vector<double>> clipped_coor_line;
 
@@ -1037,21 +1037,6 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
 }
 
 
-std::vector<std::vector<std::vector<int>>> Graphics::compute_2D_box_as_lines(std::vector<std::vector<std::vector<double>>> clipped_box_points_3D){
-    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D;
-
-    for (int i = 0; i < clipped_box_points_3D.size(); i++){
-        clipped_box_points_2D.emplace_back();
-
-        clipped_box_points_2D[i].emplace_back(compute_2D_point(clipped_box_points_3D[i][0]));
-        clipped_box_points_2D[i].emplace_back(compute_2D_point(clipped_box_points_3D[i][1]));
-    }
-
-    return clipped_box_points_2D;
-
-}
-
-
 std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> Graphics::compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points_3D_sphere_as_lines){
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> object_2D;
 
@@ -1133,6 +1118,21 @@ std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::compute_2D_sph
 }
 
 
+std::vector<std::vector<std::vector<int>>> Graphics::compute_2D_box_as_lines(std::vector<std::vector<std::vector<double>>> clipped_box_points_3D){
+    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D;
+
+    for (int i = 0; i < clipped_box_points_3D.size(); i++){
+        clipped_box_points_2D.emplace_back();
+
+        clipped_box_points_2D[i].emplace_back(compute_2D_point(clipped_box_points_3D[i][0]));
+        clipped_box_points_2D[i].emplace_back(compute_2D_point(clipped_box_points_3D[i][1]));
+    }
+
+    return clipped_box_points_2D;
+
+}
+
+
 std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
 
     std::vector<int> point_2D(2, 0);
@@ -1168,25 +1168,6 @@ std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
 void Graphics::clear_draw_screen(){
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black background
     glClear(GL_COLOR_BUFFER_BIT);
-}
-
-
-void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D){
-
-    for (int i = 0; i < floor_points_2D.size(); i++){
-        for (int j = 0; j < floor_points_2D[i].size(); j++){
-            if (floor_points_2D[i][j][0][0] != -100000 && floor_points_2D[i][j][1][0] != -100000 &&
-                    floor_points_2D[i][j][0][1] != -100000 && floor_points_2D[i][j][1][1] != -100000){
-                
-                glBegin(GL_LINES);
-                    glVertex2i(floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1]);
-                    glVertex2i(floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
-                glEnd();
-
-            }
-        }
-    }
-
 }
 
 
@@ -1281,6 +1262,114 @@ void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std
             }
         }
     }
+}
+
+
+void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D){
+
+    for (int i = 0; i < floor_points_2D.size(); i++){
+        for (int j = 0; j < floor_points_2D[i].size(); j++){
+            if (floor_points_2D[i][j][0][0] != -100000 && floor_points_2D[i][j][1][0] != -100000 &&
+                    floor_points_2D[i][j][0][1] != -100000 && floor_points_2D[i][j][1][1] != -100000){
+                
+                glBegin(GL_LINES);
+                    glVertex2i(floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1]);
+                    glVertex2i(floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
+                glEnd();
+
+            }
+        }
+    }
+
+}
+
+
+void Graphics::draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D){
+
+    if (clipped_box_points_2D[0][0][0] != -100000 && clipped_box_points_2D[0][0][1] != -100000 &&
+            clipped_box_points_2D[1][0][0] != -100000 && clipped_box_points_2D[1][0][1] != -100000 &&
+            clipped_box_points_2D[2][0][0] != -100000 && clipped_box_points_2D[2][0][1] != -100000 &&
+            clipped_box_points_2D[3][0][0] != -100000 && clipped_box_points_2D[3][0][1] != -100000){
+
+        glBegin(GL_POLYGON);
+            glVertex2i(clipped_box_points_2D[0][0][0], clipped_box_points_2D[0][0][1]);
+            glVertex2i(clipped_box_points_2D[1][0][0], clipped_box_points_2D[1][0][1]);
+            glVertex2i(clipped_box_points_2D[2][0][0], clipped_box_points_2D[2][0][1]);
+            glVertex2i(clipped_box_points_2D[3][0][0], clipped_box_points_2D[3][0][1]);
+        glEnd();
+    }
+
+
+    if (clipped_box_points_2D[8][0][0] != -100000 && clipped_box_points_2D[8][0][1] != -100000 &&
+            clipped_box_points_2D[8][1][0] != -100000 && clipped_box_points_2D[8][1][1] != -100000 &&
+            clipped_box_points_2D[9][1][0] != -100000 && clipped_box_points_2D[9][1][1] != -100000 &&
+            clipped_box_points_2D[9][0][0] != -100000 && clipped_box_points_2D[9][0][1] != -100000){
+
+        glBegin(GL_POLYGON);
+            glVertex2i(clipped_box_points_2D[8][0][0], clipped_box_points_2D[8][0][1]);
+            glVertex2i(clipped_box_points_2D[8][1][0], clipped_box_points_2D[8][1][1]);
+            glVertex2i(clipped_box_points_2D[9][1][0], clipped_box_points_2D[9][1][1]);
+            glVertex2i(clipped_box_points_2D[9][0][0], clipped_box_points_2D[9][0][1]);
+        glEnd();
+    }
+
+
+    if (clipped_box_points_2D[9][0][0] != -100000 && clipped_box_points_2D[9][0][1] != -100000 &&
+            clipped_box_points_2D[9][1][0] != -100000 && clipped_box_points_2D[9][1][1] != -100000 &&
+            clipped_box_points_2D[11][1][0] != -100000 && clipped_box_points_2D[11][1][1] != -100000 &&
+            clipped_box_points_2D[11][0][0] != -100000 && clipped_box_points_2D[11][0][1] != -100000){
+
+        glBegin(GL_POLYGON);
+            glVertex2i(clipped_box_points_2D[9][0][0], clipped_box_points_2D[9][0][1]);
+            glVertex2i(clipped_box_points_2D[9][1][0], clipped_box_points_2D[9][1][1]);
+            glVertex2i(clipped_box_points_2D[11][1][0], clipped_box_points_2D[11][1][1]);
+            glVertex2i(clipped_box_points_2D[11][0][0], clipped_box_points_2D[11][0][1]);
+        glEnd();
+    }
+
+
+    if (clipped_box_points_2D[11][0][0] != -100000 && clipped_box_points_2D[11][0][1] != -100000 &&
+            clipped_box_points_2D[11][1][0] != -100000 && clipped_box_points_2D[11][1][1] != -100000 &&
+            clipped_box_points_2D[10][1][0] != -100000 && clipped_box_points_2D[10][1][1] != -100000 &&
+            clipped_box_points_2D[10][0][0] != -100000 && clipped_box_points_2D[10][0][1] != -100000){
+
+        glBegin(GL_POLYGON);
+            glVertex2i(clipped_box_points_2D[11][0][0], clipped_box_points_2D[11][0][1]);
+            glVertex2i(clipped_box_points_2D[11][1][0], clipped_box_points_2D[11][1][1]);
+            glVertex2i(clipped_box_points_2D[10][1][0], clipped_box_points_2D[10][1][1]);
+            glVertex2i(clipped_box_points_2D[10][0][0], clipped_box_points_2D[10][0][1]);
+        glEnd();
+    }
+
+
+    if (clipped_box_points_2D[10][0][0] != -100000 && clipped_box_points_2D[10][0][1] != -100000 &&
+            clipped_box_points_2D[10][1][0] != -100000 && clipped_box_points_2D[10][1][1] != -100000 &&
+            clipped_box_points_2D[8][1][0] != -100000 && clipped_box_points_2D[8][1][1] != -100000 &&
+            clipped_box_points_2D[8][0][0] != -100000 && clipped_box_points_2D[8][0][1] != -100000){
+
+        glBegin(GL_POLYGON);
+            glVertex2i(clipped_box_points_2D[10][0][0], clipped_box_points_2D[10][0][1]);
+            glVertex2i(clipped_box_points_2D[10][1][0], clipped_box_points_2D[10][1][1]);
+            glVertex2i(clipped_box_points_2D[8][1][0], clipped_box_points_2D[8][1][1]);
+            glVertex2i(clipped_box_points_2D[8][0][0], clipped_box_points_2D[8][0][1]);
+        glEnd();
+    }
+
+
+    if (clipped_box_points_2D[4][0][0] != -100000 && clipped_box_points_2D[4][0][1] != -100000 &&
+            clipped_box_points_2D[5][0][0] != -100000 && clipped_box_points_2D[5][0][1] != -100000 &&
+            clipped_box_points_2D[6][0][0] != -100000 && clipped_box_points_2D[6][0][1] != -100000 &&
+            clipped_box_points_2D[7][0][0] != -100000 && clipped_box_points_2D[7][0][1] != -100000){
+
+        glBegin(GL_POLYGON);
+            glVertex2i(clipped_box_points_2D[4][0][0], clipped_box_points_2D[4][0][1]);
+            glVertex2i(clipped_box_points_2D[5][0][0], clipped_box_points_2D[5][0][1]);
+            glVertex2i(clipped_box_points_2D[6][0][0], clipped_box_points_2D[6][0][1]);
+            glVertex2i(clipped_box_points_2D[7][0][0], clipped_box_points_2D[7][0][1]);
+        glEnd();
+    }
+
+
 }
 
 
