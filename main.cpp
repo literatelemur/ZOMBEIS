@@ -42,7 +42,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> starscap
 std::vector<std::vector<double>> test_box;
 
 
-int player_speed = 1;
+int player_speed = 10;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -361,8 +361,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombeis = 100;
     //num_zombeis = 50;
-    //num_zombeis = 25;
-    num_zombeis = 0;
+    num_zombeis = 25;
+    //num_zombeis = 0;
 
     for (int i = 0; i < num_zombeis; i++){
         random_numx = distribx(gen);
@@ -448,7 +448,7 @@ int main(int argc, char* argv[]) {
     }
 
 
-    test_box = graphics.make_box(std::vector<double>{960, 1060, 0 + 25}, 100, 100, 100);    
+    test_box = graphics.make_box(std::vector<double>{960, 1060, 0 + 250}, 100, 100, 100);    
 
     glutMainLoop();
 
@@ -465,6 +465,5 @@ int main(int argc, char* argv[]) {
 // -refine zombei leg movement animation
 // -comment graphics.find_floor_lines_on_globe
 // -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
-// -consider switching drawing to floats instead of ints
 // -investigate large numbers drawing coordinates when clipping
 // -fix clipping of triangle points sphere taking away everything too soon

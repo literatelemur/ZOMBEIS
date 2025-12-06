@@ -34,6 +34,8 @@ class Graphics {
 
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
 
+        std::vector<std::vector<double>> order_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
+
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
@@ -56,7 +58,7 @@ class Graphics {
 
         void clear_draw_screen();
 
-        void draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangles_points_2D_as_lines);
+        void draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangle_points_2D_as_lines);
 
         void draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> triangle_points_as_lines);
 

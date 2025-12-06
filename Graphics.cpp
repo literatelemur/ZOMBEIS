@@ -114,6 +114,25 @@ std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, 
 }
 
 
+// std::vector<std::vector<double>> Graphics::order_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
+
+//     std::vector<double> ordered_sphere_points_3D;
+
+//     for (int i = 0; i < sphere_points_3D.size(); i++){
+
+//         ordered_sphere_points
+//         double x_dist = abs(playerx - sphere_points_3D[i][0]);
+//         double y_dist = abs(sphere_points_3D[i][1] - playery);
+//         double z_dist = abs(sphere_points_3D[i][2] - playerz);
+
+//         double total_dist = x_dist + y_dist + z_dist;
+
+
+//     }
+
+// }
+
+
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere;
@@ -335,13 +354,13 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
 
                         double scale = s / 10.0;
 
-                        int xline_start = (int) (xline_base1_start + scale * (xline_base1_end - xline_base1_start));
-                        int yline_start = (int) (yline_base1_start + scale * (yline_base1_end - yline_base1_start));
-                        int zline_start = (int) (zline_base1_start + scale * (zline_base1_end - zline_base1_start));
+                        double xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
+                        double yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
+                        double zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
 
-                        int xline_end = (int) (xline_base2_start + scale * (xline_base2_end - xline_base2_start));
-                        int yline_end = (int) (yline_base2_start + scale * (yline_base2_end - yline_base2_start));
-                        int zline_end = (int) (zline_base2_start + scale * (zline_base2_end - zline_base2_start));
+                        double xline_end = xline_base2_start + scale * (xline_base2_end - xline_base2_start);
+                        double yline_end = yline_base2_start + scale * (yline_base2_end - yline_base2_start);
+                        double zline_end = zline_base2_start + scale * (zline_base2_end - zline_base2_start);
 
                         floor_points_3D[0].emplace_back();
                         floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
@@ -357,13 +376,13 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
 
 
 
-                        xline_start = (int) (xline_base1_start + scale * (xline_base1_end - xline_base1_start));
-                        yline_start = (int) (yline_base1_start + scale * (yline_base1_end - yline_base1_start));
-                        zline_start = (int) (zline_base1_start + scale * (zline_base1_end - zline_base1_start));
+                        xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
+                        yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
+                        zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
 
-                        xline_end = (int) (xline_base3_start + scale * (xline_base3_end - xline_base3_start));
-                        yline_end = (int) (yline_base3_start + scale * (yline_base3_end - yline_base3_start));
-                        zline_end = (int) (zline_base3_start + scale * (zline_base3_end - zline_base3_start));
+                        xline_end = xline_base3_start + scale * (xline_base3_end - xline_base3_start);
+                        yline_end = yline_base3_start + scale * (yline_base3_end - yline_base3_start);
+                        zline_end = zline_base3_start + scale * (zline_base3_end - zline_base3_start);
 
                         floor_points_3D[1].emplace_back();
                         floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
@@ -970,6 +989,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
     
     // Determining if clipping is necessary (when z value reaches behind player).
     if (z_diff1 <= near_plane && z_diff2 <= near_plane){
+    //if (1 == 0){
 
         x1_clip_diff = -100000;
         y1_clip_diff = -100000;
@@ -1153,12 +1173,12 @@ std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
     double angley = atan2(y_3D_diff, z_3D_diff);
 
 
-    int x_2D_diff = (int) (tan(anglex) * zscreendiff);
-    int y_2D_diff = (int) (tan(angley) * zscreendiff);
+    float x_2D_diff = (float) (tan(anglex) * zscreendiff);
+    float y_2D_diff = (float) (tan(angley) * zscreendiff);
 
 
-    point_2D[0] = (int) (960 - x_2D_diff);
-    point_2D[1] = (int) (540 + y_2D_diff);
+    point_2D[0] = 960 - x_2D_diff;
+    point_2D[1] = 540 + y_2D_diff;
 
     return point_2D;
 
@@ -1171,33 +1191,33 @@ void Graphics::clear_draw_screen(){
 }
 
 
-void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangles_points_2D_as_lines){
+void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangle_points_2D_as_lines){
 
-    for (int i = 0; i < sphere_triangles_points_2D_as_lines.size(); i++){
-        for (int j = 0; j < sphere_triangles_points_2D_as_lines[i].size(); j++){
-            for (int k = 0; k < sphere_triangles_points_2D_as_lines[i][j].size(); k++){
+    for (int i = 0; i < sphere_triangle_points_2D_as_lines.size(); i++){
+        for (int j = 0; j < sphere_triangle_points_2D_as_lines[i].size(); j++){
+            for (int k = 0; k < sphere_triangle_points_2D_as_lines[i][j].size(); k++){
 
                 std::vector<std::vector<int>> valid_points;
-                for (int l = 0; l < sphere_triangles_points_2D_as_lines[i][j][k].size(); l++){
+                for (int l = 0; l < sphere_triangle_points_2D_as_lines[i][j][k].size(); l++){
 
-                    if (sphere_triangles_points_2D_as_lines[i][j][k][l][0][0] != -100000 && sphere_triangles_points_2D_as_lines[i][j][k][l][0][1] != -100000 && 
-                            sphere_triangles_points_2D_as_lines[i][j][k][l][1][0] != -100000 && sphere_triangles_points_2D_as_lines[i][j][k][l][1][1] != -100000){
+                    if (sphere_triangle_points_2D_as_lines[i][j][k][l][0][0] != -100000 && sphere_triangle_points_2D_as_lines[i][j][k][l][0][1] != -100000 && 
+                            sphere_triangle_points_2D_as_lines[i][j][k][l][1][0] != -100000 && sphere_triangle_points_2D_as_lines[i][j][k][l][1][1] != -100000){
 
 
-                        for (int m = 0; m < sphere_triangles_points_2D_as_lines[i][j][k][l].size(); m++){
+                        for (int m = 0; m < sphere_triangle_points_2D_as_lines[i][j][k][l].size(); m++){
                             
                             bool exists = false;
                             for (int n = 0; n < valid_points.size(); n++){
-                                if (sphere_triangles_points_2D_as_lines[i][j][k][l][m][0] == valid_points[n][0] && 
-                                        sphere_triangles_points_2D_as_lines[i][j][k][l][m][1] == valid_points[n][1]){
+                                if (sphere_triangle_points_2D_as_lines[i][j][k][l][m][0] == valid_points[n][0] && 
+                                        sphere_triangle_points_2D_as_lines[i][j][k][l][m][1] == valid_points[n][1]){
                                     exists = true;
                                 }
                             }
 
                             if (!exists){
                                 valid_points.emplace_back();
-                                valid_points[valid_points.size()-1].emplace_back(sphere_triangles_points_2D_as_lines[i][j][k][l][m][0]);
-                                valid_points[valid_points.size()-1].emplace_back(sphere_triangles_points_2D_as_lines[i][j][k][l][m][1]);
+                                valid_points[valid_points.size()-1].emplace_back(sphere_triangle_points_2D_as_lines[i][j][k][l][m][0]);
+                                valid_points[valid_points.size()-1].emplace_back(sphere_triangle_points_2D_as_lines[i][j][k][l][m][1]);
                             }
                         }
                     }
@@ -1207,9 +1227,9 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
 
                     
                     glBegin(GL_POLYGON);
-                        glVertex2i(valid_points[0][0], valid_points[0][1]);
-                        glVertex2i(valid_points[1][0], valid_points[1][1]);
-                        glVertex2i(valid_points[2][0], valid_points[2][1]);
+                        glVertex2f(valid_points[0][0], valid_points[0][1]);
+                        glVertex2f(valid_points[1][0], valid_points[1][1]);
+                        glVertex2f(valid_points[2][0], valid_points[2][1]);
                     glEnd();
 
 
@@ -1217,10 +1237,10 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                 
                 }else if (valid_points.size() == 4){
                     glBegin(GL_POLYGON);
-                        glVertex2i(valid_points[0][0], valid_points[0][1]);
-                        glVertex2i(valid_points[1][0], valid_points[1][1]);
-                        glVertex2i(valid_points[2][0], valid_points[2][1]);
-                        glVertex2i(valid_points[3][0], valid_points[3][1]);
+                        glVertex2f(valid_points[0][0], valid_points[0][1]);
+                        glVertex2f(valid_points[1][0], valid_points[1][1]);
+                        glVertex2f(valid_points[2][0], valid_points[2][1]);
+                        glVertex2f(valid_points[3][0], valid_points[3][1]);
                     glEnd();
                     
                 }
@@ -1253,8 +1273,8 @@ void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std
                     for (int l = 0; l < triangle_points_2D[i][j][k].size(); l++){
 
                         glBegin(GL_LINES);
-                            glVertex2i(triangle_points_2D[i][j][k][l][0][0], triangle_points_2D[i][j][k][l][0][1]);
-                            glVertex2i(triangle_points_2D[i][j][k][l][1][0], triangle_points_2D[i][j][k][l][1][1]);
+                            glVertex2f(triangle_points_2D[i][j][k][l][0][0], triangle_points_2D[i][j][k][l][0][1]);
+                            glVertex2f(triangle_points_2D[i][j][k][l][1][0], triangle_points_2D[i][j][k][l][1][1]);
                         glEnd();
 
                     }
@@ -1273,8 +1293,8 @@ void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<
                     floor_points_2D[i][j][0][1] != -100000 && floor_points_2D[i][j][1][1] != -100000){
                 
                 glBegin(GL_LINES);
-                    glVertex2i(floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1]);
-                    glVertex2i(floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
+                    glVertex2f(floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1]);
+                    glVertex2f(floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
                 glEnd();
 
             }
@@ -1292,10 +1312,10 @@ void Graphics::draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>>
             clipped_box_points_2D[3][0][0] != -100000 && clipped_box_points_2D[3][0][1] != -100000){
 
         glBegin(GL_POLYGON);
-            glVertex2i(clipped_box_points_2D[0][0][0], clipped_box_points_2D[0][0][1]);
-            glVertex2i(clipped_box_points_2D[1][0][0], clipped_box_points_2D[1][0][1]);
-            glVertex2i(clipped_box_points_2D[2][0][0], clipped_box_points_2D[2][0][1]);
-            glVertex2i(clipped_box_points_2D[3][0][0], clipped_box_points_2D[3][0][1]);
+            glVertex2f(clipped_box_points_2D[0][0][0], clipped_box_points_2D[0][0][1]);
+            glVertex2f(clipped_box_points_2D[1][0][0], clipped_box_points_2D[1][0][1]);
+            glVertex2f(clipped_box_points_2D[2][0][0], clipped_box_points_2D[2][0][1]);
+            glVertex2f(clipped_box_points_2D[3][0][0], clipped_box_points_2D[3][0][1]);
         glEnd();
     }
 
@@ -1306,10 +1326,10 @@ void Graphics::draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>>
             clipped_box_points_2D[9][0][0] != -100000 && clipped_box_points_2D[9][0][1] != -100000){
 
         glBegin(GL_POLYGON);
-            glVertex2i(clipped_box_points_2D[8][0][0], clipped_box_points_2D[8][0][1]);
-            glVertex2i(clipped_box_points_2D[8][1][0], clipped_box_points_2D[8][1][1]);
-            glVertex2i(clipped_box_points_2D[9][1][0], clipped_box_points_2D[9][1][1]);
-            glVertex2i(clipped_box_points_2D[9][0][0], clipped_box_points_2D[9][0][1]);
+            glVertex2f(clipped_box_points_2D[8][0][0], clipped_box_points_2D[8][0][1]);
+            glVertex2f(clipped_box_points_2D[8][1][0], clipped_box_points_2D[8][1][1]);
+            glVertex2f(clipped_box_points_2D[9][1][0], clipped_box_points_2D[9][1][1]);
+            glVertex2f(clipped_box_points_2D[9][0][0], clipped_box_points_2D[9][0][1]);
         glEnd();
     }
 
@@ -1320,10 +1340,10 @@ void Graphics::draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>>
             clipped_box_points_2D[11][0][0] != -100000 && clipped_box_points_2D[11][0][1] != -100000){
 
         glBegin(GL_POLYGON);
-            glVertex2i(clipped_box_points_2D[9][0][0], clipped_box_points_2D[9][0][1]);
-            glVertex2i(clipped_box_points_2D[9][1][0], clipped_box_points_2D[9][1][1]);
-            glVertex2i(clipped_box_points_2D[11][1][0], clipped_box_points_2D[11][1][1]);
-            glVertex2i(clipped_box_points_2D[11][0][0], clipped_box_points_2D[11][0][1]);
+            glVertex2f(clipped_box_points_2D[9][0][0], clipped_box_points_2D[9][0][1]);
+            glVertex2f(clipped_box_points_2D[9][1][0], clipped_box_points_2D[9][1][1]);
+            glVertex2f(clipped_box_points_2D[11][1][0], clipped_box_points_2D[11][1][1]);
+            glVertex2f(clipped_box_points_2D[11][0][0], clipped_box_points_2D[11][0][1]);
         glEnd();
     }
 
@@ -1334,10 +1354,10 @@ void Graphics::draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>>
             clipped_box_points_2D[10][0][0] != -100000 && clipped_box_points_2D[10][0][1] != -100000){
 
         glBegin(GL_POLYGON);
-            glVertex2i(clipped_box_points_2D[11][0][0], clipped_box_points_2D[11][0][1]);
-            glVertex2i(clipped_box_points_2D[11][1][0], clipped_box_points_2D[11][1][1]);
-            glVertex2i(clipped_box_points_2D[10][1][0], clipped_box_points_2D[10][1][1]);
-            glVertex2i(clipped_box_points_2D[10][0][0], clipped_box_points_2D[10][0][1]);
+            glVertex2f(clipped_box_points_2D[11][0][0], clipped_box_points_2D[11][0][1]);
+            glVertex2f(clipped_box_points_2D[11][1][0], clipped_box_points_2D[11][1][1]);
+            glVertex2f(clipped_box_points_2D[10][1][0], clipped_box_points_2D[10][1][1]);
+            glVertex2f(clipped_box_points_2D[10][0][0], clipped_box_points_2D[10][0][1]);
         glEnd();
     }
 
@@ -1348,10 +1368,10 @@ void Graphics::draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>>
             clipped_box_points_2D[8][0][0] != -100000 && clipped_box_points_2D[8][0][1] != -100000){
 
         glBegin(GL_POLYGON);
-            glVertex2i(clipped_box_points_2D[10][0][0], clipped_box_points_2D[10][0][1]);
-            glVertex2i(clipped_box_points_2D[10][1][0], clipped_box_points_2D[10][1][1]);
-            glVertex2i(clipped_box_points_2D[8][1][0], clipped_box_points_2D[8][1][1]);
-            glVertex2i(clipped_box_points_2D[8][0][0], clipped_box_points_2D[8][0][1]);
+            glVertex2f(clipped_box_points_2D[10][0][0], clipped_box_points_2D[10][0][1]);
+            glVertex2f(clipped_box_points_2D[10][1][0], clipped_box_points_2D[10][1][1]);
+            glVertex2f(clipped_box_points_2D[8][1][0], clipped_box_points_2D[8][1][1]);
+            glVertex2f(clipped_box_points_2D[8][0][0], clipped_box_points_2D[8][0][1]);
         glEnd();
     }
 
@@ -1362,10 +1382,10 @@ void Graphics::draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>>
             clipped_box_points_2D[7][0][0] != -100000 && clipped_box_points_2D[7][0][1] != -100000){
 
         glBegin(GL_POLYGON);
-            glVertex2i(clipped_box_points_2D[4][0][0], clipped_box_points_2D[4][0][1]);
-            glVertex2i(clipped_box_points_2D[5][0][0], clipped_box_points_2D[5][0][1]);
-            glVertex2i(clipped_box_points_2D[6][0][0], clipped_box_points_2D[6][0][1]);
-            glVertex2i(clipped_box_points_2D[7][0][0], clipped_box_points_2D[7][0][1]);
+            glVertex2f(clipped_box_points_2D[4][0][0], clipped_box_points_2D[4][0][1]);
+            glVertex2f(clipped_box_points_2D[5][0][0], clipped_box_points_2D[5][0][1]);
+            glVertex2f(clipped_box_points_2D[6][0][0], clipped_box_points_2D[6][0][1]);
+            glVertex2f(clipped_box_points_2D[7][0][0], clipped_box_points_2D[7][0][1]);
         glEnd();
     }
 
@@ -1385,8 +1405,8 @@ void Graphics::draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>
 
         if (!skip){
             glBegin(GL_LINES);
-                glVertex2i(clipped_box_points_2D[i][0][0], clipped_box_points_2D[i][0][1]);
-                glVertex2i(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
+                glVertex2f(clipped_box_points_2D[i][0][0], clipped_box_points_2D[i][0][1]);
+                glVertex2f(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
             glEnd();
         }
     }
@@ -1396,13 +1416,13 @@ void Graphics::draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>
 void Graphics::draw_hud(){
 
     // glBegin(GL_LINES);
-    //     glVertex2i();
-    //     glVertex2i(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
+    //     glVertex2f();
+    //     glVertex2f(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
     // glEnd();
 
     // glBegin(GL_LINES);
-    //     glVertex2i(clipped_box_points_2D[i][0][0], clipped_box_points_2D[i][0][1]);
-    //     glVertex2i(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
+    //     glVertex2f(clipped_box_points_2D[i][0][0], clipped_box_points_2D[i][0][1]);
+    //     glVertex2f(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
     // glEnd();
 }
 
