@@ -34,7 +34,7 @@ class Graphics {
 
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
 
-        std::vector<std::vector<double>> order_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
+        std::vector<std::vector<double>> order_sphere_points(std::vector<std::vector<double>> sphere_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
 

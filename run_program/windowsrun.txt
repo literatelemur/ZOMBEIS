@@ -7,5 +7,7 @@ g++ -g main.cpp Graphics.cpp Star.cpp World.cpp Zombei.cpp Bullet.cpp -o main.ex
 
 gdb ./main
 
+Install MSYS2 from website, then:
+pacman -S mingw-w64-x86_64-gcc
 pacman -S mingw-w64-x86_64-freeglut
 

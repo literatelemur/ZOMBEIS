@@ -39,8 +39,6 @@ std::vector<World> world_vector;
 std::vector<std::vector<double>> starscape_base_points_3D;
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> starscape_base_triangle_points_3D;
 
-std::vector<std::vector<double>> test_box;
-
 
 int player_speed = 10;
 
@@ -226,15 +224,6 @@ void render_all(){
         }
 
 
-        std::vector<std::vector<std::vector<double>>> clipped_box_points_3D = graphics.clip_box(test_box);
-        std::vector<std::vector<std::vector<int>>> clipped_box_points_2D = graphics.compute_2D_box_as_lines(clipped_box_points_3D);
-        graphics.set_color(0, 0, 0);
-        graphics.draw_full_box_as_lines(clipped_box_points_2D);
-
-        graphics.set_color(1, 1, 1);
-        graphics.draw_hollow_box_as_lines(clipped_box_points_2D);
-
-
         glutPostRedisplay();
         graphics.present_frame();
 
@@ -361,8 +350,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombeis = 100;
     //num_zombeis = 50;
-    num_zombeis = 25;
-    //num_zombeis = 0;
+    //num_zombeis = 25;
+    num_zombeis = 0;
 
     for (int i = 0; i < num_zombeis; i++){
         random_numx = distribx(gen);
@@ -446,9 +435,6 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-
-
-    test_box = graphics.make_box(std::vector<double>{960, 1060, 0 + 250}, 100, 100, 100);    
 
     glutMainLoop();
 

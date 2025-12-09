@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm>
 #include <list>
+#include <functional>
 
 #include "Graphics.h"
 
@@ -114,23 +115,51 @@ std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, 
 }
 
 
-// std::vector<std::vector<double>> Graphics::order_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
+std::vector<std::vector<double>> Graphics::order_sphere_points(std::vector<std::vector<double>> sphere_points_3D){
 
-//     std::vector<double> ordered_sphere_points_3D;
+    std::vector<std::vector<double>> ordered_sphere_points_3D(sphere_points_3D.size(), std::vector<double>(3));
 
-//     for (int i = 0; i < sphere_points_3D.size(); i++){
+    std::vector<double> rando_order_sphere_points_3D;
 
-//         ordered_sphere_points
-//         double x_dist = abs(playerx - sphere_points_3D[i][0]);
-//         double y_dist = abs(sphere_points_3D[i][1] - playery);
-//         double z_dist = abs(sphere_points_3D[i][2] - playerz);
+    for (int i = 0; i < sphere_points_3D.size(); i++){
 
-//         double total_dist = x_dist + y_dist + z_dist;
+        double x_dist = abs(playerx - sphere_points_3D[i][0]);
+        double y_dist = abs(sphere_points_3D[i][1] - playery);
+        double z_dist = abs(sphere_points_3D[i][2] - playerz);
+
+        double total_dist = x_dist + y_dist + z_dist;
+
+        rando_order_sphere_points_3D.emplace_back(total_dist);
+    }
+
+    std::vector<double> desc_order_sphere_points_3D = rando_order_sphere_points_3D;
+
+    sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
 
 
-//     }
+    for (int i = 0; i < rando_order_sphere_points_3D.size(); i++){
 
-// }
+        int duplicates = -1;
+        for (int j = 0; j < rando_order_sphere_points_3D.size(); j++){
+            if (rando_order_sphere_points_3D[i] == desc_order_sphere_points_3D[j]){
+                duplicates++;
+            }
+        }
+
+        for (int j = 0; j < rando_order_sphere_points_3D.size(); j++){
+            if (rando_order_sphere_points_3D[i] == desc_order_sphere_points_3D[j]){
+                if (duplicates > -1){
+                    ordered_sphere_points_3D[i] = sphere_points_3D[j];
+                    duplicates--;
+                }
+            }
+
+        }
+    }
+
+    return ordered_sphere_points_3D;
+
+}
 
 
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
