@@ -136,7 +136,6 @@ std::vector<std::vector<double>> Graphics::order_sphere_points(std::vector<std::
 
     sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
 
-
     for (int i = 0; i < rando_order_sphere_points_3D.size(); i++){
 
         int duplicates = -1;
@@ -156,6 +155,12 @@ std::vector<std::vector<double>> Graphics::order_sphere_points(std::vector<std::
 
         }
     }
+
+    std::cout << "------------\n";
+    std::cout << sphere_points_3D.size() << "\n";
+    std::cout << rando_order_sphere_points_3D.size() << "\n";
+    std::cout << desc_order_sphere_points_3D.size() << "\n";
+    std::cout << ordered_sphere_points_3D.size() << "\n";
 
     return ordered_sphere_points_3D;
 
