@@ -29,8 +29,8 @@ World::World(Graphics* graphics, int x, int y, int z, std::vector<float> color){
 
 void World::render(Graphics* graphics){
 
-    std::vector<std::vector<double>> ordered_sphere_points_3D = graphics->order_sphere_points(floor_sphere_points_3D);
-    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_sphere_triangle_points_3D = graphics->find_triangle_points_sphere(ordered_sphere_points_3D);
+    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_sphere_triangle_points_3D = graphics->find_triangle_points_sphere(floor_sphere_points_3D);
+    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D = graphics->order_sphere_triangle_points(floor_sphere_triangle_points_3D);
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_floor_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(floor_sphere_triangle_points_3D);
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> clipped_floor_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_floor_sphere_triangle_points_3D_as_lines);
 

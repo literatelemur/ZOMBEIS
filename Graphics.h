@@ -34,12 +34,12 @@ class Graphics {
 
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
 
-        std::vector<std::vector<double>> order_sphere_points(std::vector<std::vector<double>> sphere_points_3D);
-
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
 
+        std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> order_sphere_triangle_points(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D);
+        
         std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> clip_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);

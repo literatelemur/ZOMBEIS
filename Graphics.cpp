@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <list>
 #include <functional>
+#include <numeric>
+
 
 #include "Graphics.h"
 
@@ -112,58 +114,6 @@ std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, 
     rect_points_3D[7][2] = center[2] - depth / 2;
 
     return rect_points_3D;
-}
-
-
-std::vector<std::vector<double>> Graphics::order_sphere_points(std::vector<std::vector<double>> sphere_points_3D){
-
-    std::vector<std::vector<double>> ordered_sphere_points_3D(sphere_points_3D.size(), std::vector<double>(3));
-
-    std::vector<double> rando_order_sphere_points_3D;
-
-    for (int i = 0; i < sphere_points_3D.size(); i++){
-
-        double x_dist = abs(playerx - sphere_points_3D[i][0]);
-        double y_dist = abs(sphere_points_3D[i][1] - playery);
-        double z_dist = abs(sphere_points_3D[i][2] - playerz);
-
-        double total_dist = x_dist + y_dist + z_dist;
-
-        rando_order_sphere_points_3D.emplace_back(total_dist);
-    }
-
-    std::vector<double> desc_order_sphere_points_3D = rando_order_sphere_points_3D;
-
-    sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
-
-    for (int i = 0; i < rando_order_sphere_points_3D.size(); i++){
-
-        int duplicates = -1;
-        for (int j = 0; j < rando_order_sphere_points_3D.size(); j++){
-            if (rando_order_sphere_points_3D[i] == desc_order_sphere_points_3D[j]){
-                duplicates++;
-            }
-        }
-
-        for (int j = 0; j < rando_order_sphere_points_3D.size(); j++){
-            if (rando_order_sphere_points_3D[i] == desc_order_sphere_points_3D[j]){
-                if (duplicates > -1){
-                    ordered_sphere_points_3D[i] = sphere_points_3D[j];
-                    duplicates--;
-                }
-            }
-
-        }
-    }
-
-    std::cout << "------------\n";
-    std::cout << sphere_points_3D.size() << "\n";
-    std::cout << rando_order_sphere_points_3D.size() << "\n";
-    std::cout << desc_order_sphere_points_3D.size() << "\n";
-    std::cout << ordered_sphere_points_3D.size() << "\n";
-
-    return ordered_sphere_points_3D;
-
 }
 
 
@@ -314,8 +264,6 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
 }
 
 
-
-
 std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
     std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
     
@@ -458,6 +406,57 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
     }
 
     return floor_points_3D;
+}
+
+
+
+std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::order_sphere_triangle_points(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D){
+
+    // std::vector<std::vector<double>> ordered_sphere_points_3D(sphere_points_3D.size(), std::vector<double>(3));
+
+    // std::vector<double> rando_order_dist_sphere_points_3D;
+
+    // // Calculating Euclidian total distance from player to each point.
+    // for (int i = 0; i < sphere_points_3D.size(); i++){
+
+    //     double x_dist = abs(playerx - sphere_points_3D[i][0]);
+    //     double y_dist = abs(sphere_points_3D[i][1] - playery);
+    //     double z_dist = abs(sphere_points_3D[i][2] - playerz);
+
+    //     double total_dist = sqrt(x_dist * x_dist + y_dist * y_dist + z_dist * z_dist);
+
+    //     rando_order_dist_sphere_points_3D.emplace_back(total_dist);
+    // }
+
+    // // // Mirroring the decsended order vector to the random found order vector.
+    // // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
+
+    // // // Sorting into a descended order.
+    // // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
+
+
+    //  // Step 2: Build index list
+    // std::vector<int> ordered_indices(sphere_points_3D.size());
+    // std::iota(ordered_indices.begin(), ordered_indices.end(), 0); // fill with 0..n-1
+
+    // // Step 3: Sort ordered_indices according to total distances
+    // std::sort(ordered_indices.begin(), ordered_indices.end(),
+    //           [&](int a, int b) {
+    //               return rando_order_dist_sphere_points_3D[a] > rando_order_dist_sphere_points_3D[b];
+    //           });
+
+
+
+    // // Filling the empty ordered vector with the appropriate points from the given vector using ordered_indices vector.
+    // for (int i = 0; i < ordered_indices.size(); i++){
+    //     ordered_sphere_points_3D[i] = sphere_points_3D[ordered_indices[i]];
+    // }
+
+
+    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D;
+
+    return ordered_sphere_triangle_points_3D;
+
 }
 
 
