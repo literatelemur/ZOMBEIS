@@ -453,7 +453,56 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
     // }
 
 
+    
+
+    std::vector<std::vector<std::vector<double>>> triangle_vector;
+
+    for (int i = 0; i < sphere_triangle_points_3D.size(); i++){
+        for (int j = 0; j < sphere_triangle_points_3D[i].size(); j++){
+            for (int k = 0; k < sphere_triangle_points_3D[i][j].size(); k++){
+                triangle_vector.emplace_back(sphere_triangle_points_3D[i][j][k]);
+            }
+        }
+    }
+    
+    std::sort(triangle_vector.begin(), triangle_vector.end(),
+    [&](const std::vector<std::vector<double>>& A, const std::vector<std::vector<double>>& B){
+
+        // Centroid A
+        double Ax = (A[0][0] + A[1][0] + A[2][0]) / 3.0;
+        double Ay = (A[0][1] + A[1][1] + A[2][1]) / 3.0;
+        double Az = (A[0][2] + A[1][2] + A[2][2]) / 3.0;
+
+        // Centroid B
+        double Bx = (B[0][0] + B[1][0] + B[2][0]) / 3.0;
+        double By = (B[0][1] + B[1][1] + B[2][1]) / 3.0;
+        double Bz = (B[0][2] + B[1][2] + B[2][2]) / 3.0;
+
+        // Distance squared to camera
+        double dA = (playerx - Ax) * (playerx - Ax)
+                  + (Ay - playery) * (Ay - playery)
+                  + (Az - playerz) * (Az - playerz);
+
+        double dB = (playerx - Bx) * (playerx - Bx)
+                  + (playery - By) * (playery - By)
+                  + (playerz - Bz) * (playerz - Bz);
+
+        // farther triangles drawn first
+        return dA > dB;
+    });
+
+
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D;
+
+    ordered_sphere_triangle_points_3D.emplace_back();
+    ordered_sphere_triangle_points_3D[0].emplace_back(triangle_vector);
+
+
+    
+
+
+
+    //std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D;
 
     return ordered_sphere_triangle_points_3D;
 
