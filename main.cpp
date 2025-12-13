@@ -452,6 +452,7 @@ int main(int argc, char* argv[]) {
 // -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
 // -investigate large numbers drawing coordinates when clipping
 // -make hud
+// -make gravity
 
 // -fix clipping of triangle points sphere taking away everything too soon
 
