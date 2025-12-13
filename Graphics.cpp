@@ -117,6 +117,107 @@ std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, 
 }
 
 
+std::vector<std::vector<double>> Graphics::order_sphere_points(std::vector<std::vector<double>> sphere_points_3D){
+
+    std::vector<std::vector<double>> ordered_sphere_points_3D(sphere_points_3D.size(), std::vector<double>(3));
+
+    std::vector<double> rando_order_dist_sphere_points_3D;
+
+    // Calculating Euclidian total distance from player to each point.
+    for (int i = 0; i < sphere_points_3D.size(); i++){
+
+        double x_dist = abs(playerx - sphere_points_3D[i][0]);
+        double y_dist = abs(sphere_points_3D[i][1] - playery);
+        double z_dist = abs(sphere_points_3D[i][2] - playerz);
+
+        double total_dist = sqrt(x_dist * x_dist + y_dist * y_dist + z_dist * z_dist);
+
+        rando_order_dist_sphere_points_3D.emplace_back(total_dist);
+    }
+
+    // // Mirroring the decsended order vector to the random found order vector.
+    // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
+
+    // // Sorting into a descended order.
+    // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
+
+
+    // Step 2: Build index list
+    std::vector<int> ordered_indices(sphere_points_3D.size());
+
+    // fill with 0..n-1
+    std::iota(ordered_indices.begin(), ordered_indices.end(), 0); 
+
+    // Step 3: Sort ordered_indices according to total distances
+    std::sort(ordered_indices.begin(), ordered_indices.end(),
+              [&](int a, int b) {
+                  return rando_order_dist_sphere_points_3D[a] > rando_order_dist_sphere_points_3D[b];
+              });
+
+
+
+    // Filling the empty ordered vector with the appropriate points from the given vector using ordered_indices vector.
+    for (int i = 0; i < ordered_indices.size(); i++){
+        ordered_sphere_points_3D[i] = sphere_points_3D[ordered_indices[i]];
+    }
+
+    return ordered_sphere_points_3D;
+    
+
+    // std::vector<std::vector<std::vector<double>>> triangle_vector;
+
+    // for (int i = 0; i < sphere_triangle_points_3D.size(); i++){
+    //     for (int j = 0; j < sphere_triangle_points_3D[i].size(); j++){
+    //         for (int k = 0; k < sphere_triangle_points_3D[i][j].size(); k++){
+    //             triangle_vector.emplace_back(sphere_triangle_points_3D[i][j][k]);
+    //         }
+    //     }
+    // }
+    
+    // std::sort(triangle_vector.begin(), triangle_vector.end(),
+    // [&](const std::vector<std::vector<double>>& A, const std::vector<std::vector<double>>& B){
+
+    //     // Centroid A
+    //     double Ax = (A[0][0] + A[1][0] + A[2][0]) / 3.0;
+    //     double Ay = (A[0][1] + A[1][1] + A[2][1]) / 3.0;
+    //     double Az = (A[0][2] + A[1][2] + A[2][2]) / 3.0;
+
+    //     // Centroid B
+    //     double Bx = (B[0][0] + B[1][0] + B[2][0]) / 3.0;
+    //     double By = (B[0][1] + B[1][1] + B[2][1]) / 3.0;
+    //     double Bz = (B[0][2] + B[1][2] + B[2][2]) / 3.0;
+
+    //     // Distance squared to camera
+    //     double dA = (playerx - Ax) * (playerx - Ax)
+    //               + (Ay - playery) * (Ay - playery)
+    //               + (Az - playerz) * (Az - playerz);
+
+    //     double dB = (playerx - Bx) * (playerx - Bx)
+    //               + (By - playery) * (By - playery)
+    //               + (Bz - playerz) * (Bz - playerz);
+
+    //     // farther triangles drawn first
+    //     return dA > dB;
+    // });
+
+
+    // std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D;
+
+    // ordered_sphere_triangle_points_3D.emplace_back();
+    // ordered_sphere_triangle_points_3D[0].emplace_back(triangle_vector);
+
+
+    
+
+
+
+    // //std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D;
+
+    // return ordered_sphere_triangle_points_3D;
+
+}
+
+
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere;
@@ -406,106 +507,6 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
     }
 
     return floor_points_3D;
-}
-
-
-
-std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::order_sphere_triangle_points(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D){
-
-    // std::vector<std::vector<double>> ordered_sphere_points_3D(sphere_points_3D.size(), std::vector<double>(3));
-
-    // std::vector<double> rando_order_dist_sphere_points_3D;
-
-    // // Calculating Euclidian total distance from player to each point.
-    // for (int i = 0; i < sphere_points_3D.size(); i++){
-
-    //     double x_dist = abs(playerx - sphere_points_3D[i][0]);
-    //     double y_dist = abs(sphere_points_3D[i][1] - playery);
-    //     double z_dist = abs(sphere_points_3D[i][2] - playerz);
-
-    //     double total_dist = sqrt(x_dist * x_dist + y_dist * y_dist + z_dist * z_dist);
-
-    //     rando_order_dist_sphere_points_3D.emplace_back(total_dist);
-    // }
-
-    // // // Mirroring the decsended order vector to the random found order vector.
-    // // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
-
-    // // // Sorting into a descended order.
-    // // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
-
-
-    //  // Step 2: Build index list
-    // std::vector<int> ordered_indices(sphere_points_3D.size());
-    // std::iota(ordered_indices.begin(), ordered_indices.end(), 0); // fill with 0..n-1
-
-    // // Step 3: Sort ordered_indices according to total distances
-    // std::sort(ordered_indices.begin(), ordered_indices.end(),
-    //           [&](int a, int b) {
-    //               return rando_order_dist_sphere_points_3D[a] > rando_order_dist_sphere_points_3D[b];
-    //           });
-
-
-
-    // // Filling the empty ordered vector with the appropriate points from the given vector using ordered_indices vector.
-    // for (int i = 0; i < ordered_indices.size(); i++){
-    //     ordered_sphere_points_3D[i] = sphere_points_3D[ordered_indices[i]];
-    // }
-
-
-    
-
-    std::vector<std::vector<std::vector<double>>> triangle_vector;
-
-    for (int i = 0; i < sphere_triangle_points_3D.size(); i++){
-        for (int j = 0; j < sphere_triangle_points_3D[i].size(); j++){
-            for (int k = 0; k < sphere_triangle_points_3D[i][j].size(); k++){
-                triangle_vector.emplace_back(sphere_triangle_points_3D[i][j][k]);
-            }
-        }
-    }
-    
-    std::sort(triangle_vector.begin(), triangle_vector.end(),
-    [&](const std::vector<std::vector<double>>& A, const std::vector<std::vector<double>>& B){
-
-        // Centroid A
-        double Ax = (A[0][0] + A[1][0] + A[2][0]) / 3.0;
-        double Ay = (A[0][1] + A[1][1] + A[2][1]) / 3.0;
-        double Az = (A[0][2] + A[1][2] + A[2][2]) / 3.0;
-
-        // Centroid B
-        double Bx = (B[0][0] + B[1][0] + B[2][0]) / 3.0;
-        double By = (B[0][1] + B[1][1] + B[2][1]) / 3.0;
-        double Bz = (B[0][2] + B[1][2] + B[2][2]) / 3.0;
-
-        // Distance squared to camera
-        double dA = (playerx - Ax) * (playerx - Ax)
-                  + (Ay - playery) * (Ay - playery)
-                  + (Az - playerz) * (Az - playerz);
-
-        double dB = (playerx - Bx) * (playerx - Bx)
-                  + (playery - By) * (playery - By)
-                  + (playerz - Bz) * (playerz - Bz);
-
-        // farther triangles drawn first
-        return dA > dB;
-    });
-
-
-    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D;
-
-    ordered_sphere_triangle_points_3D.emplace_back();
-    ordered_sphere_triangle_points_3D[0].emplace_back(triangle_vector);
-
-
-    
-
-
-
-    //std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> ordered_sphere_triangle_points_3D;
-
-    return ordered_sphere_triangle_points_3D;
-
 }
 
 
@@ -1305,6 +1306,10 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                     }
                 }
 
+
+                if (i == 2 && j == 0 && k == 1){
+                    set_color(1, 0, 0);
+                }
                 if (valid_points.size() == 3){
 
                     
@@ -1327,6 +1332,10 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                     
                 }
 
+                if (i == 2 && j == 0 && k == 1){
+                    set_color(0, 0, 0);
+                }
+
             }
         }
     }
@@ -1341,7 +1350,7 @@ void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std
         bool skip = false;
         for (int j = 0; j < triangle_points_2D[i].size(); j++){
             for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
-                for (int l = 0; l < triangle_points_2D[i][j].size(); l++){
+                for (int l = 0; l < triangle_points_2D[i][j][k].size(); l++){
                     if (triangle_points_2D[i][j][k][l][0][0] == -100000 && triangle_points_2D[i][j][k][l][0][1] == -100000 &&
                             triangle_points_2D[i][j][k][l][1][0] == -100000 && triangle_points_2D[i][j][k][l][1][1] == -100000 ) skip = true;
                 }

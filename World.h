@@ -23,7 +23,7 @@ class World {
 
         std::vector<float> surface_color;
 
-        std::vector<std::vector<double>> floor_sphere_points_3D;
+        std::vector<std::vector<double>> sphere_points_3D;
 
         World(Graphics* graphics, int x, int y, int z, std::vector<float> surface_color); // Constructor
 
