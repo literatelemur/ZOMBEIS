@@ -444,15 +444,14 @@ int main(int argc, char* argv[]) {
 
 
 //FIXX:
-// -distance-based render of objects so far away objects not in front of close ones
+// -distance-based render of objects so far away objects not in front of close ones (ordering)
 // -make bow
-// -make bullets more detailed visually?
 // -make arm movement better
 // -refine zombei leg movement animation
 // -comment graphics.find_floor_lines_on_globe
 // -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
 // -investigate large numbers drawing coordinates when clipping
-
+// -make hud
 
 // -fix clipping of triangle points sphere taking away everything too soon
 
