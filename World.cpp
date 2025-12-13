@@ -34,9 +34,9 @@ void World::render(Graphics* graphics){
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_ordered_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(ordered_sphere_triangle_points_3D);
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> clipped_ordered_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_ordered_sphere_triangle_points_3D_as_lines);
 
-    graphics->set_color(0, 1, 0);
+    graphics->set_color(0, 0, 0);
 
-    graphics->draw_full_triangles_sphere_as_lines(clipped_ordered_sphere_triangle_points_2D_as_lines);
+    //graphics->draw_full_triangles_sphere_as_lines(clipped_ordered_sphere_triangle_points_2D_as_lines);
 
 
     graphics->set_color(surface_color[0], surface_color[1], surface_color[2]);
@@ -52,5 +52,5 @@ void World::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<int>>>> clipped_ordered_floor_points_2D = graphics->compute_2D_sphere_lines(clipped_ordered_floor_points_3D);
 
-    //graphics->draw_floor_lines(clipped_ordered_floor_points_2D);
+    graphics->draw_floor_lines(clipped_ordered_floor_points_2D);
 }

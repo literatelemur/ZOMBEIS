@@ -452,4 +452,12 @@ int main(int argc, char* argv[]) {
 // -comment graphics.find_floor_lines_on_globe
 // -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
 // -investigate large numbers drawing coordinates when clipping
+
+
 // -fix clipping of triangle points sphere taking away everything too soon
+
+// To implement culling and ordering:
+// -rework objects to be vectors of triangles not points
+// -make triangle class
+// -have one draw function that draws by distance primarily
+// -write culling and ordering methods

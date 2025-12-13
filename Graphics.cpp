@@ -1307,22 +1307,17 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                 }
 
 
-                if (i == 2 && j == 0 && k == 1){
-                    set_color(1, 0, 0);
-                }
                 if (valid_points.size() == 3){
 
-                    
                     glBegin(GL_POLYGON);
                         glVertex2f(valid_points[0][0], valid_points[0][1]);
                         glVertex2f(valid_points[1][0], valid_points[1][1]);
                         glVertex2f(valid_points[2][0], valid_points[2][1]);
                     glEnd();
 
-
-
                 
                 }else if (valid_points.size() == 4){
+
                     glBegin(GL_POLYGON);
                         glVertex2f(valid_points[0][0], valid_points[0][1]);
                         glVertex2f(valid_points[1][0], valid_points[1][1]);
@@ -1330,10 +1325,6 @@ void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::
                         glVertex2f(valid_points[3][0], valid_points[3][1]);
                     glEnd();
                     
-                }
-
-                if (i == 2 && j == 0 && k == 1){
-                    set_color(0, 0, 0);
                 }
 
             }
