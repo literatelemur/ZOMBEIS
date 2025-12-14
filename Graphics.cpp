@@ -1497,15 +1497,15 @@ void Graphics::draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>
 
 void Graphics::draw_hud(){
 
-    // glBegin(GL_LINES);
-    //     glVertex2f();
-    //     glVertex2f(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
-    // glEnd();
+    glBegin(GL_LINES);
+        glVertex2f(1920 / 2 - 15, 1080 / 2);
+        glVertex2f(1920 / 2 + 15, 1080 / 2);
+    glEnd();
 
-    // glBegin(GL_LINES);
-    //     glVertex2f(clipped_box_points_2D[i][0][0], clipped_box_points_2D[i][0][1]);
-    //     glVertex2f(clipped_box_points_2D[i][1][0], clipped_box_points_2D[i][1][1]);
-    // glEnd();
+    glBegin(GL_LINES);
+        glVertex2f(1920 / 2, 1080 / 2 - 15);
+        glVertex2f(1920 / 2, 1080 / 2 + 15);
+    glEnd();
 }
 
 

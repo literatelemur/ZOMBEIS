@@ -223,6 +223,9 @@ void render_all(){
             // }
         }
 
+        graphics.set_color(1, 1, 1);
+        graphics.draw_hud();
+
 
         glutPostRedisplay();
         graphics.present_frame();
@@ -443,7 +446,7 @@ int main(int argc, char* argv[]) {
 
 
 
-//FIXX:
+// FIXX:
 // -distance-based render of objects so far away objects not in front of close ones (ordering)
 // -make bow
 // -make arm movement better
@@ -451,7 +454,6 @@ int main(int argc, char* argv[]) {
 // -comment graphics.find_floor_lines_on_globe
 // -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
 // -investigate large numbers drawing coordinates when clipping
-// -make hud
 // -make gravity
 
 // -fix clipping of triangle points sphere taking away everything too soon
