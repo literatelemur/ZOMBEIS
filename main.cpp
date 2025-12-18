@@ -139,7 +139,7 @@ void mouse_move_check(){
 
         glutWarpPointer(window_width / 2, window_height / 2);
 
-        int mouse_diffx = mousex - window_width / 2;
+        int mouse_diffx = window_width / 2 - mousex;
         int mouse_diffy = window_height / 2 - mousey;
 
         double sensitivity = 1.0;
@@ -451,7 +451,6 @@ int main(int argc, char* argv[]) {
 // -make arm movement better
 // -refine zombei leg movement animation
 // -comment graphics.find_floor_lines_on_globe
-// -clean up compute_2D_point assuming second quadrant and having positive x values for negative x
 // -investigate large numbers drawing coordinates when clipping
 // -make gravity
 
