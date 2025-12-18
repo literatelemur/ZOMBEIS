@@ -126,7 +126,7 @@ std::vector<std::vector<double>> Graphics::order_sphere_points(std::vector<std::
     // Calculating Euclidian total distance from player to each point.
     for (int i = 0; i < sphere_points_3D.size(); i++){
 
-        double x_dist = abs(sphere_points_3D[i][0] - playerx);
+        double x_dist = abs(playerx - sphere_points_3D[i][0]);
         double y_dist = abs(sphere_points_3D[i][1] - playery);
         double z_dist = abs(sphere_points_3D[i][2] - playerz);
 
@@ -576,13 +576,13 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
                         clipped_coor_diffs_line1[3] != -100000 && clipped_coor_diffs_line1[4] != -100000 && clipped_coor_diffs_line1[5] != -100000){
 
                     clipped_coor_line1.emplace_back();
-                    clipped_coor_line1[0].emplace_back(playerx + clipped_coor_diffs_line1[0]);
+                    clipped_coor_line1[0].emplace_back(playerx - clipped_coor_diffs_line1[0]);
                     clipped_coor_line1[0].emplace_back(playery + clipped_coor_diffs_line1[1]);
                     clipped_coor_line1[0].emplace_back(playerz + clipped_coor_diffs_line1[2]);
 
 
                     clipped_coor_line1.emplace_back();
-                    clipped_coor_line1[1].emplace_back(playerx + clipped_coor_diffs_line1[3]);
+                    clipped_coor_line1[1].emplace_back(playerx - clipped_coor_diffs_line1[3]);
                     clipped_coor_line1[1].emplace_back(playery + clipped_coor_diffs_line1[4]);
                     clipped_coor_line1[1].emplace_back(playerz + clipped_coor_diffs_line1[5]);
 
@@ -611,13 +611,13 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
                         clipped_coor_diffs_line2[3] != -100000 && clipped_coor_diffs_line2[4] != -100000 && clipped_coor_diffs_line2[5] != -100000){
 
                     clipped_coor_line2.emplace_back();
-                    clipped_coor_line2[0].emplace_back(playerx + clipped_coor_diffs_line2[0]);
+                    clipped_coor_line2[0].emplace_back(playerx - clipped_coor_diffs_line2[0]);
                     clipped_coor_line2[0].emplace_back(playery + clipped_coor_diffs_line2[1]);
                     clipped_coor_line2[0].emplace_back(playerz + clipped_coor_diffs_line2[2]);
 
 
                     clipped_coor_line2.emplace_back();
-                    clipped_coor_line2[1].emplace_back(playerx + clipped_coor_diffs_line2[3]);
+                    clipped_coor_line2[1].emplace_back(playerx - clipped_coor_diffs_line2[3]);
                     clipped_coor_line2[1].emplace_back(playery + clipped_coor_diffs_line2[4]);
                     clipped_coor_line2[1].emplace_back(playerz + clipped_coor_diffs_line2[5]);
 
@@ -642,13 +642,13 @@ std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>
                         clipped_coor_diffs_line3[3] != -100000 && clipped_coor_diffs_line3[4] != -100000 && clipped_coor_diffs_line3[5] != -100000){
 
                     clipped_coor_line3.emplace_back();
-                    clipped_coor_line3[0].emplace_back(playerx + clipped_coor_diffs_line3[0]);
+                    clipped_coor_line3[0].emplace_back(playerx - clipped_coor_diffs_line3[0]);
                     clipped_coor_line3[0].emplace_back(playery + clipped_coor_diffs_line3[1]);
                     clipped_coor_line3[0].emplace_back(playerz + clipped_coor_diffs_line3[2]);
 
 
                     clipped_coor_line3.emplace_back();
-                    clipped_coor_line3[1].emplace_back(playerx + clipped_coor_diffs_line3[3]);
+                    clipped_coor_line3[1].emplace_back(playerx - clipped_coor_diffs_line3[3]);
                     clipped_coor_line3[1].emplace_back(playery + clipped_coor_diffs_line3[4]);
                     clipped_coor_line3[1].emplace_back(playerz + clipped_coor_diffs_line3[5]);
 
@@ -764,7 +764,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_sphere
             }else{
 
                 // Returning diff to objective point so that it can be plugged into compute_2D_point.
-                double x_3D = x1_clip_diff + playerx;
+                double x_3D = (x1_clip_diff - playerx) * -1;
                 double y_3D = y1_clip_diff + playery;
                 double z_3D = z1_clip_diff + playerz;
 
@@ -775,7 +775,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_sphere
                 clipped_lines_points_3D[i][j][0][2] = point_3D[2];
 
 
-                x_3D = x2_clip_diff + playerx;
+                x_3D = (x2_clip_diff - playerx) * -1;
                 y_3D = y2_clip_diff + playery;
                 z_3D = z2_clip_diff + playerz;
 
@@ -995,13 +995,13 @@ std::vector<std::vector<std::vector<double>>> Graphics::clip_box(std::vector<std
                 clipped_coor_diffs_lines[i][3] != -100000 && clipped_coor_diffs_lines[i][4] != -100000 && clipped_coor_diffs_lines[i][5] != -100000){
 
             clipped_coor_line.emplace_back();
-            clipped_coor_line[0].emplace_back(playerx + clipped_coor_diffs_lines[i][0]);
+            clipped_coor_line[0].emplace_back(playerx - clipped_coor_diffs_lines[i][0]);
             clipped_coor_line[0].emplace_back(playery + clipped_coor_diffs_lines[i][1]);
             clipped_coor_line[0].emplace_back(playerz + clipped_coor_diffs_lines[i][2]);
 
 
             clipped_coor_line.emplace_back();
-            clipped_coor_line[1].emplace_back(playerx + clipped_coor_diffs_lines[i][3]);
+            clipped_coor_line[1].emplace_back(playerx - clipped_coor_diffs_lines[i][3]);
             clipped_coor_line[1].emplace_back(playery + clipped_coor_diffs_lines[i][4]);
             clipped_coor_line[1].emplace_back(playerz + clipped_coor_diffs_lines[i][5]);
 
@@ -1051,11 +1051,11 @@ std::vector<std::vector<std::vector<double>>> Graphics::clip_box(std::vector<std
 
 std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line_points_3D){
 
-    double x_diff1 = line_points_3D[0][0] - playerx;
+    double x_diff1 = playerx - line_points_3D[0][0];
     double y_diff1 = line_points_3D[0][1] - playery;
     double z_diff1 = line_points_3D[0][2] - playerz + near_plane;
 
-    double x_diff2 = line_points_3D[1][0] - playerx;
+    double x_diff2 = playerx - line_points_3D[1][0];
     double y_diff2 = line_points_3D[1][1] - playery;
     double z_diff2 = line_points_3D[1][2] - playerz + near_plane;
 
@@ -1090,7 +1090,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
         double y1_clip = line_points_3D[0][1] - ratio_along * (line_points_3D[0][1] - line_points_3D[1][1]);
 
 
-        x1_clip_diff = x1_clip - playerx;
+        x1_clip_diff = playerx - x1_clip;
         y1_clip_diff = y1_clip - playery;
         z1_clip_diff = near_plane;
 
@@ -1112,7 +1112,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
         double z2_clip = near_plane;
 
 
-        x2_clip_diff = x2_clip - playerx;
+        x2_clip_diff = playerx - x2_clip;
         y2_clip_diff = y2_clip - playery;
         z2_clip_diff = near_plane;
 
@@ -1247,7 +1247,7 @@ std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
     double turny_diff_3D = tan(angley_diff) * z_3D_diff;
 
     // Computing the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-    double x_3D_diff = point_3D[0] - playerx + turnx_diff_3D;
+    double x_3D_diff = playerx - point_3D[0] + turnx_diff_3D;
     double y_3D_diff = point_3D[1] - playery + turny_diff_3D;
     
 
@@ -1260,7 +1260,7 @@ std::vector<int> Graphics::compute_2D_point(std::vector<double> point_3D){
     float y_2D_diff = (float) (tan(angley) * zscreendiff);
 
 
-    point_2D[0] = 960 + x_2D_diff;
+    point_2D[0] = 960 - x_2D_diff;
     point_2D[1] = 540 + y_2D_diff;
 
     return point_2D;
