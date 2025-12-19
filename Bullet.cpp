@@ -25,7 +25,7 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
     double x_diff_screen = click_x / double(glutGet(GLUT_WINDOW_WIDTH)) * 1920.0 - 1920 / 2;
     double y_diff_screen = click_y / double(glutGet(GLUT_WINDOW_HEIGHT)) * 1080.0 - 1080 / 2;
 
-    anglex = atan2(0.0, graphics->zscreendiff) + graphics->anglex_diff;
+    anglex = atan2(0.0, graphics->zscreendiff) - graphics->anglex_diff;
     angley = atan2(0.0, graphics->zscreendiff) - graphics->angley_diff;
 
     double x_diff_3D = tan(anglex) * (z - origin_z);
