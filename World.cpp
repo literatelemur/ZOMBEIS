@@ -52,5 +52,5 @@ void World::render(Graphics* graphics){
 
     std::vector<std::vector<std::vector<std::vector<int>>>> clipped_ordered_floor_points_2D = graphics->compute_2D_sphere_lines(clipped_ordered_floor_points_3D);
 
-    graphics->draw_floor_lines(clipped_ordered_floor_points_2D);
+    //graphics->draw_floor_lines(clipped_ordered_floor_points_2D);
 }

@@ -227,7 +227,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
         triangle_points_3D_sphere.emplace_back();
 
         // Determining shortest line between each point and all other points.
-        double shortest = 9999999999999;
+        double shortest = 9007199254740992;
         double dist1;
 
         for (int j = 0; j < sphere_points_3D.size(); j++){
@@ -360,7 +360,7 @@ std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics
         }
         
     }
-
+    
     return triangle_points_3D_sphere;
 }
 
@@ -752,7 +752,6 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_sphere
             if (x1_clip_diff == -100000 && y1_clip_diff == -100000 && z1_clip_diff == -100000 &&
                     x2_clip_diff == -100000 && y2_clip_diff == -100000 && z2_clip_diff == -100000){
 
-                            
                 clipped_lines_points_3D[i][j][0][0] = -100000;
                 clipped_lines_points_3D[i][j][0][1] = -100000;
                 clipped_lines_points_3D[i][j][0][2] = -100000;
@@ -1071,8 +1070,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
 
     
     // Determining if clipping is necessary (when z value reaches behind player).
-    if (z_diff1 <= near_plane && z_diff2 <= near_plane){
-    //if (1 == 0){
+    if (z_diff1 < near_plane && z_diff2 < near_plane){
 
         x1_clip_diff = -100000;
         y1_clip_diff = -100000;
@@ -1083,7 +1081,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
         z2_clip_diff = -100000;
 
 
-    }else if (z_diff1 <= near_plane){
+    }else if (z_diff1 < near_plane){
 
         double ratio_along = (near_plane - z_diff1) / (line_points_3D[1][2] - line_points_3D[0][2]);
         double x1_clip = line_points_3D[0][0] + ratio_along * (line_points_3D[1][0] - line_points_3D[0][0]);
@@ -1100,7 +1098,7 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
 
 
 
-    }else if (z_diff2 <= near_plane){
+    }else if (z_diff2 < near_plane){
 
         x1_clip_diff = x_diff1;
         y1_clip_diff = y_diff1;
@@ -1354,10 +1352,13 @@ void Graphics::draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std
                 for (int k = 0; k < triangle_points_2D[i][j].size(); k++){
                     for (int l = 0; l < triangle_points_2D[i][j][k].size(); l++){
 
+
+                        if (i == 8){
                         glBegin(GL_LINES);
                             glVertex2f(triangle_points_2D[i][j][k][l][0][0], triangle_points_2D[i][j][k][l][0][1]);
                             glVertex2f(triangle_points_2D[i][j][k][l][1][0], triangle_points_2D[i][j][k][l][1][1]);
                         glEnd();
+                        }
 
                     }
                 }
