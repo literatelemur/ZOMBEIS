@@ -7,8 +7,8 @@
 
 //#include "Graphics.h"
 
-#ifndef zombei_H
-#define zombei_H
+#ifndef ZOMBEI_H
+#define ZOMBEI_H
 
 class Graphics;
 class World;

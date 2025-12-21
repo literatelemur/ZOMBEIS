@@ -6,8 +6,8 @@
 #include <algorithm>
 
 
-#ifndef bullet_H
-#define bullet_H
+#ifndef BULLET_H
+#define BULLET_H
 
 class Graphics;
 

@@ -218,6 +218,131 @@ std::vector<std::vector<double>> Graphics::order_sphere_points(std::vector<std::
 }
 
 
+std::vector<Triangle> Graphics::test_find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D){
+
+    std::vector<Triangle> triangle_points_3D_sphere;
+
+    for (int i = 0; i < sphere_points_3D.size(); i++){
+
+        // Determining shortest line between each point and all other points.
+        double shortest = 9007199254740992;
+        double dist1;
+
+        for (int j = 0; j < sphere_points_3D.size(); j++){
+            if (i == j){continue;}
+
+            double xdist = std::abs(sphere_points_3D[j][0] - sphere_points_3D[i][0]);
+            double ydist = std::abs(sphere_points_3D[j][1] - sphere_points_3D[i][1]);
+            double zdist = std::abs(sphere_points_3D[j][2] - sphere_points_3D[i][2]);
+
+            double larger1 = 0;
+            double larger2 = 0;
+            if (xdist <= ydist && xdist <= zdist){
+                larger1 = ydist;
+                larger2 = zdist;
+            }else if (ydist <= xdist && ydist <= zdist){
+                larger1 = xdist;
+                larger2 = zdist;
+            }else if (zdist <= xdist && zdist <= ydist){
+                larger1 = xdist;
+                larger2 = ydist;
+            }
+
+            dist1 = std::sqrt(larger1*larger1 + larger2*larger2);
+
+            if (dist1 < shortest){
+                shortest = dist1;
+            }
+        }
+
+        // Finding all adjacent points with shortest line between points.
+        std::vector<double> adj_points;
+        for (int j = 0; j < sphere_points_3D.size(); j++){
+            if (i == j){continue;}
+            double xdist = std::abs(sphere_points_3D[j][0] - sphere_points_3D[i][0]);
+            double ydist = std::abs(sphere_points_3D[j][1] - sphere_points_3D[i][1]);
+            double zdist = std::abs(sphere_points_3D[j][2] - sphere_points_3D[i][2]);
+
+            double larger1 = 0;
+            double larger2 = 0;
+            if (xdist <= ydist && xdist <= zdist){
+                larger1 = ydist;
+                larger2 = zdist;
+            }else if (ydist <= xdist && ydist <= zdist){
+                larger1 = xdist;
+                larger2 = zdist;
+            }else if (zdist <= xdist && zdist <= ydist){
+                larger1 = xdist;
+                larger2 = ydist;
+            }
+
+            dist1 = std::sqrt(larger1*larger1 + larger2*larger2);
+            if (dist1 > shortest - shortest * 0.1 && dist1 < shortest + shortest * 0.1){
+                adj_points.emplace_back(j);
+            }
+        }
+
+        // Determining if adjacent points have same shortest line between adjacent point's adjcent points so that a full equilateral triangle is found.
+        double dist2;
+        double dist3;
+
+        for (int a = 0; a < adj_points.size(); a++){
+
+            for (int k = 0; k < sphere_points_3D.size(); k++){
+
+                if (k == i || k == adj_points[a] || i == adj_points[a]){continue;}
+                double xdist = std::abs(sphere_points_3D[k][0] - sphere_points_3D[adj_points[a]][0]);
+                double ydist = std::abs(sphere_points_3D[k][1] - sphere_points_3D[adj_points[a]][1]);
+                double zdist = std::abs(sphere_points_3D[k][2] - sphere_points_3D[adj_points[a]][2]);
+
+                double larger1 = 0;
+                double larger2 = 0;
+                if (xdist <= ydist && xdist <= zdist){
+                    larger1 = ydist;
+                    larger2 = zdist;
+                }else if (ydist <= xdist && ydist <= zdist){
+                    larger1 = xdist;
+                    larger2 = zdist;
+                }else if (zdist <= xdist && zdist <= ydist){
+                    larger1 = xdist;
+                    larger2 = ydist;
+                }
+
+                dist2 = std::sqrt(larger1*larger1 + larger2*larger2);
+
+                xdist = std::abs(sphere_points_3D[k][0] - sphere_points_3D[i][0]);
+                ydist = std::abs(sphere_points_3D[k][1] - sphere_points_3D[i][1]);
+                zdist = std::abs(sphere_points_3D[k][2] - sphere_points_3D[i][2]);
+
+                larger1 = 0;
+                larger2 = 0;
+                if (xdist <= ydist && xdist <= zdist){
+                    larger1 = ydist;
+                    larger2 = zdist;
+                }else if (ydist <= xdist && ydist <= zdist){
+                    larger1 = xdist;
+                    larger2 = zdist;
+                }else if (zdist <= xdist && zdist <= ydist){
+                    larger1 = xdist;
+                    larger2 = ydist;
+                }
+
+                dist3 = std::sqrt(larger1*larger1 + larger2*larger2);
+                    
+                if (dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
+
+                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k]));
+                }
+            }
+
+        }
+        
+    }
+    
+    return triangle_points_3D_sphere;
+}
+
+
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere;

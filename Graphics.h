@@ -6,9 +6,11 @@
 #include <algorithm>
 #include <list>
 
+#include "Triangle.h"
 
-#ifndef graphics_H
-#define graphics_H
+
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
 class Graphics {
 
@@ -35,6 +37,8 @@ class Graphics {
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
         
         std::vector<std::vector<double>> order_sphere_points(std::vector<std::vector<double>> sphere_points_3D);
+
+        std::vector<Triangle> test_find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> ordered_sphere_points_3D);
 

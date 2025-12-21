@@ -10,6 +10,7 @@
 #include "World.h"
 #include "Graphics.h"
 #include "main.h"
+#include "Triangle.h"
 
 
 World::World(Graphics* graphics, int x, int y, int z, std::vector<float> color){
@@ -23,15 +24,14 @@ World::World(Graphics* graphics, int x, int y, int z, std::vector<float> color){
     gravity_dist = 5000;
 
     sphere_points_3D = graphics->make_sphere({(double)center_x, (double)center_y, (double)center_z}, 1000, 12);
-
+    sphere_triangles_3D = graphics->test_find_triangles_sphere(sphere_points_3D);
 
 }
 
 void World::render(Graphics* graphics){
 
     //std::vector<std::vector<double>> ordered_sphere_points_3D = graphics->order_sphere_points(sphere_points_3D);
-    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D = graphics->find_triangle_points_sphere(sphere_points_3D);
-    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_sphere_points_3D_as_lines = graphics->clip_triangle_points_sphere(sphere_triangle_points_3D);
+    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_sphere_points_3D_as_lines = graphics->clip_triangle_points_sphere(sphere_triangles_3D);
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_sphere_points_3D_as_lines);
 
     graphics->set_color(0, 0, 0);

@@ -6,8 +6,8 @@
 #include <algorithm>
 
 
-#ifndef star_H
-#define star_H
+#ifndef STAR_H
+#define STAR_H
 
 class Graphics;
 
