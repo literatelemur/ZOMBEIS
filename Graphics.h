@@ -42,15 +42,23 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> ordered_sphere_points_3D);
 
+        //test_find_floor_lines_on_globe();
+
         std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
 
+        //test_clip_triangles_sphere(std::vector<Triangle> );
+
         std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere);
+
+        //test_clip_sphere_lines();
 
         std::vector<std::vector<std::vector<std::vector<double>>>> clip_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);
 
         std::vector<std::vector<std::vector<double>>> clip_box(std::vector<std::vector<double>> box_points_3D);
 
         std::vector<double> clip_3D_line(std::vector<std::vector<double>> line_points_3D);
+
+        //test_compute_2D_triangles_as_lines();
 
         std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points);
 
