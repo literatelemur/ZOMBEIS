@@ -454,8 +454,6 @@ int main(int argc, char* argv[]) {
 // -investigate large numbers drawing coordinates when clipping
 // -make gravity
 
-// -fix clipping of triangle points sphere taking away everything too soon
-
 // To implement culling and ordering:
 // -rework objects to be vectors of triangles not points
 // -make triangle class

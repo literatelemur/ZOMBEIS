@@ -11,6 +11,7 @@
 
 
 #include "Graphics.h"
+#include "Triangle.h"
 
         
 Graphics::Graphics(){   
