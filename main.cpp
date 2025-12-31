@@ -353,8 +353,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombeis = 100;
     //num_zombeis = 50;
-    //num_zombeis = 25;
-    num_zombeis = 0;
+    num_zombeis = 25;
+    //num_zombeis = 0;
 
     for (int i = 0; i < num_zombeis; i++){
         random_numx = distribx(gen);
