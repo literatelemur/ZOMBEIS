@@ -42,11 +42,11 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> ordered_sphere_points_3D);
 
-        //test_find_floor_lines_on_globe();
+        std::vector<std::vector<std::vector<std::vector<double>>>> test_find_floor_lines_on_globe(std::vector<Triangle> triangle_points_3D_sphere);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
 
-        //test_clip_triangles_sphere(std::vector<Triangle> );
+        std::vector<std::vector<std::vector<std::vector<double>>>> test_clip_triangles(std::vector<Triangle> triangles);
 
         std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere);
 
