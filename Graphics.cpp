@@ -727,23 +727,22 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_
 }
 
 
-std::vector<std::vector<std::vector<std::vector<double>>>> test_clip_triangles(std::vector<Triangle> triangles){
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::test_clip_triangles(std::vector<Triangle> triangles){
 
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_as_lines;
 
     for (int i = 0; i < triangles.size(); i++){
-        clipped_triangles_as_lines.emplace_back();
 
         std::vector<std::vector<double>> line1;
         line1.emplace_back();
-        line1[0].emplace_back(triangle_points_3D_sphere[i][j][k][0][0]);
-        line1[0].emplace_back(triangle_points_3D_sphere[i][j][k][0][1]);
-        line1[0].emplace_back(triangle_points_3D_sphere[i][j][k][0][2]);
+        line1[0].emplace_back(triangles[i].point1[0]);
+        line1[0].emplace_back(triangles[i].point1[1]);
+        line1[0].emplace_back(triangles[i].point1[2]);
 
         line1.emplace_back();
-        line1[1].emplace_back(triangle_points_3D_sphere[i][j][k][1][0]);
-        line1[1].emplace_back(triangle_points_3D_sphere[i][j][k][1][1]);
-        line1[1].emplace_back(triangle_points_3D_sphere[i][j][k][1][2]);
+        line1[1].emplace_back(triangles[i].point2[0]);
+        line1[1].emplace_back(triangles[i].point2[1]);
+        line1[1].emplace_back(triangles[i].point2[2]);
 
 
         std::vector<double> clipped_coor_diffs_line1 = clip_3D_line(line1);
@@ -751,14 +750,14 @@ std::vector<std::vector<std::vector<std::vector<double>>>> test_clip_triangles(s
 
         std::vector<std::vector<double>> line2;
         line2.emplace_back();
-        line2[0].emplace_back(triangle_points_3D_sphere[i][j][k][1][0]);
-        line2[0].emplace_back(triangle_points_3D_sphere[i][j][k][1][1]);
-        line2[0].emplace_back(triangle_points_3D_sphere[i][j][k][1][2]);
+        line2[0].emplace_back(triangles[i].point2[0]);
+        line2[0].emplace_back(triangles[i].point2[1]);
+        line2[0].emplace_back(triangles[i].point2[2]);
 
         line2.emplace_back();
-        line2[1].emplace_back(triangle_points_3D_sphere[i][j][k][2][0]);
-        line2[1].emplace_back(triangle_points_3D_sphere[i][j][k][2][1]);
-        line2[1].emplace_back(triangle_points_3D_sphere[i][j][k][2][2]);
+        line2[1].emplace_back(triangles[i].point3[0]);
+        line2[1].emplace_back(triangles[i].point3[1]);
+        line2[1].emplace_back(triangles[i].point3[2]);
 
         std::vector<double> clipped_coor_diffs_line2 = clip_3D_line(line2);
 
@@ -766,14 +765,14 @@ std::vector<std::vector<std::vector<std::vector<double>>>> test_clip_triangles(s
         std::vector<std::vector<double>> line3;
 
         line3.emplace_back();
-        line3[0].emplace_back(triangle_points_3D_sphere[i][j][k][2][0]);
-        line3[0].emplace_back(triangle_points_3D_sphere[i][j][k][2][1]);
-        line3[0].emplace_back(triangle_points_3D_sphere[i][j][k][2][2]);
+        line3[0].emplace_back(triangles[i].point3[0]);
+        line3[0].emplace_back(triangles[i].point3[1]);
+        line3[0].emplace_back(triangles[i].point3[2]);
 
         line3.emplace_back();
-        line3[1].emplace_back(triangle_points_3D_sphere[i][j][k][0][0]);
-        line3[1].emplace_back(triangle_points_3D_sphere[i][j][k][0][1]);
-        line3[1].emplace_back(triangle_points_3D_sphere[i][j][k][0][2]);
+        line3[1].emplace_back(triangles[i].point1[0]);
+        line3[1].emplace_back(triangles[i].point1[1]);
+        line3[1].emplace_back(triangles[i].point1[2]);
 
 
         std::vector<double> clipped_coor_diffs_line3 = clip_3D_line(line3);
@@ -878,42 +877,44 @@ std::vector<std::vector<std::vector<std::vector<double>>>> test_clip_triangles(s
         }
 
 
-        clipped_triangles_as_lines[i][j][k].emplace_back();
-        clipped_triangles_as_lines[i][j][k][0].emplace_back();
-        clipped_triangles_as_lines[i][j][k][0][0].emplace_back(clipped_coor_line1[0][0]);
-        clipped_triangles_as_lines[i][j][k][0][0].emplace_back(clipped_coor_line1[0][1]);
-        clipped_triangles_as_lines[i][j][k][0][0].emplace_back(clipped_coor_line1[0][2]);
+        clipped_triangles_as_lines.emplace_back();
+        
+        clipped_triangles_as_lines[i].emplace_back();
+        clipped_triangles_as_lines[i][0].emplace_back();
+        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_coor_line1[0][0]);
+        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_coor_line1[0][1]);
+        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_coor_line1[0][2]);
 
-        clipped_triangles_as_lines[i][j][k][0].emplace_back();
-        clipped_triangles_as_lines[i][j][k][0][1].emplace_back(clipped_coor_line1[1][0]);
-        clipped_triangles_as_lines[i][j][k][0][1].emplace_back(clipped_coor_line1[1][1]);
-        clipped_triangles_as_lines[i][j][k][0][1].emplace_back(clipped_coor_line1[1][2]);
-
-
-
-        clipped_triangles_as_lines[i][j][k].emplace_back();
-        clipped_triangles_as_lines[i][j][k][1].emplace_back();
-        clipped_triangles_as_lines[i][j][k][1][0].emplace_back(clipped_coor_line2[0][0]);
-        clipped_triangles_as_lines[i][j][k][1][0].emplace_back(clipped_coor_line2[0][1]);
-        clipped_triangles_as_lines[i][j][k][1][0].emplace_back(clipped_coor_line2[0][2]);
-
-        clipped_triangles_as_lines[i][j][k][1].emplace_back();
-        clipped_triangles_as_lines[i][j][k][1][1].emplace_back(clipped_coor_line2[1][0]);
-        clipped_triangles_as_lines[i][j][k][1][1].emplace_back(clipped_coor_line2[1][1]);
-        clipped_triangles_as_lines[i][j][k][1][1].emplace_back(clipped_coor_line2[1][2]);
+        clipped_triangles_as_lines[i][0].emplace_back();
+        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_coor_line1[1][0]);
+        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_coor_line1[1][1]);
+        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_coor_line1[1][2]);
 
 
 
-        clipped_triangles_as_lines[i][j][k].emplace_back();
-        clipped_triangles_as_lines[i][j][k][2].emplace_back();
-        clipped_triangles_as_lines[i][j][k][2][0].emplace_back(clipped_coor_line3[0][0]);
-        clipped_triangles_as_lines[i][j][k][2][0].emplace_back(clipped_coor_line3[0][1]);
-        clipped_triangles_as_lines[i][j][k][2][0].emplace_back(clipped_coor_line3[0][2]);
+        clipped_triangles_as_lines[i].emplace_back();
+        clipped_triangles_as_lines[i][1].emplace_back();
+        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_coor_line2[0][0]);
+        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_coor_line2[0][1]);
+        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_coor_line2[0][2]);
 
-        clipped_triangles_as_lines[i][j][k][2].emplace_back();
-        clipped_triangles_as_lines[i][j][k][2][1].emplace_back(clipped_coor_line3[1][0]);
-        clipped_triangles_as_lines[i][j][k][2][1].emplace_back(clipped_coor_line3[1][1]);
-        clipped_triangles_as_lines[i][j][k][2][1].emplace_back(clipped_coor_line3[1][2]);
+        clipped_triangles_as_lines[i][1].emplace_back();
+        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_coor_line2[1][0]);
+        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_coor_line2[1][1]);
+        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_coor_line2[1][2]);
+
+
+
+        clipped_triangles_as_lines[i].emplace_back();
+        clipped_triangles_as_lines[i][2].emplace_back();
+        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_coor_line3[0][0]);
+        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_coor_line3[0][1]);
+        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_coor_line3[0][2]);
+
+        clipped_triangles_as_lines[i][2].emplace_back();
+        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][0]);
+        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][1]);
+        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][2]);
     }
 
     return clipped_triangles_as_lines;
