@@ -72,7 +72,7 @@ class Graphics {
 
         void clear_draw_screen();
 
-        //test_draw_triangles_as_lines();
+        void test_draw_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<int>>>> triangles_2D_as_lines);
 
         void draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangle_points_2D_as_lines);
 

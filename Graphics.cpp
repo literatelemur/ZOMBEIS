@@ -332,7 +332,7 @@ std::vector<Triangle> Graphics::test_find_triangles_sphere(std::vector<std::vect
                     
                 if (dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
 
-                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k]));
+                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "hollow"));
                 }
             }
 
@@ -1734,6 +1734,144 @@ void Graphics::clear_draw_screen(){
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black background
     glClear(GL_COLOR_BUFFER_BIT);
 }
+
+
+void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<int>>>> triangles_2D_as_lines){
+
+    for (int i = 0; i < triangles_2D_as_lines.size(); i++){
+        
+
+        // Iterating through each point to see if it is already present in triangles_2D_as_lines. If so, only one copy is made because duplicates mess up drawing function.
+
+        std::vector<std::vector<int>> valid_points;
+        for (int j = 0; j < triangles_2D_as_lines[i].size(); j++){
+
+            if (triangles_2D_as_lines[i][j][0][0] != -100000 && triangles_2D_as_lines[i][j][0][1] != -100000 && 
+                    triangles_2D_as_lines[i][j][1][0] != -100000 && triangles_2D_as_lines[i][j][1][1] != -100000){
+
+
+                for (int k = 0; k < triangles_2D_as_lines[i][j].size(); k++){
+                    
+                    bool exists = false;
+                    for (int l = 0; l < valid_points.size(); l++){
+                        if (triangles_2D_as_lines[i][j][k][0] == valid_points[l][0] && 
+                                triangles_2D_as_lines[i][j][k][1] == valid_points[l][1]){
+                            exists = true;
+                        }
+                    }
+
+                    if (!exists){
+                        valid_points.emplace_back();
+                        valid_points[valid_points.size()-1].emplace_back(triangles_2D_as_lines[i][j][k][0]);
+                        valid_points[valid_points.size()-1].emplace_back(triangles_2D_as_lines[i][j][k][1]);
+                    }
+                }
+            }
+        }
+
+
+        if (valid_points.size() == 3){
+
+            glBegin(GL_POLYGON);
+                glVertex2f(valid_points[0][0], valid_points[0][1]);
+                glVertex2f(valid_points[1][0], valid_points[1][1]);
+                glVertex2f(valid_points[2][0], valid_points[2][1]);
+            glEnd();
+
+        
+        }else if (valid_points.size() == 4){
+
+            glBegin(GL_POLYGON);
+                glVertex2f(valid_points[0][0], valid_points[0][1]);
+                glVertex2f(valid_points[1][0], valid_points[1][1]);
+                glVertex2f(valid_points[2][0], valid_points[2][1]);
+                glVertex2f(valid_points[3][0], valid_points[3][1]);
+            glEnd();
+            
+        }
+
+        // if (triangles_2D_as_lines[i].draw_type == "full"){
+
+        //     if (valid_points.size() == 3){
+
+        //         glBegin(GL_POLYGON);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //         glEnd();
+
+            
+        //     }else if (valid_points.size() == 4){
+
+        //         glBegin(GL_POLYGON);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //             glVertex2f(valid_points[3][0], valid_points[3][1]);
+        //         glEnd();
+                
+        //     }
+
+        // } else if(triangles_2D_as_lines[i].draw_type == "hollow"){
+
+        //     if (valid_points.size() == 3){
+
+        //         glBegin(GL_LINES);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //         glEnd();
+
+            
+        //     }else if (valid_points.size() == 4){
+
+        //         glBegin(GL_LINES);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //             glVertex2f(valid_points[3][0], valid_points[3][1]);
+        //         glEnd();
+
+        // } else if(triangles_2D_as_lines[i].draw_type == "both"){
+
+        //     if (valid_points.size() == 3){
+
+        //         glBegin(GL_POLYGON);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //         glEnd();
+
+        //         glBegin(GL_LINES);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //         glEnd();
+
+            
+        //     }else if (valid_points.size() == 4){
+
+        //         glBegin(GL_POLYGON);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //             glVertex2f(valid_points[3][0], valid_points[3][1]);
+        //         glEnd();
+
+        //         glBegin(GL_LINES);
+        //             glVertex2f(valid_points[0][0], valid_points[0][1]);
+        //             glVertex2f(valid_points[1][0], valid_points[1][1]);
+        //             glVertex2f(valid_points[2][0], valid_points[2][1]);
+        //             glVertex2f(valid_points[3][0], valid_points[3][1]);
+        //         glEnd();
+                
+        //     }
+
+        // }
+
+    }
+}
+
 
 
 void Graphics::draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangle_points_2D_as_lines){
