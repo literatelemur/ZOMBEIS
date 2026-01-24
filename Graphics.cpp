@@ -1550,6 +1550,58 @@ std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line
 }
 
 
+std::vector<std::vector<std::vector<std::vector<int>>>> Graphics::test_compute_2D_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_as_lines){
+
+    std::vector<std::vector<std::vector<std::vector<int>>>> triangles_2D_as_lines;
+
+    // Iterating through all points on a given vector of triangles to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
+    for (int i = 0; i < clipped_triangles_as_lines.size(); i++){
+        triangles_2D_as_lines.emplace_back();
+        triangles_2D_as_lines[i].emplace_back();
+
+        if (clipped_triangles_as_lines[i][0][0][0] != -100000 && clipped_triangles_as_lines[i][0][0][1] != -100000 && clipped_triangles_as_lines[i][0][0][2] != -100000 &&
+                clipped_triangles_as_lines[i][0][1][0] != -100000 && clipped_triangles_as_lines[i][0][1][1] != -100000 && clipped_triangles_as_lines[i][0][1][2] != -100000){
+
+            triangles_2D_as_lines[i][0].emplace_back(compute_2D_point(clipped_triangles_as_lines[i][0][0]));
+            triangles_2D_as_lines[i][0].emplace_back(compute_2D_point(clipped_triangles_as_lines[i][0][1]));
+        }else{
+            triangles_2D_as_lines[i][0].emplace_back(std::vector<int>{-100000, -100000});
+            triangles_2D_as_lines[i][0].emplace_back(std::vector<int>{-100000, -100000});
+        }
+
+
+        triangles_2D_as_lines[i].emplace_back();
+
+        if (clipped_triangles_as_lines[i][1][0][0] != -100000 && clipped_triangles_as_lines[i][1][0][1] != -100000 && clipped_triangles_as_lines[i][1][0][2] != -100000 &&
+                clipped_triangles_as_lines[i][1][1][0] != -100000 && clipped_triangles_as_lines[i][1][1][1] != -100000 && clipped_triangles_as_lines[i][1][1][2] != -100000){
+
+            triangles_2D_as_lines[i][1].emplace_back(compute_2D_point(clipped_triangles_as_lines[i][1][0]));
+            triangles_2D_as_lines[i][1].emplace_back(compute_2D_point(clipped_triangles_as_lines[i][1][1]));
+        }else{
+            triangles_2D_as_lines[i][1].emplace_back(std::vector<int>{-100000, -100000});
+            triangles_2D_as_lines[i][1].emplace_back(std::vector<int>{-100000, -100000});
+        }
+
+
+        triangles_2D_as_lines[i].emplace_back();
+
+        if (clipped_triangles_as_lines[i][2][0][0] != -100000 && clipped_triangles_as_lines[i][2][0][1] != -100000 && clipped_triangles_as_lines[i][2][0][2] != -100000 &&
+                clipped_triangles_as_lines[i][2][1][0] != -100000 && clipped_triangles_as_lines[i][2][1][1] != -100000 && clipped_triangles_as_lines[i][2][1][2] != -100000){
+                    
+            triangles_2D_as_lines[i][2].emplace_back(compute_2D_point(clipped_triangles_as_lines[i][2][0]));
+            triangles_2D_as_lines[i][2].emplace_back(compute_2D_point(clipped_triangles_as_lines[i][2][1]));
+        }else{
+            triangles_2D_as_lines[i][2].emplace_back(std::vector<int>{-100000, -100000});
+            triangles_2D_as_lines[i][2].emplace_back(std::vector<int>{-100000, -100000});
+        }
+
+    }
+
+    return triangles_2D_as_lines;
+
+}
+
+
 std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> Graphics::compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points_3D_sphere_as_lines){
     std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> object_2D;
 

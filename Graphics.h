@@ -58,7 +58,7 @@ class Graphics {
 
         std::vector<double> clip_3D_line(std::vector<std::vector<double>> line_points_3D);
 
-        //test_compute_2D_triangles_as_lines();
+        std::vector<std::vector<std::vector<std::vector<int>>>> test_compute_2D_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_as_lines); 
 
         std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points);
 
