@@ -1772,7 +1772,7 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
 
         if (valid_points.size() == 3){
 
-            glBegin(GL_POLYGON);
+            glBegin(GL_LINES);
                 glVertex2f(valid_points[0][0], valid_points[0][1]);
                 glVertex2f(valid_points[1][0], valid_points[1][1]);
                 glVertex2f(valid_points[2][0], valid_points[2][1]);
@@ -1781,7 +1781,7 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
         
         }else if (valid_points.size() == 4){
 
-            glBegin(GL_POLYGON);
+            glBegin(GL_LINES);
                 glVertex2f(valid_points[0][0], valid_points[0][1]);
                 glVertex2f(valid_points[1][0], valid_points[1][1]);
                 glVertex2f(valid_points[2][0], valid_points[2][1]);

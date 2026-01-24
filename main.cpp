@@ -164,71 +164,86 @@ void check_keys_and_mouse(){
 
 void render_all(){
 
-        graphics.clear_draw_screen();
+    graphics.clear_draw_screen();
 
-        for (int i = 0; i < star_vector.size(); i++){
-            star_vector[i].move(&graphics);
-            star_vector[i].render(&graphics);
+    for (int i = 0; i < star_vector.size(); i++){
+        star_vector[i].move(&graphics);
+        star_vector[i].render(&graphics);
+    }   
+
+    for (int i = 0; i < world_vector.size(); i++){
+        world_vector[i].render(&graphics);
+    }
+
+
+
+
+    std::vector<Triangle> all_triangles = world_vector[0].sphere_triangles_3D;
+
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.test_clip_triangles(all_triangles);
+    std::vector<std::vector<std::vector<std::vector<int>>>> clipped_triangles_2D_as_lines = graphics.test_compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
+
+    graphics.set_color(1, 0, 0);
+    graphics.test_draw_triangles_as_lines(clipped_triangles_2D_as_lines);
+
+
+
+
+
+
+    int zombei_to_remove = -1;
+    int bullet_to_remove = -1;
+
+
+    // Check for collision for all bullets hitting all zombeis
+    for (int i = 0; i < bullet_vector.size(); i++){
+
+        for (double j = 0; j < num_zombeis; j++){
+            if (zombei_vector[j].box_points_3D_body[0][0] <= bullet_vector[i].x &&
+                    zombei_vector[j].box_points_3D_body[1][0] >= bullet_vector[i].x &&
+                    zombei_vector[j].box_points_3D_body[0][1] <= bullet_vector[i].y &&
+                    zombei_vector[j].box_points_3D_body[2][1] >= bullet_vector[i].y &&
+                    zombei_vector[j].box_points_3D_body[0][2] >= bullet_vector[i].z &&
+                    zombei_vector[j].box_points_3D_body[4][2] <= bullet_vector[i].z){
+
+                zombei_to_remove = j;
+                bullet_to_remove = i;
+                break;
+            }
+        }
+
+        if (zombei_to_remove != -1){
+            
+            zombei_vector.erase(zombei_vector.begin() + zombei_to_remove);
+            bullet_vector.erase(bullet_vector.begin() + bullet_to_remove);
+            num_zombeis--;
+            zombei_to_remove = -1;
+            bullet_to_remove = -1;
         }   
 
-        for (int i = 0; i < world_vector.size(); i++){
-            world_vector[i].render(&graphics);
-        }
+    }
+
+    for (int i = 0; i < num_zombeis; i++){
+        zombei_vector[i].gravitate(world_vector[0]);
+        zombei_vector[i].render(&graphics);
+    }
 
 
-        int zombei_to_remove = -1;
-        int bullet_to_remove = -1;
-    
+    for (int i = 0; i < bullet_vector.size(); i++){
+        bullet_vector[i].move(&graphics);
+        bullet_vector[i].render(&graphics);
+        // Bullet hits floor
+        // if (bullet_vector[i].y >= 1070){
+        //     bullet_vector.erase(bullet_vector.begin() + i);
+        // }
+    }
 
-        // Check for collision for all bullets hitting all zombeis
-        for (int i = 0; i < bullet_vector.size(); i++){
-
-            for (double j = 0; j < num_zombeis; j++){
-                if (zombei_vector[j].box_points_3D_body[0][0] <= bullet_vector[i].x &&
-                        zombei_vector[j].box_points_3D_body[1][0] >= bullet_vector[i].x &&
-                        zombei_vector[j].box_points_3D_body[0][1] <= bullet_vector[i].y &&
-                        zombei_vector[j].box_points_3D_body[2][1] >= bullet_vector[i].y &&
-                        zombei_vector[j].box_points_3D_body[0][2] >= bullet_vector[i].z &&
-                        zombei_vector[j].box_points_3D_body[4][2] <= bullet_vector[i].z){
-
-                    zombei_to_remove = j;
-                    bullet_to_remove = i;
-                    break;
-                }
-            }
-
-            if (zombei_to_remove != -1){
-                
-                zombei_vector.erase(zombei_vector.begin() + zombei_to_remove);
-                bullet_vector.erase(bullet_vector.begin() + bullet_to_remove);
-                num_zombeis--;
-                zombei_to_remove = -1;
-                bullet_to_remove = -1;
-            }   
-
-        }
-
-        for (int i = 0; i < num_zombeis; i++){
-            zombei_vector[i].gravitate(world_vector[0]);
-            zombei_vector[i].render(&graphics);
-        }
+    graphics.set_color(1, 1, 1);
+    graphics.draw_hud();
 
 
-        for (int i = 0; i < bullet_vector.size(); i++){
-            bullet_vector[i].move(&graphics);
-            bullet_vector[i].render(&graphics);
-            // Bullet hits floor
-            // if (bullet_vector[i].y >= 1070){
-            //     bullet_vector.erase(bullet_vector.begin() + i);
-            // }
-        }
-
-        graphics.set_color(1, 1, 1);
-        graphics.draw_hud();
-
-
-        glutPostRedisplay();
-        graphics.present_frame();
+    glutPostRedisplay();
+    graphics.present_frame();
 
 }
 
