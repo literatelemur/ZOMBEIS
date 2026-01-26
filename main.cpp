@@ -305,59 +305,59 @@ int main(int argc, char* argv[]) {
 
     // Making worlds
     world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
-    // world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
-    // world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000, {1, 0, 0}));
-    // world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 + 1000, 1000 + 500 + 20000, {1, 0, 0}));
-    // world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
-    // world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 + 8000, 1000 + 500 + 40000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 + 1000, 1000 + 500 + 20000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 + 8000, 1000 + 500 + 40000, {1, 0, 0}));
 
 
     // Making worlds
-    std::uniform_int_distribution<> distrib_worldx(-10000, 10000);
-    int random_world_numx = distrib_worldx(gen);
+    // std::uniform_int_distribution<> distrib_worldx(-10000, 10000);
+    // int random_world_numx = distrib_worldx(gen);
 
-    std::uniform_int_distribution<> distrib_worldy(-2500, 2500);
-    int random_world_numy = distrib_worldy(gen);
+    // std::uniform_int_distribution<> distrib_worldy(-2500, 2500);
+    // int random_world_numy = distrib_worldy(gen);
 
-    std::uniform_int_distribution<> distrib_worldz(1000, 50000);
-    int random_world_numz = distrib_worldz(gen);
+    // std::uniform_int_distribution<> distrib_worldz(1000, 50000);
+    // int random_world_numz = distrib_worldz(gen);
 
 
-    std::uniform_int_distribution<> distrib_world_colorr(0, 10);
-    float random_world_colorr = distrib_world_colorr(gen);
+    // std::uniform_int_distribution<> distrib_world_colorr(0, 10);
+    // float random_world_colorr = distrib_world_colorr(gen);
 
-    std::uniform_int_distribution<> distrib_world_colorg(0, 10);
-    float random_world_colorg = distrib_world_colorg(gen);
+    // std::uniform_int_distribution<> distrib_world_colorg(0, 10);
+    // float random_world_colorg = distrib_world_colorg(gen);
 
-    std::uniform_int_distribution<> distrib_world_colorb(0, 10);
-    float random_world_colorb = distrib_world_colorb(gen);
+    // std::uniform_int_distribution<> distrib_world_colorb(0, 10);
+    // float random_world_colorb = distrib_world_colorb(gen);
 
-    std::uniform_int_distribution<> distrib_world_color(0, 10);
-    float random_world_color = distrib_world_color(gen);
+    // std::uniform_int_distribution<> distrib_world_color(0, 10);
+    // float random_world_color = distrib_world_color(gen);
 
-    int num_worlds = 0;
-    while (num_worlds < 25){
-        random_world_numx = distrib_worldx(gen);
-        random_world_numy = distrib_worldy(gen);
-        random_world_numz = distrib_worldz(gen);
+    // int num_worlds = 0;
+    // while (num_worlds < 25){
+    //     random_world_numx = distrib_worldx(gen);
+    //     random_world_numy = distrib_worldy(gen);
+    //     random_world_numz = distrib_worldz(gen);
 
-        random_world_colorr = distrib_world_colorr(gen);
-        random_world_colorg = distrib_world_colorg(gen);
-        random_world_colorb = distrib_world_colorb(gen);
-        random_world_color = distrib_world_color(gen);
+    //     random_world_colorr = distrib_world_colorr(gen);
+    //     random_world_colorg = distrib_world_colorg(gen);
+    //     random_world_colorb = distrib_world_colorb(gen);
+    //     random_world_color = distrib_world_color(gen);
 
-        std::vector<float> surface_color = {(float)random_world_colorr, (float)random_world_colorg, (float)random_world_colorb};
+    //     std::vector<float> surface_color = {(float)random_world_colorr, (float)random_world_colorg, (float)random_world_colorb};
 
-        // std::vector<float> surface_color;
-        // if (random_world_color > 3){
-        //     surface_color = {1, 1, 1};
-        // } else{
-        //     surface_color = {0, 0, 1};
-        // }
+    //     // std::vector<float> surface_color;
+    //     // if (random_world_color > 3){
+    //     //     surface_color = {1, 1, 1};
+    //     // } else{
+    //     //     surface_color = {0, 0, 1};
+    //     // }
 
-        world_vector.emplace_back(World(&graphics, 960 + random_world_numx, 1060 + 1100 + random_world_numy, 1000 + 500 + random_world_numz, surface_color));
-        num_worlds++;
-    }
+    //     world_vector.emplace_back(World(&graphics, 960 + random_world_numx, 1060 + 1100 + random_world_numy, 1000 + 500 + random_world_numz, surface_color));
+    //     num_worlds++;
+    // }
 
 
 
