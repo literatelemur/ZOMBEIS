@@ -40,6 +40,8 @@ class Graphics {
 
         std::vector<Triangle> test_find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
+        std::vector<Triangle> test_find_triangles_box(std::vector<std::vector<double>> box_points_3D);
+
         std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> ordered_sphere_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> test_find_floor_lines_on_globe(std::vector<Triangle> triangle_points_3D_sphere);
