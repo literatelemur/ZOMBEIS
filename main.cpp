@@ -175,10 +175,18 @@ void render_all(){
     std::vector<Triangle> all_triangles;
 
     for (int i = 0; i < world_vector.size(); i++){
-        world_vector[i].render(&graphics);
+        world_vector[i].sphere_triangles_3D = graphics.test_find_triangles_sphere(world_vector[i].sphere_points_3D);
 
         for (int j = 0; j < world_vector[i].sphere_triangles_3D.size(); j++){
             all_triangles.emplace_back(world_vector[i].sphere_triangles_3D[j]);
+        }
+    }
+
+    for (int i = 0; i < bullet_vector.size(); i++){
+        bullet_vector[i].box_triangles_3D = graphics.test_find_triangles_box(bullet_vector[i].box_points_3D);
+
+        for (int j = 0; j < bullet_vector[i].box_triangles_3D.size(); j++){
+            all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
         }
     }
 
@@ -204,12 +212,12 @@ void render_all(){
     for (int i = 0; i < bullet_vector.size(); i++){
 
         for (double j = 0; j < num_zombeis; j++){
-            if (zombei_vector[j].box_points_3D_body[0][0] <= bullet_vector[i].x &&
-                    zombei_vector[j].box_points_3D_body[1][0] >= bullet_vector[i].x &&
-                    zombei_vector[j].box_points_3D_body[0][1] <= bullet_vector[i].y &&
-                    zombei_vector[j].box_points_3D_body[2][1] >= bullet_vector[i].y &&
-                    zombei_vector[j].box_points_3D_body[0][2] >= bullet_vector[i].z &&
-                    zombei_vector[j].box_points_3D_body[4][2] <= bullet_vector[i].z){
+            if (zombei_vector[j].box_points_3D_body[0][0] <= bullet_vector[i].center_x &&
+                    zombei_vector[j].box_points_3D_body[1][0] >= bullet_vector[i].center_x &&
+                    zombei_vector[j].box_points_3D_body[0][1] <= bullet_vector[i].center_y &&
+                    zombei_vector[j].box_points_3D_body[2][1] >= bullet_vector[i].center_y &&
+                    zombei_vector[j].box_points_3D_body[0][2] >= bullet_vector[i].center_z &&
+                    zombei_vector[j].box_points_3D_body[4][2] <= bullet_vector[i].center_z){
 
                 zombei_to_remove = j;
                 bullet_to_remove = i;
@@ -236,7 +244,8 @@ void render_all(){
 
     for (int i = 0; i < bullet_vector.size(); i++){
         bullet_vector[i].move(&graphics);
-        bullet_vector[i].render(&graphics);
+        //bullet_vector[i].render(&graphics);
+
         // Bullet hits floor
         // if (bullet_vector[i].y >= 1070){
         //     bullet_vector.erase(bullet_vector.begin() + i);

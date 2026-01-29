@@ -344,6 +344,21 @@ std::vector<Triangle> Graphics::test_find_triangles_sphere(std::vector<std::vect
 }
 
 
+std::vector<Triangle> Graphics::test_find_triangles_box(std::vector<std::vector<double>> box_points_3D){
+
+    std::vector<Triangle> triangle_points_3D_box;
+
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[2], "hollow"));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[2], box_points_3D[3], "hollow"));
+
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[6], "hollow"));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[6], box_points_3D[7], "hollow"));
+
+    return triangle_points_3D_box;
+}
+
+
+
 std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> Graphics::find_triangle_points_sphere(std::vector<std::vector<double>> sphere_points_3D){
 
     std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere;
