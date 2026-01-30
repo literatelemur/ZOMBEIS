@@ -348,9 +348,6 @@ std::vector<Triangle> Graphics::test_find_triangles_box(std::vector<std::vector<
 
     std::vector<Triangle> triangle_points_3D_box;
 
-
-    std::cout << "------------\n";
-
     
 
     triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[2], "hollow"));
@@ -358,14 +355,6 @@ std::vector<Triangle> Graphics::test_find_triangles_box(std::vector<std::vector<
 
     // triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[6], "hollow"));
     // triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[6], box_points_3D[7], "hollow"));
-
-
-    for (int i = 0; i < 3; i++){
-    std::cout << "...\n";
-    std::cout << triangle_points_3D_box[0].points[i][0] <<"\n";
-    std::cout << triangle_points_3D_box[0].points[i][1] <<"\n";
-    std::cout << triangle_points_3D_box[0].points[i][2] <<"\n";
-    }
 
     return triangle_points_3D_box;
 }
@@ -1771,7 +1760,7 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
 
         // Iterating through each point to see if it is already present in triangles_2D_as_lines. If so, only one copy is made because duplicates mess up drawing function.
 
-        std::vector<std::vector<int>> valid_points;
+        std::vector<std::vector<double>> valid_points;
         for (int j = 0; j < triangles_2D_as_lines[i].size(); j++){
 
             if (triangles_2D_as_lines[i][j][0][0] != -100000 && triangles_2D_as_lines[i][j][0][1] != -100000 && 
@@ -1801,19 +1790,19 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
         if (valid_points.size() == 3){
 
             glBegin(GL_LINES);
-                glVertex2f(valid_points[0][0], valid_points[0][1]);
-                glVertex2f(valid_points[1][0], valid_points[1][1]);
-                glVertex2f(valid_points[2][0], valid_points[2][1]);
+                glVertex2d(valid_points[0][0], valid_points[0][1]);
+                glVertex2d(valid_points[1][0], valid_points[1][1]);
+                glVertex2d(valid_points[2][0], valid_points[2][1]);
             glEnd();
 
         
         }else if (valid_points.size() == 4){
 
             glBegin(GL_LINES);
-                glVertex2f(valid_points[0][0], valid_points[0][1]);
-                glVertex2f(valid_points[1][0], valid_points[1][1]);
-                glVertex2f(valid_points[2][0], valid_points[2][1]);
-                glVertex2f(valid_points[3][0], valid_points[3][1]);
+                glVertex2d(valid_points[0][0], valid_points[0][1]);
+                glVertex2d(valid_points[1][0], valid_points[1][1]);
+                glVertex2d(valid_points[2][0], valid_points[2][1]);
+                glVertex2d(valid_points[3][0], valid_points[3][1]);
             glEnd();
             
         }

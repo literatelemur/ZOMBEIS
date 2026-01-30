@@ -181,6 +181,7 @@ void render_all(){
         }
     }
 
+
     for (int i = 0; i < bullet_vector.size(); i++){
 
         for (int j = 0; j < bullet_vector[i].box_triangles_3D.size(); j++){
@@ -206,7 +207,7 @@ void render_all(){
     int bullet_to_remove = -1;
 
 
-    // Check for collision for all bullets hitting all zombeis
+    // Check for collision of all bullets hitting all zombeis
     for (int i = 0; i < bullet_vector.size(); i++){
 
         for (double j = 0; j < num_zombeis; j++){
