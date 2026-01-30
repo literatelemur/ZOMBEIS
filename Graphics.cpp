@@ -350,7 +350,7 @@ std::vector<Triangle> Graphics::test_find_triangles_box(std::vector<std::vector<
 
     
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[2], "hollow"));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "hollow"));
     // triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[2], box_points_3D[3], "hollow"));
 
     // triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[6], "hollow"));
@@ -1735,8 +1735,8 @@ std::vector<double> Graphics::compute_2D_point(std::vector<double> point_3D){
     double angley = atan2(y_3D_diff, z_3D_diff);
 
 
-    float x_2D_diff = (float) (tan(anglex) * zscreendiff);
-    float y_2D_diff = (float) (tan(angley) * zscreendiff);
+    double x_2D_diff = tan(anglex) * zscreendiff;
+    double y_2D_diff = tan(angley) * zscreendiff;
 
 
     point_2D[0] = 960 + x_2D_diff;
@@ -1771,6 +1771,7 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
                     
                     bool exists = false;
                     for (int l = 0; l < valid_points.size(); l++){
+
                         if (triangles_2D_as_lines[i][j][k][0] == valid_points[l][0] && 
                                 triangles_2D_as_lines[i][j][k][1] == valid_points[l][1]){
                             exists = true;
@@ -1786,10 +1787,9 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
             }
         }
 
-
         if (valid_points.size() == 3){
 
-            glBegin(GL_LINES);
+            glBegin(GL_LINE_LOOP);
                 glVertex2d(valid_points[0][0], valid_points[0][1]);
                 glVertex2d(valid_points[1][0], valid_points[1][1]);
                 glVertex2d(valid_points[2][0], valid_points[2][1]);
@@ -1798,7 +1798,7 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
         
         }else if (valid_points.size() == 4){
 
-            glBegin(GL_LINES);
+            glBegin(GL_LINE_LOOP);
                 glVertex2d(valid_points[0][0], valid_points[0][1]);
                 glVertex2d(valid_points[1][0], valid_points[1][1]);
                 glVertex2d(valid_points[2][0], valid_points[2][1]);
@@ -1806,6 +1806,8 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
             glEnd();
             
         }
+
+        // use GL_TRIANGLES for full ones
 
         // if (triangles_2D_as_lines[i].draw_type == "full"){
 
