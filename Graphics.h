@@ -42,7 +42,7 @@ class Graphics {
 
         std::vector<Triangle> test_find_triangles_box(std::vector<std::vector<double>> box_points_3D);
 
-        std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> ordered_sphere_points_3D);
+        //std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> find_triangle_points_sphere(std::vector<std::vector<double>> ordered_sphere_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> test_find_floor_lines_on_globe(std::vector<Triangle> triangle_points_3D_sphere);
 
@@ -50,43 +50,43 @@ class Graphics {
 
         std::vector<std::vector<std::vector<std::vector<double>>>> test_clip_triangles(std::vector<Triangle> triangles);
 
-        std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere);
+        //std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clip_triangle_points_sphere(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere);
 
-        //test_clip_sphere_lines();
+        ////test_clip_sphere_lines();
 
         std::vector<std::vector<std::vector<std::vector<double>>>> clip_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);
 
-        std::vector<std::vector<std::vector<double>>> clip_box(std::vector<std::vector<double>> box_points_3D);
+        //std::vector<std::vector<std::vector<double>>> clip_box(std::vector<std::vector<double>> box_points_3D);
 
         std::vector<double> clip_3D_line(std::vector<std::vector<double>> line_points_3D);
 
-        std::vector<std::vector<std::vector<std::vector<int>>>> test_compute_2D_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_as_lines); 
+        std::vector<std::vector<std::vector<std::vector<double>>>> test_compute_2D_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_as_lines); 
 
-        std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points);
+        //std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> compute_2D_sphere_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> triangle_points);
 
-        //test_compute_2D_sphere_lines();
+        ////test_compute_2D_sphere_lines();
 
-        std::vector<std::vector<std::vector<std::vector<int>>>> compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>> compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D);
 
-        std::vector<std::vector<std::vector<int>>> compute_2D_box_as_lines(std::vector<std::vector<std::vector<double>>> clipped_box_points_3D);
+        //std::vector<std::vector<std::vector<int>>> compute_2D_box_as_lines(std::vector<std::vector<std::vector<double>>> clipped_box_points_3D);
 
-        std::vector<int> compute_2D_point(std::vector<double> point_3D);
+        std::vector<double> compute_2D_point(std::vector<double> point_3D);
 
         void clear_draw_screen();
 
-        void test_draw_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<int>>>> triangles_2D_as_lines);
+        void test_draw_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> triangles_2D_as_lines);
 
-        void draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangle_points_2D_as_lines);
+        //void draw_full_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> sphere_triangle_points_2D_as_lines);
 
-        void draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> triangle_points_as_lines);
+        //void draw_hollow_triangles_sphere_as_lines(std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> triangle_points_as_lines);
 
-        //test_draw_floor_lines();
+        ////test_draw_floor_lines();
 
-        void draw_floor_lines(std::vector<std::vector<std::vector<std::vector<int>>>> floor_points_2D);
+        void draw_floor_lines(std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_2D);
 
-        void draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D);
+        //void draw_full_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D);
 
-        void draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D);
+        //void draw_hollow_box_as_lines(std::vector<std::vector<std::vector<int>>> clipped_box_points_2D);
 
         void draw_hud();
 

@@ -42,49 +42,52 @@ Zombei::Zombei(Graphics* graphics, int x, int y, int z){
 
 void Zombei::render(Graphics* graphics){
 
-    std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D_head = graphics->find_triangle_points_sphere(sphere_points_3D_head);
-    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_head_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(sphere_triangle_points_3D_head);
-    std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> clipped_head_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_head_sphere_triangle_points_3D_as_lines);
+    // std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D_head = graphics->find_triangle_points_sphere(sphere_points_3D_head);
+    // std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_head_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(sphere_triangle_points_3D_head);
+    // std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> clipped_head_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_head_sphere_triangle_points_3D_as_lines);
 
-    graphics->set_color(0, 0, 0);
-    graphics->draw_full_triangles_sphere_as_lines(clipped_head_sphere_triangle_points_2D_as_lines);
-    graphics->set_color(0, 0, 1);
-    graphics->draw_hollow_triangles_sphere_as_lines(clipped_head_sphere_triangle_points_2D_as_lines);
+    // graphics->set_color(0, 0, 0);
+    // graphics->draw_full_triangles_sphere_as_lines(clipped_head_sphere_triangle_points_2D_as_lines);
+    // graphics->set_color(0, 0, 1);
+    // graphics->draw_hollow_triangles_sphere_as_lines(clipped_head_sphere_triangle_points_2D_as_lines);
 
-    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_body = graphics->clip_box(box_points_3D_body);
-    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_body = graphics->compute_2D_box_as_lines(clipped_box_points_3D_body);
-    graphics->set_color(0, 0, 0);
-    graphics->draw_full_box_as_lines(clipped_box_points_2D_body);
-    graphics->set_color(0, 0, 1);
-    graphics->draw_hollow_box_as_lines(clipped_box_points_2D_body);
+    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_body = graphics->clip_box(box_points_3D_body);
+    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_body = graphics->compute_2D_box_as_lines(clipped_box_points_3D_body);
+    // graphics->set_color(0, 0, 0);
+    // graphics->draw_full_box_as_lines(clipped_box_points_2D_body);
+    // graphics->set_color(0, 0, 1);
+    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_body);
 
-    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_arm1 = graphics->clip_box(box_points_3D_arm1);
-    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_arm1 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_arm1);
-    graphics->set_color(0, 0, 0);
-    graphics->draw_full_box_as_lines(clipped_box_points_2D_arm1);
-    graphics->set_color(0, 0, 1);
-    graphics->draw_hollow_box_as_lines(clipped_box_points_2D_arm1);
+    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_arm1 = graphics->clip_box(box_points_3D_arm1);
+    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_arm1 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_arm1);
+    // graphics->set_color(0, 0, 0);
+    // graphics->draw_full_box_as_lines(clipped_box_points_2D_arm1);
+    // graphics->set_color(0, 0, 1);
+    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_arm1);
 
-    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_arm2 = graphics->clip_box(box_points_3D_arm2);
-    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_arm2 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_arm2);
-    graphics->set_color(0, 0, 0);
-    graphics->draw_full_box_as_lines(clipped_box_points_2D_arm2);
-    graphics->set_color(0, 0, 1);
-    graphics->draw_hollow_box_as_lines(clipped_box_points_2D_arm2);
+    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_arm2 = graphics->clip_box(box_points_3D_arm2);
+    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_arm2 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_arm2);
+    // graphics->set_color(0, 0, 0);
+    // graphics->draw_full_box_as_lines(clipped_box_points_2D_arm2);
+    // graphics->set_color(0, 0, 1);
+    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_arm2);
 
-    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_leg1 = graphics->clip_box(box_points_3D_leg1);
-    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_leg1 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_leg1);
-    graphics->set_color(0, 0, 0);
-    graphics->draw_full_box_as_lines(clipped_box_points_2D_leg1);
-    graphics->set_color(0, 0, 1);
-    graphics->draw_hollow_box_as_lines(clipped_box_points_2D_leg1);
+    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_leg1 = graphics->clip_box(box_points_3D_leg1);
+    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_leg1 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_leg1);
+    // graphics->set_color(0, 0, 0);
+    // graphics->draw_full_box_as_lines(clipped_box_points_2D_leg1);
+    // graphics->set_color(0, 0, 1);
+    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_leg1);
 
-    std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_leg2 = graphics->clip_box(box_points_3D_leg2);
-    std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_leg2 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_leg2);
-    graphics->set_color(0, 0, 0);
-    graphics->draw_full_box_as_lines(clipped_box_points_2D_leg2);
-    graphics->set_color(0, 0, 1);
-    graphics->draw_hollow_box_as_lines(clipped_box_points_2D_leg2);
+    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_leg2 = graphics->clip_box(box_points_3D_leg2);
+    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_leg2 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_leg2);
+    // graphics->set_color(0, 0, 0);
+    // graphics->draw_full_box_as_lines(clipped_box_points_2D_leg2);
+    // graphics->set_color(0, 0, 1);
+    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_leg2);
+
+
+
 
 
 

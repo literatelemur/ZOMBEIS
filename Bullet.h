@@ -21,9 +21,6 @@ class Bullet {
         int origin_x;
         int origin_y;
         int origin_z;
-        int center_x;
-        int center_y;
-        int center_z;
         double anglex;
         double angley;
         int depth;
