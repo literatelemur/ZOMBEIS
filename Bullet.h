@@ -17,7 +17,6 @@ class Bullet {
     public:
 
 
-        int count;
         int origin_x;
         int origin_y;
         int origin_z;

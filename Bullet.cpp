@@ -55,7 +55,7 @@ void Bullet::move(Graphics* graphics){
 
         for (int j = 0; j < box_triangles_3D[i].points.size(); j++){
 
-            box_triangles_3D[i].points[j][2] += 0;
+            box_triangles_3D[i].points[j][2] += 1;
             double z = box_triangles_3D[i].points[j][2];
 
             double x_diff_origin_3D = tan(anglex) * (z - origin_z);

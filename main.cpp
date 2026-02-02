@@ -174,12 +174,12 @@ void render_all(){
 
     std::vector<Triangle> all_triangles;
 
-    // for (int i = 0; i < world_vector.size(); i++){
+    for (int i = 0; i < world_vector.size(); i++){
 
-    //     for (int j = 0; j < world_vector[i].sphere_triangles_3D.size(); j++){
-    //         all_triangles.emplace_back(world_vector[i].sphere_triangles_3D[j]);
-    //     }
-    // }
+        for (int j = 0; j < world_vector[i].sphere_triangles_3D.size(); j++){
+            all_triangles.emplace_back(world_vector[i].sphere_triangles_3D[j]);
+        }
+    }
 
 
     for (int i = 0; i < bullet_vector.size(); i++){
@@ -206,32 +206,32 @@ void render_all(){
 
 
     // Check for collision of all bullets hitting all zombeis
-    for (int i = 0; i < bullet_vector.size(); i++){
+    // for (int i = 0; i < bullet_vector.size(); i++){
 
-        for (double j = 0; j < num_zombeis; j++){
-            if (zombei_vector[j].box_points_3D_body[0][0] <= bullet_vector[i].origin_x &&
-                    zombei_vector[j].box_points_3D_body[1][0] >= bullet_vector[i].origin_x &&
-                    zombei_vector[j].box_points_3D_body[0][1] <= bullet_vector[i].origin_y &&
-                    zombei_vector[j].box_points_3D_body[2][1] >= bullet_vector[i].origin_y &&
-                    zombei_vector[j].box_points_3D_body[0][2] >= bullet_vector[i].origin_z &&
-                    zombei_vector[j].box_points_3D_body[4][2] <= bullet_vector[i].origin_z){
+    //     for (double j = 0; j < num_zombeis; j++){
+    //         if (zombei_vector[j].box_points_3D_body[0][0] <= bullet_vector[i].origin_x &&
+    //                 zombei_vector[j].box_points_3D_body[1][0] >= bullet_vector[i].origin_x &&
+    //                 zombei_vector[j].box_points_3D_body[0][1] <= bullet_vector[i].origin_y &&
+    //                 zombei_vector[j].box_points_3D_body[2][1] >= bullet_vector[i].origin_y &&
+    //                 zombei_vector[j].box_points_3D_body[0][2] >= bullet_vector[i].origin_z &&
+    //                 zombei_vector[j].box_points_3D_body[4][2] <= bullet_vector[i].origin_z){
 
-                zombei_to_remove = j;
-                bullet_to_remove = i;
-                break;
-            }
-        }
+    //             zombei_to_remove = j;
+    //             bullet_to_remove = i;
+    //             break;
+    //         }
+    //     }
 
-        if (zombei_to_remove != -1){
+    //     if (zombei_to_remove != -1){
             
-            zombei_vector.erase(zombei_vector.begin() + zombei_to_remove);
-            bullet_vector.erase(bullet_vector.begin() + bullet_to_remove);
-            num_zombeis--;
-            zombei_to_remove = -1;
-            bullet_to_remove = -1;
-        }   
+    //         zombei_vector.erase(zombei_vector.begin() + zombei_to_remove);
+    //         bullet_vector.erase(bullet_vector.begin() + bullet_to_remove);
+    //         num_zombeis--;
+    //         zombei_to_remove = -1;
+    //         bullet_to_remove = -1;
+    //     }   
 
-    }
+    // }
 
     for (int i = 0; i < num_zombeis; i++){
         zombei_vector[i].gravitate(world_vector[0]);
