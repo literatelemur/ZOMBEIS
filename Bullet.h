@@ -17,9 +17,14 @@ class Bullet {
     public:
 
 
-        int origin_x;
-        int origin_y;
-        int origin_z;
+        double origin_x;
+        double origin_y;
+        double origin_z;
+
+        double center_x;
+        double center_y;
+        double center_z;
+
         double anglex;
         double angley;
         int depth;
