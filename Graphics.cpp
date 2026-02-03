@@ -353,23 +353,23 @@ std::vector<Triangle> Graphics::test_find_triangles_box(std::vector<std::vector<
 
     std::vector<Triangle> triangle_points_3D_box;
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "hollow", {1, 1, 1}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "full", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "full", {1, 1, 1}));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "hollow", {1, 1, 1}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "full", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "full", {1, 1, 1}));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "hollow", {1, 1, 1}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "full", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "full", {1, 1, 1}));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "hollow", {1, 1, 1}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "full", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "full", {1, 1, 1}));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "hollow", {1, 1, 1}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "full", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "full", {1, 1, 1}));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "hollow", {1, 1, 1}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "full", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "full", {1, 1, 1}));
 
     return triangle_points_3D_box;
 }
@@ -1803,25 +1803,49 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
 
         set_color(all_triangles[i].color[0], all_triangles[i].color[1], all_triangles[i].color[2]);
 
-        if (valid_points.size() == 3){
+        if (all_triangles[i].draw_type == "hollow"){
 
-            glBegin(GL_LINE_LOOP);
-                glVertex2d(valid_points[0][0], valid_points[0][1]);
-                glVertex2d(valid_points[1][0], valid_points[1][1]);
-                glVertex2d(valid_points[2][0], valid_points[2][1]);
-            glEnd();
+            if (valid_points.size() == 3){
+                glBegin(GL_LINE_LOOP);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                glEnd();
+
+            
+            }else if (valid_points.size() == 4){
+                glBegin(GL_LINE_LOOP);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                    glVertex2d(valid_points[3][0], valid_points[3][1]);
+                glEnd();
+                
+            }
+
+
+        }else if (all_triangles[i].draw_type == "full"){
+
+            if (valid_points.size() == 3){
+                glBegin(GL_TRIANGLES);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                glEnd();
+
+            
+            }else if (valid_points.size() == 4){
+                glBegin(GL_TRIANGLES);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                    glVertex2d(valid_points[3][0], valid_points[3][1]);
+                glEnd();
+                
+            }
+        }
 
         
-        }else if (valid_points.size() == 4){
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2d(valid_points[0][0], valid_points[0][1]);
-                glVertex2d(valid_points[1][0], valid_points[1][1]);
-                glVertex2d(valid_points[2][0], valid_points[2][1]);
-                glVertex2d(valid_points[3][0], valid_points[3][1]);
-            glEnd();
-            
-        }
 
         // use GL_TRIANGLES for full ones
 

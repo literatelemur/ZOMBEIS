@@ -30,6 +30,7 @@ Star::Star(Graphics* graphics, double given_x, double given_y, double given_z, i
     z = given_z;
 
     box_points_3D = graphics->make_box({x, y, z}, 1, 1, depth);
+    box_triangles_3D = graphics->test_find_triangles_box(box_points_3D);
 
 }
 
@@ -47,18 +48,36 @@ void Star::render(Graphics* graphics){
 
 }
 
-
-void Star::move(Graphics* graphics){
+void Star::find_movement_value(Graphics* graphics){
 
     if (osc){
         y_wait++;
-        if (y_wait % 5 == 0) y++;
+        if (y_wait % 5 == 0){
+            y++;
+            y_move = 1;
+        }            
         if (y > upper_bound) osc = 0;
     }else if (!osc){
         y_wait--;
-        if (y_wait % 5 == 0) y--;
+        if (y_wait % 5 == 0){
+            y--;
+            y_move = -1;
+        }
         if (y < lower_bound) osc = 1;
     }
+
+}
+
+void Star::move(Graphics* graphics){
+
+    for (int i = 0; i < box_triangles_3D.size(); i++){
+        for (int j = 0; j < box_triangles_3D[i].points.size(); j++){
+
+            box_triangles_3D[i].points[j][1] += y_move;
+        }
+    }
+
+    
 
     // double x_diff_origin_3D = tan(anglex) * (z - origin_z);
     // double y_diff_origin_3D = tan(angley) * (z - origin_z);

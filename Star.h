@@ -5,6 +5,8 @@
 #include <string>
 #include <algorithm>
 
+#include "Triangle.h"
+
 
 #ifndef STAR_H
 #define STAR_H
@@ -31,12 +33,16 @@ class Star {
         int lower_bound;
         int osc;
         int y_wait;
+        double y_move;
 
         std::vector<std::vector<double>> box_points_3D;
+        std::vector<Triangle> box_triangles_3D;
 
         Star(Graphics* graphics, double x, double y, double z, int lower_bound, int upper_bound);
 
         void render(Graphics* graphics);
+
+        void find_movement_value(Graphics* graphics);
 
         void move(Graphics* graphics);
 };

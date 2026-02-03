@@ -37,7 +37,7 @@ std::vector<Star> star_vector;
 std::vector<World> world_vector;
 
 std::vector<std::vector<double>> starscape_base_points_3D;
-std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> starscape_base_triangle_points_3D;
+std::vector<Triangle> starscape_base_triangle_points_3D;
 
 
 int player_speed = 10;
@@ -166,13 +166,14 @@ void render_all(){
 
     graphics.clear_draw_screen();
 
-    // for (int i = 0; i < star_vector.size(); i++){
-    //     star_vector[i].move(&graphics);
-    //     star_vector[i].render(&graphics);
-    // }   
-
-
     std::vector<Triangle> all_triangles;
+
+    for (int i = 0; i < star_vector.size(); i++){
+        for (int j = 0; j < star_vector[i].box_triangles_3D.size(); j++){
+
+            all_triangles.emplace_back(star_vector[i].box_triangles_3D[j]);
+        }
+    }   
 
     for (int i = 0; i < world_vector.size(); i++){
 
@@ -246,6 +247,11 @@ void render_all(){
         // if (bullet_vector[i].y >= 1070){
         //     bullet_vector.erase(bullet_vector.begin() + i);
         // }
+    }
+
+    for (int i = 0; i < star_vector.size(); i++){
+        star_vector[i].find_movement_value(&graphics);
+        star_vector[i].move(&graphics);
     }
 
     graphics.set_color(1, 1, 1);
@@ -421,48 +427,44 @@ int main(int argc, char* argv[]) {
 
     // Making icosahedron starscape
 
-    // starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
-    // starscape_base_triangle_points_3D = graphics.find_triangle_points_sphere(starscape_base_points_3D);
+    starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
+    starscape_base_triangle_points_3D = graphics.test_find_triangles_sphere(starscape_base_points_3D);
 
-    // for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
-    //     for (int j = 0; j < starscape_base_triangle_points_3D[i].size(); j++){
-    //         for (int k = 0; k < starscape_base_triangle_points_3D[i][j].size(); k++){
+    for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
 
-    //             int minx = starscape_base_triangle_points_3D[i][j][k][0][0];
-    //             int maxx = starscape_base_triangle_points_3D[i][j][k][1][0];
+        int minx = starscape_base_triangle_points_3D[i].points[0][0];
+        int maxx = starscape_base_triangle_points_3D[i].points[1][0];
 
-    //             if (minx > maxx) std::swap(minx, maxx);
+        if (minx > maxx) std::swap(minx, maxx);
 
 
-    //             int miny = starscape_base_triangle_points_3D[i][j][k][0][1];
-    //             int maxy = starscape_base_triangle_points_3D[i][j][k][2][1];
+        int miny = starscape_base_triangle_points_3D[i].points[0][1];
+        int maxy = starscape_base_triangle_points_3D[i].points[2][1];
 
-    //             if (miny > maxy) std::swap(miny, maxy);
-
-
-    //             int minz = starscape_base_triangle_points_3D[i][j][k][0][2];
-    //             int maxz = starscape_base_triangle_points_3D[i][j][k][2][2];
-
-    //             if (minz > maxz) std::swap(minz, maxz);
+        if (miny > maxy) std::swap(miny, maxy);
 
 
-    //             std::uniform_int_distribution<> distrib_starx(minx, maxx);
-    //             std::uniform_int_distribution<> distrib_stary(miny, maxy);
-    //             std::uniform_int_distribution<> distrib_starz(minz, maxz);
+        int minz = starscape_base_triangle_points_3D[i].points[0][2];
+        int maxz = starscape_base_triangle_points_3D[i].points[2][2];
 
-    //             int num_stars = 1;
-    //             //while (num_stars < 5000){
-    //             while (num_stars < 2){
-    //                 int random_star_numx = distrib_starx(gen);
-    //                 int random_star_numy = distrib_stary(gen);
-    //                 int random_star_numz = distrib_starz(gen);
-    //                 star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, random_star_numy + 100, random_star_numy - 100));
-    //                 num_stars++;
-    //             }
-                
-    //         }
-    //     }
-    // }
+        if (minz > maxz) std::swap(minz, maxz);
+
+
+        std::uniform_int_distribution<> distrib_starx(minx, maxx);
+        std::uniform_int_distribution<> distrib_stary(miny, maxy);
+        std::uniform_int_distribution<> distrib_starz(minz, maxz);
+
+        int num_stars = 1;
+        //while (num_stars < 5000){
+        while (num_stars < 2){
+            int random_star_numx = distrib_starx(gen);
+            int random_star_numy = distrib_stary(gen);
+            int random_star_numz = distrib_starz(gen);
+            star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, random_star_numy + 100, random_star_numy - 100));
+            num_stars++;
+        }
+            
+    }
 
     glutMainLoop();
 
