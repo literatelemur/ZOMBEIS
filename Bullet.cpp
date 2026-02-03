@@ -24,6 +24,7 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
     center_z = origin_z;
 
     depth = 5;
+    speed = 1;
 
     double x_diff_screen = click_x / double(glutGet(GLUT_WINDOW_WIDTH)) * 1920.0 - 1920 / 2;
     double y_diff_screen = click_y / double(glutGet(GLUT_WINDOW_HEIGHT)) * 1080.0 - 1080 / 2;
@@ -36,6 +37,7 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
 
     box_points_3D = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)origin_z}, 1, 1, depth);
     box_triangles_3D = graphics->test_find_triangles_box(box_points_3D);
+    find_movement_values(graphics);
 
 }
 
@@ -52,11 +54,8 @@ void Bullet::render(Graphics* graphics){
 
 }
 
+void Bullet::find_movement_values(Graphics* graphics){
 
-void Bullet::move(Graphics* graphics){
-
-
-    double speed = 1;
     center_z += speed;
 
     double x_diff_origin_3D = tan(anglex) * (center_z - origin_z);
@@ -72,16 +71,20 @@ void Bullet::move(Graphics* graphics){
     center_x = x;
     center_y = y;
 
-    double center_x_diff = center_x - last_center_x;
-    double center_y_diff = center_y - last_center_y;
+    center_x_move = center_x - last_center_x;
+    center_y_move = center_y - last_center_y;
 
+}
+
+
+void Bullet::move(Graphics* graphics){
 
     for (int i = 0; i < box_triangles_3D.size(); i++){
 
         for (int j = 0; j < box_triangles_3D[i].points.size(); j++){
 
-            box_triangles_3D[i].points[j][0] += center_x_diff;
-            box_triangles_3D[i].points[j][1] += center_y_diff;
+            box_triangles_3D[i].points[j][0] += center_x_move;
+            box_triangles_3D[i].points[j][1] += center_y_move;
             box_triangles_3D[i].points[j][2] += speed;
         }
     }

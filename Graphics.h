@@ -24,6 +24,8 @@ class Graphics {
 
         double anglex_diff;
         double angley_diff;
+
+        std::vector<Triangle> all_triangles;
         
 
         std::vector<std::vector<double>> floor_sphere_points_3D;
@@ -31,6 +33,8 @@ class Graphics {
         std::vector<std::vector<std::vector<std::vector<double>>>> test_points_3D;
 
         Graphics(); // Constructor
+
+        void store_all_triangles(std::vector<Triangle> all_triangles);
 
         std::vector<std::vector<double>> make_sphere(std::vector<double> center, int radius, int num_points);
 

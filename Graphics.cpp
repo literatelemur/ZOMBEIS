@@ -29,6 +29,11 @@ Graphics::Graphics(){
 }
 
 
+void Graphics::store_all_triangles(std::vector<Triangle> given_all_triangles){
+    all_triangles = given_all_triangles;
+}
+
+
 std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> center, int radius, int num_points){
 
     // Equation of a sphere: (x - 960)^2 + (y - 540)^2 + (z - 10)^2 = radius^2
@@ -332,7 +337,7 @@ std::vector<Triangle> Graphics::test_find_triangles_sphere(std::vector<std::vect
                     
                 if (dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
 
-                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "hollow"));
+                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "hollow", {1, 0, 0}));
                 }
             }
 
@@ -348,13 +353,23 @@ std::vector<Triangle> Graphics::test_find_triangles_box(std::vector<std::vector<
 
     std::vector<Triangle> triangle_points_3D_box;
 
-    
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "hollow", {1, 1, 1}));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "hollow"));
-    // triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[2], box_points_3D[3], "hollow"));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "hollow", {1, 1, 1}));
 
-    // triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[6], "hollow"));
-    // triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[6], box_points_3D[7], "hollow"));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "hollow", {1, 1, 1}));
+
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "hollow", {1, 1, 1}));
+
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "hollow", {1, 1, 1}));
+
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "hollow", {1, 1, 1}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "hollow", {1, 1, 1}));
 
     return triangle_points_3D_box;
 }
@@ -1757,7 +1772,6 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
 
     for (int i = 0; i < triangles_2D_as_lines.size(); i++){
         
-
         // Iterating through each point to see if it is already present in triangles_2D_as_lines. If so, only one copy is made because duplicates mess up drawing function.
 
         std::vector<std::vector<double>> valid_points;
@@ -1786,6 +1800,8 @@ void Graphics::test_draw_triangles_as_lines(std::vector<std::vector<std::vector<
                 }
             }
         }
+
+        set_color(all_triangles[i].color[0], all_triangles[i].color[1], all_triangles[i].color[2]);
 
         if (valid_points.size() == 3){
 

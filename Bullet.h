@@ -28,6 +28,11 @@ class Bullet {
         double anglex;
         double angley;
         int depth;
+        double speed;
+
+        double center_x_move;
+        double center_y_move;
+        double center_z_move;
 
         std::vector<std::vector<double>> box_points_3D;
         std::vector<Triangle> box_triangles_3D;
@@ -35,6 +40,8 @@ class Bullet {
         Bullet(Graphics* graphics, int x, int y);
 
         void render(Graphics* graphics);
+
+        void find_movement_values(Graphics* graphics);
 
         void move(Graphics* graphics);
 };

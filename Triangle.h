@@ -21,7 +21,7 @@ class Triangle {
         std::string draw_type;
         std::vector<double> color;
 
-        Triangle(Graphics* graphics, std::vector<double> start_point1, std::vector<double> start_point2, std::vector<double> start_point3, std::string given_draw_type); // Constructor
+        Triangle(Graphics* graphics, std::vector<double> start_point1, std::vector<double> start_point2, std::vector<double> start_point3, std::string given_draw_type, std::vector<double> given_color); // Constructor
         
 };
 

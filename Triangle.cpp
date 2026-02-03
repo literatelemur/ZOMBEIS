@@ -13,12 +13,12 @@
 #include "Graphics.h"
 
         
-Triangle::Triangle(Graphics* graphics, std::vector<double> start_point1, std::vector<double> start_point2, std::vector<double> start_point3, std::string given_draw_type){
+Triangle::Triangle(Graphics* graphics, std::vector<double> start_point1, std::vector<double> start_point2, std::vector<double> start_point3, std::string given_draw_type, std::vector<double> given_color){
 
     points = {start_point1, start_point2, start_point3};
     dist;
     draw_type = given_draw_type;
-    color = {0.0, 0.0, 0.0};
+    color = {given_color[0], given_color[1], given_color[2]};
 
 }
 
