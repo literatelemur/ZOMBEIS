@@ -19,9 +19,10 @@ class Triangle {
         std::vector<std::vector<double>> points;
         double dist;
         std::string draw_type;
-        std::vector<double> color;
+        std::vector<double> full_color;
+        std::vector<double> outline_color;
 
-        Triangle(Graphics* graphics, std::vector<double> start_point1, std::vector<double> start_point2, std::vector<double> start_point3, std::string given_draw_type, std::vector<double> given_color); // Constructor
+        Triangle(Graphics* graphics, std::vector<double> start_point1, std::vector<double> start_point2, std::vector<double> start_point3, std::string given_draw_type, std::vector<double> given_full_color, std::vector<double> given_outline_color); // Constructor
         
 };
 

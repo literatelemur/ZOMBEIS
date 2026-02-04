@@ -36,23 +36,11 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
     double y_diff_3D = tan(angley) * (origin_z - origin_z);
 
     box_points_3D = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)origin_z}, 1, 1, depth);
-    box_triangles_3D = graphics->test_find_triangles_box(box_points_3D);
+    box_triangles_3D = graphics->find_triangles_box(box_points_3D);
     find_movement_values(graphics);
 
 }
 
-
-void Bullet::render(Graphics* graphics){
-    
-    // box_points_3D = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
-    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D = graphics->clip_box(box_points_3D);
-    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D = graphics->compute_2D_box_as_lines(clipped_box_points_3D);
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_box_as_lines(clipped_box_points_2D);
-    // graphics->set_color(1, 1, 1);
-    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D);
-
-}
 
 void Bullet::find_movement_values(Graphics* graphics){
 

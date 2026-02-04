@@ -40,8 +40,6 @@ class Star {
 
         Star(Graphics* graphics, double x, double y, double z, int lower_bound, int upper_bound);
 
-        void render(Graphics* graphics);
-
         void find_movement_value(Graphics* graphics);
 
         void move(Graphics* graphics);

@@ -28,8 +28,6 @@ class World {
         std::vector<Triangle> sphere_triangles_3D;
 
         World(Graphics* graphics, int x, int y, int z, std::vector<float> surface_color); // Constructor
-
-        void render(Graphics* graphics);
         
 };
 

@@ -191,10 +191,10 @@ void render_all(){
     }
 
     graphics.store_all_triangles(all_triangles);
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.test_clip_triangles(all_triangles);
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.test_compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles(all_triangles);
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
 
-    graphics.test_draw_triangles_as_lines(clipped_triangles_2D_as_lines);
+    graphics.draw_triangles_as_lines(clipped_triangles_2D_as_lines);
 
 
 
@@ -241,12 +241,6 @@ void render_all(){
 
     for (int i = 0; i < bullet_vector.size(); i++){
         bullet_vector[i].move(&graphics);
-        //bullet_vector[i].render(&graphics);
-
-        // Bullet hits floor
-        // if (bullet_vector[i].y >= 1070){
-        //     bullet_vector.erase(bullet_vector.begin() + i);
-        // }
     }
 
     for (int i = 0; i < star_vector.size(); i++){
@@ -402,7 +396,8 @@ int main(int argc, char* argv[]) {
 
 
 
-    // Making stars
+    //Making stars
+
     // std::uniform_int_distribution<> distrib_starx(-25000, 25000);
     // int random_star_numx = distrib_starx(gen);
 
@@ -428,7 +423,7 @@ int main(int argc, char* argv[]) {
     // Making icosahedron starscape
 
     starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
-    starscape_base_triangle_points_3D = graphics.test_find_triangles_sphere(starscape_base_points_3D);
+    starscape_base_triangle_points_3D = graphics.find_triangles_sphere(starscape_base_points_3D);
 
     for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
 

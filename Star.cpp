@@ -30,23 +30,10 @@ Star::Star(Graphics* graphics, double given_x, double given_y, double given_z, i
     z = given_z;
 
     box_points_3D = graphics->make_box({x, y, z}, 1, 1, depth);
-    box_triangles_3D = graphics->test_find_triangles_box(box_points_3D);
+    box_triangles_3D = graphics->find_triangles_box(box_points_3D);
 
 }
 
-
-void Star::render(Graphics* graphics){
-    
-    // box_points_3D = graphics->make_box({(double)x, (double)y, (double)z}, 1, 1, depth);
-
-    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D = graphics->clip_box(box_points_3D);
-    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D = graphics->compute_2D_box_as_lines(clipped_box_points_3D);
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_box_as_lines(clipped_box_points_2D);
-    // graphics->set_color(1, 1, 1);
-    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D);
-
-}
 
 void Star::find_movement_value(Graphics* graphics){
 
@@ -68,6 +55,7 @@ void Star::find_movement_value(Graphics* graphics){
 
 }
 
+
 void Star::move(Graphics* graphics){
 
     for (int i = 0; i < box_triangles_3D.size(); i++){
@@ -76,14 +64,5 @@ void Star::move(Graphics* graphics){
             box_triangles_3D[i].points[j][1] += y_move;
         }
     }
-
-    
-
-    // double x_diff_origin_3D = tan(anglex) * (z - origin_z);
-    // double y_diff_origin_3D = tan(angley) * (z - origin_z);
-    // //double z_diff_origin_3D = z - origin_z;
-
-    // x = (int) (x_diff_origin_3D + origin_x);
-    // y = (int) (y_diff_origin_3D + origin_y);
 
 }

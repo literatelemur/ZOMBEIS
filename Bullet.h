@@ -39,8 +39,6 @@ class Bullet {
 
         Bullet(Graphics* graphics, int x, int y);
 
-        void render(Graphics* graphics);
-
         void find_movement_values(Graphics* graphics);
 
         void move(Graphics* graphics);
