@@ -37,12 +37,12 @@ class Graphics {
         std::vector<std::vector<double>> make_sphere(std::vector<double> center, int radius, int num_points);
 
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
-        
-        std::vector<std::vector<double>> order_sphere_points(std::vector<std::vector<double>> sphere_points_3D);
 
         std::vector<Triangle> find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D);
 
         std::vector<Triangle> find_triangles_box(std::vector<std::vector<double>> box_points_3D);
+
+        std::vector<Triangle> order_triangles(std::vector<Triangle> triangles);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<Triangle> triangle_points_3D_sphere);
 
