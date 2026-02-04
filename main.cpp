@@ -193,7 +193,6 @@ void render_all(){
     graphics.store_all_triangles(all_triangles);
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles(all_triangles);
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
-
     graphics.draw_triangles_as_lines(clipped_triangles_2D_as_lines);
 
 

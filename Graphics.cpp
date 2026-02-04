@@ -285,7 +285,7 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
                     
                 if (dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
 
-                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "outline", {0, 0, 0}, {1, 0, 0}));
+                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "both", {0, 0, 0}, {1, 0, 0}));
                 }
             }
 

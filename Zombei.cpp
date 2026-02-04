@@ -297,15 +297,15 @@ void Zombei::gravitate(World world){
         // Moving all zombei points.
 
         for (int i = 0; i < sphere_points_3D_head.size(); i++){
-            sphere_points_3D_head[i][1] ++;
+            sphere_points_3D_head[i][1]++;
         }
 
         for (int i = 0; i < box_points_3D_body.size(); i++){
-            box_points_3D_body[i][1] ++;
-            box_points_3D_arm1[i][1] ++;
-            box_points_3D_arm2[i][1] ++;
-            box_points_3D_leg1[i][1] ++;
-            box_points_3D_leg2[i][1] ++;
+            box_points_3D_body[i][1]++;
+            box_points_3D_arm1[i][1]++;
+            box_points_3D_arm2[i][1]++;
+            box_points_3D_leg1[i][1]++;
+            box_points_3D_leg2[i][1]++;
         }
     }
 
