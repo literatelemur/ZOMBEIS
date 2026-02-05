@@ -29,11 +29,6 @@ Graphics::Graphics(){
 }
 
 
-void Graphics::store_all_triangles(std::vector<Triangle> given_all_triangles){
-    all_triangles = given_all_triangles;
-}
-
-
 std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> center, int radius, int num_points){
 
     // Equation of a sphere: (x - 960)^2 + (y - 540)^2 + (z - 10)^2 = radius^2
@@ -236,7 +231,7 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
                     
                 if (dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
 
-                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "both", {0, 0, 0}, {1, 0, 0}));
+                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "both", {0, 0, 0}, {1, 0, 0}, 10));
                 }
             }
 
@@ -252,363 +247,226 @@ std::vector<Triangle> Graphics::find_triangles_box(std::vector<std::vector<doubl
 
     std::vector<Triangle> triangle_points_3D_box;
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "both", {1, 1, 1}, {0, 0, 0}));
+    int lines_scale = 0;
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "both", {1, 1, 1}, {0, 0, 0}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "both", {1, 1, 1}, {0, 0, 0}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "both", {1, 1, 1}, {0, 0, 0}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "both", {1, 1, 1}, {0, 0, 0}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "both", {1, 1, 1}, {0, 0, 0}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "both", {1, 1, 1}, {0, 0, 0}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "both", {1, 1, 1}, {0, 0, 0}));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "both", {1, 1, 1}, {0, 0, 0}));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
 
     return triangle_points_3D_box;
 }
 
 
-
 std::vector<Triangle> Graphics::order_triangles(std::vector<Triangle> triangles){
 
-    std::vector<Triangle> ordered_triangles(triangles.size(), Triangle);
+    // std::vector<Triangle> ordered_triangles(triangles.size(), Triangle);
 
-    std::vector<double> rando_order_dist_sphere_points_3D;
+    // std::vector<double> rando_order_dist_sphere_points_3D;
 
-    // Calculating Euclidian total distance from player to each point.
-    for (int i = 0; i < sphere_points_3D.size(); i++){
+    // // Calculating Euclidian total distance from player to each point.
+    // for (int i = 0; i < sphere_points_3D.size(); i++){
 
-        double x_dist = abs(sphere_points_3D[i][0] - playerx);
-        double y_dist = abs(sphere_points_3D[i][1] - playery);
-        double z_dist = abs(sphere_points_3D[i][2] - playerz);
+    //     double x_dist = abs(sphere_points_3D[i][0] - playerx);
+    //     double y_dist = abs(sphere_points_3D[i][1] - playery);
+    //     double z_dist = abs(sphere_points_3D[i][2] - playerz);
 
-        double total_dist = sqrt(x_dist * x_dist + y_dist * y_dist + z_dist * z_dist);
+    //     double total_dist = sqrt(x_dist * x_dist + y_dist * y_dist + z_dist * z_dist);
 
-        rando_order_dist_sphere_points_3D.emplace_back(total_dist);
-    }
+    //     rando_order_dist_sphere_points_3D.emplace_back(total_dist);
+    // }
 
-    // // Mirroring the decsended order vector to the random found order vector.
-    // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
+    // // // Mirroring the decsended order vector to the random found order vector.
+    // // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
 
-    // // Sorting into a descended order.
-    // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
-
-
-    // Step 2: Build index list
-    std::vector<double> ordered_indices(sphere_points_3D.size());
-
-    // fill with 0..n-1
-    std::iota(ordered_indices.begin(), ordered_indices.end(), 0); 
-
-    // Step 3: Sort ordered_indices according to total distances
-    std::sort(ordered_indices.begin(), ordered_indices.end(),
-              [&](int a, int b) {
-                  return rando_order_dist_sphere_points_3D[a] > rando_order_dist_sphere_points_3D[b];
-              });
+    // // // Sorting into a descended order.
+    // // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
 
 
+    // // Step 2: Build index list
+    // std::vector<double> ordered_indices(sphere_points_3D.size());
 
-    // Filling the empty ordered vector with the appropriate points from the given vector using ordered_indices vector.
-    for (int i = 0; i < ordered_indices.size(); i++){
-        ordered_sphere_points_3D[i] = sphere_points_3D[ordered_indices[i]];
-    }
+    // // fill with 0..n-1
+    // std::iota(ordered_indices.begin(), ordered_indices.end(), 0); 
 
-    return ordered_sphere_points_3D;
+    // // Step 3: Sort ordered_indices according to total distances
+    // std::sort(ordered_indices.begin(), ordered_indices.end(),
+    //           [&](int a, int b) {
+    //               return rando_order_dist_sphere_points_3D[a] > rando_order_dist_sphere_points_3D[b];
+    //           });
+
+
+
+    // // Filling the empty ordered vector with the appropriate points from the given vector using ordered_indices vector.
+    // for (int i = 0; i < ordered_indices.size(); i++){
+    //     ordered_sphere_points_3D[i] = sphere_points_3D[ordered_indices[i]];
+    // }
+
+    // return ordered_sphere_points_3D;
 
 }
 
 
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<Triangle> triangles_3D_sphere){
-    std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
-    
+void Graphics::store_all_triangles(std::vector<Triangle> given_all_triangles){
+    all_triangles = given_all_triangles;
+}
 
-    // Going through each triangle plane on the icosahedron globe and finding floor line start and end points based on scaled difference between points.
-    floor_points_3D.emplace_back();
-    floor_points_3D.emplace_back();
-    
 
-    for (int i = 0; i < triangles_3D_sphere.size(); i++){
+void Graphics::find_lines_on_triangles(){
+    
+    // Going through each triangle plane in the vector of triangles and finding line start and end points based on scaled difference between points.
+    for (int i = 0; i < all_triangles.size(); i++){
             
-        double xline_base1_start = triangles_3D_sphere[i].points[0][0];
-        double yline_base1_start = triangles_3D_sphere[i].points[0][1];
-        double zline_base1_start = triangles_3D_sphere[i].points[0][2];
+        if (all_triangles[i].line_scale > 0 && all_triangles[i].line_scale < 101){
 
-        double xline_base1_end = triangles_3D_sphere[i].points[1][0];
-        double yline_base1_end = triangles_3D_sphere[i].points[1][1];
-        double zline_base1_end = triangles_3D_sphere[i].points[1][2];
-        
-        double xline_base2_start = triangles_3D_sphere[i].points[2][0];
-        double yline_base2_start = triangles_3D_sphere[i].points[2][1];
-        double zline_base2_start = triangles_3D_sphere[i].points[2][2];
+            std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D;
+            lines_points_3D.emplace_back();
+            lines_points_3D.emplace_back();
 
-        double xline_base2_end = triangles_3D_sphere[i].points[1][0];
-        double yline_base2_end = triangles_3D_sphere[i].points[1][1];
-        double zline_base2_end = triangles_3D_sphere[i].points[1][2];
+            double xline_base1_start = all_triangles[i].points[0][0];
+            double yline_base1_start = all_triangles[i].points[0][1];
+            double zline_base1_start = all_triangles[i].points[0][2];
 
-        double xline_base3_start = triangles_3D_sphere[i].points[0][0];
-        double yline_base3_start = triangles_3D_sphere[i].points[0][1];
-        double zline_base3_start = triangles_3D_sphere[i].points[0][2];
+            double xline_base1_end = all_triangles[i].points[1][0];
+            double yline_base1_end = all_triangles[i].points[1][1];
+            double zline_base1_end = all_triangles[i].points[1][2];
+            
+            double xline_base2_start = all_triangles[i].points[2][0];
+            double yline_base2_start = all_triangles[i].points[2][1];
+            double zline_base2_start = all_triangles[i].points[2][2];
 
-        double xline_base3_end = triangles_3D_sphere[i].points[2][0];
-        double yline_base3_end = triangles_3D_sphere[i].points[2][1];
-        double zline_base3_end = triangles_3D_sphere[i].points[2][2];
+            double xline_base2_end = all_triangles[i].points[1][0];
+            double yline_base2_end = all_triangles[i].points[1][1];
+            double zline_base2_end = all_triangles[i].points[1][2];
 
+            double xline_base3_start = all_triangles[i].points[0][0];
+            double yline_base3_start = all_triangles[i].points[0][1];
+            double zline_base3_start = all_triangles[i].points[0][2];
 
-        // Scale determines the number of lines on icosaphere.
-        // Starting value and increment value should match and be evenly multiplied into 1.0.
-        for (int s = 1; s < 10; s++){
-
-            double scale = s / 10.0;
-
-            double xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
-            double yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
-            double zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
-
-            double xline_end = xline_base2_start + scale * (xline_base2_end - xline_base2_start);
-            double yline_end = yline_base2_start + scale * (yline_base2_end - yline_base2_start);
-            double zline_end = zline_base2_start + scale * (zline_base2_end - zline_base2_start);
-
-            floor_points_3D[0].emplace_back();
-            floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-            floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-
-            floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(xline_start);
-            floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(yline_start);
-            floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(zline_start);
-
-            floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(xline_end);
-            floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(yline_end);
-            floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(zline_end);
+            double xline_base3_end = all_triangles[i].points[2][0];
+            double yline_base3_end = all_triangles[i].points[2][1];
+            double zline_base3_end = all_triangles[i].points[2][2];
 
 
+            // Scale determines the number of lines on triangle.
+            // Starting value and increment value should match and be evenly multiplied into last value of scale.
+            for (int s = all_triangles[i].line_scale; s < 100; s += all_triangles[i].line_scale){
 
-            xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
-            yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
-            zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
+                // s must be int for precision, but it is reduced to a number between 0 and 1.
+                double scale = s / 100.0;
 
-            xline_end = xline_base3_start + scale * (xline_base3_end - xline_base3_start);
-            yline_end = yline_base3_start + scale * (yline_base3_end - yline_base3_start);
-            zline_end = zline_base3_start + scale * (zline_base3_end - zline_base3_start);
+                double xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
+                double yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
+                double zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
 
-            floor_points_3D[1].emplace_back();
-            floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
-            floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
+                double xline_end = xline_base2_start + scale * (xline_base2_end - xline_base2_start);
+                double yline_end = yline_base2_start + scale * (yline_base2_end - yline_base2_start);
+                double zline_end = zline_base2_start + scale * (zline_base2_end - zline_base2_start);
 
-            floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(xline_start);
-            floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(yline_start);
-            floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(zline_start);
+                lines_points_3D[0].emplace_back();
+                lines_points_3D[0][lines_points_3D[0].size() - 1].emplace_back();
+                lines_points_3D[0][lines_points_3D[0].size() - 1].emplace_back();
 
-            floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(xline_end);
-            floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(yline_end);
-            floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(zline_end);
+                lines_points_3D[0][lines_points_3D[0].size() - 1][0].emplace_back(xline_start);
+                lines_points_3D[0][lines_points_3D[0].size() - 1][0].emplace_back(yline_start);
+                lines_points_3D[0][lines_points_3D[0].size() - 1][0].emplace_back(zline_start);
 
+                lines_points_3D[0][lines_points_3D[0].size() - 1][1].emplace_back(xline_end);
+                lines_points_3D[0][lines_points_3D[0].size() - 1][1].emplace_back(yline_end);
+                lines_points_3D[0][lines_points_3D[0].size() - 1][1].emplace_back(zline_end);
+
+
+
+                xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
+                yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
+                zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
+
+                xline_end = xline_base3_start + scale * (xline_base3_end - xline_base3_start);
+                yline_end = yline_base3_start + scale * (yline_base3_end - yline_base3_start);
+                zline_end = zline_base3_start + scale * (zline_base3_end - zline_base3_start);
+
+                lines_points_3D[1].emplace_back();
+                lines_points_3D[1][lines_points_3D[1].size() - 1].emplace_back();
+                lines_points_3D[1][lines_points_3D[1].size() - 1].emplace_back();
+
+                lines_points_3D[1][lines_points_3D[1].size() - 1][0].emplace_back(xline_start);
+                lines_points_3D[1][lines_points_3D[1].size() - 1][0].emplace_back(yline_start);
+                lines_points_3D[1][lines_points_3D[1].size() - 1][0].emplace_back(zline_start);
+
+                lines_points_3D[1][lines_points_3D[1].size() - 1][1].emplace_back(xline_end);
+                lines_points_3D[1][lines_points_3D[1].size() - 1][1].emplace_back(yline_end);
+                lines_points_3D[1][lines_points_3D[1].size() - 1][1].emplace_back(zline_end);
+
+            }
+
+            all_triangles[i].lines_points_3D = std::move(lines_points_3D);
         }
     }
-
-    return floor_points_3D;
 }
 
 
-// std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> triangle_points_3D_sphere){
-//     std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_3D;
-    
-
-//     // Going through each triangle plane on the icosahedron globe and finding floor line start and end points based on scaled difference between points.
-//     floor_points_3D.emplace_back();
-//     floor_points_3D.emplace_back();
-
-
-//     std::vector<std::vector<std::vector<double>>> triangle_planes_already_lined;
-
-//     for (int i = 0; i < triangle_points_3D_sphere.size(); i++){
-//         for (int j = 0; j < triangle_points_3D_sphere[i].size(); j++){
-//             for (int l = 0; l < triangle_points_3D_sphere[i][j].size(); l++){
-                
-//                 // Checking to see if triangle plane has already been given floor lines. If so, it is skipped.
-//                 int skip_count;
-//                 bool skip = false;
-//                 for (int t = 0; t < triangle_planes_already_lined.size(); t++){
-//                     skip_count = 0;
-
-//                     for (int p = 0; p < triangle_planes_already_lined[t].size(); p++){
-//                         for (int pp = 0; pp < triangle_points_3D_sphere[i][j][l].size(); pp++){
-
-//                             if (triangle_planes_already_lined[t][p][0] == triangle_points_3D_sphere[i][j][l][pp][0] &&
-//                                     triangle_planes_already_lined[t][p][1] == triangle_points_3D_sphere[i][j][l][pp][1] &&
-//                                     triangle_planes_already_lined[t][p][2] == triangle_points_3D_sphere[i][j][l][pp][2]){
-//                                 skip_count++;
-//                             }
-
-//                         }
-
-//                     }
-
-//                     if (skip_count == 3){
-//                         skip = true;
-//                     }
-//                 }
-
-
-//                 if (!skip){
-//                     double xline_base1_start = triangle_points_3D_sphere[i][j][l][0][0];
-//                     double yline_base1_start = triangle_points_3D_sphere[i][j][l][0][1];
-//                     double zline_base1_start = triangle_points_3D_sphere[i][j][l][0][2];
-
-//                     double xline_base1_end = triangle_points_3D_sphere[i][j][l][1][0];
-//                     double yline_base1_end = triangle_points_3D_sphere[i][j][l][1][1];
-//                     double zline_base1_end = triangle_points_3D_sphere[i][j][l][1][2];
-                    
-//                     double xline_base2_start = triangle_points_3D_sphere[i][j][l][2][0];
-//                     double yline_base2_start = triangle_points_3D_sphere[i][j][l][2][1];
-//                     double zline_base2_start = triangle_points_3D_sphere[i][j][l][2][2];
-
-//                     double xline_base2_end = triangle_points_3D_sphere[i][j][l][1][0];
-//                     double yline_base2_end = triangle_points_3D_sphere[i][j][l][1][1];
-//                     double zline_base2_end = triangle_points_3D_sphere[i][j][l][1][2];
-
-//                     double xline_base3_start = triangle_points_3D_sphere[i][j][l][0][0];
-//                     double yline_base3_start = triangle_points_3D_sphere[i][j][l][0][1];
-//                     double zline_base3_start = triangle_points_3D_sphere[i][j][l][0][2];
-
-//                     double xline_base3_end = triangle_points_3D_sphere[i][j][l][2][0];
-//                     double yline_base3_end = triangle_points_3D_sphere[i][j][l][2][1];
-//                     double zline_base3_end = triangle_points_3D_sphere[i][j][l][2][2];
-
-
-//                     // Scale determines the number of lines on icosaphere.
-//                     // Starting value and increment value should match and be evenly multiplied into 1.0.
-//                     for (int s = 1; s < 10; s++){
-
-//                         double scale = s / 10.0;
-
-//                         double xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
-//                         double yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
-//                         double zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
-
-//                         double xline_end = xline_base2_start + scale * (xline_base2_end - xline_base2_start);
-//                         double yline_end = yline_base2_start + scale * (yline_base2_end - yline_base2_start);
-//                         double zline_end = zline_base2_start + scale * (zline_base2_end - zline_base2_start);
-
-//                         floor_points_3D[0].emplace_back();
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1].emplace_back();
-
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(xline_start);
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(yline_start);
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1][0].emplace_back(zline_start);
-
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(xline_end);
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(yline_end);
-//                         floor_points_3D[0][floor_points_3D[0].size() - 1][1].emplace_back(zline_end);
-
-
-
-//                         xline_start = xline_base1_start + scale * (xline_base1_end - xline_base1_start);
-//                         yline_start = yline_base1_start + scale * (yline_base1_end - yline_base1_start);
-//                         zline_start = zline_base1_start + scale * (zline_base1_end - zline_base1_start);
-
-//                         xline_end = xline_base3_start + scale * (xline_base3_end - xline_base3_start);
-//                         yline_end = yline_base3_start + scale * (yline_base3_end - yline_base3_start);
-//                         zline_end = zline_base3_start + scale * (zline_base3_end - zline_base3_start);
-
-//                         floor_points_3D[1].emplace_back();
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1].emplace_back();
-
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(xline_start);
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(yline_start);
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1][0].emplace_back(zline_start);
-
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(xline_end);
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(yline_end);
-//                         floor_points_3D[1][floor_points_3D[1].size() - 1][1].emplace_back(zline_end);
-
-//                     }
-
-//                     triangle_planes_already_lined.emplace_back();
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][0]);
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][1]);
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][0][2]);
-
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][0]);
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][1]);
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][1][2]);
-
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1].emplace_back();
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][0]);
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][1]);
-//                     triangle_planes_already_lined[triangle_planes_already_lined.size()-1][triangle_planes_already_lined[triangle_planes_already_lined.size()-1].size()-1].emplace_back(triangle_points_3D_sphere[i][j][l][2][2]);
-                    
-//                 }
-
-//             }
-
-
-//         }   
-
-//     }
-
-//     return floor_points_3D;
-// }
-
-
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triangles(std::vector<Triangle> triangles){
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triangles(){
 
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_as_lines;
 
-    for (int i = 0; i < triangles.size(); i++){
+    for (int i = 0; i < all_triangles.size(); i++){
 
         std::vector<std::vector<double>> line1;
         line1.emplace_back();
-        line1[0].emplace_back(triangles[i].points[0][0]);
-        line1[0].emplace_back(triangles[i].points[0][1]);
-        line1[0].emplace_back(triangles[i].points[0][2]);
+        line1[0].emplace_back(all_triangles[i].points[0][0]);
+        line1[0].emplace_back(all_triangles[i].points[0][1]);
+        line1[0].emplace_back(all_triangles[i].points[0][2]);
 
         line1.emplace_back();
-        line1[1].emplace_back(triangles[i].points[1][0]);
-        line1[1].emplace_back(triangles[i].points[1][1]);
-        line1[1].emplace_back(triangles[i].points[1][2]);
+        line1[1].emplace_back(all_triangles[i].points[1][0]);
+        line1[1].emplace_back(all_triangles[i].points[1][1]);
+        line1[1].emplace_back(all_triangles[i].points[1][2]);
 
 
-        std::vector<double> clipped_coor_diffs_line1 = clip_3D_line(line1);
+        std::vector<double> clipped_coor_diffs_line1 = clip_line(line1);
 
 
         std::vector<std::vector<double>> line2;
         line2.emplace_back();
-        line2[0].emplace_back(triangles[i].points[1][0]);
-        line2[0].emplace_back(triangles[i].points[1][1]);
-        line2[0].emplace_back(triangles[i].points[1][2]);
+        line2[0].emplace_back(all_triangles[i].points[1][0]);
+        line2[0].emplace_back(all_triangles[i].points[1][1]);
+        line2[0].emplace_back(all_triangles[i].points[1][2]);
 
         line2.emplace_back();
-        line2[1].emplace_back(triangles[i].points[2][0]);
-        line2[1].emplace_back(triangles[i].points[2][1]);
-        line2[1].emplace_back(triangles[i].points[2][2]);
+        line2[1].emplace_back(all_triangles[i].points[2][0]);
+        line2[1].emplace_back(all_triangles[i].points[2][1]);
+        line2[1].emplace_back(all_triangles[i].points[2][2]);
 
-        std::vector<double> clipped_coor_diffs_line2 = clip_3D_line(line2);
+        std::vector<double> clipped_coor_diffs_line2 = clip_line(line2);
 
 
         std::vector<std::vector<double>> line3;
 
         line3.emplace_back();
-        line3[0].emplace_back(triangles[i].points[2][0]);
-        line3[0].emplace_back(triangles[i].points[2][1]);
-        line3[0].emplace_back(triangles[i].points[2][2]);
+        line3[0].emplace_back(all_triangles[i].points[2][0]);
+        line3[0].emplace_back(all_triangles[i].points[2][1]);
+        line3[0].emplace_back(all_triangles[i].points[2][2]);
 
         line3.emplace_back();
-        line3[1].emplace_back(triangles[i].points[0][0]);
-        line3[1].emplace_back(triangles[i].points[0][1]);
-        line3[1].emplace_back(triangles[i].points[0][2]);
+        line3[1].emplace_back(all_triangles[i].points[0][0]);
+        line3[1].emplace_back(all_triangles[i].points[0][1]);
+        line3[1].emplace_back(all_triangles[i].points[0][2]);
 
 
-        std::vector<double> clipped_coor_diffs_line3 = clip_3D_line(line3);
+        std::vector<double> clipped_coor_diffs_line3 = clip_line(line3);
 
 
 
@@ -748,98 +606,94 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][0]);
         clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][1]);
         clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][2]);
+
+
+
+        // Clipping triangle lines across the triangle.
+        std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D;
+
+        // Iterating through all points on all lines on all triangles to clip the lines.
+        for (int j = 0; j < all_triangles[i].lines_points_3D.size(); j++){
+            clipped_lines_points_3D.emplace_back();
+
+            for (int k = 0; k < all_triangles[i].lines_points_3D[j].size(); k++){
+                clipped_lines_points_3D[j].emplace_back();
+
+
+                clipped_lines_points_3D[j][k].emplace_back();
+                clipped_lines_points_3D[j][k][0].emplace_back(0);
+                clipped_lines_points_3D[j][k][0].emplace_back(0);
+                clipped_lines_points_3D[j][k][0].emplace_back(0);
+
+
+                clipped_lines_points_3D[j][k].emplace_back();
+                clipped_lines_points_3D[j][k][1].emplace_back(0);
+                clipped_lines_points_3D[j][k][1].emplace_back(0);
+                clipped_lines_points_3D[j][k][1].emplace_back(0);
+
+
+                std::vector<double> clipped_coor_diffs = clip_line(all_triangles[i].lines_points_3D[j][k]);
+                
+                double x1_clip_diff = clipped_coor_diffs[0];
+                double y1_clip_diff = clipped_coor_diffs[1];
+                double z1_clip_diff = clipped_coor_diffs[2];
+
+                double x2_clip_diff = clipped_coor_diffs[3];
+                double y2_clip_diff = clipped_coor_diffs[4];
+                double z2_clip_diff = clipped_coor_diffs[5];
+
+                
+
+
+
+                if (x1_clip_diff == -100000 && y1_clip_diff == -100000 && z1_clip_diff == -100000 &&
+                        x2_clip_diff == -100000 && y2_clip_diff == -100000 && z2_clip_diff == -100000){
+
+                    clipped_lines_points_3D[j][k][0][0] = -100000;
+                    clipped_lines_points_3D[j][k][0][1] = -100000;
+                    clipped_lines_points_3D[j][k][0][2] = -100000;
+
+                    clipped_lines_points_3D[j][k][1][0] = -100000;
+                    clipped_lines_points_3D[j][k][1][1] = -100000;
+                    clipped_lines_points_3D[j][k][1][2] = -100000;
+
+                }else{
+
+                    // Returning diff to objective point so that it can be plugged into compute_2D_point.
+                    double x_3D = x1_clip_diff + playerx;
+                    double y_3D = y1_clip_diff + playery;
+                    double z_3D = z1_clip_diff + playerz;
+
+                    std::vector<double> point_3D = {x_3D, y_3D, z_3D};
+
+                    clipped_lines_points_3D[j][k][0][0] = point_3D[0];
+                    clipped_lines_points_3D[j][k][0][1] = point_3D[1];
+                    clipped_lines_points_3D[j][k][0][2] = point_3D[2];
+
+
+                    x_3D = x2_clip_diff + playerx;
+                    y_3D = y2_clip_diff + playery;
+                    z_3D = z2_clip_diff + playerz;
+
+                    point_3D = {x_3D, y_3D, z_3D};
+
+
+                    clipped_lines_points_3D[j][k][1][0] = point_3D[0];
+                    clipped_lines_points_3D[j][k][1][1] = point_3D[1];
+                    clipped_lines_points_3D[j][k][1][2] = point_3D[2];
+                }
+
+            }
+        }
+
+        all_triangles[i].clipped_lines_points_3D = std::move(clipped_lines_points_3D);
     }
 
     return clipped_triangles_as_lines;
-
 }
 
 
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D){
-
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D;
-
-    // Iterating through all points on an object to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-    for (int i = 0; i < lines_points_3D.size(); i++){
-        clipped_lines_points_3D.emplace_back();
-
-        for (int j = 0; j < lines_points_3D[i].size(); j++){
-            clipped_lines_points_3D[i].emplace_back();
-
-
-            clipped_lines_points_3D[i][j].emplace_back();
-            clipped_lines_points_3D[i][j][0].emplace_back(0);
-            clipped_lines_points_3D[i][j][0].emplace_back(0);
-            clipped_lines_points_3D[i][j][0].emplace_back(0);
-
-
-            clipped_lines_points_3D[i][j].emplace_back();
-            clipped_lines_points_3D[i][j][1].emplace_back(0);
-            clipped_lines_points_3D[i][j][1].emplace_back(0);
-            clipped_lines_points_3D[i][j][1].emplace_back(0);
-
-
-            std::vector<double> clipped_coor_diffs = clip_3D_line(lines_points_3D[i][j]);
-            
-            double x1_clip_diff = clipped_coor_diffs[0];
-            double y1_clip_diff = clipped_coor_diffs[1];
-            double z1_clip_diff = clipped_coor_diffs[2];
-
-            double x2_clip_diff = clipped_coor_diffs[3];
-            double y2_clip_diff = clipped_coor_diffs[4];
-            double z2_clip_diff = clipped_coor_diffs[5];
-
-            
-
-
-
-            if (x1_clip_diff == -100000 && y1_clip_diff == -100000 && z1_clip_diff == -100000 &&
-                    x2_clip_diff == -100000 && y2_clip_diff == -100000 && z2_clip_diff == -100000){
-
-                clipped_lines_points_3D[i][j][0][0] = -100000;
-                clipped_lines_points_3D[i][j][0][1] = -100000;
-                clipped_lines_points_3D[i][j][0][2] = -100000;
-
-                clipped_lines_points_3D[i][j][1][0] = -100000;
-                clipped_lines_points_3D[i][j][1][1] = -100000;
-                clipped_lines_points_3D[i][j][1][2] = -100000;
-
-            }else{
-
-                // Returning diff to objective point so that it can be plugged into compute_2D_point.
-                double x_3D = x1_clip_diff + playerx;
-                double y_3D = y1_clip_diff + playery;
-                double z_3D = z1_clip_diff + playerz;
-
-                std::vector<double> point_3D = {x_3D, y_3D, z_3D};
-
-                clipped_lines_points_3D[i][j][0][0] = point_3D[0];
-                clipped_lines_points_3D[i][j][0][1] = point_3D[1];
-                clipped_lines_points_3D[i][j][0][2] = point_3D[2];
-
-
-                x_3D = x2_clip_diff + playerx;
-                y_3D = y2_clip_diff + playery;
-                z_3D = z2_clip_diff + playerz;
-
-                point_3D = {x_3D, y_3D, z_3D};
-
-
-                clipped_lines_points_3D[i][j][1][0] = point_3D[0];
-                clipped_lines_points_3D[i][j][1][1] = point_3D[1];
-                clipped_lines_points_3D[i][j][1][2] = point_3D[2];
-            }
-
-        }
-    }
-
-
-    return clipped_lines_points_3D;
-
-}
-
-
-std::vector<double> Graphics::clip_3D_line(std::vector<std::vector<double>> line_points_3D){
+std::vector<double> Graphics::clip_line(std::vector<std::vector<double>> line_points_3D){
 
     double x_diff1 = line_points_3D[0][0] - playerx;
     double y_diff1 = line_points_3D[0][1] - playery;
@@ -933,7 +787,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::compute_2D_
 
     std::vector<std::vector<std::vector<std::vector<double>>>> triangles_2D_as_lines;
 
-    // Iterating through all points on a given vector of triangles to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
+    // Iterating through all points on a given vector of clipped triangles to compute the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
     for (int i = 0; i < clipped_triangles_as_lines.size(); i++){
         triangles_2D_as_lines.emplace_back();
         triangles_2D_as_lines[i].emplace_back();
@@ -975,6 +829,32 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::compute_2D_
         }
 
     }
+
+    
+
+    // Computing 2D coordinates for each point on each line on each line direction on each triangle.
+    for (int i = 0; i < all_triangles.size(); i++){
+        std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_2D;
+
+        for (int j = 0; j < all_triangles[i].clipped_lines_points_3D.size(); j++){
+            clipped_lines_points_2D.emplace_back();
+
+            for (int k = 0; k < all_triangles[i].clipped_lines_points_3D[j].size(); k++){
+                clipped_lines_points_2D[j].emplace_back();
+
+                std::vector<double> point_2D = compute_2D_point(all_triangles[i].clipped_lines_points_3D[j][k][0]);
+                clipped_lines_points_2D[j][k].emplace_back(point_2D);
+
+                point_2D = compute_2D_point(all_triangles[i].clipped_lines_points_3D[j][k][1]);
+                clipped_lines_points_2D[j][k].emplace_back(point_2D);
+            }
+
+        }
+        
+        all_triangles[i].clipped_lines_points_2D = std::move(clipped_lines_points_2D);
+
+    }
+
 
     return triangles_2D_as_lines;
 
@@ -1140,24 +1020,26 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
 
         }
 
-    }
-}
 
+        
+        // Drawing each line on each line direction on each triangle for the lines going across the triangle.
+        for (int j = 0; j < all_triangles[i].clipped_lines_points_2D.size(); j++){
+            for (int k = 0; k < all_triangles[i].clipped_lines_points_2D[j].size(); k++){
+                    
+                if (all_triangles[i].clipped_lines_points_2D[j][k][0][0] != -100000 && all_triangles[i].clipped_lines_points_2D[j][k][1][0] != -100000 &&
+                        all_triangles[i].clipped_lines_points_2D[j][k][0][1] != -100000 && all_triangles[i].clipped_lines_points_2D[j][k][1][1] != -100000){
 
-void Graphics::draw_floor_lines(std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_2D){
+                    set_color(all_triangles[i].outline_color[0], all_triangles[i].outline_color[1], all_triangles[i].outline_color[2]);
 
-    for (int i = 0; i < floor_points_2D.size(); i++){
-        for (int j = 0; j < floor_points_2D[i].size(); j++){
-            if (floor_points_2D[i][j][0][0] != -100000 && floor_points_2D[i][j][1][0] != -100000 &&
-                    floor_points_2D[i][j][0][1] != -100000 && floor_points_2D[i][j][1][1] != -100000){
-                
-                glBegin(GL_LINES);
-                    glVertex2f(floor_points_2D[i][j][0][0], floor_points_2D[i][j][0][1]);
-                    glVertex2f(floor_points_2D[i][j][1][0], floor_points_2D[i][j][1][1]);
-                glEnd();
+                    glBegin(GL_LINES);
+                        glVertex2f(all_triangles[i].clipped_lines_points_2D[j][k][0][0], all_triangles[i].clipped_lines_points_2D[j][k][0][1]);
+                        glVertex2f(all_triangles[i].clipped_lines_points_2D[j][k][1][0], all_triangles[i].clipped_lines_points_2D[j][k][1][1]);
+                    glEnd();
 
+                }
             }
         }
+
     }
 
 }

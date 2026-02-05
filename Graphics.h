@@ -32,8 +32,6 @@ class Graphics {
 
         Graphics(); // Constructor
 
-        void store_all_triangles(std::vector<Triangle> all_triangles);
-
         std::vector<std::vector<double>> make_sphere(std::vector<double> center, int radius, int num_points);
 
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
@@ -43,34 +41,22 @@ class Graphics {
         std::vector<Triangle> find_triangles_box(std::vector<std::vector<double>> box_points_3D);
 
         std::vector<Triangle> order_triangles(std::vector<Triangle> triangles);
+        
+        void store_all_triangles(std::vector<Triangle> all_triangles);
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<Triangle> triangle_points_3D_sphere);
+        void find_lines_on_triangles();
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> find_floor_lines_on_globe(std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> floor_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>> clip_triangles();
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> clip_triangles(std::vector<Triangle> triangles);
-
-        ////test_clip_sphere_lines();
-
-        std::vector<std::vector<std::vector<std::vector<double>>>> clip_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D);
-
-        std::vector<double> clip_3D_line(std::vector<std::vector<double>> line_points_3D);
+        std::vector<double> clip_line(std::vector<std::vector<double>> line_points_3D);
 
         std::vector<std::vector<std::vector<std::vector<double>>>> compute_2D_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_as_lines); 
-
-        ////test_compute_2D_sphere_lines();
-
-        std::vector<std::vector<std::vector<std::vector<double>>>> compute_2D_sphere_lines(std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D);
 
         std::vector<double> compute_2D_point(std::vector<double> point_3D);
 
         void clear_draw_screen();
 
         void draw_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> triangles_2D_as_lines);
-
-        ////test_draw_floor_lines();
-
-        void draw_floor_lines(std::vector<std::vector<std::vector<std::vector<double>>>> floor_points_2D);
 
         void draw_hud();
 

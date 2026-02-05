@@ -176,22 +176,24 @@ void render_all(){
     }   
 
     for (int i = 0; i < world_vector.size(); i++){
-
         for (int j = 0; j < world_vector[i].sphere_triangles_3D.size(); j++){
+
             all_triangles.emplace_back(world_vector[i].sphere_triangles_3D[j]);
         }
     }
 
 
     for (int i = 0; i < bullet_vector.size(); i++){
-
         for (int j = 0; j < bullet_vector[i].box_triangles_3D.size(); j++){
+            
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
         }
     }
 
+    //std::vector<Triangle> ordered_all_triangles = graphics.order_all_triangles(all_triangles);
     graphics.store_all_triangles(all_triangles);
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles(all_triangles);
+    graphics.find_lines_on_triangles();
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
     graphics.draw_triangles_as_lines(clipped_triangles_2D_as_lines);
 
