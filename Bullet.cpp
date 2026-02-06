@@ -7,11 +7,11 @@
 
 #include "Bullet.h"
 #include "Graphics.h"
-#include "main.h"
 
 #include <GL/glut.h>
 
 #include "Triangle.h"
+
 
 Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
 

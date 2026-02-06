@@ -5,10 +5,8 @@
 #include <cmath>
 #include <string>
 #include <algorithm>
-
 #include <random>
 
-#include "main.h"
 #include "Zombei.h"
 #include "Bullet.h"
 #include "Graphics.h"
@@ -40,7 +38,8 @@ std::vector<std::vector<double>> starscape_base_points_3D;
 std::vector<Triangle> starscape_base_triangle_points_3D;
 
 
-int player_speed = 10;
+//int player_speed = 10;
+int player_speed = 100;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -192,7 +191,7 @@ void render_all(){
 
     std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);
-    graphics.find_lines_on_triangles();
+    //graphics.find_lines_on_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
     graphics.draw_triangles_as_lines(clipped_triangles_2D_as_lines);

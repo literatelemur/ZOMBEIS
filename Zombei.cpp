@@ -7,7 +7,6 @@
 
 #include "Zombei.h"
 #include "Graphics.h"
-#include "main.h"
 #include "World.h"
 
 

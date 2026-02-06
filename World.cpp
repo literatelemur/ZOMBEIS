@@ -9,7 +9,6 @@
 
 #include "World.h"
 #include "Graphics.h"
-#include "main.h"
 #include "Triangle.h"
 
 

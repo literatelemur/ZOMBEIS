@@ -7,7 +7,6 @@
 
 #include "Star.h"
 #include "Graphics.h"
-#include "main.h"
 
 #include <GL/glut.h>
 

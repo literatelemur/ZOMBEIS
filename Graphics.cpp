@@ -305,20 +305,14 @@ std::vector<Triangle> Graphics::order_triangles(std::vector<Triangle> triangles)
         rando_order_dist_triangles.emplace_back(average_dist);
     }
 
-    // // Mirroring the decsended order vector to the random found order vector.
-    // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
 
-    // // Sorting into a descended order.
-    // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
-
-
-    // Step 2: Build index list
+    // Building index vector.
     std::vector<int> ordered_indices(triangles.size());
 
-    // fill with 0..n-1
+    // Filling index vector with 0..n-1.
     std::iota(ordered_indices.begin(), ordered_indices.end(), 0); 
 
-    // Step 3: Sort ordered_indices according to total distances
+    // Sorting ordered_indices according to average distances.
     std::sort(ordered_indices.begin(), ordered_indices.end(),
               [&](int a, int b) {
                   return rando_order_dist_triangles[a] > rando_order_dist_triangles[b];
