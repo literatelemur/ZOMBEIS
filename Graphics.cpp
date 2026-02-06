@@ -149,6 +149,7 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
             }
 
             dist1 = std::sqrt(larger1*larger1 + larger2*larger2);
+            dist1 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
 
             if (dist1 < shortest){
                 shortest = dist1;
@@ -156,9 +157,10 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
         }
 
         // Finding all adjacent points with shortest line between points.
-        std::vector<double> adj_points;
+        std::vector<int> adj_points;
         for (int j = 0; j < sphere_points_3D.size(); j++){
             if (i == j){continue;}
+
             double xdist = std::abs(sphere_points_3D[j][0] - sphere_points_3D[i][0]);
             double ydist = std::abs(sphere_points_3D[j][1] - sphere_points_3D[i][1]);
             double zdist = std::abs(sphere_points_3D[j][2] - sphere_points_3D[i][2]);
@@ -177,6 +179,8 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
             }
 
             dist1 = std::sqrt(larger1*larger1 + larger2*larger2);
+            dist1 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
+
             if (dist1 > shortest - shortest * 0.1 && dist1 < shortest + shortest * 0.1){
                 adj_points.emplace_back(j);
             }
@@ -209,6 +213,7 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
                 }
 
                 dist2 = std::sqrt(larger1*larger1 + larger2*larger2);
+                dist2 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
 
                 xdist = std::abs(sphere_points_3D[k][0] - sphere_points_3D[i][0]);
                 ydist = std::abs(sphere_points_3D[k][1] - sphere_points_3D[i][1]);
@@ -228,8 +233,9 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
                 }
 
                 dist3 = std::sqrt(larger1*larger1 + larger2*larger2);
+                dist3 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
                     
-                if (dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
+                if (i < adj_points[a] && adj_points[a] < k && dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
 
                     triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "both", {0, 0, 0}, {1, 0, 0}, 10));
                 }
@@ -697,7 +703,9 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         }
 
         all_triangles[i].clipped_lines_points_3D = std::move(clipped_lines_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].lines_points_3D);
     }
+
 
     return clipped_triangles_as_lines;
 }
@@ -862,6 +870,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::compute_2D_
         }
         
         all_triangles[i].clipped_lines_points_2D = std::move(clipped_lines_points_2D);
+        std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].clipped_lines_points_3D);
 
     }
 

@@ -39,7 +39,7 @@ std::vector<Triangle> starscape_base_triangle_points_3D;
 
 
 //int player_speed = 10;
-int player_speed = 100;
+int player_speed = 10;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -188,7 +188,7 @@ void render_all(){
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
         }
     }
-
+    
     std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);
     //graphics.find_lines_on_triangles();
@@ -310,11 +310,13 @@ int main(int argc, char* argv[]) {
 
     // Making worlds
     world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
-    world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
-    world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000, {1, 0, 0}));
-    world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 + 1000, 1000 + 500 + 20000, {1, 0, 0}));
-    world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
-    world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 + 8000, 1000 + 500 + 40000, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 + 1000, 1000 + 500 + 20000, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 + 8000, 1000 + 500 + 40000, {1, 0, 0}));
+
+
 
 
     // Making worlds
