@@ -273,49 +273,65 @@ std::vector<Triangle> Graphics::find_triangles_box(std::vector<std::vector<doubl
 
 std::vector<Triangle> Graphics::order_triangles(std::vector<Triangle> triangles){
 
-    // std::vector<Triangle> ordered_triangles(triangles.size(), Triangle);
+    std::vector<Triangle> ordered_triangles;
 
-    // std::vector<double> rando_order_dist_sphere_points_3D;
+    std::vector<double> rando_order_dist_triangles;
 
-    // // Calculating Euclidian total distance from player to each point.
-    // for (int i = 0; i < sphere_points_3D.size(); i++){
+    // Calculating Euclidian total distance from player to each point.
+    for (int i = 0; i < triangles.size(); i++){
 
-    //     double x_dist = abs(sphere_points_3D[i][0] - playerx);
-    //     double y_dist = abs(sphere_points_3D[i][1] - playery);
-    //     double z_dist = abs(sphere_points_3D[i][2] - playerz);
+        double x_dist1 = abs(triangles[i].points[0][0] - playerx);
+        double y_dist1 = abs(triangles[i].points[0][1] - playery);
+        double z_dist1 = abs(triangles[i].points[0][2] - playerz);
 
-    //     double total_dist = sqrt(x_dist * x_dist + y_dist * y_dist + z_dist * z_dist);
-
-    //     rando_order_dist_sphere_points_3D.emplace_back(total_dist);
-    // }
-
-    // // // Mirroring the decsended order vector to the random found order vector.
-    // // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
-
-    // // // Sorting into a descended order.
-    // // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
+        double total_dist1 = sqrt(x_dist1 * x_dist1 + y_dist1 * y_dist1 + z_dist1 * z_dist1);
 
 
-    // // Step 2: Build index list
-    // std::vector<double> ordered_indices(sphere_points_3D.size());
+        double x_dist2 = abs(triangles[i].points[1][0] - playerx);
+        double y_dist2 = abs(triangles[i].points[1][1] - playery);
+        double z_dist2 = abs(triangles[i].points[1][2] - playerz);
 
-    // // fill with 0..n-1
-    // std::iota(ordered_indices.begin(), ordered_indices.end(), 0); 
-
-    // // Step 3: Sort ordered_indices according to total distances
-    // std::sort(ordered_indices.begin(), ordered_indices.end(),
-    //           [&](int a, int b) {
-    //               return rando_order_dist_sphere_points_3D[a] > rando_order_dist_sphere_points_3D[b];
-    //           });
+        double total_dist2 = sqrt(x_dist2 * x_dist2 + y_dist2 * y_dist2 + z_dist2 * z_dist2);
 
 
+        double x_dist3 = abs(triangles[i].points[2][0] - playerx);
+        double y_dist3 = abs(triangles[i].points[2][1] - playery);
+        double z_dist3 = abs(triangles[i].points[2][2] - playerz);
 
-    // // Filling the empty ordered vector with the appropriate points from the given vector using ordered_indices vector.
-    // for (int i = 0; i < ordered_indices.size(); i++){
-    //     ordered_sphere_points_3D[i] = sphere_points_3D[ordered_indices[i]];
-    // }
+        double total_dist3 = sqrt(x_dist3 * x_dist3 + y_dist3 * y_dist3 + z_dist3 * z_dist3);
 
-    // return ordered_sphere_points_3D;
+        double average_dist = (total_dist1 + total_dist2 + total_dist3) / 3;
+
+        rando_order_dist_triangles.emplace_back(average_dist);
+    }
+
+    // // Mirroring the decsended order vector to the random found order vector.
+    // std::vector<double> desc_order_sphere_points_3D = rando_order_dist_sphere_points_3D;
+
+    // // Sorting into a descended order.
+    // sort(desc_order_sphere_points_3D.begin(), desc_order_sphere_points_3D.end(), std::greater<>());
+
+
+    // Step 2: Build index list
+    std::vector<int> ordered_indices(triangles.size());
+
+    // fill with 0..n-1
+    std::iota(ordered_indices.begin(), ordered_indices.end(), 0); 
+
+    // Step 3: Sort ordered_indices according to total distances
+    std::sort(ordered_indices.begin(), ordered_indices.end(),
+              [&](int a, int b) {
+                  return rando_order_dist_triangles[a] > rando_order_dist_triangles[b];
+              });
+
+
+
+    // Filling the empty ordered vector with the appropriate points from the given vector using ordered_indices vector.
+    for (int i = 0; i < ordered_indices.size(); i++){
+        ordered_triangles.emplace_back(triangles[ordered_indices[i]]);
+    }
+
+    return ordered_triangles;
 
 }
 

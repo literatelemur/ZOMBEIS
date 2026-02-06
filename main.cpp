@@ -190,8 +190,8 @@ void render_all(){
         }
     }
 
-    //std::vector<Triangle> ordered_all_triangles = graphics.order_all_triangles(all_triangles);
-    graphics.store_all_triangles(all_triangles);
+    std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
+    graphics.store_all_triangles(ordered_all_triangles);
     graphics.find_lines_on_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
@@ -452,12 +452,11 @@ int main(int argc, char* argv[]) {
 
         int num_stars = 1;
         //while (num_stars < 5000){
-        while (num_stars < 2){
+        for (int i = 1; i < num_stars; i++){
             int random_star_numx = distrib_starx(gen);
             int random_star_numy = distrib_stary(gen);
             int random_star_numz = distrib_starz(gen);
             star_vector.emplace_back(Star(&graphics, (double)random_star_numx, (double)random_star_numy, (double)random_star_numz, random_star_numy + 100, random_star_numy - 100));
-            num_stars++;
         }
             
     }
