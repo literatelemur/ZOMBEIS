@@ -65,6 +65,76 @@ std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> cente
         sphere_points_3D[5][1] = center[1];
         sphere_points_3D[5][2] = center[2] - radius;
 
+    }else if (num_points == 5){
+
+        sphere_points_3D = std::vector<std::vector<double>>(5, std::vector<double>(3, 0));
+
+        sphere_points_3D[0][0] = center[0] - radius;
+        sphere_points_3D[0][1] = center[1];
+        sphere_points_3D[0][2] = center[2];
+
+        sphere_points_3D[1][0] = center[0] + radius;
+        sphere_points_3D[1][1] = center[1];
+        sphere_points_3D[1][2] = center[2];
+
+        // sphere_points_3D[2][0] = center[0];
+        // sphere_points_3D[2][1] = center[1] - radius;
+        // sphere_points_3D[2][2] = center[2];
+
+        sphere_points_3D[2][0] = center[0];
+        sphere_points_3D[2][1] = center[1] + radius;
+        sphere_points_3D[2][2] = center[2];
+
+        sphere_points_3D[3][0] = center[0];
+        sphere_points_3D[3][1] = center[1];
+        sphere_points_3D[3][2] = center[2] + radius;
+
+        sphere_points_3D[4][0] = center[0];
+        sphere_points_3D[4][1] = center[1];
+        sphere_points_3D[4][2] = center[2] - radius;
+
+
+    }else if (num_points == 4){
+
+        // 2-sided flat plane
+
+        sphere_points_3D = std::vector<std::vector<double>>(4, std::vector<double>(3, 0));
+
+        sphere_points_3D[0][0] = center[0] - radius;
+        sphere_points_3D[0][1] = center[1];
+        sphere_points_3D[0][2] = center[2];
+
+        sphere_points_3D[1][0] = center[0] + radius;
+        sphere_points_3D[1][1] = center[1];
+        sphere_points_3D[1][2] = center[2];
+
+        sphere_points_3D[2][0] = center[0];
+        sphere_points_3D[2][1] = center[1];
+        sphere_points_3D[2][2] = center[2] + radius * sqrt(3);
+
+        sphere_points_3D[3][0] = center[0];
+        sphere_points_3D[3][1] = center[1];
+        sphere_points_3D[3][2] = center[2] - radius * sqrt(3);
+
+
+    }else if (num_points == 3){
+
+        // 2-sided flat plane
+
+        sphere_points_3D = std::vector<std::vector<double>>(3, std::vector<double>(3, 0));
+
+        sphere_points_3D[0][0] = center[0] - radius;
+        sphere_points_3D[0][1] = center[1];
+        sphere_points_3D[0][2] = center[2];
+
+        sphere_points_3D[1][0] = center[0] + radius;
+        sphere_points_3D[1][1] = center[1];
+        sphere_points_3D[1][2] = center[2];
+
+        sphere_points_3D[2][0] = center[0];
+        sphere_points_3D[2][1] = center[1];
+        sphere_points_3D[2][2] = center[2] - radius * sqrt(3);
+
     } else if (num_points == 12){
 
         // copied attempt at 12-sided geodesic sphere AKA icosaphere (based on golden ratio):
@@ -118,43 +188,29 @@ std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, 
 }
 
 
-std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D){
+std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale){
 
-    std::vector<Triangle> triangle_points_3D_sphere;
+    std::vector<Triangle> triangles_points_3D_sphere;
+
+    double shortest = std::numeric_limits<double>::max();
+    double dist1;
+    
+    // Determining shortest line between first point and all other points.
+    for (int j = 1; j < sphere_points_3D.size(); j++){
+
+        double xdist = std::abs(sphere_points_3D[j][0] - sphere_points_3D[0][0]);
+        double ydist = std::abs(sphere_points_3D[j][1] - sphere_points_3D[0][1]);
+        double zdist = std::abs(sphere_points_3D[j][2] - sphere_points_3D[0][2]);
+
+        dist1 = xdist*xdist + ydist*ydist + zdist*zdist;
+
+        if (dist1 < shortest){
+            shortest = dist1;
+        }
+    }
+
 
     for (int i = 0; i < sphere_points_3D.size(); i++){
-
-        // Determining shortest line between each point and all other points.
-        double shortest = 9007199254740992;
-        double dist1;
-
-        for (int j = 0; j < sphere_points_3D.size(); j++){
-            if (i == j){continue;}
-
-            double xdist = std::abs(sphere_points_3D[j][0] - sphere_points_3D[i][0]);
-            double ydist = std::abs(sphere_points_3D[j][1] - sphere_points_3D[i][1]);
-            double zdist = std::abs(sphere_points_3D[j][2] - sphere_points_3D[i][2]);
-
-            double larger1 = 0;
-            double larger2 = 0;
-            if (xdist <= ydist && xdist <= zdist){
-                larger1 = ydist;
-                larger2 = zdist;
-            }else if (ydist <= xdist && ydist <= zdist){
-                larger1 = xdist;
-                larger2 = zdist;
-            }else if (zdist <= xdist && zdist <= ydist){
-                larger1 = xdist;
-                larger2 = ydist;
-            }
-
-            dist1 = std::sqrt(larger1*larger1 + larger2*larger2);
-            dist1 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
-
-            if (dist1 < shortest){
-                shortest = dist1;
-            }
-        }
 
         // Finding all adjacent points with shortest line between points.
         std::vector<int> adj_points;
@@ -165,21 +221,7 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
             double ydist = std::abs(sphere_points_3D[j][1] - sphere_points_3D[i][1]);
             double zdist = std::abs(sphere_points_3D[j][2] - sphere_points_3D[i][2]);
 
-            double larger1 = 0;
-            double larger2 = 0;
-            if (xdist <= ydist && xdist <= zdist){
-                larger1 = ydist;
-                larger2 = zdist;
-            }else if (ydist <= xdist && ydist <= zdist){
-                larger1 = xdist;
-                larger2 = zdist;
-            }else if (zdist <= xdist && zdist <= ydist){
-                larger1 = xdist;
-                larger2 = ydist;
-            }
-
-            dist1 = std::sqrt(larger1*larger1 + larger2*larger2);
-            dist1 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
+            dist1 = xdist*xdist + ydist*ydist + zdist*zdist;
 
             if (dist1 > shortest - shortest * 0.1 && dist1 < shortest + shortest * 0.1){
                 adj_points.emplace_back(j);
@@ -195,49 +237,24 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
             for (int k = 0; k < sphere_points_3D.size(); k++){
 
                 if (k == i || k == adj_points[a] || i == adj_points[a]){continue;}
+
                 double xdist = std::abs(sphere_points_3D[k][0] - sphere_points_3D[adj_points[a]][0]);
                 double ydist = std::abs(sphere_points_3D[k][1] - sphere_points_3D[adj_points[a]][1]);
                 double zdist = std::abs(sphere_points_3D[k][2] - sphere_points_3D[adj_points[a]][2]);
 
-                double larger1 = 0;
-                double larger2 = 0;
-                if (xdist <= ydist && xdist <= zdist){
-                    larger1 = ydist;
-                    larger2 = zdist;
-                }else if (ydist <= xdist && ydist <= zdist){
-                    larger1 = xdist;
-                    larger2 = zdist;
-                }else if (zdist <= xdist && zdist <= ydist){
-                    larger1 = xdist;
-                    larger2 = ydist;
-                }
+                dist2 = xdist*xdist + ydist*ydist + zdist*zdist;
 
-                dist2 = std::sqrt(larger1*larger1 + larger2*larger2);
-                dist2 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
 
                 xdist = std::abs(sphere_points_3D[k][0] - sphere_points_3D[i][0]);
                 ydist = std::abs(sphere_points_3D[k][1] - sphere_points_3D[i][1]);
                 zdist = std::abs(sphere_points_3D[k][2] - sphere_points_3D[i][2]);
 
-                larger1 = 0;
-                larger2 = 0;
-                if (xdist <= ydist && xdist <= zdist){
-                    larger1 = ydist;
-                    larger2 = zdist;
-                }else if (ydist <= xdist && ydist <= zdist){
-                    larger1 = xdist;
-                    larger2 = zdist;
-                }else if (zdist <= xdist && zdist <= ydist){
-                    larger1 = xdist;
-                    larger2 = ydist;
-                }
-
-                dist3 = std::sqrt(larger1*larger1 + larger2*larger2);
-                dist3 = std::sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
+                dist3 = xdist*xdist + ydist*ydist + zdist*zdist;
                     
-                if (i < adj_points[a] && adj_points[a] < k && dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
 
-                    triangle_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "both", {0, 0, 0}, {1, 0, 0}, 10));
+                if (i < adj_points[a] && adj_points[a] < k && dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
+                    
+                    triangles_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "both", full_color, outline_color, lines_scale));
                 }
             }
 
@@ -245,33 +262,31 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
         
     }
     
-    return triangle_points_3D_sphere;
+    return triangles_points_3D_sphere;
 }
 
 
-std::vector<Triangle> Graphics::find_triangles_box(std::vector<std::vector<double>> box_points_3D){
+std::vector<Triangle> Graphics::find_triangles_box(std::vector<std::vector<double>> box_points_3D, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale){
 
     std::vector<Triangle> triangle_points_3D_box;
 
-    int lines_scale = 0;
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "both", full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "both", full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "both", full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "both", full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "both", full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
-
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "both", {1, 1, 1}, {0, 0, 0}, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "both", full_color, outline_color, lines_scale));
 
     return triangle_points_3D_box;
 }
@@ -1010,7 +1025,7 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
 
                 set_color(all_triangles[i].outline_color[0], all_triangles[i].outline_color[1], all_triangles[i].outline_color[2]);
 
-                glBegin(GL_LINES);
+                glBegin(GL_LINE_LOOP);
                     glVertex2f(valid_points[0][0], valid_points[0][1]);
                     glVertex2f(valid_points[1][0], valid_points[1][1]);
                     glVertex2f(valid_points[2][0], valid_points[2][1]);
@@ -1028,7 +1043,7 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
 
                 set_color(all_triangles[i].outline_color[0], all_triangles[i].outline_color[1], all_triangles[i].outline_color[2]);
                 
-                glBegin(GL_LINES);
+                glBegin(GL_LINE_LOOP);
                     glVertex2f(valid_points[0][0], valid_points[0][1]);
                     glVertex2f(valid_points[1][0], valid_points[1][1]);
                     glVertex2f(valid_points[2][0], valid_points[2][1]);

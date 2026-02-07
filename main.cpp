@@ -37,9 +37,12 @@ std::vector<World> world_vector;
 std::vector<std::vector<double>> starscape_base_points_3D;
 std::vector<Triangle> starscape_base_triangle_points_3D;
 
+std::vector<std::vector<double>> floor_points_3D;
+std::vector<Triangle> floor_triangles_3D;
+
 
 //int player_speed = 10;
-int player_speed = 10;
+int player_speed = 5;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -169,29 +172,55 @@ void render_all(){
 
     for (int i = 0; i < star_vector.size(); i++){
         for (int j = 0; j < star_vector[i].box_triangles_3D.size(); j++){
-
             all_triangles.emplace_back(star_vector[i].box_triangles_3D[j]);
         }
     }   
 
     for (int i = 0; i < world_vector.size(); i++){
         for (int j = 0; j < world_vector[i].sphere_triangles_3D.size(); j++){
-
             all_triangles.emplace_back(world_vector[i].sphere_triangles_3D[j]);
         }
     }
 
+    for (int i = 0; i < floor_triangles_3D.size(); i++){
+        all_triangles.emplace_back(floor_triangles_3D[i]);
+    }
+
+    for (int i = 0; i < zombei_vector.size(); i++){
+        for (int j = 0; j < zombei_vector[i].sphere_triangles_3D_head.size(); j++){
+            all_triangles.emplace_back(zombei_vector[i].sphere_triangles_3D_head[j]);
+        }
+
+        for (int j = 0; j < zombei_vector[i].box_triangles_3D_body.size(); j++){
+            all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_body[j]);
+        }
+
+        for (int j = 0; j < zombei_vector[i].box_triangles_3D_arm1.size(); j++){
+            all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_arm1[j]);
+        }
+
+        for (int j = 0; j < zombei_vector[i].box_triangles_3D_arm2.size(); j++){
+            all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_arm2[j]);
+        }
+
+        for (int j = 0; j < zombei_vector[i].box_triangles_3D_leg1.size(); j++){
+            all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_leg1[j]);
+        }
+
+        for (int j = 0; j < zombei_vector[i].box_triangles_3D_leg2.size(); j++){
+            all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_leg2[j]);
+        }
+    }
 
     for (int i = 0; i < bullet_vector.size(); i++){
         for (int j = 0; j < bullet_vector[i].box_triangles_3D.size(); j++){
-            
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
         }
     }
     
     std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);
-    //graphics.find_lines_on_triangles();
+    graphics.find_lines_on_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
     graphics.draw_triangles_as_lines(clipped_triangles_2D_as_lines);
@@ -233,10 +262,13 @@ void render_all(){
 
     // }
 
-    for (int i = 0; i < num_zombeis; i++){
-        zombei_vector[i].gravitate(world_vector[0]);
-        zombei_vector[i].render(&graphics);
-    }
+
+
+
+    // for (int i = 0; i < num_zombeis; i++){
+    //     zombei_vector[i].gravitate(world_vector[0]);
+    //     zombei_vector[i].render(&graphics);
+    // }
 
 
     for (int i = 0; i < bullet_vector.size(); i++){
@@ -308,13 +340,26 @@ int main(int argc, char* argv[]) {
     std::mt19937 gen(rd());
 
 
+    // Making floor
+    floor_points_3D = graphics.make_sphere({(double)960, (double)1060 + 20, (double)1000 + 10000}, 10000, 3);
+    floor_triangles_3D = graphics.find_triangles_sphere(floor_points_3D, {0, 0, 0}, {0, 1, 0}, 1.25);
+
+
     // Making worlds
-    world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
-    // world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
+    //world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
     // world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000, {1, 0, 0}));
     // world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 + 1000, 1000 + 500 + 20000, {1, 0, 0}));
     // world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
     // world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 + 8000, 1000 + 500 + 40000, {1, 0, 0}));
+
+    world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 - 9000, 1000 + 500 + 20000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 - 8000, 1000 + 500 + 40000, {1, 0, 0}));
+    world_vector.emplace_back(World(&graphics, 960 - 2500, 1060 + 1100 - 5000, 1000 + 500 + 50000, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 - 9000, 1000 + 500 + 20000, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960 + 6000, 1060 + 1100 - 8000, 1000 + 500 + 40000, {1, 0, 0}));
 
 
 
@@ -380,8 +425,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombeis = 100;
     //num_zombeis = 50;
-    //num_zombeis = 25;
-    num_zombeis = 0;
+    num_zombeis = 25;
+    //num_zombeis = 0;
 
     for (int i = 0; i < num_zombeis; i++){
         random_numx = distribx(gen);
@@ -425,7 +470,7 @@ int main(int argc, char* argv[]) {
     // Making icosahedron starscape
 
     starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
-    starscape_base_triangle_points_3D = graphics.find_triangles_sphere(starscape_base_points_3D);
+    starscape_base_triangle_points_3D = graphics.find_triangles_sphere(starscape_base_points_3D, {0, 0, 0}, {0, 0, 0}, 0);
 
     for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
 

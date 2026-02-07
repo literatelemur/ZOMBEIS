@@ -5,6 +5,8 @@
 #include <string>
 #include <algorithm>
 
+#include "Triangle.h"
+
 
 #ifndef ZOMBEI_H
 #define ZOMBEI_H
@@ -30,11 +32,22 @@ class Zombei {
         double pi;
 
         std::vector<std::vector<double>> sphere_points_3D_head;
+        std::vector<Triangle> sphere_triangles_3D_head;
+
         std::vector<std::vector<double>> box_points_3D_body;
+        std::vector<Triangle> box_triangles_3D_body;
+
         std::vector<std::vector<double>> box_points_3D_arm1;
+        std::vector<Triangle> box_triangles_3D_arm1;
+
         std::vector<std::vector<double>> box_points_3D_arm2;
+        std::vector<Triangle> box_triangles_3D_arm2;
+
         std::vector<std::vector<double>> box_points_3D_leg1;
+        std::vector<Triangle> box_triangles_3D_leg1;
+        
         std::vector<std::vector<double>> box_points_3D_leg2;
+        std::vector<Triangle> box_triangles_3D_leg2;
 
 
         Zombei(Graphics* graphics, int given_x, int given_y, int given_z);

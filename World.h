@@ -22,12 +22,12 @@ class World {
         int center_z;
         int gravity_dist;
 
-        std::vector<float> surface_color;
+        std::vector<double> surface_color;
 
         std::vector<std::vector<double>> sphere_points_3D;
         std::vector<Triangle> sphere_triangles_3D;
 
-        World(Graphics* graphics, int x, int y, int z, std::vector<float> surface_color); // Constructor
+        World(Graphics* graphics, int x, int y, int z, std::vector<double> surface_color); // Constructor
         
 };
 
