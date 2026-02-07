@@ -137,160 +137,160 @@ void Zombei::move(int dir){
 
 
     
-    // if (leg_angle1 > 89) leg_inner_dir = 0;
-    // else if (leg_angle1 < -89) leg_inner_dir = 1;
+    if (leg_angle1 > 89) leg_inner_dir = 0;
+    else if (leg_angle1 < -89) leg_inner_dir = 1;
 
 
-    // if (leg_inner_dir == 1) {
-    //         leg_angle1 += 20;
-    //         leg_angle2 -= 20;
-    // } else {
-    //         leg_angle1 -= 20;
-    //         leg_angle2 += 20;
-    // }
+    if (leg_inner_dir == 1) {
+            leg_angle1 += 20;
+            leg_angle2 -= 20;
+    } else {
+            leg_angle1 -= 20;
+            leg_angle2 += 20;
+    }
 
 
-    // // Turning the first leg.
+    // Turning the first leg.
 
-    // double leg_angle1_rad = leg_angle1 * (pi / 180.0);
+    double leg_angle1_rad = leg_angle1 * (pi / 180.0);
 
-    // double z_diff = sin(leg_angle1_rad) * leg_length;
-    // double y_diff = cos(leg_angle1_rad) * leg_length;
+    double z_diff = sin(leg_angle1_rad) * leg_length;
+    double y_diff = cos(leg_angle1_rad) * leg_length;
 
-    // box_points_3D_leg1[6][1] = box_points_3D_leg1[4][1] + y_diff;
-    // box_points_3D_leg1[6][2] = box_points_3D_leg1[4][2] - z_diff;
+    box_points_3D_leg1[6][1] = box_points_3D_leg1[4][1] + y_diff;
+    box_points_3D_leg1[6][2] = box_points_3D_leg1[4][2] - z_diff;
     
-    // box_points_3D_leg1[7][1] = box_points_3D_leg1[5][1] + y_diff;
-    // box_points_3D_leg1[7][2] = box_points_3D_leg1[5][2] - z_diff;
-
-
-    
-    // double same_tri_other_angle = 90 - leg_angle1;
-    // double tri2_angle = 90 - same_tri_other_angle;
-
-    // double tri2_angle_rad = tri2_angle * (pi / 180.0);
-
-    // double z2_diff = cos(tri2_angle_rad) * leg_depth;
-    // double y2_diff = sin(tri2_angle_rad) * leg_depth;
-
-    // box_points_3D_leg1[2][1] = box_points_3D_leg1[6][1] + y2_diff;
-    // box_points_3D_leg1[2][2] = box_points_3D_leg1[6][2] + z2_diff;
-    
-    // box_points_3D_leg1[3][1] = box_points_3D_leg1[7][1] + y2_diff;
-    // box_points_3D_leg1[3][2] = box_points_3D_leg1[7][2] + z2_diff;
-
-
-
-    // double same_tri2_other_angle = 180 - (tri2_angle + 90);
-    // double tri3_angle = 90 - same_tri2_other_angle;
-
-    // double tri3_angle_rad = tri3_angle * (pi / 180.0);
-
-    // double z3_diff = sin(tri3_angle_rad) * leg_length;
-    // double y3_diff = cos(tri3_angle_rad) * leg_length;
-
-    // box_points_3D_leg1[0][1] = box_points_3D_leg1[2][1] - y3_diff;
-    // box_points_3D_leg1[0][2] = box_points_3D_leg1[2][2] + z3_diff;
-    
-    // box_points_3D_leg1[1][1] = box_points_3D_leg1[3][1] - y3_diff;
-    // box_points_3D_leg1[1][2] = box_points_3D_leg1[3][2] + z3_diff;
-
-
-
-
-
-    // // Turning the second leg.
-
-    // double leg_angle2_rad = leg_angle2 * (pi / 180.0);
-
-    // z_diff = sin(leg_angle2_rad) * leg_length;
-    // y_diff = cos(leg_angle2_rad) * leg_length;
-
-    // box_points_3D_leg2[6][1] = box_points_3D_leg2[4][1] + y_diff;
-    // box_points_3D_leg2[6][2] = box_points_3D_leg2[4][2] - z_diff;
-    
-    // box_points_3D_leg2[7][1] = box_points_3D_leg2[5][1] + y_diff;
-    // box_points_3D_leg2[7][2] = box_points_3D_leg2[5][2] - z_diff;
+    box_points_3D_leg1[7][1] = box_points_3D_leg1[5][1] + y_diff;
+    box_points_3D_leg1[7][2] = box_points_3D_leg1[5][2] - z_diff;
 
 
     
-    // same_tri_other_angle = 90 - leg_angle2;
-    // tri2_angle = 90 - same_tri_other_angle;
+    double same_tri_other_angle = 90 - leg_angle1;
+    double tri2_angle = 90 - same_tri_other_angle;
 
-    // tri2_angle_rad = tri2_angle * (pi / 180.0);
+    double tri2_angle_rad = tri2_angle * (pi / 180.0);
 
-    // z2_diff = cos(tri2_angle_rad) * leg_depth;
-    // y2_diff = sin(tri2_angle_rad) * leg_depth;
+    double z2_diff = cos(tri2_angle_rad) * leg_depth;
+    double y2_diff = sin(tri2_angle_rad) * leg_depth;
 
-    // box_points_3D_leg2[2][1] = box_points_3D_leg2[6][1] + y2_diff;
-    // box_points_3D_leg2[2][2] = box_points_3D_leg2[6][2] + z2_diff;
+    box_points_3D_leg1[2][1] = box_points_3D_leg1[6][1] + y2_diff;
+    box_points_3D_leg1[2][2] = box_points_3D_leg1[6][2] + z2_diff;
     
-    // box_points_3D_leg2[3][1] = box_points_3D_leg2[7][1] + y2_diff;
-    // box_points_3D_leg2[3][2] = box_points_3D_leg2[7][2] + z2_diff;
+    box_points_3D_leg1[3][1] = box_points_3D_leg1[7][1] + y2_diff;
+    box_points_3D_leg1[3][2] = box_points_3D_leg1[7][2] + z2_diff;
 
 
 
-    // same_tri2_other_angle = 180 - (tri2_angle + 90);
-    // tri3_angle = 90 - same_tri2_other_angle;
+    double same_tri2_other_angle = 180 - (tri2_angle + 90);
+    double tri3_angle = 90 - same_tri2_other_angle;
 
-    // tri3_angle_rad = tri3_angle * (pi / 180.0);
+    double tri3_angle_rad = tri3_angle * (pi / 180.0);
 
-    // z3_diff = sin(tri3_angle_rad) * leg_length;
-    // y3_diff = cos(tri3_angle_rad) * leg_length;
+    double z3_diff = sin(tri3_angle_rad) * leg_length;
+    double y3_diff = cos(tri3_angle_rad) * leg_length;
 
-    // box_points_3D_leg2[0][1] = box_points_3D_leg2[2][1] - y3_diff;
-    // box_points_3D_leg2[0][2] = box_points_3D_leg2[2][2] + z3_diff;
+    box_points_3D_leg1[0][1] = box_points_3D_leg1[2][1] - y3_diff;
+    box_points_3D_leg1[0][2] = box_points_3D_leg1[2][2] + z3_diff;
     
-    // box_points_3D_leg2[1][1] = box_points_3D_leg2[3][1] - y3_diff;
-    // box_points_3D_leg2[1][2] = box_points_3D_leg2[3][2] + z3_diff;
+    box_points_3D_leg1[1][1] = box_points_3D_leg1[3][1] - y3_diff;
+    box_points_3D_leg1[1][2] = box_points_3D_leg1[3][2] + z3_diff;
 
 
 
-    // // // Moving arms
-    // // if (arm_phase >= 0 && arm_phase <= 1){
-    // //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
-    // //         box_points_3D_arm1[i][1]++;
-    // //         box_points_3D_arm2[i][1]++;
-    // //     }
-    // // }else if (arm_phase >= 2 && arm_phase <= 3){
-    // //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
-    // //         box_points_3D_arm1[i][1]--;
-    // //         box_points_3D_arm2[i][1]--;
-    // //     }
-    // // }else if (arm_phase >= 4 && arm_phase <= 5){
-    // //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
-    // //         box_points_3D_arm1[i][0]--;
-    // //         box_points_3D_arm2[i][0]++;
-    // //     }
-    // // }else if (arm_phase >= 6 && arm_phase <= 7){
-    // //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
-    // //         box_points_3D_arm1[i][0]++;
-    // //         box_points_3D_arm2[i][0]--;
-    // //     }
-    // // }
+
+
+    // Turning the second leg.
+
+    double leg_angle2_rad = leg_angle2 * (pi / 180.0);
+
+    z_diff = sin(leg_angle2_rad) * leg_length;
+    y_diff = cos(leg_angle2_rad) * leg_length;
+
+    box_points_3D_leg2[6][1] = box_points_3D_leg2[4][1] + y_diff;
+    box_points_3D_leg2[6][2] = box_points_3D_leg2[4][2] - z_diff;
+    
+    box_points_3D_leg2[7][1] = box_points_3D_leg2[5][1] + y_diff;
+    box_points_3D_leg2[7][2] = box_points_3D_leg2[5][2] - z_diff;
+
+
+    
+    same_tri_other_angle = 90 - leg_angle2;
+    tri2_angle = 90 - same_tri_other_angle;
+
+    tri2_angle_rad = tri2_angle * (pi / 180.0);
+
+    z2_diff = cos(tri2_angle_rad) * leg_depth;
+    y2_diff = sin(tri2_angle_rad) * leg_depth;
+
+    box_points_3D_leg2[2][1] = box_points_3D_leg2[6][1] + y2_diff;
+    box_points_3D_leg2[2][2] = box_points_3D_leg2[6][2] + z2_diff;
+    
+    box_points_3D_leg2[3][1] = box_points_3D_leg2[7][1] + y2_diff;
+    box_points_3D_leg2[3][2] = box_points_3D_leg2[7][2] + z2_diff;
+
+
+
+    same_tri2_other_angle = 180 - (tri2_angle + 90);
+    tri3_angle = 90 - same_tri2_other_angle;
+
+    tri3_angle_rad = tri3_angle * (pi / 180.0);
+
+    z3_diff = sin(tri3_angle_rad) * leg_length;
+    y3_diff = cos(tri3_angle_rad) * leg_length;
+
+    box_points_3D_leg2[0][1] = box_points_3D_leg2[2][1] - y3_diff;
+    box_points_3D_leg2[0][2] = box_points_3D_leg2[2][2] + z3_diff;
+    
+    box_points_3D_leg2[1][1] = box_points_3D_leg2[3][1] - y3_diff;
+    box_points_3D_leg2[1][2] = box_points_3D_leg2[3][2] + z3_diff;
 
 
 
     // // Moving arms
-    // if (arm_phase >= 0 && arm_phase <= 3){
-    //     for (int i = 4; i < box_points_3D_arm1.size(); i++){
+    // if (arm_phase >= 0 && arm_phase <= 1){
+    //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
     //         box_points_3D_arm1[i][1]++;
     //         box_points_3D_arm2[i][1]++;
     //     }
-    // }else if (arm_phase >= 4 && arm_phase <= 7){
-    //     for (int i = 4; i < box_points_3D_arm1.size(); i++){
+    // }else if (arm_phase >= 2 && arm_phase <= 3){
+    //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
     //         box_points_3D_arm1[i][1]--;
     //         box_points_3D_arm2[i][1]--;
+    //     }
+    // }else if (arm_phase >= 4 && arm_phase <= 5){
+    //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
+    //         box_points_3D_arm1[i][0]--;
+    //         box_points_3D_arm2[i][0]++;
+    //     }
+    // }else if (arm_phase >= 6 && arm_phase <= 7){
+    //     for (int i = 0; i < box_points_3D_arm1.size(); i++){
+    //         box_points_3D_arm1[i][0]++;
+    //         box_points_3D_arm2[i][0]--;
     //     }
     // }
 
 
 
-    // arm_phase++;
+    // Moving arms
+    if (arm_phase >= 0 && arm_phase <= 3){
+        for (int i = 4; i < box_points_3D_arm1.size(); i++){
+            box_points_3D_arm1[i][1]++;
+            box_points_3D_arm2[i][1]++;
+        }
+    }else if (arm_phase >= 4 && arm_phase <= 7){
+        for (int i = 4; i < box_points_3D_arm1.size(); i++){
+            box_points_3D_arm1[i][1]--;
+            box_points_3D_arm2[i][1]--;
+        }
+    }
 
-    // if (arm_phase == 8){
-    //     arm_phase = 0;
-    // }
+
+
+    arm_phase++;
+
+    if (arm_phase == 8){
+        arm_phase = 0;
+    }
         
 }
 
