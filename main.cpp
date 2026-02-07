@@ -42,7 +42,7 @@ std::vector<Triangle> floor_triangles_3D;
 
 
 //int player_speed = 10;
-int player_speed = 5;
+int player_speed = 50;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -342,7 +342,7 @@ int main(int argc, char* argv[]) {
 
     // Making floor
     floor_points_3D = graphics.make_sphere({(double)960, (double)1060 + 20, (double)1000 + 10000}, 10000, 3);
-    floor_triangles_3D = graphics.find_triangles_sphere(floor_points_3D, {0, 0, 0}, {0, 1, 0}, 1.25);
+    floor_triangles_3D = graphics.find_triangles_sphere(floor_points_3D, {0, 0, 0}, {1, 0, 0}, 1.25);
 
 
     // Making worlds
