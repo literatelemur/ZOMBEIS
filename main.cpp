@@ -42,7 +42,7 @@ std::vector<Triangle> floor_triangles_3D;
 
 
 //int player_speed = 10;
-int player_speed = 50;
+int player_speed = 5;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -78,13 +78,11 @@ void key_press_check() {
     }if(key_states['e']){
         for (int i = 0; i < num_zombeis; i++){
             zombei_vector[i].move(1);
-            zombei_vector[i].render(&graphics);
         }
 
     }if(key_states['q']){
         for (int j = 0; j < num_zombeis; j++){
             zombei_vector[j].move(-1);
-            zombei_vector[j].render(&graphics);
         }
 
     }if(key_states['z']){
@@ -267,7 +265,6 @@ void render_all(){
 
     // for (int i = 0; i < num_zombeis; i++){
     //     zombei_vector[i].gravitate(world_vector[0]);
-    //     zombei_vector[i].render(&graphics);
     // }
 
 
@@ -425,14 +422,14 @@ int main(int argc, char* argv[]) {
 
     //num_zombeis = 100;
     //num_zombeis = 50;
-    //num_zombeis = 25;
-    num_zombeis = 10;
+    num_zombeis = 25;
+    //num_zombeis = 10;
+    //num_zombeis = 0;
 
     for (int i = 0; i < num_zombeis; i++){
         random_numx = distribx(gen);
         random_numz = distribz(gen);
         zombei_vector.emplace_back(Zombei(&graphics, random_numx, 1064, random_numz));
-        zombei_vector[i].render(&graphics);
     }
 
     // Randomly setting speed for zombeis.

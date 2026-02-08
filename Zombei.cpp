@@ -48,68 +48,6 @@ Zombei::Zombei(Graphics* graphics, int x, int y, int z){
 
 }
 
-
-void Zombei::render(Graphics* graphics){
-
-    // std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>> sphere_triangle_points_3D_head = graphics->find_triangle_points_sphere(sphere_points_3D_head);
-    // std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>> clipped_head_sphere_triangle_points_3D_as_lines = graphics->clip_triangle_points_sphere(sphere_triangle_points_3D_head);
-    // std::vector<std::vector<std::vector<std::vector<std::vector<std::vector<int>>>>>> clipped_head_sphere_triangle_points_2D_as_lines = graphics->compute_2D_sphere_triangles_as_lines(clipped_head_sphere_triangle_points_3D_as_lines);
-
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_triangles_sphere_as_lines(clipped_head_sphere_triangle_points_2D_as_lines);
-    // graphics->set_color(0, 0, 1);
-    // graphics->draw_hollow_triangles_sphere_as_lines(clipped_head_sphere_triangle_points_2D_as_lines);
-
-    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_body = graphics->clip_box(box_points_3D_body);
-    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_body = graphics->compute_2D_box_as_lines(clipped_box_points_3D_body);
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_box_as_lines(clipped_box_points_2D_body);
-    // graphics->set_color(0, 0, 1);
-    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_body);
-
-    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_arm1 = graphics->clip_box(box_points_3D_arm1);
-    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_arm1 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_arm1);
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_box_as_lines(clipped_box_points_2D_arm1);
-    // graphics->set_color(0, 0, 1);
-    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_arm1);
-
-    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_arm2 = graphics->clip_box(box_points_3D_arm2);
-    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_arm2 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_arm2);
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_box_as_lines(clipped_box_points_2D_arm2);
-    // graphics->set_color(0, 0, 1);
-    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_arm2);
-
-    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_leg1 = graphics->clip_box(box_points_3D_leg1);
-    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_leg1 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_leg1);
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_box_as_lines(clipped_box_points_2D_leg1);
-    // graphics->set_color(0, 0, 1);
-    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_leg1);
-
-    // std::vector<std::vector<std::vector<double>>> clipped_box_points_3D_leg2 = graphics->clip_box(box_points_3D_leg2);
-    // std::vector<std::vector<std::vector<int>>> clipped_box_points_2D_leg2 = graphics->compute_2D_box_as_lines(clipped_box_points_3D_leg2);
-    // graphics->set_color(0, 0, 0);
-    // graphics->draw_full_box_as_lines(clipped_box_points_2D_leg2);
-    // graphics->set_color(0, 0, 1);
-    // graphics->draw_hollow_box_as_lines(clipped_box_points_2D_leg2);
-
-
-
-
-
-
-    // Drawing sphere lines
-
-    // std::vector<std::vector<std::vector<std::vector<double>>>> line_points_3D = graphics->find_floor_lines_on_globe(sphere_triangle_points_3D_head);
-
-    // std::vector<std::vector<std::vector<std::vector<int>>>> line_points_2D = graphics->clip_and_compute_2D_sphere_lines(line_points_3D);
-
-    // graphics->draw_floor_lines(line_points_2D);
-
-}
-
 void Zombei::move(int dir){
 
 
@@ -150,99 +88,99 @@ void Zombei::move(int dir){
     }
 
 
-    // Turning the first leg.
+    // // Turning the first leg.
 
-    double leg_angle1_rad = leg_angle1 * (pi / 180.0);
+    // double leg_angle1_rad = leg_angle1 * (pi / 180.0);
 
-    double z_diff = sin(leg_angle1_rad) * leg_length;
-    double y_diff = cos(leg_angle1_rad) * leg_length;
+    // double z_diff = sin(leg_angle1_rad) * leg_length;
+    // double y_diff = cos(leg_angle1_rad) * leg_length;
 
-    box_points_3D_leg1[6][1] = box_points_3D_leg1[4][1] + y_diff;
-    box_points_3D_leg1[6][2] = box_points_3D_leg1[4][2] - z_diff;
+    // box_points_3D_leg1[6][1] = box_points_3D_leg1[4][1] + y_diff;
+    // box_points_3D_leg1[6][2] = box_points_3D_leg1[4][2] - z_diff;
     
-    box_points_3D_leg1[7][1] = box_points_3D_leg1[5][1] + y_diff;
-    box_points_3D_leg1[7][2] = box_points_3D_leg1[5][2] - z_diff;
-
-
-    
-    double same_tri_other_angle = 90 - leg_angle1;
-    double tri2_angle = 90 - same_tri_other_angle;
-
-    double tri2_angle_rad = tri2_angle * (pi / 180.0);
-
-    double z2_diff = cos(tri2_angle_rad) * leg_depth;
-    double y2_diff = sin(tri2_angle_rad) * leg_depth;
-
-    box_points_3D_leg1[2][1] = box_points_3D_leg1[6][1] + y2_diff;
-    box_points_3D_leg1[2][2] = box_points_3D_leg1[6][2] + z2_diff;
-    
-    box_points_3D_leg1[3][1] = box_points_3D_leg1[7][1] + y2_diff;
-    box_points_3D_leg1[3][2] = box_points_3D_leg1[7][2] + z2_diff;
-
-
-
-    double same_tri2_other_angle = 180 - (tri2_angle + 90);
-    double tri3_angle = 90 - same_tri2_other_angle;
-
-    double tri3_angle_rad = tri3_angle * (pi / 180.0);
-
-    double z3_diff = sin(tri3_angle_rad) * leg_length;
-    double y3_diff = cos(tri3_angle_rad) * leg_length;
-
-    box_points_3D_leg1[0][1] = box_points_3D_leg1[2][1] - y3_diff;
-    box_points_3D_leg1[0][2] = box_points_3D_leg1[2][2] + z3_diff;
-    
-    box_points_3D_leg1[1][1] = box_points_3D_leg1[3][1] - y3_diff;
-    box_points_3D_leg1[1][2] = box_points_3D_leg1[3][2] + z3_diff;
-
-
-
-
-
-    // Turning the second leg.
-
-    double leg_angle2_rad = leg_angle2 * (pi / 180.0);
-
-    z_diff = sin(leg_angle2_rad) * leg_length;
-    y_diff = cos(leg_angle2_rad) * leg_length;
-
-    box_points_3D_leg2[6][1] = box_points_3D_leg2[4][1] + y_diff;
-    box_points_3D_leg2[6][2] = box_points_3D_leg2[4][2] - z_diff;
-    
-    box_points_3D_leg2[7][1] = box_points_3D_leg2[5][1] + y_diff;
-    box_points_3D_leg2[7][2] = box_points_3D_leg2[5][2] - z_diff;
+    // box_points_3D_leg1[7][1] = box_points_3D_leg1[5][1] + y_diff;
+    // box_points_3D_leg1[7][2] = box_points_3D_leg1[5][2] - z_diff;
 
 
     
-    same_tri_other_angle = 90 - leg_angle2;
-    tri2_angle = 90 - same_tri_other_angle;
+    // double same_tri_other_angle = 90 - leg_angle1;
+    // double tri2_angle = 90 - same_tri_other_angle;
 
-    tri2_angle_rad = tri2_angle * (pi / 180.0);
+    // double tri2_angle_rad = tri2_angle * (pi / 180.0);
 
-    z2_diff = cos(tri2_angle_rad) * leg_depth;
-    y2_diff = sin(tri2_angle_rad) * leg_depth;
+    // double z2_diff = cos(tri2_angle_rad) * leg_depth;
+    // double y2_diff = sin(tri2_angle_rad) * leg_depth;
 
-    box_points_3D_leg2[2][1] = box_points_3D_leg2[6][1] + y2_diff;
-    box_points_3D_leg2[2][2] = box_points_3D_leg2[6][2] + z2_diff;
+    // box_points_3D_leg1[2][1] = box_points_3D_leg1[6][1] + y2_diff;
+    // box_points_3D_leg1[2][2] = box_points_3D_leg1[6][2] + z2_diff;
     
-    box_points_3D_leg2[3][1] = box_points_3D_leg2[7][1] + y2_diff;
-    box_points_3D_leg2[3][2] = box_points_3D_leg2[7][2] + z2_diff;
+    // box_points_3D_leg1[3][1] = box_points_3D_leg1[7][1] + y2_diff;
+    // box_points_3D_leg1[3][2] = box_points_3D_leg1[7][2] + z2_diff;
 
 
 
-    same_tri2_other_angle = 180 - (tri2_angle + 90);
-    tri3_angle = 90 - same_tri2_other_angle;
+    // double same_tri2_other_angle = 180 - (tri2_angle + 90);
+    // double tri3_angle = 90 - same_tri2_other_angle;
 
-    tri3_angle_rad = tri3_angle * (pi / 180.0);
+    // double tri3_angle_rad = tri3_angle * (pi / 180.0);
 
-    z3_diff = sin(tri3_angle_rad) * leg_length;
-    y3_diff = cos(tri3_angle_rad) * leg_length;
+    // double z3_diff = sin(tri3_angle_rad) * leg_length;
+    // double y3_diff = cos(tri3_angle_rad) * leg_length;
 
-    box_points_3D_leg2[0][1] = box_points_3D_leg2[2][1] - y3_diff;
-    box_points_3D_leg2[0][2] = box_points_3D_leg2[2][2] + z3_diff;
+    // box_points_3D_leg1[0][1] = box_points_3D_leg1[2][1] - y3_diff;
+    // box_points_3D_leg1[0][2] = box_points_3D_leg1[2][2] + z3_diff;
     
-    box_points_3D_leg2[1][1] = box_points_3D_leg2[3][1] - y3_diff;
-    box_points_3D_leg2[1][2] = box_points_3D_leg2[3][2] + z3_diff;
+    // box_points_3D_leg1[1][1] = box_points_3D_leg1[3][1] - y3_diff;
+    // box_points_3D_leg1[1][2] = box_points_3D_leg1[3][2] + z3_diff;
+
+
+
+
+
+    // // Turning the second leg.
+
+    // double leg_angle2_rad = leg_angle2 * (pi / 180.0);
+
+    // z_diff = sin(leg_angle2_rad) * leg_length;
+    // y_diff = cos(leg_angle2_rad) * leg_length;
+
+    // box_points_3D_leg2[6][1] = box_points_3D_leg2[4][1] + y_diff;
+    // box_points_3D_leg2[6][2] = box_points_3D_leg2[4][2] - z_diff;
+    
+    // box_points_3D_leg2[7][1] = box_points_3D_leg2[5][1] + y_diff;
+    // box_points_3D_leg2[7][2] = box_points_3D_leg2[5][2] - z_diff;
+
+
+    
+    // same_tri_other_angle = 90 - leg_angle2;
+    // tri2_angle = 90 - same_tri_other_angle;
+
+    // tri2_angle_rad = tri2_angle * (pi / 180.0);
+
+    // z2_diff = cos(tri2_angle_rad) * leg_depth;
+    // y2_diff = sin(tri2_angle_rad) * leg_depth;
+
+    // box_points_3D_leg2[2][1] = box_points_3D_leg2[6][1] + y2_diff;
+    // box_points_3D_leg2[2][2] = box_points_3D_leg2[6][2] + z2_diff;
+    
+    // box_points_3D_leg2[3][1] = box_points_3D_leg2[7][1] + y2_diff;
+    // box_points_3D_leg2[3][2] = box_points_3D_leg2[7][2] + z2_diff;
+
+
+
+    // same_tri2_other_angle = 180 - (tri2_angle + 90);
+    // tri3_angle = 90 - same_tri2_other_angle;
+
+    // tri3_angle_rad = tri3_angle * (pi / 180.0);
+
+    // z3_diff = sin(tri3_angle_rad) * leg_length;
+    // y3_diff = cos(tri3_angle_rad) * leg_length;
+
+    // box_points_3D_leg2[0][1] = box_points_3D_leg2[2][1] - y3_diff;
+    // box_points_3D_leg2[0][2] = box_points_3D_leg2[2][2] + z3_diff;
+    
+    // box_points_3D_leg2[1][1] = box_points_3D_leg2[3][1] - y3_diff;
+    // box_points_3D_leg2[1][2] = box_points_3D_leg2[3][2] + z3_diff;
 
 
 

@@ -45,14 +45,12 @@ class Zombei {
 
         std::vector<std::vector<double>> box_points_3D_leg1;
         std::vector<Triangle> box_triangles_3D_leg1;
-        
+
         std::vector<std::vector<double>> box_points_3D_leg2;
         std::vector<Triangle> box_triangles_3D_leg2;
 
 
         Zombei(Graphics* graphics, int given_x, int given_y, int given_z);
-
-        void render(Graphics* graphics);
 
         void move(int dir);
 

@@ -22,7 +22,7 @@ World::World(Graphics* graphics, int x, int y, int z, std::vector<double> color)
 
     gravity_dist = 5000;
 
-    sphere_points_3D = graphics->make_sphere({(double)center_x, (double)center_y, (double)center_z}, 1000, 6);
+    sphere_points_3D = graphics->make_sphere({(double)center_x, (double)center_y, (double)center_z}, 1000, 12);
     sphere_triangles_3D = graphics->find_triangles_sphere(sphere_points_3D, {0, 0, 0}, color, 10);
 
 }
