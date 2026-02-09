@@ -42,7 +42,7 @@ std::vector<Triangle> floor_triangles_3D;
 
 
 //int player_speed = 10;
-int player_speed = 5;
+int player_speed = 10;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -215,6 +215,7 @@ void render_all(){
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
         }
     }
+
     
     std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);
@@ -339,11 +340,11 @@ int main(int argc, char* argv[]) {
 
     // Making floor
     floor_points_3D = graphics.make_sphere({(double)960, (double)1060 + 20, (double)1000 + 10000}, 10000, 3);
-    floor_triangles_3D = graphics.find_triangles_sphere(floor_points_3D, {0, 0, 0}, {1, 0, 0}, 1.25);
+    floor_triangles_3D = graphics.find_triangles_sphere(floor_points_3D, "both", {0, 0, 0}, {1, 0, 0}, 1.25);
 
 
     // Making worlds
-    //world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
+    // world_vector.emplace_back(World(&graphics, 960, 1060 + 1100, 1000 + 500, {1, 0, 0}));
     // world_vector.emplace_back(World(&graphics, 960 - 5000, 1060 + 1100 - 3000, 1000 + 500 + 10000, {1, 0, 0}));
     // world_vector.emplace_back(World(&graphics, 960 + 7000, 1060 + 1100 + 1000, 1000 + 500 + 20000, {1, 0, 0}));
     // world_vector.emplace_back(World(&graphics, 960 + 9000, 1060 + 1100 - 2000, 1000 + 500 + 30000, {1, 0, 0}));
@@ -422,8 +423,8 @@ int main(int argc, char* argv[]) {
 
     //num_zombeis = 100;
     //num_zombeis = 50;
-    num_zombeis = 25;
-    //num_zombeis = 10;
+    //num_zombeis = 25;
+    num_zombeis = 10;
     //num_zombeis = 0;
 
     for (int i = 0; i < num_zombeis; i++){
@@ -467,7 +468,7 @@ int main(int argc, char* argv[]) {
     // Making icosahedron starscape
 
     starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
-    starscape_base_triangle_points_3D = graphics.find_triangles_sphere(starscape_base_points_3D, {0, 0, 0}, {0, 0, 0}, 0);
+    starscape_base_triangle_points_3D = graphics.find_triangles_sphere(starscape_base_points_3D, "outline", {0, 0, 0}, {0, 0, 0}, 0);
 
     for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){
 

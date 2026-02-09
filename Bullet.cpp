@@ -36,7 +36,7 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
     double y_diff_3D = tan(angley) * (origin_z - origin_z);
 
     box_points_3D = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)origin_z}, 1, 1, depth);
-    box_triangles_3D = graphics->find_triangles_box(box_points_3D, {0, 0, 0}, {1, 1, 1}, 0);
+    box_triangles_3D = graphics->find_triangles_box(box_points_3D, "both", {0, 0, 0}, {1, 1, 1}, 0);
     find_movement_values(graphics);
 
 }

@@ -188,7 +188,7 @@ std::vector<std::vector<double>> Graphics::make_box(std::vector<double> center, 
 }
 
 
-std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale){
+std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D, std::string draw_type, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale){
 
     std::vector<Triangle> triangles_points_3D_sphere;
 
@@ -254,7 +254,7 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
 
                 if (i < adj_points[a] && adj_points[a] < k && dist2 > shortest - shortest * 0.1 && dist2 < shortest + shortest * 0.1 && dist3 > shortest - shortest * 0.1 && dist3 < shortest + shortest * 0.1){
                     
-                    triangles_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], "both", full_color, outline_color, lines_scale));
+                    triangles_points_3D_sphere.emplace_back(Triangle(this, sphere_points_3D[i], sphere_points_3D[adj_points[a]], sphere_points_3D[k], draw_type, full_color, outline_color, lines_scale));
                 }
             }
 
@@ -266,27 +266,27 @@ std::vector<Triangle> Graphics::find_triangles_sphere(std::vector<std::vector<do
 }
 
 
-std::vector<Triangle> Graphics::find_triangles_box(std::vector<std::vector<double>> box_points_3D, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale){
+std::vector<Triangle> Graphics::find_triangles_box(std::vector<std::vector<double>> box_points_3D, std::string draw_type, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale){
 
     std::vector<Triangle> triangle_points_3D_box;
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], "both", full_color, outline_color, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[1], box_points_3D[3], draw_type, full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[0], draw_type, full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], "both", full_color, outline_color, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[7], draw_type, full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[7], box_points_3D[6], box_points_3D[4], draw_type, full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], "both", full_color, outline_color, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[1], box_points_3D[0], box_points_3D[4], draw_type, full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[4], box_points_3D[5], box_points_3D[1], draw_type, full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], "both", full_color, outline_color, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[1], box_points_3D[5], draw_type, full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[5], box_points_3D[7], box_points_3D[3], draw_type, full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], "both", full_color, outline_color, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[3], box_points_3D[2], box_points_3D[6], draw_type, full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[7], box_points_3D[3], draw_type, full_color, outline_color, lines_scale));
 
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], "both", full_color, outline_color, lines_scale));
-    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], "both", full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[0], box_points_3D[2], box_points_3D[6], draw_type, full_color, outline_color, lines_scale));
+    triangle_points_3D_box.emplace_back(Triangle(this, box_points_3D[6], box_points_3D[4], box_points_3D[0], draw_type, full_color, outline_color, lines_scale));
 
     return triangle_points_3D_box;
 }
@@ -1002,7 +1002,7 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
 
             
             }else if (valid_points.size() == 4){
-                glBegin(GL_TRIANGLES);
+                glBegin(GL_POLYGON);
                     glVertex2d(valid_points[0][0], valid_points[0][1]);
                     glVertex2d(valid_points[1][0], valid_points[1][1]);
                     glVertex2d(valid_points[2][0], valid_points[2][1]);
@@ -1012,6 +1012,7 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
             }
 
         } else if(all_triangles[i].draw_type == "both"){
+
 
             set_color(all_triangles[i].full_color[0], all_triangles[i].full_color[1], all_triangles[i].full_color[2]);
 
@@ -1034,7 +1035,7 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
             
             }else if (valid_points.size() == 4){
 
-                glBegin(GL_TRIANGLES);
+                glBegin(GL_POLYGON);
                     glVertex2f(valid_points[0][0], valid_points[0][1]);
                     glVertex2f(valid_points[1][0], valid_points[1][1]);
                     glVertex2f(valid_points[2][0], valid_points[2][1]);

@@ -29,7 +29,7 @@ Star::Star(Graphics* graphics, double given_x, double given_y, double given_z, i
     z = given_z;
 
     box_points_3D = graphics->make_box({x, y, z}, 1, 1, depth);
-    box_triangles_3D = graphics->find_triangles_box(box_points_3D, {0, 0, 0}, {1, 1, 1}, 0);
+    box_triangles_3D = graphics->find_triangles_box(box_points_3D, "both", {0, 0, 0}, {1, 1, 1}, 0);
 
 }
 

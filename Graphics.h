@@ -36,9 +36,9 @@ class Graphics {
 
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
 
-        std::vector<Triangle> find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale);
+        std::vector<Triangle> find_triangles_sphere(std::vector<std::vector<double>> sphere_points_3D, std::string draw_type, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale);
 
-        std::vector<Triangle> find_triangles_box(std::vector<std::vector<double>> box_points_3D, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale);
+        std::vector<Triangle> find_triangles_box(std::vector<std::vector<double>> box_points_3D, std::string draw_type, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale);
 
         std::vector<Triangle> order_triangles(std::vector<Triangle> triangles);
 

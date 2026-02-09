@@ -24,23 +24,23 @@ Zombei::Zombei(Graphics* graphics, int x, int y, int z){
     pi = 3.14159265358979323846;
 
     sphere_points_3D_head = graphics->make_sphere({(double)x, (double)y - 20, (double)z}, 5, 12);
-    sphere_triangles_3D_head = graphics->find_triangles_sphere(sphere_points_3D_head, {0, 0, 1}, {0, 0, 0}, 0);
+    sphere_triangles_3D_head = graphics->find_triangles_sphere(sphere_points_3D_head, "both", {0, 0, 1}, {0, 0, 0}, 0);
 
     box_points_3D_body = graphics->make_box({(double)x, (double)y, (double)z}, 10, 20, 5);
-    box_triangles_3D_body = graphics->find_triangles_box(box_points_3D_body, {0, 0, 0}, {0, 0, 1}, 0);
+    box_triangles_3D_body = graphics->find_triangles_box(box_points_3D_body, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
 
     box_points_3D_arm1 = graphics->make_box({(double)x - 7, (double)y - 7, (double)z - 2}, 4, 4, 10);
-    box_triangles_3D_arm1 = graphics->find_triangles_box(box_points_3D_arm1, {0, 0, 0}, {0, 0, 1}, 0);
+    box_triangles_3D_arm1 = graphics->find_triangles_box(box_points_3D_arm1, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
     box_points_3D_arm2 = graphics->make_box({(double)x + 7, (double)y - 7, (double)z - 2}, 4, 4, 10);
-    box_triangles_3D_arm2 = graphics->find_triangles_box(box_points_3D_arm2, {0, 0, 0}, {0, 0, 1}, 0);
+    box_triangles_3D_arm2 = graphics->find_triangles_box(box_points_3D_arm2, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
     box_points_3D_leg1 = graphics->make_box({(double)x - 3, (double)y + 13, (double)z}, 4, 6, 5);
-    box_triangles_3D_leg1 = graphics->find_triangles_box(box_points_3D_leg1, {0, 0, 0}, {0, 0, 1}, 0);
+    box_triangles_3D_leg1 = graphics->find_triangles_box(box_points_3D_leg1, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
     box_points_3D_leg2 = graphics->make_box({(double)x + 3, (double)y + 13, (double)z}, 4, 6, 5);
-    box_triangles_3D_leg2 = graphics->find_triangles_box(box_points_3D_leg2, {0, 0, 0}, {0, 0, 1}, 0);
+    box_triangles_3D_leg2 = graphics->find_triangles_box(box_points_3D_leg2, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
     
     leg_length = box_points_3D_leg1[2][1] - box_points_3D_leg1[0][1];
