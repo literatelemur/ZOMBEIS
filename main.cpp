@@ -340,7 +340,7 @@ int main(int argc, char* argv[]) {
 
     // Making floor
     floor_points_3D = graphics.make_sphere({(double)960, (double)1060 + 20, (double)1000 + 10000}, 10000, 3);
-    floor_triangles_3D = graphics.find_triangles_sphere(floor_points_3D, "both", {0, 0, 0}, {1, 0, 0}, 1.25);
+    floor_triangles_3D = graphics.find_triangles_sphere(floor_points_3D, "both", {0, 0, 0}, {0, 1, 0}, 1.25);
 
 
     // Making worlds
