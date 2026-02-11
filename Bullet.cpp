@@ -36,7 +36,6 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
     double y_diff_3D = tan(angley) * (origin_z - origin_z);
 
     box_points_3D = graphics->make_box({origin_x + x_diff_3D, origin_y + y_diff_3D, (double)origin_z}, 1, 1, depth);
-    box_triangles_3D = graphics->find_triangles_box(box_points_3D, "both", {0, 0, 0}, {1, 1, 1}, 0);
     find_movement_values(graphics);
 
 }
@@ -67,14 +66,12 @@ void Bullet::find_movement_values(Graphics* graphics){
 
 void Bullet::move(Graphics* graphics){
 
-    for (int i = 0; i < box_triangles_3D.size(); i++){
+    for (int i = 0; i < box_points_3D.size(); i++){
 
-        for (int j = 0; j < box_triangles_3D[i].points.size(); j++){
+        box_points_3D[i][0] += center_x_move;
+        box_points_3D[i][1] += center_y_move;
+        box_points_3D[i][2] += speed;
 
-            box_triangles_3D[i].points[j][0] += center_x_move;
-            box_triangles_3D[i].points[j][1] += center_y_move;
-            box_triangles_3D[i].points[j][2] += speed;
-        }
     }
 
 }

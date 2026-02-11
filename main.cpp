@@ -169,12 +169,17 @@ void render_all(){
     std::vector<Triangle> all_triangles;
 
     for (int i = 0; i < star_vector.size(); i++){
+        star_vector[i].find_movement_value(&graphics);
+        star_vector[i].box_triangles_3D = graphics.find_triangles_box(star_vector[i].box_points_3D, "both", {0, 0, 0}, {1, 1, 1}, 0);
+
         for (int j = 0; j < star_vector[i].box_triangles_3D.size(); j++){
             all_triangles.emplace_back(star_vector[i].box_triangles_3D[j]);
         }
     }   
 
     for (int i = 0; i < world_vector.size(); i++){
+        world_vector[i].sphere_triangles_3D = graphics.find_triangles_sphere(world_vector[i].sphere_points_3D, "both", {0, 0, 0}, world_vector[i].surface_color, 10);
+
         for (int j = 0; j < world_vector[i].sphere_triangles_3D.size(); j++){
             all_triangles.emplace_back(world_vector[i].sphere_triangles_3D[j]);
         }
@@ -184,39 +189,55 @@ void render_all(){
         all_triangles.emplace_back(floor_triangles_3D[i]);
     }
 
+
     for (int i = 0; i < zombei_vector.size(); i++){
+
+        zombei_vector[i].sphere_triangles_3D_head = graphics.find_triangles_sphere(zombei_vector[i].sphere_points_3D_head, "both", {0, 0, 1}, {0, 0, 0}, 0);
+
         for (int j = 0; j < zombei_vector[i].sphere_triangles_3D_head.size(); j++){
             all_triangles.emplace_back(zombei_vector[i].sphere_triangles_3D_head[j]);
         }
+
+        zombei_vector[i].box_triangles_3D_body = graphics.find_triangles_box(zombei_vector[i].box_points_3D_body, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
         for (int j = 0; j < zombei_vector[i].box_triangles_3D_body.size(); j++){
             all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_body[j]);
         }
 
+        zombei_vector[i].box_triangles_3D_arm1 = graphics.find_triangles_box(zombei_vector[i].box_points_3D_arm1, "both", {0, 0, 0}, {0, 0, 1}, 0);
+
         for (int j = 0; j < zombei_vector[i].box_triangles_3D_arm1.size(); j++){
             all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_arm1[j]);
         }
+
+        zombei_vector[i].box_triangles_3D_arm2 = graphics.find_triangles_box(zombei_vector[i].box_points_3D_arm2, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
         for (int j = 0; j < zombei_vector[i].box_triangles_3D_arm2.size(); j++){
             all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_arm2[j]);
         }
 
+        zombei_vector[i].box_triangles_3D_leg1 = graphics.find_triangles_box(zombei_vector[i].box_points_3D_leg1, "both", {0, 0, 0}, {0, 0, 1}, 0);
+
         for (int j = 0; j < zombei_vector[i].box_triangles_3D_leg1.size(); j++){
             all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_leg1[j]);
         }
+
+        zombei_vector[i].box_triangles_3D_leg2 = graphics.find_triangles_box(zombei_vector[i].box_points_3D_leg2, "both", {0, 0, 0}, {0, 0, 1}, 0);
 
         for (int j = 0; j < zombei_vector[i].box_triangles_3D_leg2.size(); j++){
             all_triangles.emplace_back(zombei_vector[i].box_triangles_3D_leg2[j]);
         }
     }
 
+
     for (int i = 0; i < bullet_vector.size(); i++){
+        bullet_vector[i].box_triangles_3D = graphics.find_triangles_box(bullet_vector[i].box_points_3D, "both", {0, 0, 0}, {1, 1, 1}, 0);
+
         for (int j = 0; j < bullet_vector[i].box_triangles_3D.size(); j++){
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
         }
     }
 
-    
     std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);
     graphics.find_lines_on_triangles();
