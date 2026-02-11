@@ -12,6 +12,7 @@
 #include "Graphics.h"
 #include "Star.h"
 #include "World.h"
+#include "Edit.h"
 
 Graphics graphics;
 
@@ -43,6 +44,8 @@ std::vector<Triangle> floor_triangles_3D;
 
 //int player_speed = 10;
 int player_speed = 10;
+
+bool edit_mode = false;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -98,8 +101,11 @@ void key_press_check() {
         graphics.angley_diff -= 0.01745329 * 2;
         
     }if(key_states['x']){
-        
-    }if(key_states['/']){
+        if (edit_mode){
+            edit_mode = false;
+        } else{
+            edit_mode = true;
+        }
 
     //27 - ESC key
     }if(key_states[27]){ 
@@ -163,6 +169,10 @@ void check_keys_and_mouse(){
 
 
 void render_all(){
+
+    if (edit_mode){
+        Edit::entry(&graphics);
+    }
 
     graphics.clear_draw_screen();
 
@@ -231,7 +241,7 @@ void render_all(){
 
 
     for (int i = 0; i < bullet_vector.size(); i++){
-        bullet_vector[i].box_triangles_3D = graphics.find_triangles_box(bullet_vector[i].box_points_3D, "full", {1, 1, 1}, {0, 0, 0}, 0);
+        bullet_vector[i].box_triangles_3D = graphics.find_triangles_box(bullet_vector[i].box_points_3D, "both", {1, 1, 1}, {0, 0, 0}, 0);
 
         for (int j = 0; j < bullet_vector[i].box_triangles_3D.size(); j++){
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
