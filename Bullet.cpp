@@ -24,7 +24,7 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
     center_z = origin_z;
 
     depth = 5;
-    speed = 0.25;
+    speed = 0.1;
 
     double x_diff_screen = click_x / double(glutGet(GLUT_WINDOW_WIDTH)) * 1920.0 - 1920 / 2;
     double y_diff_screen = click_y / double(glutGet(GLUT_WINDOW_HEIGHT)) * 1080.0 - 1080 / 2;

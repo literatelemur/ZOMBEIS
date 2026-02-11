@@ -231,7 +231,7 @@ void render_all(){
 
 
     for (int i = 0; i < bullet_vector.size(); i++){
-        bullet_vector[i].box_triangles_3D = graphics.find_triangles_box(bullet_vector[i].box_points_3D, "both", {0, 0, 0}, {1, 1, 1}, 0);
+        bullet_vector[i].box_triangles_3D = graphics.find_triangles_box(bullet_vector[i].box_points_3D, "full", {1, 1, 1}, {0, 0, 0}, 0);
 
         for (int j = 0; j < bullet_vector[i].box_triangles_3D.size(); j++){
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
