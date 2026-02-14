@@ -13,6 +13,7 @@
 #include "Star.h"
 #include "World.h"
 #include "Edit.h"
+#include "Triangle.h"
 
 Graphics graphics;
 
@@ -103,11 +104,68 @@ void key_press_check() {
     }if(key_states['x']){
         Edit::toggle_edit_mode();        
 
-    }if(key_states['=']){
-        if (Edit::edit_mode){
+    }if(Edit::edit_mode){
+    
+        if(key_states['=']){
             Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 5});
             Edit::points_3D_index++;
             Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 5}, 0.25, 12));
+
+        }if(key_states['-']){
+            Edit::points_3D.pop_back();
+            Edit::points_3D_index--;
+            Edit::points_points_3D.pop_back();
+
+
+        }if(key_states['i']){
+            Edit::points_3D[Edit::points_3D_index][1] -= 0.025;
+            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
+                Edit::points_points_3D[Edit::points_3D_index][i][1] -= 0.025;
+            }
+
+        }if(key_states['k']){
+            Edit::points_3D[Edit::points_3D_index][1] += 0.025;
+            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
+                Edit::points_points_3D[Edit::points_3D_index][i][1] += 0.025;
+            }
+
+        }if(key_states['j']){
+            Edit::points_3D[Edit::points_3D_index][0] -= 0.025;
+            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
+                Edit::points_points_3D[Edit::points_3D_index][i][0] -= 0.025;
+            }
+
+        }if(key_states['l']){
+            Edit::points_3D[Edit::points_3D_index][0] += 0.025;
+            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
+                Edit::points_points_3D[Edit::points_3D_index][i][0] += 0.025;
+            }
+
+        }if(key_states['u']){
+            Edit::points_3D[Edit::points_3D_index][2] += 0.025;
+            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
+                Edit::points_points_3D[Edit::points_3D_index][i][2] += 0.025;
+            }
+
+        }if(key_states['o']){
+            Edit::points_3D[Edit::points_3D_index][2] -= 0.025;
+            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
+                Edit::points_points_3D[Edit::points_3D_index][i][2] -= 0.025;
+            }
+
+        }if (Edit::points_3D.size() > 0){
+            if(key_states['[']){
+                if (Edit::points_3D_index == 0) Edit::points_3D_index = Edit::points_3D.size() - 1;
+                else Edit::points_3D_index--;
+
+            }if(key_states[']']){
+                if (Edit::points_3D_index == Edit::points_3D.size() - 1) Edit::points_3D_index = 0;
+                else Edit::points_3D_index++;
+            }
+
+        }if (Edit::points_3D.size() > 2){
+            if(key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_index], Edit::points_3D[Edit::points_3D_index - 1], Edit::points_3D[Edit::points_3D_index - 2], "both", {0, 0, 0}, {1, 1, 1}, 0));
+
         }
 
     //27 - ESC key
@@ -260,6 +318,8 @@ void render_all(){
                 all_triangles.emplace_back(edit_point_triangles_3D[j]);
             }
         }
+
+        for (int i = 0; i < Edit::triangles_3D.size(); i++) all_triangles.emplace_back(Edit::triangles_3D[i]);
     }
 
 
