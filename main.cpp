@@ -45,7 +45,7 @@ std::vector<Triangle> floor_triangles_3D;
 //int player_speed = 10;
 int player_speed = 10;
 
-bool edit_mode = false;
+//bool edit_mode = false;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -101,10 +101,13 @@ void key_press_check() {
         graphics.angley_diff -= 0.01745329 * 2;
         
     }if(key_states['x']){
-        if (edit_mode){
-            edit_mode = false;
-        } else{
-            edit_mode = true;
+        Edit::toggle_edit_mode();        
+
+    }if(key_states['=']){
+        if (Edit::edit_mode){
+            Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 5});
+            Edit::points_3D_index++;
+            Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 5}, 0.25, 12));
         }
 
     //27 - ESC key
@@ -169,10 +172,6 @@ void check_keys_and_mouse(){
 
 
 void render_all(){
-
-    if (edit_mode){
-        Edit::entry(&graphics);
-    }
 
     graphics.clear_draw_screen();
 
@@ -247,6 +246,22 @@ void render_all(){
             all_triangles.emplace_back(bullet_vector[i].box_triangles_3D[j]);
         }
     }
+
+
+    if (Edit::edit_mode){
+        for (int i = 0; i < Edit::points_points_3D.size(); i++){
+
+            std::vector<Triangle> edit_point_triangles_3D;
+
+            if (i == Edit::points_3D_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 1, 1}, {0, 0, 0}, 0);
+            else edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {0, 0, 0}, {1, 1, 1}, 0);
+
+            for (int j = 0; j < edit_point_triangles_3D.size(); j++){
+                all_triangles.emplace_back(edit_point_triangles_3D[j]);
+            }
+        }
+    }
+
 
     std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);

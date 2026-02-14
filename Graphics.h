@@ -16,10 +16,10 @@ class Graphics {
 
     public:
 
-        int zscreendiff;
-        int playerx;
-        int playery;
-        int playerz;
+        double zscreendiff;
+        double playerx;
+        double playery;
+        double playerz;
         double near_plane;
 
         double anglex_diff;
@@ -32,7 +32,7 @@ class Graphics {
 
         Graphics(); // Constructor
 
-        std::vector<std::vector<double>> make_sphere(std::vector<double> center, int radius, int num_points);
+        std::vector<std::vector<double>> make_sphere(std::vector<double> center, double radius, int num_points);
 
         std::vector<std::vector<double>> make_box(std::vector<double> center, double top_length, double side_length, double depth);
 

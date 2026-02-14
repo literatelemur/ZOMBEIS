@@ -31,7 +31,18 @@ class Edit {
         //World(Graphics* graphics, int x, int y, int z, std::vector<double> surface_color); // Constructor
 
 
-        static void entry(Graphics* graphics);
+        static bool edit_mode;
+
+        static std::vector<std::vector<double>> points_3D;
+
+        static int points_3D_index;
+
+        static std::vector<std::vector<std::vector<double>>> points_points_3D;
+
+        static std::vector<Triangle> triangles_3D;
+        
+
+        static void toggle_edit_mode();
 
         Edit() = delete;
         

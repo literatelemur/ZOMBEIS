@@ -12,6 +12,7 @@
 
 #include "Graphics.h"
 #include "Triangle.h"
+#include "Edit.h"
 
         
 Graphics::Graphics(){   
@@ -29,7 +30,7 @@ Graphics::Graphics(){
 }
 
 
-std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> center, int radius, int num_points){
+std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> center, double radius, int num_points){
 
     // Equation of a sphere: (x - 960)^2 + (y - 540)^2 + (z - 10)^2 = radius^2
 
@@ -1082,15 +1083,17 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
 
 void Graphics::draw_hud(){
 
-    glBegin(GL_LINES);
-        glVertex2f(1920 / 2 - 15, 1080 / 2);
-        glVertex2f(1920 / 2 + 15, 1080 / 2);
-    glEnd();
+    if (!Edit::edit_mode){
+        glBegin(GL_LINES);
+            glVertex2f(1920 / 2 - 15, 1080 / 2);
+            glVertex2f(1920 / 2 + 15, 1080 / 2);
+        glEnd();
 
-    glBegin(GL_LINES);
-        glVertex2f(1920 / 2, 1080 / 2 - 15);
-        glVertex2f(1920 / 2, 1080 / 2 + 15);
-    glEnd();
+        glBegin(GL_LINES);
+            glVertex2f(1920 / 2, 1080 / 2 - 15);
+            glVertex2f(1920 / 2, 1080 / 2 + 15);
+        glEnd();
+    }
 }
 
 
