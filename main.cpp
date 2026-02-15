@@ -98,7 +98,7 @@ void key_press_check() {
     }if(key_states['t']){
         graphics.angley_diff += 0.01745329 * 2;
 
-    }if(key_states['g']){
+    }if(key_states[edit_point_triangles_3D[j]'g']){
         graphics.angley_diff -= 0.01745329 * 2;
         
     }if(key_states['x']){
