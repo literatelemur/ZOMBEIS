@@ -98,7 +98,7 @@ void key_press_check() {
     }if(key_states['t']){
         graphics.angley_diff += 0.01745329 * 2;
 
-    }if(key_states[edit_point_triangles_3D[j]'g']){
+    }if(key_states['g']){
         graphics.angley_diff -= 0.01745329 * 2;
         
     }if(key_states['x']){
@@ -107,9 +107,9 @@ void key_press_check() {
     }if(Edit::edit_mode){
     
         if(key_states['=']){
-            Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 5});
+            Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 10});
             Edit::points_3D_index++;
-            Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 5}, 0.25, 12));
+            Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 10}, 0.25, 12));
 
         }if(key_states['-']){
             Edit::points_3D.pop_back();
