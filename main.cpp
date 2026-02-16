@@ -43,10 +43,9 @@ std::vector<std::vector<double>> floor_points_3D;
 std::vector<Triangle> floor_triangles_3D;
 
 
-//int player_speed = 10;
-int player_speed = 10;
-
-//bool edit_mode = false;
+double normal_player_speed = 10;
+double edit_player_speed = 0.25;
+double player_speed = normal_player_speed;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
@@ -103,6 +102,8 @@ void key_press_check() {
         
     }if(key_states['x'] && !prev_key_states['x']){
         Edit::toggle_edit_mode();
+        if (Edit::edit_mode) player_speed = edit_player_speed;
+        else player_speed = normal_player_speed;
 
     }if(Edit::edit_mode){        
     
@@ -150,7 +151,7 @@ void key_press_check() {
 
             }
         }if (Edit::points_3D.size() > 2){
-            if(key_states['.'] && !prev_key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_main_index - 1], Edit::points_3D[Edit::points_3D_main_index - 2], "both", {0, 0, 0}, {1, 0, 0}, 0));
+            if(key_states['.'] && !prev_key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_sub1_index], Edit::points_3D[Edit::points_3D_sub2_index], "both", {0, 0, 0}, {1, 0, 0}, 0));
 
         }
 
@@ -300,7 +301,7 @@ void render_all(){
             std::vector<Triangle> edit_point_triangles_3D;
 
             if (i == Edit::points_3D_main_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 1, 1}, {1, 0, 0}, 0);
-            else if (i == Edit::points_3D_sub1_index || i == Edit::points_3D_sub2_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "full", {1, 0, 0}, {0, 0, 0}, 0);
+            else if (i == Edit::points_3D_sub1_index || i == Edit::points_3D_sub2_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 0, 0}, {0, 0, 0}, 0);
             else edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {0, 0, 0}, {1, 1, 1}, 0);
 
             for (int j = 0; j < edit_point_triangles_3D.size(); j++){

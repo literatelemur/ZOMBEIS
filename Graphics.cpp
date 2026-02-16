@@ -1093,6 +1093,62 @@ void Graphics::draw_hud(){
             glVertex2f(1920 / 2, 1080 / 2 - 15);
             glVertex2f(1920 / 2, 1080 / 2 + 15);
         glEnd();
+
+    } else{
+        glBegin(GL_LINES);
+            glVertex2f(1920 / 2 - 15, 1080 / 2 - 15);
+            glVertex2f(1920 / 2 + 15, 1080 / 2 + 15);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2f(1920 / 2 - 15, 1080 / 2 + 15);
+            glVertex2f(1920 / 2 + 15, 1080 / 2 - 15);
+        glEnd();
+
+
+        glBegin(GL_LINES);
+            glVertex2f(0 + 100, 0 + 150);
+            glVertex2f(0 + 100, 0 + 100);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2f(0 + 100, 0 + 100);
+            glVertex2f(0 + 150, 0 + 100);
+        glEnd();
+
+        
+        glBegin(GL_LINES);
+            glVertex2f(1920 - 150, 0 + 100);
+            glVertex2f(1920 - 100, 0 + 100);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2f(1920 - 100, 0 + 100);
+            glVertex2f(1920 - 100, 0 + 150);
+        glEnd();
+
+
+        glBegin(GL_LINES);
+            glVertex2f(1920 - 100, 1080 - 150);
+            glVertex2f(1920 - 100, 1080 - 100);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2f(1920 - 100, 1080 - 100);
+            glVertex2f(1920 - 150, 1080 - 100);
+        glEnd();
+
+
+        glBegin(GL_LINES);
+            glVertex2f(0 + 150, 1080 - 100);
+            glVertex2f(0 + 100, 1080 - 100);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2f(0 + 100, 1080 - 100);
+            glVertex2f(0 + 100, 1080 - 150);
+        glEnd();
+
     }
 }
 
