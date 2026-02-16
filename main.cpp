@@ -108,12 +108,16 @@ void key_press_check() {
     
         if(key_states['=']){
             Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 10});
-            Edit::points_3D_index++;
+            Edit::points_3D_main_index++;
+            Edit::points_3D_sub1_index++;
+            Edit::points_3D_sub2_index++;
             Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 10}, 0.25, 12));
 
         }if(key_states['-']){
             Edit::points_3D.pop_back();
-            Edit::points_3D_index--;
+            Edit::points_3D_main_index--;
+            Edit::points_3D_sub1_index--;
+            Edit::points_3D_sub2_index--;
             Edit::points_points_3D.pop_back();
 
 
@@ -136,17 +140,17 @@ void key_press_check() {
             Edit::move_point(2, -1);
 
         }if (Edit::points_3D.size() > 0){
-            if(key_states['[']){
-                if (Edit::points_3D_index == 0) Edit::points_3D_index = Edit::points_3D.size() - 1;
-                else Edit::points_3D_index--;
+            if(key_states[';']){
+                if (Edit::points_3D_main_index == 0) Edit::points_3D_main_index = Edit::points_3D.size() - 1;
+                else Edit::points_3D_main_index--;
 
-            }if(key_states[']']){
-                if (Edit::points_3D_index == Edit::points_3D.size() - 1) Edit::points_3D_index = 0;
-                else Edit::points_3D_index++;
+            }if(key_states['\'']){
+                if (Edit::points_3D_main_index == Edit::points_3D.size() - 1) Edit::points_3D_main_index = 0;
+                else Edit::points_3D_main_index++;
             }
 
         }if (Edit::points_3D.size() > 2){
-            if(key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_index], Edit::points_3D[Edit::points_3D_index - 1], Edit::points_3D[Edit::points_3D_index - 2], "both", {0, 0, 0}, {1, 1, 1}, 0));
+            if(key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_main_index - 1], Edit::points_3D[Edit::points_3D_main_index - 2], "both", {0, 0, 0}, {1, 0, 0}, 0));
 
         }
 
@@ -293,7 +297,8 @@ void render_all(){
 
             std::vector<Triangle> edit_point_triangles_3D;
 
-            if (i == Edit::points_3D_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 1, 1}, {0, 0, 0}, 0);
+            if (i == Edit::points_3D_main_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 1, 1}, {1, 0, 0}, 0);
+            else if (i == Edit::points_3D_sub1_index || i == Edit::points_3D_sub2_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 0, 0}, {0, 0, 0}, 0);
             else edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {0, 0, 0}, {1, 1, 1}, 0);
 
             for (int j = 0; j < edit_point_triangles_3D.size(); j++){

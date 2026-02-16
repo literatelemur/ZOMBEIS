@@ -35,7 +35,9 @@ class Edit {
 
         static std::vector<std::vector<double>> points_3D;
 
-        static int points_3D_index;
+        static int points_3D_main_index;
+        static int points_3D_sub1_index;
+        static int points_3D_sub2_index;
 
         static std::vector<std::vector<std::vector<double>>> points_points_3D;
 
