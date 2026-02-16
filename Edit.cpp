@@ -33,6 +33,9 @@ void Edit::toggle_edit_mode(){
     }else{
         Edit::edit_mode = false;
         Edit::points_3D = {};
+        Edit::points_3D_main_index = -1;
+        Edit::points_3D_sub1_index = -2;
+        Edit::points_3D_sub2_index = -3;
         Edit::points_points_3D = {};
         Edit::triangles_3D = {};
     }
