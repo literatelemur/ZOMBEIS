@@ -36,3 +36,28 @@ void Edit::toggle_edit_mode(){
     }
 
 }
+
+void Edit::move_point(int coor, int dir){
+
+    double move_amount = 0.025;
+
+    Edit::points_3D[Edit::points_3D_index][coor] += move_amount * dir;
+    for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
+        Edit::points_points_3D[Edit::points_3D_index][i][coor] += move_amount * dir;
+    }
+
+    double dist = sqrt(abs(Edit::points_3D[Edit::points_3D_index][0] - Edit::points_3D[Edit::points_3D_index - 1][0]) + 
+                        abs(Edit::points_3D[Edit::points_3D_index][1] - Edit::points_3D[Edit::points_3D_index - 1][1]) +
+                        abs(Edit::points_3D[Edit::points_3D_index][2] - Edit::points_3D[Edit::points_3D_index - 1][2]));
+
+    for (int i = 0; i < Edit::triangles_3D.size(); i++){
+        for (int j = 0; j < Edit::triangles_3D[i].points.size(); j++){
+            if (Edit::triangles_3D[i].points[j][0] > Edit::points_3D[Edit::points_3D_index][0] - dist * 0.1 && Edit::triangles_3D[i].points[j][0] < Edit::points_3D[Edit::points_3D_index][0] + dist * 0.1 &&
+                    Edit::triangles_3D[i].points[j][1] > Edit::points_3D[Edit::points_3D_index][1] - dist * 0.1 && Edit::triangles_3D[i].points[j][1] < Edit::points_3D[Edit::points_3D_index][1] + dist * 0.1 &&
+                    Edit::triangles_3D[i].points[j][2] > Edit::points_3D[Edit::points_3D_index][2] - dist * 0.1 && Edit::triangles_3D[i].points[j][2] < Edit::points_3D[Edit::points_3D_index][2] + dist * 0.1){
+                        
+                Edit::triangles_3D[i].points[j][coor] += move_amount * dir;
+            }
+        }
+    }
+}

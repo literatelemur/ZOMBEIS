@@ -44,6 +44,8 @@ class Edit {
 
         static void toggle_edit_mode();
 
+        static void move_point(int coor, int dir);
+
         Edit() = delete;
         
 };

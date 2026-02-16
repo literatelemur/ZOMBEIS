@@ -118,40 +118,22 @@ void key_press_check() {
 
 
         }if(key_states['i']){
-            Edit::points_3D[Edit::points_3D_index][1] -= 0.025;
-            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
-                Edit::points_points_3D[Edit::points_3D_index][i][1] -= 0.025;
-            }
+            Edit::move_point(1, -1);
 
         }if(key_states['k']){
-            Edit::points_3D[Edit::points_3D_index][1] += 0.025;
-            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
-                Edit::points_points_3D[Edit::points_3D_index][i][1] += 0.025;
-            }
+            Edit::move_point(1, 1);
 
         }if(key_states['j']){
-            Edit::points_3D[Edit::points_3D_index][0] -= 0.025;
-            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
-                Edit::points_points_3D[Edit::points_3D_index][i][0] -= 0.025;
-            }
+            Edit::move_point(0, -1);
 
         }if(key_states['l']){
-            Edit::points_3D[Edit::points_3D_index][0] += 0.025;
-            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
-                Edit::points_points_3D[Edit::points_3D_index][i][0] += 0.025;
-            }
+            Edit::move_point(0, 1);
 
         }if(key_states['u']){
-            Edit::points_3D[Edit::points_3D_index][2] += 0.025;
-            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
-                Edit::points_points_3D[Edit::points_3D_index][i][2] += 0.025;
-            }
+            Edit::move_point(2, 1);
 
         }if(key_states['o']){
-            Edit::points_3D[Edit::points_3D_index][2] -= 0.025;
-            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_index].size(); i++){
-                Edit::points_points_3D[Edit::points_3D_index][i][2] -= 0.025;
-            }
+            Edit::move_point(2, -1);
 
         }if (Edit::points_3D.size() > 0){
             if(key_states['[']){
