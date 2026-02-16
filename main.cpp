@@ -27,8 +27,8 @@ int last_mouse_movey = int(window_height / 2);
 int mousex;
 int mousey;
 
-
 bool key_states[256] = { false };
+bool prev_key_states[256] = { false };
 
 int num_zombeis;
 std::vector<Zombei> zombei_vector;
@@ -101,19 +101,19 @@ void key_press_check() {
     }if(key_states['g']){
         graphics.angley_diff -= 0.01745329 * 2;
         
-    }if(key_states['x']){
-        Edit::toggle_edit_mode();        
+    }if(key_states['x'] && !prev_key_states['x']){
+        Edit::toggle_edit_mode();
 
-    }if(Edit::edit_mode){
+    }if(Edit::edit_mode){        
     
-        if(key_states['=']){
+        if(key_states['='] && !prev_key_states['=']){
             Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 10});
             Edit::points_3D_main_index++;
             Edit::points_3D_sub1_index++;
             Edit::points_3D_sub2_index++;
             Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 10}, 0.25, 12));
 
-        }if(key_states['-']){
+        }if(key_states['-'] && !prev_key_states['-']){
             Edit::points_3D.pop_back();
             Edit::points_3D_main_index--;
             Edit::points_3D_sub1_index--;
@@ -140,17 +140,17 @@ void key_press_check() {
             Edit::move_point(2, -1);
 
         }if (Edit::points_3D.size() > 0){
-            if(key_states[';']){
+            if(key_states[';'] && !prev_key_states[';']){
                 if (Edit::points_3D_main_index == 0) Edit::points_3D_main_index = Edit::points_3D.size() - 1;
                 else Edit::points_3D_main_index--;
 
-            }if(key_states['\'']){
+            }if(key_states['\''] && !prev_key_states['\'']){
                 if (Edit::points_3D_main_index == Edit::points_3D.size() - 1) Edit::points_3D_main_index = 0;
                 else Edit::points_3D_main_index++;
-            }
 
+            }
         }if (Edit::points_3D.size() > 2){
-            if(key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_main_index - 1], Edit::points_3D[Edit::points_3D_main_index - 2], "both", {0, 0, 0}, {1, 0, 0}, 0));
+            if(key_states['.'] && !prev_key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_main_index - 1], Edit::points_3D[Edit::points_3D_main_index - 2], "both", {0, 0, 0}, {1, 0, 0}, 0));
 
         }
 
@@ -158,6 +158,8 @@ void key_press_check() {
     }if(key_states[27]){ 
         exit(0);
     }
+
+    std::copy(std::begin(key_states), std::end(key_states), std::begin(prev_key_states));
 }
 
 
@@ -298,7 +300,7 @@ void render_all(){
             std::vector<Triangle> edit_point_triangles_3D;
 
             if (i == Edit::points_3D_main_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 1, 1}, {1, 0, 0}, 0);
-            else if (i == Edit::points_3D_sub1_index || i == Edit::points_3D_sub2_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 0, 0}, {0, 0, 0}, 0);
+            else if (i == Edit::points_3D_sub1_index || i == Edit::points_3D_sub2_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "full", {1, 0, 0}, {0, 0, 0}, 0);
             else edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {0, 0, 0}, {1, 1, 1}, 0);
 
             for (int j = 0; j < edit_point_triangles_3D.size(); j++){
