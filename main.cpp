@@ -141,17 +141,51 @@ void key_press_check() {
             Edit::move_point(2, -1);
 
         }if (Edit::points_3D.size() > 0){
-            if(key_states[';'] && !prev_key_states[';']){
-                if (Edit::points_3D_main_index == 0) Edit::points_3D_main_index = Edit::points_3D.size() - 1;
-                else Edit::points_3D_main_index--;
+            if(key_states[','] && !prev_key_states[',']){
+                Edit::points_3D_main_index--;
+                for (int i = 0; i < 3; i++){
+                    if (Edit::points_3D_main_index == Edit::points_3D_sub1_index || Edit::points_3D_main_index == Edit::points_3D_sub2_index) Edit::points_3D_main_index--;
+                    if (Edit::points_3D_main_index == -1) Edit::points_3D_main_index = Edit::points_3D.size() - 1;
+                }
+
+            }if(key_states['.'] && !prev_key_states['.']){
+                Edit::points_3D_main_index++;
+                for (int i = 0; i < 3; i++){
+                    if (Edit::points_3D_main_index == Edit::points_3D_sub1_index || Edit::points_3D_main_index == Edit::points_3D_sub2_index) Edit::points_3D_main_index++;
+                    if (Edit::points_3D_main_index == Edit::points_3D.size()) Edit::points_3D_main_index = 0;
+                }
+
+            }if(key_states[';'] && !prev_key_states[';']){
+                Edit::points_3D_sub1_index--;
+                for (int i = 0; i < 3; i++){
+                    if (Edit::points_3D_sub1_index == Edit::points_3D_main_index || Edit::points_3D_sub1_index == Edit::points_3D_sub2_index) Edit::points_3D_sub1_index--;
+                    if (Edit::points_3D_sub1_index == -1) Edit::points_3D_sub1_index = Edit::points_3D.size() - 1;
+                }
 
             }if(key_states['\''] && !prev_key_states['\'']){
-                if (Edit::points_3D_main_index == Edit::points_3D.size() - 1) Edit::points_3D_main_index = 0;
-                else Edit::points_3D_main_index++;
+                Edit::points_3D_sub1_index++;
+                for (int i = 0; i < 3; i++){
+                    if (Edit::points_3D_sub1_index == Edit::points_3D_main_index || Edit::points_3D_sub1_index == Edit::points_3D_sub2_index) Edit::points_3D_sub1_index++;
+                    if (Edit::points_3D_sub1_index == Edit::points_3D.size()) Edit::points_3D_sub1_index = 0;
+                }
+
+            }if(key_states['['] && !prev_key_states['[']){
+                Edit::points_3D_sub2_index--;
+                for (int i = 0; i < 3; i++){
+                    if (Edit::points_3D_sub2_index == Edit::points_3D_main_index || Edit::points_3D_sub2_index == Edit::points_3D_sub1_index) Edit::points_3D_sub2_index--;
+                    if (Edit::points_3D_sub2_index == -1) Edit::points_3D_sub2_index = Edit::points_3D.size() - 1;
+                }
+
+            }if(key_states[']'] && !prev_key_states[']']){
+                Edit::points_3D_sub2_index++;
+                for (int i = 0; i < 3; i++){
+                    if (Edit::points_3D_sub2_index == Edit::points_3D_main_index || Edit::points_3D_sub2_index == Edit::points_3D_sub1_index) Edit::points_3D_sub2_index++;
+                    if (Edit::points_3D_sub2_index == Edit::points_3D.size()) Edit::points_3D_sub2_index = 0;
+                }
 
             }
         }if (Edit::points_3D.size() > 2){
-            if(key_states['.'] && !prev_key_states['.']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_sub1_index], Edit::points_3D[Edit::points_3D_sub2_index], "both", {0, 0, 0}, {1, 0, 0}, 0));
+            if(key_states['/'] && !prev_key_states['/']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_sub1_index], Edit::points_3D[Edit::points_3D_sub2_index], "both", {0, 0, 0}, {1, 0, 0}, 0));
 
         }
 
