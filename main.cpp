@@ -205,7 +205,8 @@ void mouse_click(int button, int state, int x, int y) {
         // Check which button was pressed
         switch (button) {
             case GLUT_LEFT_BUTTON:
-                bullet_vector.emplace_back(Bullet(&graphics, x, y));
+                if (!Edit::edit_mode) bullet_vector.emplace_back(Bullet(&graphics, x, y));
+                //else Edit::click_point(&graphics, x, y);
                 break;
             case GLUT_RIGHT_BUTTON:
                 break;
