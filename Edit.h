@@ -42,11 +42,17 @@ class Edit {
         static std::vector<std::vector<std::vector<double>>> points_points_3D;
 
         static std::vector<Triangle> triangles_3D;
+
+        static std::string edit_click_mouse_button;
         
 
         static void toggle_edit_mode();
 
         static void move_point(int coor, int dir);
+
+        static void click_point(Graphics* graphics);
+
+        static void move_point_with_mouse(Graphics* graphics);
 
         Edit() = delete;
         

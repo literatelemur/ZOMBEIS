@@ -206,13 +206,28 @@ void mouse_click(int button, int state, int x, int y) {
         switch (button) {
             case GLUT_LEFT_BUTTON:
                 if (!Edit::edit_mode) bullet_vector.emplace_back(Bullet(&graphics, x, y));
-                //else Edit::click_point(&graphics, x, y);
+                else {
+                    Edit::edit_click_mouse_button = "left";
+                    Edit::click_point(&graphics);
+                }
                 break;
             case GLUT_RIGHT_BUTTON:
+                if (Edit::edit_mode) {
+                    Edit::edit_click_mouse_button = "right";
+                    Edit::click_point(&graphics);
+                }
                 break;
             case GLUT_MIDDLE_BUTTON:
+                if (Edit::edit_mode) {
+                    Edit::edit_click_mouse_button = "middle";
+                    Edit::click_point(&graphics);
+                }
                 break;
         }
+
+    } else if(state == GLUT_UP){
+
+        if (Edit::edit_mode) Edit::edit_click_mouse_button = "none";
     }
 }
 
@@ -237,6 +252,10 @@ void mouse_move_check(){
 
         graphics.anglex_diff = graphics.anglex_diff + mouse_diffx * sensitivity * 0.001;
         graphics.angley_diff = graphics.angley_diff + mouse_diffy * sensitivity * 0.001;
+
+
+        // Moving edit mode points with mouse movement and mouse button clicked.
+        if (Edit::edit_click_mouse_button != "none") Edit::move_point_with_mouse(&graphics);
 
     }else{
         first_mouse_move = false;

@@ -25,6 +25,8 @@ std::vector<std::vector<std::vector<double>>> Edit::points_points_3D = {};
 
 std::vector<Triangle> Edit::triangles_3D = {};
 
+std::string Edit::edit_click_mouse_button = "none";
+
 void Edit::toggle_edit_mode(){
 
     if (!Edit::edit_mode){
@@ -38,6 +40,7 @@ void Edit::toggle_edit_mode(){
         Edit::points_3D_sub2_index = -3;
         Edit::points_points_3D = {};
         Edit::triangles_3D = {};
+        Edit::edit_click_mouse_button = "none";
     }
 
 }
@@ -73,4 +76,56 @@ void Edit::move_point(int coor, int dir){
             }
         }
     }
+}
+
+
+void Edit::click_point(Graphics* graphics){
+
+    double speed = 0.1;
+
+    std::vector<double> sense_point = {graphics->playerx, graphics->playery, graphics->playerz};
+
+    
+    // Finding movement values based on looking angle.
+    double angle_x = graphics->anglex_diff * -1;
+    double angle_y = graphics->angley_diff * -1;
+
+    // Copied from chatgpt. I do not understand the 3D math behind it, but it is based on a unit circle and my method did not work because it treated each dimension independently.
+    double sense_point_x_move = cos(angle_y) * sin(angle_x) * speed;
+    double sense_point_y_move = sin(angle_y) * speed;
+    double sense_point_z_move = cos(angle_y) * cos(angle_x) * speed;
+
+
+    bool done = false;
+    for (int i = 0; i < 1000; i++){
+
+        sense_point[0] += sense_point_x_move;
+        sense_point[1] += sense_point_y_move;
+        sense_point[2] += sense_point_z_move;
+
+        // Need to update this so that it finds all matches, sorts by distance, and chooses the closest match so that points behind intended point aren't chosen.
+        for (int j = 0; j < Edit::points_3D.size(); j++){
+            if (sense_point[0] > Edit::points_3D[j][0] - 0.25 && sense_point[0] < Edit::points_3D[j][0] + 0.25 &&
+                    sense_point[1] > Edit::points_3D[j][1] - 0.25 && sense_point[1] < Edit::points_3D[j][1] + 0.25 &&
+                    sense_point[2] > Edit::points_3D[j][2] - 0.25 && sense_point[2] < Edit::points_3D[j][2] + 0.25){
+                if (edit_click_mouse_button == "left") Edit::points_3D_main_index = j;
+                else if (edit_click_mouse_button == "middle") Edit::points_3D_sub1_index = j;
+                else if (edit_click_mouse_button == "right") Edit::points_3D_sub2_index = j;
+                done = true;
+                break;
+            }
+        }
+
+        if (done){
+            break;
+        }
+
+    }
+
+}
+
+
+void Edit::move_point_with_mouse(Graphics* graphics){
+
+
 }
