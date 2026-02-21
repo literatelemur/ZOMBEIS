@@ -44,6 +44,10 @@ class Edit {
         static std::vector<Triangle> triangles_3D;
 
         static std::string edit_click_mouse_button;
+
+        static bool first_click_move;
+        static double prev_anglex_diff;
+        static double prev_angley_diff;
         
 
         static void toggle_edit_mode();

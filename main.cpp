@@ -109,9 +109,7 @@ void key_press_check() {
     
         if(key_states['='] && !prev_key_states['=']){
             Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 10});
-            Edit::points_3D_main_index++;
-            Edit::points_3D_sub1_index++;
-            Edit::points_3D_sub2_index++;
+            Edit::points_3D_main_index = Edit::points_3D.size() - 1;
             Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 10}, 0.25, 12));
 
         }if(key_states['-'] && !prev_key_states['-']){
@@ -255,7 +253,11 @@ void mouse_move_check(){
 
 
         // Moving edit mode points with mouse movement and mouse button clicked.
-        if (Edit::edit_click_mouse_button != "none") Edit::move_point_with_mouse(&graphics);
+        if (Edit::edit_click_mouse_button != "none") {
+
+            Edit::move_point_with_mouse(&graphics);
+            Edit::first_click_move = false;
+        }else Edit::first_click_move = true;
 
     }else{
         first_mouse_move = false;
