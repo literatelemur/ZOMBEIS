@@ -181,6 +181,9 @@ void key_press_check() {
                     if (Edit::points_3D_sub2_index == Edit::points_3D.size()) Edit::points_3D_sub2_index = 0;
                 }
 
+            }if(key_states['m'] && !prev_key_states['m']){
+                if (Edit::edit_draw_points) Edit::edit_draw_points = false;
+                else Edit::edit_draw_points = true;
             }
         }if (Edit::points_3D.size() > 2){
             if(key_states['/'] && !prev_key_states['/']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_sub1_index], Edit::points_3D[Edit::points_3D_sub2_index], "both", {0, 0, 0}, {1, 0, 0}, 0));
@@ -352,16 +355,19 @@ void render_all(){
 
 
     if (Edit::edit_mode){
-        for (int i = 0; i < Edit::points_points_3D.size(); i++){
 
-            std::vector<Triangle> edit_point_triangles_3D;
+        if (Edit::edit_draw_points){
+            for (int i = 0; i < Edit::points_points_3D.size(); i++){
 
-            if (i == Edit::points_3D_main_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 1, 1}, {1, 0, 0}, 0);
-            else if (i == Edit::points_3D_sub1_index || i == Edit::points_3D_sub2_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 0, 0}, {0, 0, 0}, 0);
-            else edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {0, 0, 0}, {1, 1, 1}, 0);
+                std::vector<Triangle> edit_point_triangles_3D;
 
-            for (int j = 0; j < edit_point_triangles_3D.size(); j++){
-                all_triangles.emplace_back(edit_point_triangles_3D[j]);
+                if (i == Edit::points_3D_main_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 1, 1}, {1, 0, 0}, 0);
+                else if (i == Edit::points_3D_sub1_index || i == Edit::points_3D_sub2_index) edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {1, 0, 0}, {0, 0, 0}, 0);
+                else edit_point_triangles_3D = graphics.find_triangles_sphere(Edit::points_points_3D[i], "both", {0, 0, 0}, {1, 1, 1}, 0);
+
+                for (int j = 0; j < edit_point_triangles_3D.size(); j++){
+                    all_triangles.emplace_back(edit_point_triangles_3D[j]);
+                }
             }
         }
 

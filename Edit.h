@@ -48,6 +48,8 @@ class Edit {
         static bool first_click_move;
         static double prev_anglex_diff;
         static double prev_angley_diff;
+
+        static bool edit_draw_points;
         
 
         static void toggle_edit_mode();
