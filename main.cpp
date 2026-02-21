@@ -185,7 +185,7 @@ void key_press_check() {
                 if (Edit::edit_draw_points) Edit::edit_draw_points = false;
                 else Edit::edit_draw_points = true;
             }
-        }if (Edit::points_3D.size() > 2){
+        }if (Edit::points_3D.size() > 2 && Edit::points_3D_main_index > -1 && Edit::points_3D_sub1_index > -1 && Edit::points_3D_sub2_index > -1){
             if(key_states['/'] && !prev_key_states['/']) Edit::triangles_3D.emplace_back(Triangle(&graphics, Edit::points_3D[Edit::points_3D_main_index], Edit::points_3D[Edit::points_3D_sub1_index], Edit::points_3D[Edit::points_3D_sub2_index], "both", {0, 0, 0}, {1, 0, 0}, 0));
 
         }
