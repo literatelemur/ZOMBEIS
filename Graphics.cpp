@@ -929,50 +929,76 @@ std::vector<double> Graphics::compute_2D_point(std::vector<double> point_3D){
 
 
 
-
-    // New way found by chatgpt.
+    // Experimental way
 
     std::vector<double> point_2D(2, 0);
 
-    // Translate
-    double rel_x_3D = point_3D[0] - playerx;
-    double rel_y_3D = point_3D[1] - playery;
-    double rel_z_3D = point_3D[2] - playerz;
+    // Determining the adjusted x and y 3D differences when considering turning.
+    double x_3D_diff = point_3D[0] - playerx;
+    double y_3D_diff = point_3D[1] - playery;
+    double z_3D_diff = point_3D[2] - playerz;
 
-    // If you rotate a 2D point (x, z) by angle θ around the origin:
+    double anglex = atan2(z_3D_diff, x_3D_diff);
+    double angley = atan2(y_3D_diff, x_3D_diff);
 
-    // x' = x cosθ − z sinθ
-    // z' = x sinθ + z cosθ
-
-    // Yaw (turning around Y axis).
-    double cos_x = cos(anglex_diff);
-    double sin_x = sin(anglex_diff);
-
-    double rel_turned_x_3D = rel_x_3D * cos_x - rel_z_3D * sin_x;
-    double rel_turned_z_for_x_3D = rel_x_3D * sin_x + rel_z_3D * cos_x;
-
-    // Pitch (turning around X axis).
-    double cos_y = cos(angley_diff);
-    double sin_y = sin(angley_diff);
-
-    double rel_turned_y_3D = rel_y_3D * cos_y - rel_turned_z_for_x_3D * sin_y;
-    double rel_turned_z_for_y_3D = rel_y_3D * sin_y + rel_turned_z_for_x_3D * cos_y;
-
-    // Prevent divide by zero
-    if (rel_turned_z_for_y_3D <= 0.001) rel_turned_z_for_y_3D = 0.001;
-
-    double x_2D_diff = (rel_turned_x_3D / rel_turned_z_for_y_3D) * zscreendiff;
-    double y_2D_diff = (rel_turned_y_3D / rel_turned_z_for_y_3D) * zscreendiff;
-
-
-    // double x_2D_diff = tan(anglex) * zscreendiff;
-    // double y_2D_diff = tan(angley) * zscreendiff;
+    double x_2D_diff = tan(anglex + anglex_diff) * zscreendiff;
+    double y_2D_diff = tan(angley + angley_diff) * zscreendiff;
 
 
     point_2D[0] = 960 + x_2D_diff;
     point_2D[1] = 540 + y_2D_diff;
 
     return point_2D;
+
+
+
+
+
+
+
+    // New way found by chatgpt.
+
+    // std::vector<double> point_2D(2, 0);
+
+    // // Translate
+    // double rel_x_3D = point_3D[0] - playerx;
+    // double rel_y_3D = point_3D[1] - playery;
+    // double rel_z_3D = point_3D[2] - playerz;
+
+    // // If you rotate a 2D point (x, z) by angle θ around the origin:
+
+    // // x' = x cosθ − z sinθ
+    // // z' = x sinθ + z cosθ
+
+    // // Yaw (turning around Y axis).
+    // double cos_x = cos(anglex_diff);
+    // double sin_x = sin(anglex_diff);
+
+    // double rel_turned_x_3D = rel_x_3D * cos_x - rel_z_3D * sin_x;
+    // double rel_turned_z_for_x_3D = rel_x_3D * sin_x + rel_z_3D * cos_x;
+
+    // // Pitch (turning around X axis).
+    // double cos_y = cos(angley_diff);
+    // double sin_y = sin(angley_diff);
+
+    // double rel_turned_y_3D = rel_y_3D * cos_y - rel_turned_z_for_x_3D * sin_y;
+    // double rel_turned_z_for_y_3D = rel_y_3D * sin_y + rel_turned_z_for_x_3D * cos_y;
+
+    // // Prevent divide by zero
+    // if (rel_turned_z_for_y_3D <= 0.001) rel_turned_z_for_y_3D = 0.001;
+
+    // double x_2D_diff = (rel_turned_x_3D / rel_turned_z_for_y_3D) * zscreendiff;
+    // double y_2D_diff = (rel_turned_y_3D / rel_turned_z_for_y_3D) * zscreendiff;
+
+
+    // // double x_2D_diff = tan(anglex) * zscreendiff;
+    // // double y_2D_diff = tan(angley) * zscreendiff;
+
+
+    // point_2D[0] = 960 + x_2D_diff;
+    // point_2D[1] = 540 + y_2D_diff;
+
+    // return point_2D;
 
 
 
