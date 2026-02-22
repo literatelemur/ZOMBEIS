@@ -898,32 +898,117 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::compute_2D_
 
 std::vector<double> Graphics::compute_2D_point(std::vector<double> point_3D){
 
-    std::vector<double> point_2D(2, 0);
+    // Old way that utilizes shearing and distorts when angle increases.
 
-    // Determining the adjusted x and y 3D differences when considering turning.
-    double z_3D_diff = point_3D[2] - playerz;
+    // std::vector<double> point_2D(2, 0);
 
-    double turnx_diff_3D = tan(anglex_diff) * z_3D_diff;
-    double turny_diff_3D = tan(angley_diff) * z_3D_diff;
+    // // Determining the adjusted x and y 3D differences when considering turning.
+    // double z_3D_diff = point_3D[2] - playerz;
 
-    // Computing the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
-    double x_3D_diff = point_3D[0] - playerx + turnx_diff_3D;
-    double y_3D_diff = point_3D[1] - playery + turny_diff_3D;
+    // double turnx_diff_3D = tan(anglex_diff) * z_3D_diff;
+    // double turny_diff_3D = tan(angley_diff) * z_3D_diff;
+
+    // // Computing the 2D window view point counterparts for a 3D object as observed by an eye behind the window.
+    // double x_3D_diff = point_3D[0] - playerx + turnx_diff_3D;
+    // double y_3D_diff = point_3D[1] - playery + turny_diff_3D;
     
 
-    double anglex = atan2(x_3D_diff, z_3D_diff);
+    // double anglex = atan2(x_3D_diff, z_3D_diff);
+    // double angley = atan2(y_3D_diff, z_3D_diff);
 
-    double angley = atan2(y_3D_diff, z_3D_diff);
+
+    // double x_2D_diff = tan(anglex) * zscreendiff;
+    // double y_2D_diff = tan(angley) * zscreendiff;
 
 
-    double x_2D_diff = tan(anglex) * zscreendiff;
-    double y_2D_diff = tan(angley) * zscreendiff;
+    // point_2D[0] = 960 + x_2D_diff;
+    // point_2D[1] = 540 + y_2D_diff;
+
+    // return point_2D;
+
+
+
+
+
+    // New way found by chatgpt.
+
+    std::vector<double> point_2D(2, 0);
+
+    // Translate
+    double rel_x_3D = point_3D[0] - playerx;
+    double rel_y_3D = point_3D[1] - playery;
+    double rel_z_3D = point_3D[2] - playerz;
+
+    // If you rotate a 2D point (x, z) by angle θ around the origin:
+
+    // x' = x cosθ − z sinθ
+    // z' = x sinθ + z cosθ
+
+    // Yaw (turning around Y axis).
+    double cos_x = cos(anglex_diff);
+    double sin_x = sin(anglex_diff);
+
+    double rel_turned_x_3D = rel_x_3D * cos_x - rel_z_3D * sin_x;
+    double rel_turned_z_for_x_3D = rel_x_3D * sin_x + rel_z_3D * cos_x;
+
+    // Pitch (turning around X axis).
+    double cos_y = cos(angley_diff);
+    double sin_y = sin(angley_diff);
+
+    double rel_turned_y_3D = rel_y_3D * cos_y - rel_turned_z_for_x_3D * sin_y;
+    double rel_turned_z_for_y_3D = rel_y_3D * sin_y + rel_turned_z_for_x_3D * cos_y;
+
+    // Prevent divide by zero
+    if (rel_turned_z_for_y_3D <= 0.001) rel_turned_z_for_y_3D = 0.001;
+
+    double x_2D_diff = (rel_turned_x_3D / rel_turned_z_for_y_3D) * zscreendiff;
+    double y_2D_diff = (rel_turned_y_3D / rel_turned_z_for_y_3D) * zscreendiff;
+
+
+    // double x_2D_diff = tan(anglex) * zscreendiff;
+    // double y_2D_diff = tan(angley) * zscreendiff;
 
 
     point_2D[0] = 960 + x_2D_diff;
     point_2D[1] = 540 + y_2D_diff;
 
     return point_2D;
+
+
+
+    // Exact copy from chatgpt.
+
+    // std::vector<double> point_2D(2, 0);
+
+    // // Translate
+    // double x = point_3D[0] - playerx;
+    // double y = point_3D[1] - playery;
+    // double z = point_3D[2] - playerz;
+
+    // // Yaw (Y axis)
+    // double cosYaw = cos(anglex_diff);
+    // double sinYaw = sin(anglex_diff);
+
+    // double xz_x = x * cosYaw - z * sinYaw;
+    // double xz_z = x * sinYaw + z * cosYaw;
+
+    // // Pitch (X axis)
+    // double cosPitch = cos(angley_diff);
+    // double sinPitch = sin(angley_diff);
+
+    // double yz_y = y * cosPitch - xz_z * sinPitch;
+    // double yz_z = y * sinPitch + xz_z * cosPitch;
+
+    // // Prevent divide by zero
+    // if (yz_z <= 0.001) yz_z = 0.001;
+
+    // double x_2D = (xz_x / yz_z) * zscreendiff;
+    // double y_2D = (yz_y / yz_z) * zscreendiff;
+
+    // point_2D[0] = 960 + x_2D;
+    // point_2D[1] = 540 + y_2D;
+
+    // return point_2D;
 
 }
 

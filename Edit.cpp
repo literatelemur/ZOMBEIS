@@ -148,15 +148,6 @@ void Edit::move_point_with_mouse(Graphics* graphics){
             double move_amounty = cos(angley_diff_diff) * angley_diff_diff * -5;
             double move_amountz = sin(anglex_diff_diff) * anglex_diff_diff * -5;
 
-            Edit::points_3D[Edit::points_3D_main_index][0] += move_amountx;
-            Edit::points_3D[Edit::points_3D_main_index][1] += move_amounty;
-            Edit::points_3D[Edit::points_3D_main_index][2] += move_amountz;
-
-            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_main_index].size(); i++){
-                Edit::points_points_3D[Edit::points_3D_main_index][i][0] += move_amountx;
-                Edit::points_points_3D[Edit::points_3D_main_index][i][1] += move_amounty;
-                Edit::points_points_3D[Edit::points_3D_main_index][i][2] += move_amountz;
-            }
 
             if (Edit::triangles_3D.size() > 0){
                 double dist1 = sqrt(abs(Edit::points_3D[Edit::points_3D_main_index][0] - Edit::points_3D[Edit::points_3D_sub1_index][0]) * abs(Edit::points_3D[Edit::points_3D_main_index][0] - Edit::points_3D[Edit::points_3D_sub1_index][0]) + 
@@ -182,6 +173,19 @@ void Edit::move_point_with_mouse(Graphics* graphics){
                     }
                 }
             }
+            
+
+            Edit::points_3D[Edit::points_3D_main_index][0] += move_amountx;
+            Edit::points_3D[Edit::points_3D_main_index][1] += move_amounty;
+            Edit::points_3D[Edit::points_3D_main_index][2] += move_amountz;
+
+            for (int i = 0; i < Edit::points_points_3D[Edit::points_3D_main_index].size(); i++){
+                Edit::points_points_3D[Edit::points_3D_main_index][i][0] += move_amountx;
+                Edit::points_points_3D[Edit::points_3D_main_index][i][1] += move_amounty;
+                Edit::points_points_3D[Edit::points_3D_main_index][i][2] += move_amountz;
+            }
+
+            
 
         }
 

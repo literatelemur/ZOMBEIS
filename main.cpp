@@ -133,10 +133,10 @@ void key_press_check() {
             Edit::move_point(0, 1);
 
         }if(key_states['u']){
-            Edit::move_point(2, 1);
+            Edit::move_point(2, -1);
 
         }if(key_states['o']){
-            Edit::move_point(2, -1);
+            Edit::move_point(2, 1);
 
         }if (Edit::points_3D.size() > 0){
             if(key_states[','] && !prev_key_states[',']){
