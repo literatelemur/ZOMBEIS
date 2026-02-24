@@ -251,8 +251,8 @@ void mouse_move_check(){
 
         double sensitivity = 1.0;
 
-        graphics.anglex_diff = graphics.anglex_diff + mouse_diffx * sensitivity * 0.001;
-        graphics.angley_diff = graphics.angley_diff + mouse_diffy * sensitivity * 0.001;
+        graphics.anglex_diff = graphics.anglex_diff - mouse_diffx * sensitivity * 0.001;
+        graphics.angley_diff = graphics.angley_diff - mouse_diffy * sensitivity * 0.001;
 
 
         // Moving edit mode points with mouse movement and mouse button clicked.

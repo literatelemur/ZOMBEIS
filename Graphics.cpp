@@ -731,11 +731,11 @@ std::vector<double> Graphics::clip_line(std::vector<std::vector<double>> line_po
 
     double x_diff1 = line_points_3D[0][0] - playerx;
     double y_diff1 = line_points_3D[0][1] - playery;
-    double z_diff1 = line_points_3D[0][2] - playerz + near_plane;
+    double z_diff1 = line_points_3D[0][2] - playerz;
 
     double x_diff2 = line_points_3D[1][0] - playerx;
     double y_diff2 = line_points_3D[1][1] - playery;
-    double z_diff2 = line_points_3D[1][2] - playerz + near_plane;
+    double z_diff2 = line_points_3D[1][2] - playerz;
 
 
     double x1_clip_diff;
