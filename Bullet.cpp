@@ -20,8 +20,8 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
 
     
     // Finding movement values based on looking angle.
-    double angle_x = graphics->anglex_diff * -1;
-    double angle_y = graphics->angley_diff * -1;
+    double angle_x = graphics->anglex_diff;
+    double angle_y = graphics->angley_diff;
 
     // center_x_move = sin(angle_x) * speed;
     // center_y_move = sin(angle_y) * speed;
