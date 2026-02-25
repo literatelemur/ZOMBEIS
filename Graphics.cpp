@@ -468,7 +468,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         line1[1].emplace_back(all_triangles[i].points[1][2]);
 
 
-        std::vector<double> clipped_coor_diffs_line1 = clip_line(line1);
+        std::vector<std::vector<double>> clipped_rot_coor_diffs_line1 = clip_line(line1);
 
 
         std::vector<std::vector<double>> line2;
@@ -482,7 +482,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         line2[1].emplace_back(all_triangles[i].points[2][1]);
         line2[1].emplace_back(all_triangles[i].points[2][2]);
 
-        std::vector<double> clipped_coor_diffs_line2 = clip_line(line2);
+        std::vector<std::vector<double>> clipped_rot_coor_diffs_line2 = clip_line(line2);
 
 
         std::vector<std::vector<double>> line3;
@@ -498,227 +498,97 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         line3[1].emplace_back(all_triangles[i].points[0][2]);
 
 
-        std::vector<double> clipped_coor_diffs_line3 = clip_line(line3);
-
-
-
-        std::vector<std::vector<double>> clipped_coor_line1;
-
-
-        if (clipped_coor_diffs_line1[0] != -100000 && clipped_coor_diffs_line1[1] != -100000 && clipped_coor_diffs_line1[2] != -100000 && 
-                clipped_coor_diffs_line1[3] != -100000 && clipped_coor_diffs_line1[4] != -100000 && clipped_coor_diffs_line1[5] != -100000){
-
-            clipped_coor_line1.emplace_back();
-            clipped_coor_line1[0].emplace_back(playerx + clipped_coor_diffs_line1[0]);
-            clipped_coor_line1[0].emplace_back(playery + clipped_coor_diffs_line1[1]);
-            clipped_coor_line1[0].emplace_back(playerz + clipped_coor_diffs_line1[2]);
-
-
-            clipped_coor_line1.emplace_back();
-            clipped_coor_line1[1].emplace_back(playerx + clipped_coor_diffs_line1[3]);
-            clipped_coor_line1[1].emplace_back(playery + clipped_coor_diffs_line1[4]);
-            clipped_coor_line1[1].emplace_back(playerz + clipped_coor_diffs_line1[5]);
-
-
-        }else{
-
-            clipped_coor_line1.emplace_back();
-            clipped_coor_line1[0].emplace_back(-100000);
-            clipped_coor_line1[0].emplace_back(-100000);
-            clipped_coor_line1[0].emplace_back(-100000);
-
-
-            clipped_coor_line1.emplace_back();
-            clipped_coor_line1[1].emplace_back(-100000);
-            clipped_coor_line1[1].emplace_back(-100000);
-            clipped_coor_line1[1].emplace_back(-100000);
-        }
+        std::vector<std::vector<double>> clipped_rot_coor_diffs_line3 = clip_line(line3);
 
 
         
-
-
-        std::vector<std::vector<double>> clipped_coor_line2;
-
-        if (clipped_coor_diffs_line2[0] != -100000 && clipped_coor_diffs_line2[1] != -100000 && clipped_coor_diffs_line2[2] != -100000 && 
-                clipped_coor_diffs_line2[3] != -100000 && clipped_coor_diffs_line2[4] != -100000 && clipped_coor_diffs_line2[5] != -100000){
-
-            clipped_coor_line2.emplace_back();
-            clipped_coor_line2[0].emplace_back(playerx + clipped_coor_diffs_line2[0]);
-            clipped_coor_line2[0].emplace_back(playery + clipped_coor_diffs_line2[1]);
-            clipped_coor_line2[0].emplace_back(playerz + clipped_coor_diffs_line2[2]);
-
-
-            clipped_coor_line2.emplace_back();
-            clipped_coor_line2[1].emplace_back(playerx + clipped_coor_diffs_line2[3]);
-            clipped_coor_line2[1].emplace_back(playery + clipped_coor_diffs_line2[4]);
-            clipped_coor_line2[1].emplace_back(playerz + clipped_coor_diffs_line2[5]);
-
-        }else{
-
-            clipped_coor_line2.emplace_back();
-            clipped_coor_line2[0].emplace_back(-100000);
-            clipped_coor_line2[0].emplace_back(-100000);
-            clipped_coor_line2[0].emplace_back(-100000);
-
-
-            clipped_coor_line2.emplace_back();
-            clipped_coor_line2[1].emplace_back(-100000);
-            clipped_coor_line2[1].emplace_back(-100000);
-            clipped_coor_line2[1].emplace_back(-100000);
-        }
-
-
-        std::vector<std::vector<double>> clipped_coor_line3;
-
-        if (clipped_coor_diffs_line3[0] != -100000 && clipped_coor_diffs_line3[1] != -100000 && clipped_coor_diffs_line3[2] != -100000 && 
-                clipped_coor_diffs_line3[3] != -100000 && clipped_coor_diffs_line3[4] != -100000 && clipped_coor_diffs_line3[5] != -100000){
-
-            clipped_coor_line3.emplace_back();
-            clipped_coor_line3[0].emplace_back(playerx + clipped_coor_diffs_line3[0]);
-            clipped_coor_line3[0].emplace_back(playery + clipped_coor_diffs_line3[1]);
-            clipped_coor_line3[0].emplace_back(playerz + clipped_coor_diffs_line3[2]);
-
-
-            clipped_coor_line3.emplace_back();
-            clipped_coor_line3[1].emplace_back(playerx + clipped_coor_diffs_line3[3]);
-            clipped_coor_line3[1].emplace_back(playery + clipped_coor_diffs_line3[4]);
-            clipped_coor_line3[1].emplace_back(playerz + clipped_coor_diffs_line3[5]);
-
-        }else{
-
-            clipped_coor_line3.emplace_back();
-            clipped_coor_line3[0].emplace_back(-100000);
-            clipped_coor_line3[0].emplace_back(-100000);
-            clipped_coor_line3[0].emplace_back(-100000);
-
-
-            clipped_coor_line3.emplace_back();
-            clipped_coor_line3[1].emplace_back(-100000);
-            clipped_coor_line3[1].emplace_back(-100000);
-            clipped_coor_line3[1].emplace_back(-100000);
-        }
-
-
         clipped_triangles_as_lines.emplace_back();
         
         clipped_triangles_as_lines[i].emplace_back();
         clipped_triangles_as_lines[i][0].emplace_back();
-        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_coor_line1[0][0]);
-        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_coor_line1[0][1]);
-        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_coor_line1[0][2]);
+        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_rot_coor_diffs_line1[0][0]);
+        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_rot_coor_diffs_line1[0][1]);
+        clipped_triangles_as_lines[i][0][0].emplace_back(clipped_rot_coor_diffs_line1[0][2]);
 
         clipped_triangles_as_lines[i][0].emplace_back();
-        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_coor_line1[1][0]);
-        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_coor_line1[1][1]);
-        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_coor_line1[1][2]);
+        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_rot_coor_diffs_line1[1][0]);
+        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_rot_coor_diffs_line1[1][1]);
+        clipped_triangles_as_lines[i][0][1].emplace_back(clipped_rot_coor_diffs_line1[1][2]);
 
 
 
         clipped_triangles_as_lines[i].emplace_back();
         clipped_triangles_as_lines[i][1].emplace_back();
-        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_coor_line2[0][0]);
-        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_coor_line2[0][1]);
-        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_coor_line2[0][2]);
+        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_rot_coor_diffs_line2[0][0]);
+        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_rot_coor_diffs_line2[0][1]);
+        clipped_triangles_as_lines[i][1][0].emplace_back(clipped_rot_coor_diffs_line2[0][2]);
 
         clipped_triangles_as_lines[i][1].emplace_back();
-        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_coor_line2[1][0]);
-        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_coor_line2[1][1]);
-        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_coor_line2[1][2]);
+        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_rot_coor_diffs_line2[1][0]);
+        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_rot_coor_diffs_line2[1][1]);
+        clipped_triangles_as_lines[i][1][1].emplace_back(clipped_rot_coor_diffs_line2[1][2]);
 
 
 
         clipped_triangles_as_lines[i].emplace_back();
         clipped_triangles_as_lines[i][2].emplace_back();
-        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_coor_line3[0][0]);
-        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_coor_line3[0][1]);
-        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_coor_line3[0][2]);
+        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_rot_coor_diffs_line3[0][0]);
+        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_rot_coor_diffs_line3[0][1]);
+        clipped_triangles_as_lines[i][2][0].emplace_back(clipped_rot_coor_diffs_line3[0][2]);
 
         clipped_triangles_as_lines[i][2].emplace_back();
-        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][0]);
-        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][1]);
-        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_coor_line3[1][2]);
+        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_rot_coor_diffs_line3[1][0]);
+        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_rot_coor_diffs_line3[1][1]);
+        clipped_triangles_as_lines[i][2][1].emplace_back(clipped_rot_coor_diffs_line3[1][2]);
 
 
 
         // Clipping triangle lines across the triangle.
-        std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_3D;
+        std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_lines_points_3D;
 
         // Iterating through all points on all lines on all triangles to clip the lines.
         for (int j = 0; j < all_triangles[i].lines_points_3D.size(); j++){
-            clipped_lines_points_3D.emplace_back();
+            clipped_rot_lines_points_3D.emplace_back();
 
             for (int k = 0; k < all_triangles[i].lines_points_3D[j].size(); k++){
-                clipped_lines_points_3D[j].emplace_back();
+                clipped_rot_lines_points_3D[j].emplace_back();
 
 
-                clipped_lines_points_3D[j][k].emplace_back();
-                clipped_lines_points_3D[j][k][0].emplace_back(0);
-                clipped_lines_points_3D[j][k][0].emplace_back(0);
-                clipped_lines_points_3D[j][k][0].emplace_back(0);
+                clipped_rot_lines_points_3D[j][k].emplace_back();
+                clipped_rot_lines_points_3D[j][k][0].emplace_back(0);
+                clipped_rot_lines_points_3D[j][k][0].emplace_back(0);
+                clipped_rot_lines_points_3D[j][k][0].emplace_back(0);
 
 
-                clipped_lines_points_3D[j][k].emplace_back();
-                clipped_lines_points_3D[j][k][1].emplace_back(0);
-                clipped_lines_points_3D[j][k][1].emplace_back(0);
-                clipped_lines_points_3D[j][k][1].emplace_back(0);
+                clipped_rot_lines_points_3D[j][k].emplace_back();
+                clipped_rot_lines_points_3D[j][k][1].emplace_back(0);
+                clipped_rot_lines_points_3D[j][k][1].emplace_back(0);
+                clipped_rot_lines_points_3D[j][k][1].emplace_back(0);
 
 
-                std::vector<double> clipped_coor_diffs = clip_line(all_triangles[i].lines_points_3D[j][k]);
+                std::vector<std::vector<double>> clipped_rot_coor_diffs = clip_line(all_triangles[i].lines_points_3D[j][k]);
                 
-                double x1_clip_diff = clipped_coor_diffs[0];
-                double y1_clip_diff = clipped_coor_diffs[1];
-                double z1_clip_diff = clipped_coor_diffs[2];
+                double x1_clip_rot_diff = clipped_rot_coor_diffs[0][0];
+                double y1_clip_rot_diff = clipped_rot_coor_diffs[0][1];
+                double z1_clip_rot_diff = clipped_rot_coor_diffs[0][2];
 
-                double x2_clip_diff = clipped_coor_diffs[3];
-                double y2_clip_diff = clipped_coor_diffs[4];
-                double z2_clip_diff = clipped_coor_diffs[5];
-
-                
+                double x2_clip_rot_diff = clipped_rot_coor_diffs[1][3];
+                double y2_clip_rot_diff = clipped_rot_coor_diffs[1][4];
+                double z2_clip_rot_diff = clipped_rot_coor_diffs[1][5];
 
 
+                clipped_rot_lines_points_3D[j][k][0][0] = x1_clip_rot_diff;
+                clipped_rot_lines_points_3D[j][k][0][1] = y1_clip_rot_diff;
+                clipped_rot_lines_points_3D[j][k][0][2] = z1_clip_rot_diff;
 
-                if (x1_clip_diff == -100000 && y1_clip_diff == -100000 && z1_clip_diff == -100000 &&
-                        x2_clip_diff == -100000 && y2_clip_diff == -100000 && z2_clip_diff == -100000){
-
-                    clipped_lines_points_3D[j][k][0][0] = -100000;
-                    clipped_lines_points_3D[j][k][0][1] = -100000;
-                    clipped_lines_points_3D[j][k][0][2] = -100000;
-
-                    clipped_lines_points_3D[j][k][1][0] = -100000;
-                    clipped_lines_points_3D[j][k][1][1] = -100000;
-                    clipped_lines_points_3D[j][k][1][2] = -100000;
-
-                }else{
-
-                    // Returning diff to objective point so that it can be plugged into compute_2D_point.
-                    double x_3D = x1_clip_diff + playerx;
-                    double y_3D = y1_clip_diff + playery;
-                    double z_3D = z1_clip_diff + playerz;
-
-                    std::vector<double> point_3D = {x_3D, y_3D, z_3D};
-
-                    clipped_lines_points_3D[j][k][0][0] = point_3D[0];
-                    clipped_lines_points_3D[j][k][0][1] = point_3D[1];
-                    clipped_lines_points_3D[j][k][0][2] = point_3D[2];
-
-
-                    x_3D = x2_clip_diff + playerx;
-                    y_3D = y2_clip_diff + playery;
-                    z_3D = z2_clip_diff + playerz;
-
-                    point_3D = {x_3D, y_3D, z_3D};
-
-
-                    clipped_lines_points_3D[j][k][1][0] = point_3D[0];
-                    clipped_lines_points_3D[j][k][1][1] = point_3D[1];
-                    clipped_lines_points_3D[j][k][1][2] = point_3D[2];
-                }
+                clipped_rot_lines_points_3D[j][k][1][0] = x2_clip_rot_diff;
+                clipped_rot_lines_points_3D[j][k][1][1] = y2_clip_rot_diff;
+                clipped_rot_lines_points_3D[j][k][1][2] = z2_clip_rot_diff;
 
             }
         }
 
-        all_triangles[i].clipped_lines_points_3D = std::move(clipped_lines_points_3D);
+        all_triangles[i].clipped_rot_lines_points_3D = std::move(clipped_rot_lines_points_3D);
         std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].lines_points_3D);
     }
 
@@ -726,7 +596,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
 }
 
 
-std::vector<double> Graphics::clip_line(std::vector<std::vector<double>> line_points_3D){
+std::vector<std::vector<double>> Graphics::clip_line(std::vector<std::vector<double>> line_points_3D){
 
     double x_diff1 = line_points_3D[0][0] - playerx;
     double y_diff1 = line_points_3D[0][1] - playery;
@@ -814,15 +684,18 @@ std::vector<double> Graphics::clip_line(std::vector<std::vector<double>> line_po
         z2_clip_diff = turned_z2;
     }
 
-    std::vector<double> clipped_coor_diffs;
-    clipped_coor_diffs.emplace_back(x1_clip_diff);
-    clipped_coor_diffs.emplace_back(y1_clip_diff);
-    clipped_coor_diffs.emplace_back(z1_clip_diff);
-    clipped_coor_diffs.emplace_back(x2_clip_diff);
-    clipped_coor_diffs.emplace_back(y2_clip_diff);
-    clipped_coor_diffs.emplace_back(z2_clip_diff);
+    std::vector<std::vector<double>> clipped_rot_coor_diffs;
+    clipped_rot_coor_diffs.emplace_back();
+    clipped_rot_coor_diffs[0].emplace_back(x1_clip_diff);
+    clipped_rot_coor_diffs[0].emplace_back(y1_clip_diff);
+    clipped_rot_coor_diffs[0].emplace_back(z1_clip_diff);
 
-    return clipped_coor_diffs;
+    clipped_rot_coor_diffs.emplace_back();
+    clipped_rot_coor_diffs[1].emplace_back(x2_clip_diff);
+    clipped_rot_coor_diffs[1].emplace_back(y2_clip_diff);
+    clipped_rot_coor_diffs[1].emplace_back(z2_clip_diff);
+
+    return clipped_rot_coor_diffs;
 }
 
 
@@ -877,34 +750,34 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::compute_2D_
 
     // Computing 2D coordinates for each point on each line on each line direction on each triangle.
     for (int i = 0; i < all_triangles.size(); i++){
-        std::vector<std::vector<std::vector<std::vector<double>>>> clipped_lines_points_2D;
+        std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_lines_points_2D;
 
-        for (int j = 0; j < all_triangles[i].clipped_lines_points_3D.size(); j++){
-            clipped_lines_points_2D.emplace_back();
+        for (int j = 0; j < all_triangles[i].clipped_rot_lines_points_3D.size(); j++){
+            clipped_rot_lines_points_2D.emplace_back();
 
-            for (int k = 0; k < all_triangles[i].clipped_lines_points_3D[j].size(); k++){
-                clipped_lines_points_2D[j].emplace_back();
+            for (int k = 0; k < all_triangles[i].clipped_rot_lines_points_3D[j].size(); k++){
+                clipped_rot_lines_points_2D[j].emplace_back();
 
-                if (all_triangles[i].clipped_lines_points_3D[j][k][0][0] == -100000 && all_triangles[i].clipped_lines_points_3D[j][k][0][1] == -100000 && all_triangles[i].clipped_lines_points_3D[j][k][0][2] == -100000 &&
-                        all_triangles[i].clipped_lines_points_3D[j][k][1][0] == -100000 && all_triangles[i].clipped_lines_points_3D[j][k][1][1] == -100000 && all_triangles[i].clipped_lines_points_3D[j][k][1][2] == -100000){
+                if (all_triangles[i].clipped_rot_lines_points_3D[j][k][0][0] == -100000 && all_triangles[i].clipped_rot_lines_points_3D[j][k][0][1] == -100000 && all_triangles[i].clipped_rot_lines_points_3D[j][k][0][2] == -100000 &&
+                        all_triangles[i].clipped_rot_lines_points_3D[j][k][1][0] == -100000 && all_triangles[i].clipped_rot_lines_points_3D[j][k][1][1] == -100000 && all_triangles[i].clipped_rot_lines_points_3D[j][k][1][2] == -100000){
 
-                    clipped_lines_points_2D[j][k].emplace_back(std::vector<double>{-100000, -100000});
-                    clipped_lines_points_2D[j][k].emplace_back(std::vector<double>{-100000, -100000});
+                    clipped_rot_lines_points_2D[j][k].emplace_back(std::vector<double>{-100000, -100000});
+                    clipped_rot_lines_points_2D[j][k].emplace_back(std::vector<double>{-100000, -100000});
 
                 } else {
 
-                    std::vector<double> point_2D = compute_2D_point(all_triangles[i].clipped_lines_points_3D[j][k][0]);
-                    clipped_lines_points_2D[j][k].emplace_back(point_2D);
+                    std::vector<double> point_2D = compute_2D_point(all_triangles[i].clipped_rot_lines_points_3D[j][k][0]);
+                    clipped_rot_lines_points_2D[j][k].emplace_back(point_2D);
 
-                    point_2D = compute_2D_point(all_triangles[i].clipped_lines_points_3D[j][k][1]);
-                    clipped_lines_points_2D[j][k].emplace_back(point_2D);
+                    point_2D = compute_2D_point(all_triangles[i].clipped_rot_lines_points_3D[j][k][1]);
+                    clipped_rot_lines_points_2D[j][k].emplace_back(point_2D);
                 }
             }
 
         }
         
-        all_triangles[i].clipped_lines_points_2D = std::move(clipped_lines_points_2D);
-        std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].clipped_lines_points_3D);
+        all_triangles[i].clipped_rot_lines_points_2D = std::move(clipped_rot_lines_points_2D);
+        std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].clipped_rot_lines_points_3D);
 
     }
 
@@ -1158,19 +1031,19 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
 
         
         // Drawing each line on each line direction on each triangle for the lines going across the triangle.
-        for (int j = 0; j < all_triangles[i].clipped_lines_points_2D.size(); j++){
-            for (int k = 0; k < all_triangles[i].clipped_lines_points_2D[j].size(); k++){
+        for (int j = 0; j < all_triangles[i].clipped_rot_lines_points_2D.size(); j++){
+            for (int k = 0; k < all_triangles[i].clipped_rot_lines_points_2D[j].size(); k++){
                     
-                if (all_triangles[i].clipped_lines_points_2D[j][k][0][0] != -100000 &&
-                        all_triangles[i].clipped_lines_points_2D[j][k][0][1] != -100000 &&
-                        all_triangles[i].clipped_lines_points_2D[j][k][1][0] != -100000 &&
-                        all_triangles[i].clipped_lines_points_2D[j][k][1][1] != -100000){
+                if (all_triangles[i].clipped_rot_lines_points_2D[j][k][0][0] != -100000 &&
+                        all_triangles[i].clipped_rot_lines_points_2D[j][k][0][1] != -100000 &&
+                        all_triangles[i].clipped_rot_lines_points_2D[j][k][1][0] != -100000 &&
+                        all_triangles[i].clipped_rot_lines_points_2D[j][k][1][1] != -100000){
 
                     set_color(all_triangles[i].outline_color[0], all_triangles[i].outline_color[1], all_triangles[i].outline_color[2]);
 
                     glBegin(GL_LINES);
-                        glVertex2f(all_triangles[i].clipped_lines_points_2D[j][k][0][0], all_triangles[i].clipped_lines_points_2D[j][k][0][1]);
-                        glVertex2f(all_triangles[i].clipped_lines_points_2D[j][k][1][0], all_triangles[i].clipped_lines_points_2D[j][k][1][1]);
+                        glVertex2f(all_triangles[i].clipped_rot_lines_points_2D[j][k][0][0], all_triangles[i].clipped_rot_lines_points_2D[j][k][0][1]);
+                        glVertex2f(all_triangles[i].clipped_rot_lines_points_2D[j][k][1][0], all_triangles[i].clipped_rot_lines_points_2D[j][k][1][1]);
                     glEnd();
 
                 }
