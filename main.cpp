@@ -377,13 +377,12 @@ void render_all(){
     }
 
 
-    //std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
-    //graphics.store_all_triangles(ordered_all_triangles);
-    graphics.store_all_triangles(all_triangles);
+    std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
+    graphics.store_all_triangles(ordered_all_triangles);
     graphics.find_lines_on_triangles();
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles();
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
-    graphics.draw_triangles_as_lines(clipped_triangles_2D_as_lines);
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_3D_as_lines = graphics.clip_triangles();
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_rot_triangles_3D_as_lines);
+    graphics.draw_triangles_as_lines(clipped_rot_triangles_2D_as_lines);
 
 
 
