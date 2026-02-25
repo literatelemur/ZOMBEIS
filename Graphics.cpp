@@ -23,7 +23,7 @@ Graphics::Graphics(){
     playery = 1060;
     playerz = 0;
 
-    near_plane = 0.1;
+    near_plane = 0.01;
     anglex_diff = 0;
     angley_diff = 0;
 
@@ -746,9 +746,29 @@ std::vector<double> Graphics::clip_line(std::vector<std::vector<double>> line_po
     double z2_clip_diff;
 
 
+    // Yaw rotation
+    double cos_x = cos(anglex_diff);
+    double sin_x = sin(anglex_diff);
+
+    double turned_x1 = x_diff1 * cos_x - z_diff1 * sin_x;
+    double turned_z1 = x_diff1 * sin_x + z_diff1 * cos_x;
+
+    double turned_x2 = x_diff2 * cos_x - z_diff2 * sin_x;
+    double turned_z2 = x_diff2 * sin_x + z_diff2 * cos_x;
+
+    // Pitch rotation
+    double cos_y = cos(angley_diff);
+    double sin_y = sin(angley_diff);
+
+    double turned_y1 = y_diff1 * cos_y - turned_z1 * sin_y;
+    double turned_more_z1 = y_diff1 * sin_y + turned_z1 * cos_y;
+
+    double turned_y2 = y_diff2 * cos_y - turned_z2 * sin_y;
+    double turned_more_z2 = y_diff2 * sin_y + turned_z2 * cos_y;
     
     // Determining if clipping is necessary (when z value reaches behind player).
-    if (z_diff1 < near_plane && z_diff2 < near_plane){
+    if (turned_more_z1 < near_plane && turned_more_z2 < near_plane){
+        
 
         x1_clip_diff = -100000;
         y1_clip_diff = -100000;
@@ -759,49 +779,39 @@ std::vector<double> Graphics::clip_line(std::vector<std::vector<double>> line_po
         z2_clip_diff = -100000;
 
 
-    }else if (z_diff1 < near_plane){
+    }else if (turned_more_z1 < near_plane){
 
-        double ratio_along = (near_plane - z_diff1) / (line_points_3D[1][2] - line_points_3D[0][2]);
-        double x1_clip = line_points_3D[0][0] + ratio_along * (line_points_3D[1][0] - line_points_3D[0][0]);
-        double y1_clip = line_points_3D[0][1] - ratio_along * (line_points_3D[0][1] - line_points_3D[1][1]);
+        double ratio_along = (near_plane - turned_more_z1) / (turned_more_z2 - turned_more_z1);
 
-
-        x1_clip_diff = x1_clip - playerx;
-        y1_clip_diff = y1_clip - playery;
+        x1_clip_diff = turned_x1 + ratio_along * (turned_x2 - turned_x1);
+        y1_clip_diff = turned_y1 + ratio_along * (turned_y2 - turned_y1);
         z1_clip_diff = near_plane;
 
-        x2_clip_diff = x_diff2;
-        y2_clip_diff = y_diff2;
-        z2_clip_diff = z_diff2;
+        x2_clip_diff = turned_x2;
+        y2_clip_diff = turned_y2;
+        z2_clip_diff = turned_more_z2;
 
+    }else if (turned_more_z2 < near_plane){
 
+        x1_clip_diff = turned_x1;
+        y1_clip_diff = turned_y1;
+        z1_clip_diff = turned_more_z1;
 
-    }else if (z_diff2 < near_plane){
+        double ratio_along = (near_plane - turned_more_z2) / (turned_more_z1 - turned_more_z2);
 
-        x1_clip_diff = x_diff1;
-        y1_clip_diff = y_diff1;
-        z1_clip_diff = z_diff1;
-
-        double ratio_along = (near_plane - z_diff2) / (line_points_3D[0][2] - line_points_3D[1][2]);
-        double x2_clip = line_points_3D[1][0] + ratio_along * (line_points_3D[0][0] - line_points_3D[1][0]);
-        double y2_clip = line_points_3D[1][1] - ratio_along * (line_points_3D[1][1] - line_points_3D[0][1]);
-        double z2_clip = near_plane;
-
-
-        x2_clip_diff = x2_clip - playerx;
-        y2_clip_diff = y2_clip - playery;
+        x2_clip_diff = turned_x2 + ratio_along * (turned_x1 - turned_x2);
+        y2_clip_diff = turned_y2 + ratio_along * (turned_y1 - turned_y2);
         z2_clip_diff = near_plane;
-
 
     }else{
 
-        x1_clip_diff = x_diff1;
-        y1_clip_diff = y_diff1;
-        z1_clip_diff = z_diff1;
+        x1_clip_diff = turned_x1;
+        y1_clip_diff = turned_y1;
+        z1_clip_diff = turned_z1;
 
-        x2_clip_diff = x_diff2;
-        y2_clip_diff = y_diff2;
-        z2_clip_diff = z_diff2;
+        x2_clip_diff = turned_x2;
+        y2_clip_diff = turned_y2;
+        z2_clip_diff = turned_z2;
     }
 
     std::vector<double> clipped_coor_diffs;
@@ -904,7 +914,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::compute_2D_
 }
 
 
-std::vector<double> Graphics::compute_2D_point(std::vector<double> point_3D){
+std::vector<double> Graphics::compute_2D_point(std::vector<double> rotated_point_3D){
 
     // Old way that utilizes shearing and distorts when angle increases.
 
@@ -934,53 +944,75 @@ std::vector<double> Graphics::compute_2D_point(std::vector<double> point_3D){
 
     // return point_2D;
 
+    
 
 
-
-
-    // New way found by chatgpt.
+    // New new way to deal with rotated points in clip_line found by claude.
 
     std::vector<double> point_2D(2, 0);
 
-    // Translate
-    double rel_x_3D = point_3D[0] - playerx;
-    double rel_y_3D = point_3D[1] - playery;
-    double rel_z_3D = point_3D[2] - playerz;
+    double x = rotated_point_3D[0];
+    double y = rotated_point_3D[1];
+    double z = rotated_point_3D[2];
 
-    // If you rotate a 2D point (x, z) by angle θ around the origin:
+    if (z < near_plane) z = near_plane;
 
-    // x' = x cosθ − z sinθ
-    // z' = x sinθ + z cosθ
-
-    // Yaw (turning around Y axis).
-    double cos_x = cos(anglex_diff);
-    double sin_x = sin(anglex_diff);
-
-    double rel_turned_x_3D = rel_x_3D * cos_x - rel_z_3D * sin_x;
-    double rel_turned_z_for_x_3D = rel_x_3D * sin_x + rel_z_3D * cos_x;
-
-    // Pitch (turning around X axis).
-    double cos_y = cos(angley_diff);
-    double sin_y = sin(angley_diff);
-
-    double rel_turned_y_3D = rel_y_3D * cos_y - rel_turned_z_for_x_3D * sin_y;
-    double rel_turned_z_for_y_3D = rel_y_3D * sin_y + rel_turned_z_for_x_3D * cos_y;
-
-    // Prevent divide by zero
-    if (rel_turned_z_for_y_3D <= 0.001) rel_turned_z_for_y_3D = 0.001;
-
-    double x_2D_diff = (rel_turned_x_3D / rel_turned_z_for_y_3D) * zscreendiff;
-    double y_2D_diff = (rel_turned_y_3D / rel_turned_z_for_y_3D) * zscreendiff;
-
-
-    // double x_2D_diff = tan(anglex) * zscreendiff;
-    // double y_2D_diff = tan(angley) * zscreendiff;
-
+    double x_2D_diff = (x / z) * zscreendiff;
+    double y_2D_diff = (y / z) * zscreendiff;
 
     point_2D[0] = 960 + x_2D_diff;
     point_2D[1] = 540 + y_2D_diff;
 
     return point_2D;
+
+
+
+
+    // // New way found by chatgpt.
+
+    // std::vector<double> point_2D(2, 0);
+
+    // // Translate
+    // double rel_x_3D = point_3D[0] - playerx;
+    // double rel_y_3D = point_3D[1] - playery;
+    // double rel_z_3D = point_3D[2] - playerz;
+
+    // // If you rotate a 2D point (x, z) by angle θ around the origin:
+
+    // // x' = x cosθ − z sinθ
+    // // z' = x sinθ + z cosθ
+
+    // // Yaw (turning around Y axis).
+    // double cos_x = cos(anglex_diff);
+    // double sin_x = sin(anglex_diff);
+
+    // double rel_turned_x_3D = rel_x_3D * cos_x - rel_z_3D * sin_x;
+    // double rel_turned_z_for_x_3D = rel_x_3D * sin_x + rel_z_3D * cos_x;
+
+    // // Pitch (turning around X axis).
+    // double cos_y = cos(angley_diff);
+    // double sin_y = sin(angley_diff);
+
+    // double rel_turned_y_3D = rel_y_3D * cos_y - rel_turned_z_for_x_3D * sin_y;
+    // double rel_turned_z_for_y_3D = rel_y_3D * sin_y + rel_turned_z_for_x_3D * cos_y;
+
+    // // Prevent divide by zero
+    // if (rel_turned_z_for_y_3D <= 0.001) rel_turned_z_for_y_3D = 0.001;
+
+    // double x_2D_diff = (rel_turned_x_3D / rel_turned_z_for_y_3D) * zscreendiff;
+    // double y_2D_diff = (rel_turned_y_3D / rel_turned_z_for_y_3D) * zscreendiff;
+
+
+    // // double x_2D_diff = tan(anglex) * zscreendiff;
+    // // double y_2D_diff = tan(angley) * zscreendiff;
+
+
+    // point_2D[0] = 960 + x_2D_diff;
+    // point_2D[1] = 540 + y_2D_diff;
+
+    // return point_2D;
+
+
 
 
 
@@ -1080,6 +1112,14 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
                     glVertex2d(valid_points[3][0], valid_points[3][1]);
                 glEnd();
                 
+            }else if (valid_points.size() == 5){
+                glBegin(GL_POLYGON);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                    glVertex2d(valid_points[3][0], valid_points[3][1]);
+                    glVertex2d(valid_points[4][0], valid_points[4][1]);
+                glEnd();
             }
 
         }
@@ -1104,8 +1144,15 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
                     glVertex2d(valid_points[3][0], valid_points[3][1]);
                 glEnd();
                 
+            }else if (valid_points.size() == 5){
+                glBegin(GL_LINE_LOOP);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                    glVertex2d(valid_points[3][0], valid_points[3][1]);
+                    glVertex2d(valid_points[4][0], valid_points[4][1]);
+                glEnd();
             }
-
 
         }
 

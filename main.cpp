@@ -283,6 +283,10 @@ void render_all(){
 
     std::vector<Triangle> all_triangles;
 
+    for (int i = 0; i < floor_triangles_3D.size(); i++){
+        all_triangles.emplace_back(floor_triangles_3D[i]);
+    }
+
     for (int i = 0; i < star_vector.size(); i++){
         star_vector[i].find_movement_value(&graphics);
         star_vector[i].box_triangles_3D = graphics.find_triangles_box(star_vector[i].box_points_3D, "both", {0, 0, 0}, {1, 1, 1}, 0);
@@ -300,9 +304,7 @@ void render_all(){
         }
     }
 
-    for (int i = 0; i < floor_triangles_3D.size(); i++){
-        all_triangles.emplace_back(floor_triangles_3D[i]);
-    }
+    
 
 
     for (int i = 0; i < zombei_vector.size(); i++){
@@ -375,8 +377,9 @@ void render_all(){
     }
 
 
-    std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
-    graphics.store_all_triangles(ordered_all_triangles);
+    //std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
+    //graphics.store_all_triangles(ordered_all_triangles);
+    graphics.store_all_triangles(all_triangles);
     graphics.find_lines_on_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
