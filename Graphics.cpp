@@ -1030,84 +1030,86 @@ void Graphics::clear_draw_screen(){
 void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::vector<double>>>> triangles_2D_as_lines){
 
     for (int i = 0; i < triangles_2D_as_lines.size(); i++){
-
         
-        // Reconstructing polygon points when triangle is clipped into a polygon (one point is out of bounds) 
-        // so that only necessary points are used (not drawing end point of one line to start point of next line that is the same point).
-        std::vector<std::vector<double>> polygon_points;
-        for (int j = 0; j < triangles_2D_as_lines[i].size(); j++){
-            if (triangles_2D_as_lines[i][j][0][0] != -100000 &&
-                    triangles_2D_as_lines[i][j][0][1] != -100000 &&
-                    triangles_2D_as_lines[i][j][1][0] != -100000 &&
-                    triangles_2D_as_lines[i][j][1][1] != -100000){
+        // Iterating through each point to see if it is already present in triangles_2D_as_lines. If so, only one copy is made because duplicates mess up drawing function.
 
-                polygon_points.emplace_back(triangles_2D_as_lines[i][j][0]);
-                
-                // // Also add end point of last edge so that it comes "full circle" and draws last edge.
-                // if (j == triangles_2D_as_lines[i].size() - 1){
-                //     polygon_points.emplace_back(triangles_2D_as_lines[i][j][1]);
-                // }
+        std::vector<std::vector<double>> valid_points;
+        for (int j = 0; j < triangles_2D_as_lines[i].size(); j++){
+
+            if (triangles_2D_as_lines[i][j][0][0] != -100000 && triangles_2D_as_lines[i][j][0][1] != -100000 && 
+                    triangles_2D_as_lines[i][j][1][0] != -100000 && triangles_2D_as_lines[i][j][1][1] != -100000){
+
+
+                for (int k = 0; k < triangles_2D_as_lines[i][j].size(); k++){
+                    
+                    bool exists = false;
+                    for (int l = 0; l < valid_points.size(); l++){
+
+                        if (triangles_2D_as_lines[i][j][k][0] == valid_points[l][0] && 
+                                triangles_2D_as_lines[i][j][k][1] == valid_points[l][1]){
+                            exists = true;
+                        }
+                    }
+
+                    if (!exists){
+                        valid_points.emplace_back();
+                        valid_points[valid_points.size()-1].emplace_back(triangles_2D_as_lines[i][j][k][0]);
+                        valid_points[valid_points.size()-1].emplace_back(triangles_2D_as_lines[i][j][k][1]);
+                    }
+                }
             }
         }
 
         if (all_triangles[i].draw_type == "full" || all_triangles[i].draw_type == "both"){
 
             set_color(all_triangles[i].full_color[0], all_triangles[i].full_color[1], all_triangles[i].full_color[2]);
-
-            if (polygon_points.size() == 3){
-                glBegin(GL_TRIANGLES);
-                    glVertex2f(polygon_points[0][0], polygon_points[0][1]);
-                    glVertex2f(polygon_points[1][0], polygon_points[1][1]);
-                    glVertex2f(polygon_points[2][0], polygon_points[2][1]);
-                glEnd();
-
-            }else if (polygon_points.size() == 4){
+            
+            if (valid_points.size() == 3){
                 glBegin(GL_POLYGON);
-                    glVertex2f(polygon_points[0][0], polygon_points[0][1]);
-                    glVertex2f(polygon_points[1][0], polygon_points[1][1]);
-                    glVertex2f(polygon_points[2][0], polygon_points[2][1]);
-                    glVertex2f(polygon_points[3][0], polygon_points[3][1]);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
                 glEnd();
 
-            }else if (polygon_points.size() == 5){
+            
+            }else if (valid_points.size() == 4){
                 glBegin(GL_POLYGON);
-                    glVertex2f(polygon_points[0][0], polygon_points[0][1]);
-                    glVertex2f(polygon_points[1][0], polygon_points[1][1]);
-                    glVertex2f(polygon_points[2][0], polygon_points[2][1]);
-                    glVertex2f(polygon_points[3][0], polygon_points[3][1]);
-                    glVertex2f(polygon_points[4][0], polygon_points[4][1]);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                    glVertex2d(valid_points[3][0], valid_points[3][1]);
                 glEnd();
-
-            }else if (polygon_points.size() == 6){
-                glBegin(GL_POLYGON);
-                    glVertex2f(polygon_points[0][0], polygon_points[0][1]);
-                    glVertex2f(polygon_points[1][0], polygon_points[1][1]);
-                    glVertex2f(polygon_points[2][0], polygon_points[2][1]);
-                    glVertex2f(polygon_points[3][0], polygon_points[3][1]);
-                    glVertex2f(polygon_points[4][0], polygon_points[4][1]);
-                    glVertex2f(polygon_points[5][0], polygon_points[5][1]);
-                glEnd();
+                
             }
+
         }
 
         if (all_triangles[i].draw_type == "outline" || all_triangles[i].draw_type == "both"){
 
             set_color(all_triangles[i].outline_color[0], all_triangles[i].outline_color[1], all_triangles[i].outline_color[2]);
 
-            for (int j = 0; j < triangles_2D_as_lines[i].size(); j++){
-                if (triangles_2D_as_lines[i][j][0][0] != -100000 &&
-                        triangles_2D_as_lines[i][j][0][1] != -100000 &&
-                        triangles_2D_as_lines[i][j][1][0] != -100000 &&
-                        triangles_2D_as_lines[i][j][1][1] != -100000){
+            if (valid_points.size() == 3){
+                glBegin(GL_LINE_LOOP);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                glEnd();
 
-                    glBegin(GL_LINES);
-                        glVertex2f(triangles_2D_as_lines[i][j][0][0], triangles_2D_as_lines[i][j][0][1]);
-                        glVertex2f(triangles_2D_as_lines[i][j][1][0], triangles_2D_as_lines[i][j][1][1]);
-                    glEnd();
-                }
+            
+            }else if (valid_points.size() == 4){
+                glBegin(GL_LINE_LOOP);
+                    glVertex2d(valid_points[0][0], valid_points[0][1]);
+                    glVertex2d(valid_points[1][0], valid_points[1][1]);
+                    glVertex2d(valid_points[2][0], valid_points[2][1]);
+                    glVertex2d(valid_points[3][0], valid_points[3][1]);
+                glEnd();
+                
             }
+
+
         }
 
+        
         // Drawing each line on each line direction on each triangle for the lines going across the triangle.
         for (int j = 0; j < all_triangles[i].clipped_lines_points_2D.size(); j++){
             for (int k = 0; k < all_triangles[i].clipped_lines_points_2D[j].size(); k++){
@@ -1123,10 +1125,13 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
                         glVertex2f(all_triangles[i].clipped_lines_points_2D[j][k][0][0], all_triangles[i].clipped_lines_points_2D[j][k][0][1]);
                         glVertex2f(all_triangles[i].clipped_lines_points_2D[j][k][1][0], all_triangles[i].clipped_lines_points_2D[j][k][1][1]);
                     glEnd();
+
                 }
             }
         }
+
     }
+
 }
 
 
