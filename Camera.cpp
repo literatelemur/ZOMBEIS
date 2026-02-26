@@ -7,13 +7,13 @@
 #include <algorithm>
 #include <list>
 
-#include "World.h"
+#include "Camera.h"
 #include "Graphics.h"
 #include "Triangle.h"
 
 
 Camera::Camera(Graphics* graphics){
 
-    
+
 
 }
