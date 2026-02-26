@@ -23,5 +23,3 @@ Triangle::Triangle(Graphics* graphics, std::vector<double> start_point1, std::ve
 
     line_scale = given_line_scale;
 }
-
-//void Triangle::class_name(Graphics* graphics){

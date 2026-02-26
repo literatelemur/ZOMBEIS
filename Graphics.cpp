@@ -36,11 +36,11 @@ std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> cente
 
     std::vector<std::vector<double>> sphere_points_3D;
 
-    if (num_points == 6){
+    if (num_points == 3){
 
-        // 6-sided geodesic dome
+        // 2-sided flat plane
 
-        sphere_points_3D = std::vector<std::vector<double>>(6, std::vector<double>(3, 0));
+        sphere_points_3D = std::vector<std::vector<double>>(3, std::vector<double>(3, 0));
 
         sphere_points_3D[0][0] = center[0] - radius;
         sphere_points_3D[0][1] = center[1];
@@ -51,20 +51,32 @@ std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> cente
         sphere_points_3D[1][2] = center[2];
 
         sphere_points_3D[2][0] = center[0];
-        sphere_points_3D[2][1] = center[1] - radius;
-        sphere_points_3D[2][2] = center[2];
+        sphere_points_3D[2][1] = center[1];
+        sphere_points_3D[2][2] = center[2] - radius * sqrt(3);
+
+
+    }else if (num_points == 4){
+
+        // 2-sided flat plane?
+
+        sphere_points_3D = std::vector<std::vector<double>>(4, std::vector<double>(3, 0));
+
+        sphere_points_3D[0][0] = center[0] - radius;
+        sphere_points_3D[0][1] = center[1];
+        sphere_points_3D[0][2] = center[2];
+
+        sphere_points_3D[1][0] = center[0] + radius;
+        sphere_points_3D[1][1] = center[1];
+        sphere_points_3D[1][2] = center[2];
+
+        sphere_points_3D[2][0] = center[0];
+        sphere_points_3D[2][1] = center[1];
+        sphere_points_3D[2][2] = center[2] + radius * sqrt(3);
 
         sphere_points_3D[3][0] = center[0];
-        sphere_points_3D[3][1] = center[1] + radius;
-        sphere_points_3D[3][2] = center[2];
+        sphere_points_3D[3][1] = center[1];
+        sphere_points_3D[3][2] = center[2] - radius * sqrt(3);
 
-        sphere_points_3D[4][0] = center[0];
-        sphere_points_3D[4][1] = center[1];
-        sphere_points_3D[4][2] = center[2] + radius;
-
-        sphere_points_3D[5][0] = center[0];
-        sphere_points_3D[5][1] = center[1];
-        sphere_points_3D[5][2] = center[2] - radius;
 
     }else if (num_points == 5){
 
@@ -95,11 +107,11 @@ std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> cente
         sphere_points_3D[4][2] = center[2] - radius;
 
 
-    }else if (num_points == 4){
+    }else if (num_points == 6){
 
-        // 2-sided flat plane
+        // 6-sided geodesic dome
 
-        sphere_points_3D = std::vector<std::vector<double>>(4, std::vector<double>(3, 0));
+        sphere_points_3D = std::vector<std::vector<double>>(6, std::vector<double>(3, 0));
 
         sphere_points_3D[0][0] = center[0] - radius;
         sphere_points_3D[0][1] = center[1];
@@ -110,33 +122,22 @@ std::vector<std::vector<double>> Graphics::make_sphere(std::vector<double> cente
         sphere_points_3D[1][2] = center[2];
 
         sphere_points_3D[2][0] = center[0];
-        sphere_points_3D[2][1] = center[1];
-        sphere_points_3D[2][2] = center[2] + radius * sqrt(3);
+        sphere_points_3D[2][1] = center[1] - radius;
+        sphere_points_3D[2][2] = center[2];
 
         sphere_points_3D[3][0] = center[0];
-        sphere_points_3D[3][1] = center[1];
-        sphere_points_3D[3][2] = center[2] - radius * sqrt(3);
+        sphere_points_3D[3][1] = center[1] + radius;
+        sphere_points_3D[3][2] = center[2];
 
+        sphere_points_3D[4][0] = center[0];
+        sphere_points_3D[4][1] = center[1];
+        sphere_points_3D[4][2] = center[2] + radius;
 
-    }else if (num_points == 3){
+        sphere_points_3D[5][0] = center[0];
+        sphere_points_3D[5][1] = center[1];
+        sphere_points_3D[5][2] = center[2] - radius;
 
-        // 2-sided flat plane
-
-        sphere_points_3D = std::vector<std::vector<double>>(3, std::vector<double>(3, 0));
-
-        sphere_points_3D[0][0] = center[0] - radius;
-        sphere_points_3D[0][1] = center[1];
-        sphere_points_3D[0][2] = center[2];
-
-        sphere_points_3D[1][0] = center[0] + radius;
-        sphere_points_3D[1][1] = center[1];
-        sphere_points_3D[1][2] = center[2];
-
-        sphere_points_3D[2][0] = center[0];
-        sphere_points_3D[2][1] = center[1];
-        sphere_points_3D[2][2] = center[2] - radius * sqrt(3);
-
-    } else if (num_points == 12){
+    }else if (num_points == 12){
 
         // copied attempt at 12-sided geodesic sphere AKA icosaphere (based on golden ratio):
 
@@ -1049,6 +1050,7 @@ void Graphics::draw_triangles_as_lines(std::vector<std::vector<std::vector<std::
 void Graphics::draw_hud(){
 
     if (!Edit::edit_mode){
+
         glBegin(GL_LINES);
             glVertex2f(1920 / 2 - 15, 1080 / 2);
             glVertex2f(1920 / 2 + 15, 1080 / 2);
@@ -1060,14 +1062,15 @@ void Graphics::draw_hud(){
         glEnd();
 
     } else{
+        
         glBegin(GL_LINES);
-            glVertex2f(1920 / 2 - 15, 1080 / 2 - 15);
-            glVertex2f(1920 / 2 + 15, 1080 / 2 + 15);
+            glVertex2f(1920 / 2 - 10.61, 1080 / 2 - 10.61);
+            glVertex2f(1920 / 2 + 10.61, 1080 / 2 + 10.61);
         glEnd();
 
         glBegin(GL_LINES);
-            glVertex2f(1920 / 2 - 15, 1080 / 2 + 15);
-            glVertex2f(1920 / 2 + 15, 1080 / 2 - 15);
+            glVertex2f(1920 / 2 - 10.61, 1080 / 2 + 10.61);
+            glVertex2f(1920 / 2 + 10.61, 1080 / 2 - 10.61);
         glEnd();
 
 
