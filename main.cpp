@@ -681,8 +681,5 @@ int main(int argc, char* argv[]) {
 // -investigate large numbers drawing coordinates when clipping
 // -make gravity
 
-// To implement culling and ordering:
-// -rework objects to be vectors of triangles not points
-// -make triangle class
-// -have one draw function that draws by distance primarily
-// -write culling and ordering methods
+// To implement culling:
+// -write culling method?
