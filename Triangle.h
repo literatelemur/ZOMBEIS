@@ -24,6 +24,7 @@ class Triangle {
 
         int line_scale;
         std::vector<std::vector<std::vector<std::vector<double>>>> lines_points_3D;
+        std::vector<std::vector<std::vector<std::vector<double>>>> rot_lines_points_3D;
         std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_lines_points_3D;
         std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_lines_points_2D;
 

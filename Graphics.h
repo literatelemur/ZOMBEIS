@@ -44,7 +44,9 @@ class Graphics {
 
         void store_all_triangles(std::vector<Triangle> all_triangles);
 
-        void find_lines_on_triangles();
+        std::vector<std::vector<std::vector<double>>> rot_triangles_points();
+
+        void rotate_triangles();
 
         std::vector<std::vector<std::vector<std::vector<double>>>> clip_triangles();
 

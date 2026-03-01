@@ -14,8 +14,10 @@
 #include "World.h"
 #include "Edit.h"
 #include "Triangle.h"
+#include "Camera.h"
 
 Graphics graphics;
+Camera camera;
 
 int window_width = 1920;
 int window_height = 1080;
@@ -381,6 +383,7 @@ void render_all(){
     std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);
     graphics.find_lines_on_triangles();
+    std::vector<std::vector<std::vector<double>>> rot_triangles_points = graphics.rotate_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_3D_as_lines = graphics.clip_triangles();
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_rot_triangles_3D_as_lines);
     graphics.draw_triangles_as_lines(clipped_rot_triangles_2D_as_lines);

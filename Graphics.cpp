@@ -451,6 +451,26 @@ void Graphics::find_lines_on_triangles(){
 }
 
 
+void Graphics::rotate_triangles(){
+
+    std::vector<std::vector<std::vector<double>>> rot_triangles_points;
+
+    for (int i = 0; i < all_triangles.size(); i++){
+        rot_triangles_points.emplace_back();
+
+        rot_triangles_points[i].emplace_back(camera.rotate_point(all_triangles[i].points[0]));
+        rot_triangles_points[i].emplace_back(camera.rotate_point(all_triangles[i].points[1]));
+        rot_triangles_points[i].emplace_back(camera.rotate_point(all_triangles[i].points[2]));
+
+        all_triangles[i].rot_lines_points_3D = std::move(rot_lines_points_3D);
+        //std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].lines_points_3D);   
+    }
+
+    return rot_triangles_points;
+
+}
+
+
 std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triangles(){
 
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_as_lines;
