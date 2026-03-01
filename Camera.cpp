@@ -12,7 +12,7 @@
 #include "Triangle.h"
 
 
-Camera::Camera(Graphics* graphics){
+Camera::Camera(){
 
     playerx = 960;
     playery = 1060;
@@ -46,6 +46,6 @@ std::vector<double> Camera::rotate_point(std::vector<double> point){
     double turned_y = y_diff * cos_y - turned_z * sin_y;
     double turned_more_z = y_diff * sin_y + turned_z * cos_y;
 
-    return {turned_x, turned_y, turned_more_z}
+    return {turned_x, turned_y, turned_more_z};
 
 }

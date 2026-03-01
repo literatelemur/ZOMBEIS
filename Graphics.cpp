@@ -297,23 +297,23 @@ std::vector<Triangle> Graphics::order_triangles(Camera* camera, std::vector<Tria
     // Calculating Euclidian total distance from player to each point.
     for (int i = 0; i < triangles.size(); i++){
 
-        double x_dist1 = abs(triangles[i].points[0][0] - playerx);
-        double y_dist1 = abs(triangles[i].points[0][1] - playery);
-        double z_dist1 = abs(triangles[i].points[0][2] - playerz);
+        double x_dist1 = abs(triangles[i].points[0][0] - camera->playerx);
+        double y_dist1 = abs(triangles[i].points[0][1] - camera->playery);
+        double z_dist1 = abs(triangles[i].points[0][2] - camera->playerz);
 
         double total_dist1 = sqrt(x_dist1 * x_dist1 + y_dist1 * y_dist1 + z_dist1 * z_dist1);
 
 
-        double x_dist2 = abs(triangles[i].points[1][0] - playerx);
-        double y_dist2 = abs(triangles[i].points[1][1] - playery);
-        double z_dist2 = abs(triangles[i].points[1][2] - playerz);
+        double x_dist2 = abs(triangles[i].points[1][0] - camera->playerx);
+        double y_dist2 = abs(triangles[i].points[1][1] - camera->playery);
+        double z_dist2 = abs(triangles[i].points[1][2] - camera->playerz);
 
         double total_dist2 = sqrt(x_dist2 * x_dist2 + y_dist2 * y_dist2 + z_dist2 * z_dist2);
 
 
-        double x_dist3 = abs(triangles[i].points[2][0] - playerx);
-        double y_dist3 = abs(triangles[i].points[2][1] - playery);
-        double z_dist3 = abs(triangles[i].points[2][2] - playerz);
+        double x_dist3 = abs(triangles[i].points[2][0] - camera->playerx);
+        double y_dist3 = abs(triangles[i].points[2][1] - camera->playery);
+        double z_dist3 = abs(triangles[i].points[2][2] - camera->playerz);
 
         double total_dist3 = sqrt(x_dist3 * x_dist3 + y_dist3 * y_dist3 + z_dist3 * z_dist3);
 
@@ -598,7 +598,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
                 clipped_rot_lines_points_3D[j][k][1].emplace_back(0);
 
 
-                std::vector<std::vector<double>> clipped_rot_coor_diffs = clip_line(all_triangles[i].lines_points_3D[j][k]);
+                std::vector<std::vector<double>> clipped_rot_coor_diffs = clip_line(all_triangles[i].rot_lines_points_3D[j][k]);
                 
                 clipped_rot_lines_points_3D[j][k][0][0] = clipped_rot_coor_diffs[0][0];
                 clipped_rot_lines_points_3D[j][k][0][1] = clipped_rot_coor_diffs[0][1];
@@ -612,7 +612,7 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         }
 
         all_triangles[i].clipped_rot_lines_points_3D = std::move(clipped_rot_lines_points_3D);
-        std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].lines_points_3D);
+        std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].rot_lines_points_3D);
     }
 
     return clipped_rot_triangles_as_lines;
@@ -660,7 +660,7 @@ std::vector<std::vector<double>> Graphics::clip_line(std::vector<std::vector<dou
     // double turned_more_z2 = y_diff2 * sin_y + turned_z2 * cos_y;
     
     // Determining if clipping is necessary (when relative z value reaches behind player).
-    if (turned_more_z1 < near_plane && turned_more_z2 < near_plane){
+    if (line_points_3D[0][2] < near_plane && line_points_3D[1][2] < near_plane){
         
 
         x1_clip_diff = -100000;
@@ -672,39 +672,39 @@ std::vector<std::vector<double>> Graphics::clip_line(std::vector<std::vector<dou
         z2_clip_diff = -100000;
 
 
-    }else if (turned_more_z1 < near_plane){
+    }else if (line_points_3D[0][2] < near_plane){
 
-        double ratio_along = (near_plane - turned_more_z1) / (turned_more_z2 - turned_more_z1);
+        double ratio_along = (near_plane - line_points_3D[0][2]) / (line_points_3D[1][2] - line_points_3D[0][2]);
 
-        x1_clip_diff = turned_x1 + ratio_along * (turned_x2 - turned_x1);
-        y1_clip_diff = turned_y1 + ratio_along * (turned_y2 - turned_y1);
+        x1_clip_diff = line_points_3D[0][0] + ratio_along * (line_points_3D[1][0] - line_points_3D[0][0]);
+        y1_clip_diff = line_points_3D[0][1] + ratio_along * (line_points_3D[1][1] - line_points_3D[0][1]);
         z1_clip_diff = near_plane;
 
-        x2_clip_diff = turned_x2;
-        y2_clip_diff = turned_y2;
-        z2_clip_diff = turned_more_z2;
+        x2_clip_diff = line_points_3D[1][0];
+        y2_clip_diff = line_points_3D[1][1];
+        z2_clip_diff = line_points_3D[1][2];
 
-    }else if (turned_more_z2 < near_plane){
+    }else if (line_points_3D[1][2] < near_plane){
 
-        x1_clip_diff = turned_x1;
-        y1_clip_diff = turned_y1;
-        z1_clip_diff = turned_more_z1;
+        x1_clip_diff = line_points_3D[0][0];
+        y1_clip_diff = line_points_3D[0][1];
+        z1_clip_diff = line_points_3D[0][2];
 
-        double ratio_along = (near_plane - turned_more_z2) / (turned_more_z1 - turned_more_z2);
+        double ratio_along = (near_plane - line_points_3D[1][2]) / (line_points_3D[0][2] - line_points_3D[1][2]);
 
-        x2_clip_diff = turned_x2 + ratio_along * (turned_x1 - turned_x2);
-        y2_clip_diff = turned_y2 + ratio_along * (turned_y1 - turned_y2);
+        x2_clip_diff = line_points_3D[1][0] + ratio_along * (line_points_3D[0][0] - line_points_3D[1][0]);
+        y2_clip_diff = line_points_3D[1][1] + ratio_along * (line_points_3D[0][1] - line_points_3D[1][1]);
         z2_clip_diff = near_plane;
 
     }else{
 
-        x1_clip_diff = turned_x1;
-        y1_clip_diff = turned_y1;
-        z1_clip_diff = turned_more_z1;
+        x1_clip_diff = line_points_3D[0][0];
+        y1_clip_diff = line_points_3D[0][1];
+        z1_clip_diff = line_points_3D[0][2];
 
-        x2_clip_diff = turned_x2;
-        y2_clip_diff = turned_y2;
-        z2_clip_diff = turned_more_z2;
+        x2_clip_diff = line_points_3D[1][0];
+        y2_clip_diff = line_points_3D[1][1];
+        z2_clip_diff = line_points_3D[1][2];
     }
 
     std::vector<std::vector<double>> clipped_rot_coor_diffs;

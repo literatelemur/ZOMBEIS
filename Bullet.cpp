@@ -13,15 +13,15 @@
 #include "Triangle.h"
 
 
-Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
+Bullet::Bullet(Graphics* graphics, Camera* camera, int click_x, int click_y){
 
     depth = 5;
     speed = 0.1;
 
     
     // Finding movement values based on looking angle.
-    double angle_x = graphics->anglex_diff;
-    double angle_y = graphics->angley_diff;
+    double angle_x = camera->anglex_diff;
+    double angle_y = camera->angley_diff;
 
     // center_x_move = sin(angle_x) * speed;
     // center_y_move = sin(angle_y) * speed;
@@ -34,12 +34,12 @@ Bullet::Bullet(Graphics* graphics, int click_x, int click_y){
 
 
 
-    box_points_3D = graphics->make_box({graphics->playerx, graphics->playery, graphics->playerz}, 1, 1, depth);
+    box_points_3D = graphics->make_box({camera->playerx, camera->playery, camera->playerz}, 1, 1, depth);
 
 }
 
 
-void Bullet::move(Graphics* graphics){
+void Bullet::move(){
 
     for (int i = 0; i < box_points_3D.size(); i++){
 

@@ -25,7 +25,7 @@ class Camera {
         double angley_diff;
         
 
-        Camera(Graphics* graphics); // Constructor
+        Camera(); // Constructor
 
         std::vector<double> rotate_point(std::vector<double> point);
         

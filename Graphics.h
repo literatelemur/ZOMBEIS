@@ -7,6 +7,7 @@
 #include <list>
 
 #include "Triangle.h"
+#include "Camera.h"
 
 
 #ifndef GRAPHICS_H

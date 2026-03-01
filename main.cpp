@@ -208,22 +208,22 @@ void mouse_click(int button, int state, int x, int y) {
         // Check which button was pressed
         switch (button) {
             case GLUT_LEFT_BUTTON:
-                if (!Edit::edit_mode) bullet_vector.emplace_back(Bullet(&graphics, x, y));
+                if (!Edit::edit_mode) bullet_vector.emplace_back(Bullet(&graphics, &camera, x, y));
                 else {
                     Edit::edit_click_mouse_button = "left";
-                    Edit::click_point(&graphics);
+                    Edit::click_point(&camera);
                 }
                 break;
             case GLUT_RIGHT_BUTTON:
                 if (Edit::edit_mode) {
                     Edit::edit_click_mouse_button = "right";
-                    Edit::click_point(&graphics);
+                    Edit::click_point(&camera);
                 }
                 break;
             case GLUT_MIDDLE_BUTTON:
                 if (Edit::edit_mode) {
                     Edit::edit_click_mouse_button = "middle";
-                    Edit::click_point(&graphics);
+                    Edit::click_point(&camera);
                 }
                 break;
         }
@@ -261,7 +261,7 @@ void mouse_move_check(){
         // Moving edit mode points with mouse movement and mouse button clicked.
         if (Edit::edit_click_mouse_button != "none") {
 
-            Edit::move_point_with_mouse(&graphics);
+            Edit::move_point_with_mouse(&camera);
             Edit::first_click_move = false;
         }else Edit::first_click_move = true;
 
@@ -434,7 +434,7 @@ void render_all(){
 
 
     for (int i = 0; i < bullet_vector.size(); i++){
-        bullet_vector[i].move(&graphics);
+        bullet_vector[i].move();
     }
 
     for (int i = 0; i < star_vector.size(); i++){

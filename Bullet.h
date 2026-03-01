@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "Triangle.h"
+#include "Camera.h"
 
 #ifndef BULLET_H
 #define BULLET_H
@@ -37,9 +38,9 @@ class Bullet {
         std::vector<std::vector<double>> box_points_3D;
         std::vector<Triangle> box_triangles_3D;
 
-        Bullet(Graphics* graphics, int x, int y);
+        Bullet(Graphics* graphics, Camera* camera, int x, int y);
 
-        void move(Graphics* graphics);
+        void move();
 };
 
 #endif
