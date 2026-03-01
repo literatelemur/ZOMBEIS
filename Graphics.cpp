@@ -579,10 +579,10 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_lines_points_3D;
 
         // Iterating through all points on all lines on all triangles to clip the lines.
-        for (int j = 0; j < all_triangles[i].lines_points_3D.size(); j++){
+        for (int j = 0; j < all_triangles[i].rot_lines_points_3D.size(); j++){
             clipped_rot_lines_points_3D.emplace_back();
 
-            for (int k = 0; k < all_triangles[i].lines_points_3D[j].size(); k++){
+            for (int k = 0; k < all_triangles[i].rot_lines_points_3D[j].size(); k++){
                 clipped_rot_lines_points_3D[j].emplace_back();
 
 
@@ -621,15 +621,6 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
 
 std::vector<std::vector<double>> Graphics::clip_line(std::vector<std::vector<double>> line_points_3D){
 
-    // double x_diff1 = line_points_3D[0][0] - playerx;
-    // double y_diff1 = line_points_3D[0][1] - playery;
-    // double z_diff1 = line_points_3D[0][2] - playerz;
-
-    // double x_diff2 = line_points_3D[1][0] - playerx;
-    // double y_diff2 = line_points_3D[1][1] - playery;
-    // double z_diff2 = line_points_3D[1][2] - playerz;
-
-
     double x1_clip_diff;
     double y1_clip_diff;
     double z1_clip_diff;
@@ -637,27 +628,6 @@ std::vector<std::vector<double>> Graphics::clip_line(std::vector<std::vector<dou
     double x2_clip_diff;
     double y2_clip_diff;
     double z2_clip_diff;
-
-
-    // // Yaw rotation
-    // double cos_x = cos(anglex_diff);
-    // double sin_x = sin(anglex_diff);
-
-    // double turned_x1 = x_diff1 * cos_x - z_diff1 * sin_x;
-    // double turned_z1 = x_diff1 * sin_x + z_diff1 * cos_x;
-
-    // double turned_x2 = x_diff2 * cos_x - z_diff2 * sin_x;
-    // double turned_z2 = x_diff2 * sin_x + z_diff2 * cos_x;
-
-    // // Pitch rotation
-    // double cos_y = cos(angley_diff);
-    // double sin_y = sin(angley_diff);
-
-    // double turned_y1 = y_diff1 * cos_y - turned_z1 * sin_y;
-    // double turned_more_z1 = y_diff1 * sin_y + turned_z1 * cos_y;
-
-    // double turned_y2 = y_diff2 * cos_y - turned_z2 * sin_y;
-    // double turned_more_z2 = y_diff2 * sin_y + turned_z2 * cos_y;
     
     // Determining if clipping is necessary (when relative z value reaches behind player).
     if (line_points_3D[0][2] < near_plane && line_points_3D[1][2] < near_plane){
