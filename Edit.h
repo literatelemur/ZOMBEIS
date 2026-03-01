@@ -13,6 +13,7 @@
 
 class Graphics;
 class main;
+class Camera;
 
 class Edit {
 
@@ -54,11 +55,11 @@ class Edit {
 
         static void toggle_edit_mode();
 
-        static void move_point(int coor, int dir);
+        static void move_point_with_keys(int coor, int dir);
 
-        static void click_point(Graphics* graphics);
+        static void click_point(Camera* camera);
 
-        static void move_point_with_mouse(Graphics* graphics);
+        static void move_point_with_mouse(Camera* camera);
 
         Edit() = delete;
         

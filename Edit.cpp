@@ -11,6 +11,7 @@
 #include "Graphics.h"
 #include "Triangle.h"
 #include "Edit.h"
+#include "Camera.h"
 
 
 bool Edit::edit_mode = false;
@@ -51,7 +52,7 @@ void Edit::toggle_edit_mode(){
 
 }
 
-void Edit::move_point(int coor, int dir){
+void Edit::move_point_with_keys(int coor, int dir){
 
     double move_amount = 0.025;
 
@@ -85,18 +86,18 @@ void Edit::move_point(int coor, int dir){
 }
 
 
-void Edit::click_point(Graphics* graphics){
+void Edit::click_point(Camera* camera){
 
     if (Edit::points_3D.size() > 0){
 
         double speed = 0.1;
 
-        std::vector<double> sense_point = {graphics->playerx, graphics->playery, graphics->playerz};
+        std::vector<double> sense_point = {camera->playerx, camera->playery, camera->playerz};
 
         
         // Finding movement values based on looking angle.
-        double angle_x = graphics->anglex_diff;
-        double angle_y = graphics->angley_diff;
+        double angle_x = camera->anglex_diff;
+        double angle_y = camera->angley_diff;
 
         // Copied from chatgpt. I do not understand the 3D math behind it, but it is based on a unit circle and my method did not work because it treated each dimension independently.
         double sense_point_x_move = cos(angle_y) * sin(angle_x) * speed;
@@ -134,14 +135,14 @@ void Edit::click_point(Graphics* graphics){
 }
 
 
-void Edit::move_point_with_mouse(Graphics* graphics){
+void Edit::move_point_with_mouse(Camera* camera){
 
     if (Edit::points_3D.size() > 0){
 
         if (!Edit::first_click_move){
 
-            double anglex_diff_diff = graphics->anglex_diff - Edit::prev_anglex_diff;
-            double angley_diff_diff = graphics->angley_diff - Edit::prev_angley_diff;
+            double anglex_diff_diff = camera->anglex_diff - Edit::prev_anglex_diff;
+            double angley_diff_diff = camera->angley_diff - Edit::prev_angley_diff;
 
 
             double move_amountx = cos(anglex_diff_diff) * anglex_diff_diff * 5;
@@ -193,7 +194,7 @@ void Edit::move_point_with_mouse(Graphics* graphics){
 
     }
 
-    Edit::prev_anglex_diff = graphics->anglex_diff;
-    Edit::prev_angley_diff = graphics->angley_diff;
+    Edit::prev_anglex_diff = camera->anglex_diff;
+    Edit::prev_angley_diff = camera->angley_diff;
 
 }

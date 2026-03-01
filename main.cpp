@@ -63,22 +63,22 @@ void keyUp(unsigned char key, int idk1, int idk2){
 // Keyboard press check
 void key_press_check() {
     if(key_states['w']){
-        graphics.playerz += player_speed;
+        camera.playerz += player_speed;
 
     }if(key_states['s']){
-        graphics.playerz -= player_speed;
+        camera.playerz -= player_speed;
 
     }if(key_states['d']){
-        graphics.playerx += player_speed;
+        camera.playerx += player_speed;
 
     }if(key_states['a']){
-        graphics.playerx -= player_speed;
+        camera.playerx -= player_speed;
 
     }if(key_states['r']){
-        graphics.playery -= player_speed;
+        camera.playery -= player_speed;
 
     }if(key_states['f']){
-        graphics.playery += player_speed;
+        camera.playery += player_speed;
 
     }if(key_states['e']){
         for (int i = 0; i < num_zombeis; i++){
@@ -91,16 +91,16 @@ void key_press_check() {
         }
 
     }if(key_states['z']){
-        graphics.anglex_diff -= 0.01745329 * 2;
+        camera.anglex_diff -= 0.01745329 * 2;
 
     }if(key_states['c']){
-        graphics.anglex_diff += 0.01745329 * 2;
+        camera.anglex_diff += 0.01745329 * 2;
 
     }if(key_states['t']){
-        graphics.angley_diff += 0.01745329 * 2;
+        camera.angley_diff += 0.01745329 * 2;
 
     }if(key_states['g']){
-        graphics.angley_diff -= 0.01745329 * 2;
+        camera.angley_diff -= 0.01745329 * 2;
         
     }if(key_states['x'] && !prev_key_states['x']){
         Edit::toggle_edit_mode();
@@ -110,9 +110,9 @@ void key_press_check() {
     }if(Edit::edit_mode){        
     
         if(key_states['='] && !prev_key_states['=']){
-            Edit::points_3D.emplace_back(std::vector<double>{graphics.playerx, graphics.playery, graphics.playerz + 10});
+            Edit::points_3D.emplace_back(std::vector<double>{camera.playerx, camera.playery, camera.playerz + 10});
             Edit::points_3D_main_index = Edit::points_3D.size() - 1;
-            Edit::points_points_3D.emplace_back(graphics.make_sphere({graphics.playerx, graphics.playery, graphics.playerz + 10}, 0.25, 12));
+            Edit::points_points_3D.emplace_back(graphics.make_sphere({camera.playerx, camera.playery, camera.playerz + 10}, 0.25, 12));
 
         }if(key_states['-'] && !prev_key_states['-']){
             Edit::points_3D.pop_back();
@@ -123,22 +123,22 @@ void key_press_check() {
 
 
         }if(key_states['i']){
-            Edit::move_point(1, -1);
+            Edit::move_point_with_keys(1, -1);
 
         }if(key_states['k']){
-            Edit::move_point(1, 1);
+            Edit::move_point_with_keys(1, 1);
 
         }if(key_states['j']){
-            Edit::move_point(0, -1);
+            Edit::move_point_with_keys(0, -1);
 
         }if(key_states['l']){
-            Edit::move_point(0, 1);
+            Edit::move_point_with_keys(0, 1);
 
         }if(key_states['u']){
-            Edit::move_point(2, -1);
+            Edit::move_point_with_keys(2, -1);
 
         }if(key_states['o']){
-            Edit::move_point(2, 1);
+            Edit::move_point_with_keys(2, 1);
 
         }if (Edit::points_3D.size() > 0){
             if(key_states[','] && !prev_key_states[',']){
@@ -254,8 +254,8 @@ void mouse_move_check(){
 
         double sensitivity = 1.0;
 
-        graphics.anglex_diff = graphics.anglex_diff - mouse_diffx * sensitivity * 0.001;
-        graphics.angley_diff = graphics.angley_diff - mouse_diffy * sensitivity * 0.001;
+        camera.anglex_diff = camera.anglex_diff - mouse_diffx * sensitivity * 0.001;
+        camera.angley_diff = camera.angley_diff - mouse_diffy * sensitivity * 0.001;
 
 
         // Moving edit mode points with mouse movement and mouse button clicked.
@@ -380,11 +380,11 @@ void render_all(){
     }
 
 
-    std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(all_triangles);
+    std::vector<Triangle> ordered_all_triangles = graphics.order_triangles(&camera, all_triangles);
     graphics.store_all_triangles(ordered_all_triangles);
     graphics.find_lines_on_triangles();
-    std::vector<std::vector<std::vector<double>>> rot_triangles_points = graphics.rotate_triangles();
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_3D_as_lines = graphics.clip_triangles();
+    std::vector<std::vector<std::vector<double>>> rot_triangles_points_diff = graphics.rotate_triangles(&camera);
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_3D_as_lines = graphics.clip_triangles(rot_triangles_points_diff);
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_rot_triangles_3D_as_lines);
     graphics.draw_triangles_as_lines(clipped_rot_triangles_2D_as_lines);
 
@@ -631,7 +631,7 @@ int main(int argc, char* argv[]) {
 
     // Making icosahedron starscape
 
-    starscape_base_points_3D = graphics.make_sphere({(double)graphics.playerx, (double)graphics.playery, (double)graphics.playerz}, 10000, 12);
+    starscape_base_points_3D = graphics.make_sphere({(double)camera.playerx, (double)camera.playery, (double)camera.playerz}, 10000, 12);
     starscape_base_triangle_points_3D = graphics.find_triangles_sphere(starscape_base_points_3D, "outline", {0, 0, 0}, {0, 0, 0}, 0);
 
     for (int i = 0; i < starscape_base_triangle_points_3D.size(); i++){

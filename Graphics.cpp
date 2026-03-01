@@ -13,19 +13,13 @@
 #include "Graphics.h"
 #include "Triangle.h"
 #include "Edit.h"
+#include "Camera.h"
 
         
 Graphics::Graphics(){   
 
     zscreendiff = 1000;
-
-    playerx = 960;
-    playery = 1060;
-    playerz = 0;
-
     near_plane = 0.01;
-    anglex_diff = 0;
-    angley_diff = 0;
 
 }
 
@@ -294,7 +288,7 @@ std::vector<Triangle> Graphics::find_triangles_box(std::vector<std::vector<doubl
 }
 
 
-std::vector<Triangle> Graphics::order_triangles(std::vector<Triangle> triangles){
+std::vector<Triangle> Graphics::order_triangles(Camera* camera, std::vector<Triangle> triangles){
 
     std::vector<Triangle> ordered_triangles;
 
@@ -451,19 +445,36 @@ void Graphics::find_lines_on_triangles(){
 }
 
 
-void Graphics::rotate_triangles(){
+std::vector<std::vector<std::vector<double>>> Graphics::rotate_triangles(Camera* camera){
 
     std::vector<std::vector<std::vector<double>>> rot_triangles_points;
 
     for (int i = 0; i < all_triangles.size(); i++){
         rot_triangles_points.emplace_back();
 
-        rot_triangles_points[i].emplace_back(camera.rotate_point(all_triangles[i].points[0]));
-        rot_triangles_points[i].emplace_back(camera.rotate_point(all_triangles[i].points[1]));
-        rot_triangles_points[i].emplace_back(camera.rotate_point(all_triangles[i].points[2]));
+        rot_triangles_points[i].emplace_back(camera->rotate_point(all_triangles[i].points[0]));
+        rot_triangles_points[i].emplace_back(camera->rotate_point(all_triangles[i].points[1]));
+        rot_triangles_points[i].emplace_back(camera->rotate_point(all_triangles[i].points[2]));
+
+
+        // Iterating through all lines of all directinos for each triangle to rotate the triangle's line points.
+        std::vector<std::vector<std::vector<std::vector<double>>>> rot_lines_points_3D;
+
+        for (int j = 0; j < all_triangles[i].lines_points_3D.size(); j++){
+            rot_lines_points_3D.emplace_back();
+
+            for (int k = 0; k < all_triangles[i].lines_points_3D[j].size(); k++){
+                rot_lines_points_3D[j].emplace_back();
+
+                rot_lines_points_3D[j][k].emplace_back(camera->rotate_point(all_triangles[i].lines_points_3D[j][k][0]));
+                rot_lines_points_3D[j][k].emplace_back(camera->rotate_point(all_triangles[i].lines_points_3D[j][k][1]));
+
+            }
+
+        }
 
         all_triangles[i].rot_lines_points_3D = std::move(rot_lines_points_3D);
-        //std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].lines_points_3D);   
+        std::vector<std::vector<std::vector<std::vector<double>>>>().swap(all_triangles[i].lines_points_3D);   
     }
 
     return rot_triangles_points;
@@ -471,22 +482,22 @@ void Graphics::rotate_triangles(){
 }
 
 
-std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triangles(){
+std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triangles(std::vector<std::vector<std::vector<double>>> rot_triangles_points_diff){
 
     std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_as_lines;
 
-    for (int i = 0; i < all_triangles.size(); i++){
+    for (int i = 0; i < rot_triangles_points_diff.size(); i++){
 
         std::vector<std::vector<double>> line1;
         line1.emplace_back();
-        line1[0].emplace_back(all_triangles[i].points[0][0]);
-        line1[0].emplace_back(all_triangles[i].points[0][1]);
-        line1[0].emplace_back(all_triangles[i].points[0][2]);
+        line1[0].emplace_back(rot_triangles_points_diff[i][0][0]);
+        line1[0].emplace_back(rot_triangles_points_diff[i][0][1]);
+        line1[0].emplace_back(rot_triangles_points_diff[i][0][2]);
 
         line1.emplace_back();
-        line1[1].emplace_back(all_triangles[i].points[1][0]);
-        line1[1].emplace_back(all_triangles[i].points[1][1]);
-        line1[1].emplace_back(all_triangles[i].points[1][2]);
+        line1[1].emplace_back(rot_triangles_points_diff[i][1][0]);
+        line1[1].emplace_back(rot_triangles_points_diff[i][1][1]);
+        line1[1].emplace_back(rot_triangles_points_diff[i][1][2]);
 
 
         std::vector<std::vector<double>> clipped_rot_coor_diffs_line1 = clip_line(line1);
@@ -494,14 +505,14 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
 
         std::vector<std::vector<double>> line2;
         line2.emplace_back();
-        line2[0].emplace_back(all_triangles[i].points[1][0]);
-        line2[0].emplace_back(all_triangles[i].points[1][1]);
-        line2[0].emplace_back(all_triangles[i].points[1][2]);
+        line2[0].emplace_back(rot_triangles_points_diff[i][1][0]);
+        line2[0].emplace_back(rot_triangles_points_diff[i][1][1]);
+        line2[0].emplace_back(rot_triangles_points_diff[i][1][2]);
 
         line2.emplace_back();
-        line2[1].emplace_back(all_triangles[i].points[2][0]);
-        line2[1].emplace_back(all_triangles[i].points[2][1]);
-        line2[1].emplace_back(all_triangles[i].points[2][2]);
+        line2[1].emplace_back(rot_triangles_points_diff[i][2][0]);
+        line2[1].emplace_back(rot_triangles_points_diff[i][2][1]);
+        line2[1].emplace_back(rot_triangles_points_diff[i][2][2]);
 
         std::vector<std::vector<double>> clipped_rot_coor_diffs_line2 = clip_line(line2);
 
@@ -509,14 +520,14 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
         std::vector<std::vector<double>> line3;
 
         line3.emplace_back();
-        line3[0].emplace_back(all_triangles[i].points[2][0]);
-        line3[0].emplace_back(all_triangles[i].points[2][1]);
-        line3[0].emplace_back(all_triangles[i].points[2][2]);
+        line3[0].emplace_back(rot_triangles_points_diff[i][2][0]);
+        line3[0].emplace_back(rot_triangles_points_diff[i][2][1]);
+        line3[0].emplace_back(rot_triangles_points_diff[i][2][2]);
 
         line3.emplace_back();
-        line3[1].emplace_back(all_triangles[i].points[0][0]);
-        line3[1].emplace_back(all_triangles[i].points[0][1]);
-        line3[1].emplace_back(all_triangles[i].points[0][2]);
+        line3[1].emplace_back(rot_triangles_points_diff[i][0][0]);
+        line3[1].emplace_back(rot_triangles_points_diff[i][0][1]);
+        line3[1].emplace_back(rot_triangles_points_diff[i][0][2]);
 
 
         std::vector<std::vector<double>> clipped_rot_coor_diffs_line3 = clip_line(line3);
@@ -610,13 +621,13 @@ std::vector<std::vector<std::vector<std::vector<double>>>> Graphics::clip_triang
 
 std::vector<std::vector<double>> Graphics::clip_line(std::vector<std::vector<double>> line_points_3D){
 
-    double x_diff1 = line_points_3D[0][0] - playerx;
-    double y_diff1 = line_points_3D[0][1] - playery;
-    double z_diff1 = line_points_3D[0][2] - playerz;
+    // double x_diff1 = line_points_3D[0][0] - playerx;
+    // double y_diff1 = line_points_3D[0][1] - playery;
+    // double z_diff1 = line_points_3D[0][2] - playerz;
 
-    double x_diff2 = line_points_3D[1][0] - playerx;
-    double y_diff2 = line_points_3D[1][1] - playery;
-    double z_diff2 = line_points_3D[1][2] - playerz;
+    // double x_diff2 = line_points_3D[1][0] - playerx;
+    // double y_diff2 = line_points_3D[1][1] - playery;
+    // double z_diff2 = line_points_3D[1][2] - playerz;
 
 
     double x1_clip_diff;
@@ -628,27 +639,27 @@ std::vector<std::vector<double>> Graphics::clip_line(std::vector<std::vector<dou
     double z2_clip_diff;
 
 
-    // Yaw rotation
-    double cos_x = cos(anglex_diff);
-    double sin_x = sin(anglex_diff);
+    // // Yaw rotation
+    // double cos_x = cos(anglex_diff);
+    // double sin_x = sin(anglex_diff);
 
-    double turned_x1 = x_diff1 * cos_x - z_diff1 * sin_x;
-    double turned_z1 = x_diff1 * sin_x + z_diff1 * cos_x;
+    // double turned_x1 = x_diff1 * cos_x - z_diff1 * sin_x;
+    // double turned_z1 = x_diff1 * sin_x + z_diff1 * cos_x;
 
-    double turned_x2 = x_diff2 * cos_x - z_diff2 * sin_x;
-    double turned_z2 = x_diff2 * sin_x + z_diff2 * cos_x;
+    // double turned_x2 = x_diff2 * cos_x - z_diff2 * sin_x;
+    // double turned_z2 = x_diff2 * sin_x + z_diff2 * cos_x;
 
-    // Pitch rotation
-    double cos_y = cos(angley_diff);
-    double sin_y = sin(angley_diff);
+    // // Pitch rotation
+    // double cos_y = cos(angley_diff);
+    // double sin_y = sin(angley_diff);
 
-    double turned_y1 = y_diff1 * cos_y - turned_z1 * sin_y;
-    double turned_more_z1 = y_diff1 * sin_y + turned_z1 * cos_y;
+    // double turned_y1 = y_diff1 * cos_y - turned_z1 * sin_y;
+    // double turned_more_z1 = y_diff1 * sin_y + turned_z1 * cos_y;
 
-    double turned_y2 = y_diff2 * cos_y - turned_z2 * sin_y;
-    double turned_more_z2 = y_diff2 * sin_y + turned_z2 * cos_y;
+    // double turned_y2 = y_diff2 * cos_y - turned_z2 * sin_y;
+    // double turned_more_z2 = y_diff2 * sin_y + turned_z2 * cos_y;
     
-    // Determining if clipping is necessary (when z value reaches behind player).
+    // Determining if clipping is necessary (when relative z value reaches behind player).
     if (turned_more_z1 < near_plane && turned_more_z2 < near_plane){
         
 

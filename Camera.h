@@ -17,9 +17,17 @@ class Camera {
 
     public:
 
+        double playerx;
+        double playery;
+        double playerz;
+
+        double anglex_diff;
+        double angley_diff;
         
 
         Camera(Graphics* graphics); // Constructor
+
+        std::vector<double> rotate_point(std::vector<double> point);
         
 };
 

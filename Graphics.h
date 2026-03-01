@@ -17,13 +17,7 @@ class Graphics {
     public:
 
         double zscreendiff;
-        double playerx;
-        double playery;
-        double playerz;
         double near_plane;
-
-        double anglex_diff;
-        double angley_diff;
 
         std::vector<Triangle> all_triangles;
         
@@ -40,15 +34,15 @@ class Graphics {
 
         std::vector<Triangle> find_triangles_box(std::vector<std::vector<double>> box_points_3D, std::string draw_type, std::vector<double> full_color, std::vector<double> outline_color, int lines_scale);
 
-        std::vector<Triangle> order_triangles(std::vector<Triangle> triangles);
+        std::vector<Triangle> order_triangles(Camera* camera, std::vector<Triangle> triangles);
 
         void store_all_triangles(std::vector<Triangle> all_triangles);
 
-        std::vector<std::vector<std::vector<double>>> rot_triangles_points();
+        void find_lines_on_triangles();
 
-        void rotate_triangles();
+        std::vector<std::vector<std::vector<double>>> rotate_triangles(Camera* camera);
 
-        std::vector<std::vector<std::vector<std::vector<double>>>> clip_triangles();
+        std::vector<std::vector<std::vector<std::vector<double>>>> clip_triangles(std::vector<std::vector<std::vector<double>>> rot_triangles_points_diff);
 
         std::vector<std::vector<double>> clip_line(std::vector<std::vector<double>> line_points_3D);
 
