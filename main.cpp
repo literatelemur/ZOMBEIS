@@ -384,9 +384,9 @@ void render_all(){
     graphics.store_all_triangles(ordered_all_triangles);
     graphics.find_lines_on_triangles();
     std::vector<std::vector<std::vector<double>>> rot_triangles_points_diff = graphics.rotate_triangles(&camera);
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_3D_as_lines = graphics.clip_triangles(rot_triangles_points_diff);
-    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_rot_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_rot_triangles_3D_as_lines);
-    graphics.draw_triangles_as_lines(clipped_rot_triangles_2D_as_lines);
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_3D_as_lines = graphics.clip_triangles(rot_triangles_points_diff);
+    std::vector<std::vector<std::vector<std::vector<double>>>> clipped_triangles_2D_as_lines = graphics.compute_2D_triangles_as_lines(clipped_triangles_3D_as_lines);
+    graphics.draw_triangles_as_lines(clipped_triangles_2D_as_lines);
 
 
 
@@ -683,6 +683,4 @@ int main(int argc, char* argv[]) {
 // -comment graphics.find_floor_lines_on_globe
 // -investigate large numbers drawing coordinates when clipping
 // -make gravity
-
-// To implement culling:
-// -write culling method?
+// -improve edit point movement
