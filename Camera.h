@@ -28,6 +28,8 @@ class Camera {
         Camera(); // Constructor
 
         std::vector<double> rotate_point(std::vector<double> point);
+
+        std::vector<double> rotate_point_backwards(std::vector<double> point);
         
 };
 

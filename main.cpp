@@ -63,7 +63,9 @@ void keyUp(unsigned char key, int idk1, int idk2){
 // Keyboard press check
 void key_press_check() {
     if(key_states['w']){
-        camera.playerz += player_speed;
+
+        std::vector<double> obj_3D_point_diffs = camera.rotate_point_backwards({camera.playerx, camera.playery, camera.playerz + player_speed});
+        camera.playerz += obj_3D_point_diffs[2];
 
     }if(key_states['s']){
         camera.playerz -= player_speed;
