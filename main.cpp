@@ -31,6 +31,8 @@ int mousey;
 
 bool key_states[256] = { false };
 bool prev_key_states[256] = { false };
+bool last_frame_shift_key = false;
+bool this_frame_shift_key = false;
 
 int num_zombeis;
 std::vector<Zombei> zombei_vector;
@@ -47,40 +49,86 @@ std::vector<Triangle> floor_triangles_3D;
 
 double normal_player_speed = 10;
 double edit_player_speed = 0.25;
+double player_run_speed_modifier = 5;
 double player_speed = normal_player_speed;
 
 
 void keyDown(unsigned char key, int idk1, int idk2) {
-    key_states[key] = true;
+    key_states[tolower(key)] = true;
 }
 
 
 void keyUp(unsigned char key, int idk1, int idk2){
-    key_states[key] = false;
+    key_states[tolower(key)] = false;
+}
+
+
+void specialKeyDown(int key, int x, int y){
+    // Setting modifiers for player running by holding shift.
+    this_frame_shift_key = (glutGetModifiers() & GLUT_ACTIVE_SHIFT);
+
+    if (!last_frame_shift_key && this_frame_shift_key){
+        player_speed += player_run_speed_modifier;
+        last_frame_shift_key = this_frame_shift_key;
+    }
+}
+
+
+void specialKeyUp(int key, int x, int y){
+    // Setting modifiers for player running by holding shift.
+    this_frame_shift_key = (glutGetModifiers() & GLUT_ACTIVE_SHIFT);
+
+    if (last_frame_shift_key && !this_frame_shift_key){
+        player_speed -= player_run_speed_modifier;
+        last_frame_shift_key = this_frame_shift_key;
+    }
 }
 
 
 // Keyboard press check
 void key_press_check() {
+
     if(key_states['w']){
 
         std::vector<double> obj_3D_point_diffs = camera.rotate_point_backwards({camera.playerx, camera.playery, camera.playerz + player_speed});
+        camera.playerx += obj_3D_point_diffs[0];
+        camera.playery += obj_3D_point_diffs[1];
         camera.playerz += obj_3D_point_diffs[2];
 
     }if(key_states['s']){
-        camera.playerz -= player_speed;
+
+        std::vector<double> obj_3D_point_diffs = camera.rotate_point_backwards({camera.playerx, camera.playery, camera.playerz - player_speed});
+        camera.playerx += obj_3D_point_diffs[0];
+        camera.playery += obj_3D_point_diffs[1];
+        camera.playerz += obj_3D_point_diffs[2];
 
     }if(key_states['d']){
-        camera.playerx += player_speed;
+        
+        std::vector<double> obj_3D_point_diffs = camera.rotate_point_backwards({camera.playerx + player_speed, camera.playery, camera.playerz});
+        camera.playerx += obj_3D_point_diffs[0];
+        camera.playery += obj_3D_point_diffs[1];
+        camera.playerz += obj_3D_point_diffs[2];
 
     }if(key_states['a']){
-        camera.playerx -= player_speed;
+        
+        std::vector<double> obj_3D_point_diffs = camera.rotate_point_backwards({camera.playerx - player_speed, camera.playery, camera.playerz});
+        camera.playerx += obj_3D_point_diffs[0];
+        camera.playery += obj_3D_point_diffs[1];
+        camera.playerz += obj_3D_point_diffs[2];
 
     }if(key_states['r']){
-        camera.playery -= player_speed;
+        
+        std::vector<double> obj_3D_point_diffs = camera.rotate_point_backwards({camera.playerx, camera.playery - player_speed, camera.playerz});
+        camera.playerx += obj_3D_point_diffs[0];
+        camera.playery += obj_3D_point_diffs[1];
+        camera.playerz += obj_3D_point_diffs[2];
 
     }if(key_states['f']){
-        camera.playery += player_speed;
+    
+        std::vector<double> obj_3D_point_diffs = camera.rotate_point_backwards({camera.playerx, camera.playery + player_speed, camera.playerz});
+        camera.playerx += obj_3D_point_diffs[0];
+        camera.playery += obj_3D_point_diffs[1];
+        camera.playerz += obj_3D_point_diffs[2];
 
     }if(key_states['e']){
         for (int i = 0; i < num_zombeis; i++){
@@ -473,6 +521,10 @@ int main(int argc, char* argv[]) {
     // Register the keyboard input callback
     glutKeyboardFunc(keyDown);
     glutKeyboardUpFunc(keyUp);
+
+    glutSpecialFunc(specialKeyDown);
+    glutSpecialUpFunc(specialKeyUp);
+
     //glutKeyboardFunc(keyboard);
     //glutIdleFunc(keyboard);
 
