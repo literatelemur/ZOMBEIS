@@ -6,6 +6,8 @@
 #include <string>
 #include <algorithm>
 #include <list>
+#include <map>
+#include <any>
 
 #include "World.h"
 #include "Graphics.h"
@@ -33,6 +35,9 @@ double Edit::prev_anglex_diff = 0;
 double Edit::prev_angley_diff = 0;
 
 bool Edit::edit_draw_points = true;
+
+int stored_object_index;
+
 
 void Edit::toggle_edit_mode(){
 
@@ -198,3 +203,42 @@ void Edit::move_point_with_mouse(Camera* camera){
     Edit::prev_angley_diff = camera->angley_diff;
 
 }
+
+
+void save_3D_object(){
+
+    for (int i = 0; i < Edit::triangles_3D.size(); i++){
+
+        std::map<std::string, std::any> triangle_for_file;
+
+        triangle_for_file["points"] = Edit::triangles_3D[i].points;
+        triangle_for_file["dist"] = Edit::triangles_3D[i].dist;
+        triangle_for_file["draw_type"] = Edit::triangles_3D[i].draw_type;
+        triangle_for_file["full_color"] = Edit::triangles_3D[i].full_color;
+        triangle_for_file["outline_color"] = Edit::triangles_3D[i].outline_color;
+        triangle_for_file["line_scale"] = Edit::triangles_3D[i].line_scale;
+        triangle_for_file["lines_points_3D"] = Edit::triangles_3D[i].lines_points_3D;
+        triangle_for_file["rot_lines_points_3D"] = Edit::triangles_3D[i].rot_lines_points_3D;
+        triangle_for_file["clipped_lines_points_3D"] = Edit::triangles_3D[i].clipped_lines_points_3D;
+        triangle_for_file["clipped_lines_points_2D"] = Edit::triangles_3D[i].clipped_lines_points_2D;
+    }
+}
+
+
+// void load_3D_object(Graphics* graphics){
+
+
+//     Triangle stored_object_triangles;
+    
+//     stored_object_triangles[i].points = std::any_cast<std::vector<std::vector<double>>>(triangle_from_file["points"]);
+
+
+
+//     Edit::triangles_3D = {};
+
+//     for (int i = 0; i < stored_object_triangles.size(); i++){
+//         Edit::triangles_3D.emplace_back(Triangle(&graphics, stored_object_triangles[i].points[0], stored_object_triangles[i].points[1], stored_object_triangles[i].points[2], 
+//                                                 stored_object_triangles[i].draw_type, stored_object_triangles[i].full_color, stored_object_triangles[i].outline_color, stored_object_triangles[i].line_scale));
+//     }
+
+// }

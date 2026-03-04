@@ -51,6 +51,8 @@ class Edit {
         static double prev_angley_diff;
 
         static bool edit_draw_points;
+
+        static int stored_object_index;
         
 
         static void toggle_edit_mode();
@@ -60,6 +62,10 @@ class Edit {
         static void click_point(Camera* camera);
 
         static void move_point_with_mouse(Camera* camera);
+
+        static void save_3D_object();
+
+        //static void load_3D_object(Graphics* graphics);
 
         Edit() = delete;
         
