@@ -257,7 +257,7 @@ void Edit::clear_3D_object(){
 }
 
 
-void load_3D_object(Graphics* graphics){
+void Edit::load_3D_object(Graphics* graphics){
 
     // Create a text string, which is used to output the text file
     std::string file_text;
