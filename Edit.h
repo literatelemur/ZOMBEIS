@@ -65,7 +65,9 @@ class Edit {
 
         static void save_3D_object();
 
-        //static void load_3D_object(Graphics* graphics);
+        static void clear_3D_object();
+
+        static void load_3D_object(Graphics* graphics);
 
         Edit() = delete;
         

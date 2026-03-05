@@ -8,6 +8,7 @@
 #include <list>
 #include <map>
 #include <any>
+#include <fstream>
 
 #include "World.h"
 #include "Graphics.h"
@@ -205,7 +206,7 @@ void Edit::move_point_with_mouse(Camera* camera){
 }
 
 
-void save_3D_object(){
+void Edit::save_3D_object(){
 
     for (int i = 0; i < Edit::triangles_3D.size(); i++){
 
@@ -222,23 +223,69 @@ void save_3D_object(){
         triangle_for_file["clipped_lines_points_3D"] = Edit::triangles_3D[i].clipped_lines_points_3D;
         triangle_for_file["clipped_lines_points_2D"] = Edit::triangles_3D[i].clipped_lines_points_2D;
     }
+
+    // Create and open a text file
+    std::ofstream file_manager("object1.txt");
+
+    // Write to the file
+    file_manager << "O.O";
+
+    // Close the file
+    file_manager.close();
+}
+
+void Edit::clear_3D_object(){
+
+    Edit::points_3D = {};
+
+    Edit::points_3D_main_index = -1;
+    Edit::points_3D_sub1_index = -2;
+    Edit::points_3D_sub2_index = -3;
+
+    Edit::points_points_3D = {};
+
+    Edit::triangles_3D = {};
+
+    Edit::edit_click_mouse_button = "none";
+
+    Edit::first_click_move = true;
+    Edit::prev_anglex_diff = 0;
+    Edit::prev_angley_diff = 0;
+
+    Edit::edit_draw_points = true;
+
 }
 
 
-// void load_3D_object(Graphics* graphics){
+void load_3D_object(Graphics* graphics){
+
+    // Create a text string, which is used to output the text file
+    std::string file_text;
+
+    // Read from the text file
+    std::ifstream file_manager("object1.txt");
+
+    // Use a while loop together with the getline() function to read the file line by line
+    while (getline (file_manager, file_text)) {
+        // Output the text from the file
+        //file_text << file_text;
+    }
+
+    // Close the file
+    file_manager.close();
 
 
-//     Triangle stored_object_triangles;
+    //Triangle stored_object_triangles;
     
-//     stored_object_triangles[i].points = std::any_cast<std::vector<std::vector<double>>>(triangle_from_file["points"]);
+    //stored_object_triangles[i].points = std::any_cast<std::vector<std::vector<double>>>(triangle_from_file["points"]);
 
 
 
-//     Edit::triangles_3D = {};
+    // Edit::triangles_3D = {};
 
-//     for (int i = 0; i < stored_object_triangles.size(); i++){
-//         Edit::triangles_3D.emplace_back(Triangle(&graphics, stored_object_triangles[i].points[0], stored_object_triangles[i].points[1], stored_object_triangles[i].points[2], 
-//                                                 stored_object_triangles[i].draw_type, stored_object_triangles[i].full_color, stored_object_triangles[i].outline_color, stored_object_triangles[i].line_scale));
-//     }
+    // for (int i = 0; i < stored_object_triangles.size(); i++){
+    //     Edit::triangles_3D.emplace_back(Triangle(&graphics, stored_object_triangles[i].points[0], stored_object_triangles[i].points[1], stored_object_triangles[i].points[2], 
+    //                                             stored_object_triangles[i].draw_type, stored_object_triangles[i].full_color, stored_object_triangles[i].outline_color, stored_object_triangles[i].line_scale));
+    // }
 
-// }
+}
