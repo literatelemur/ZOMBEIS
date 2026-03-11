@@ -208,9 +208,9 @@ void Edit::move_point_with_mouse(Camera* camera){
 
 void Edit::save_3D_object(){
 
+    std::map<std::string, std::any> triangle_for_file;
+    
     for (int i = 0; i < Edit::triangles_3D.size(); i++){
-
-        std::map<std::string, std::any> triangle_for_file;
 
         triangle_for_file["points"] = Edit::triangles_3D[i].points;
         triangle_for_file["dist"] = Edit::triangles_3D[i].dist;
@@ -228,7 +228,7 @@ void Edit::save_3D_object(){
     std::ofstream file_manager("object1.txt");
 
     // Write to the file
-    file_manager << "O.O";
+    file_manager << triangle_for_file;
 
     // Close the file
     file_manager.close();
