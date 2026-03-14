@@ -208,27 +208,66 @@ void Edit::move_point_with_mouse(Camera* camera){
 
 void Edit::save_3D_object(){
 
-    std::map<std::string, std::any> triangle_for_file;
-    
-    for (int i = 0; i < Edit::triangles_3D.size(); i++){
-
-        triangle_for_file["points"] = Edit::triangles_3D[i].points;
-        triangle_for_file["dist"] = Edit::triangles_3D[i].dist;
-        triangle_for_file["draw_type"] = Edit::triangles_3D[i].draw_type;
-        triangle_for_file["full_color"] = Edit::triangles_3D[i].full_color;
-        triangle_for_file["outline_color"] = Edit::triangles_3D[i].outline_color;
-        triangle_for_file["line_scale"] = Edit::triangles_3D[i].line_scale;
-        triangle_for_file["lines_points_3D"] = Edit::triangles_3D[i].lines_points_3D;
-        triangle_for_file["rot_lines_points_3D"] = Edit::triangles_3D[i].rot_lines_points_3D;
-        triangle_for_file["clipped_lines_points_3D"] = Edit::triangles_3D[i].clipped_lines_points_3D;
-        triangle_for_file["clipped_lines_points_2D"] = Edit::triangles_3D[i].clipped_lines_points_2D;
-    }
-
     // Create and open a text file
     std::ofstream file_manager("object1.txt");
 
-    // Write to the file
-    file_manager << triangle_for_file;
+    // Iterating through each triangle in edit mode to store all relevent triangle object variables into a file.
+    for (int i = 0; i < Edit::triangles_3D.size(); i++){
+
+        // Write to the file
+        file_manager << "{points: ";
+
+        for (int j = 0; j < Edit::triangles_3D[i].points.size(); j++){
+            file_manager << "{";
+            for (int k = 0; k < Edit::triangles_3D[i].points[j].size(); k++){
+                file_manager << std::to_string(Edit::triangles_3D[i].points[j][k]);
+                if (k < Edit::triangles_3D[i].points[j].size() - 1) file_manager << ", ";
+            }
+            file_manager << "}";
+            if (j < Edit::triangles_3D[i].points.size() - 1) file_manager << ", ";
+        }
+
+        file_manager << "\n ";
+        file_manager << "draw_type: " << Edit::triangles_3D[i].draw_type << "\n ";
+
+        file_manager << "full_color: {";
+        for (int j = 0; j < Edit::triangles_3D[i].full_color.size(); j++){
+            file_manager << std::to_string(Edit::triangles_3D[i].full_color[j]);
+            if (j < Edit::triangles_3D[i].full_color.size() - 1) file_manager << ", ";
+        }
+        file_manager << "}\n ";
+
+        file_manager << "outline_color: {";
+        for (int j = 0; j < Edit::triangles_3D[i].outline_color.size(); j++){
+            file_manager << std::to_string(Edit::triangles_3D[i].outline_color[j]);
+            if (j < Edit::triangles_3D[i].outline_color.size() - 1) file_manager << ", ";
+        }
+        file_manager << "}\n ";
+
+        file_manager << "line_scale: " << std::to_string(Edit::triangles_3D[i].line_scale) << "\n ";
+
+        file_manager << "lines_points_3D: ";
+
+        for (int j = 0; j < Edit::triangles_3D[i].lines_points_3D.size(); j++){
+            file_manager << "{";
+            for (int k = 0; k < Edit::triangles_3D[i].lines_points_3D[j].size(); k++){
+                file_manager << "{";
+                for (int l = 0; l < Edit::triangles_3D[i].lines_points_3D[j][k].size(); l++){
+                    file_manager << "{";
+                    for (int n = 0; n < Edit::triangles_3D[i].lines_points_3D[j][k][l].size(); n++){
+                        file_manager << std::to_string(Edit::triangles_3D[i].lines_points_3D[j][k][l][n]);
+                        if (n < Edit::triangles_3D[i].lines_points_3D[j][k][l].size() - 1) file_manager << ", ";
+                    }
+                    file_manager << "}, ";
+                }
+                file_manager << "}, ";
+            }
+            file_manager << "}";
+        }
+
+        file_manager << "}\n\n";
+
+    }
 
     // Close the file
     file_manager.close();
@@ -268,7 +307,7 @@ void Edit::load_3D_object(Graphics* graphics){
     // Use a while loop together with the getline() function to read the file line by line
     while (getline (file_manager, file_text)) {
         // Output the text from the file
-        //file_text << file_text;
+        std::cout << file_text;
     }
 
     // Close the file
