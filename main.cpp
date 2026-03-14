@@ -190,6 +190,9 @@ void key_press_check() {
         }if(key_states['o']){
             Edit::move_point_with_keys(2, 1);
 
+        }if(key_states['v'] && !prev_key_states['v']){
+                Edit::load_3D_object(&graphics);
+                
         }if (Edit::points_3D.size() > 0){
             if(key_states[','] && !prev_key_states[',']){
                 Edit::points_3D_main_index--;
@@ -242,9 +245,6 @@ void key_press_check() {
 
             }if(key_states['b'] && !prev_key_states['b']){
                 Edit::clear_3D_object();
-                
-            }if(key_states['v'] && !prev_key_states['v']){
-                Edit::load_3D_object(&graphics);
                 
             }
         }if (Edit::points_3D.size() > 2 && Edit::points_3D_main_index > -1 && Edit::points_3D_sub1_index > -1 && Edit::points_3D_sub2_index > -1){

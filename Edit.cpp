@@ -307,7 +307,7 @@ void Edit::load_3D_object(Graphics* graphics){
     // Use a while loop together with the getline() function to read the file line by line
     while (getline (file_manager, file_text)) {
         // Output the text from the file
-        std::cout << file_text;
+        std::cout << file_text << "\n";
     }
 
     // Close the file
